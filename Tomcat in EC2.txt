@@ -27,7 +27,7 @@
     -------- if some problem exist like echo$PATH is not showing /usr/local/bin then go to ~/.bash_profile and enter export PATH=$PATH:/usr/local/bin ------
     
    # to put 8090 for tocmat 
-    => Go to conf directory in tomcat
+    => Go to conf directory in tomcat =>/opt/apache-tomcat-8.5.34/conf
     => vi server.xml
     => change =>  
     <Connector port="8080" protocol="HTTP/1.1" => port to 8090 
@@ -70,7 +70,7 @@ vi tomcat-users.xml
 <role rolename="manager-status"/>
 <user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
 <user username="deployer" password="deployer" roles="manager-script"/>
-<user username="tomcat" password="s3cret" roles="manager-gui"/>﻿
+<user username="tomcat" password="s3cret" roles="manager-gui"/>
 
 # Restart tomcat
 /usr/local/bin/tomcatdown
