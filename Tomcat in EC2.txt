@@ -2,6 +2,9 @@
   java -version
   cd /opt
   wget http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
+  tar -xvf apache-tomcat-8.5.34.tar.gz
+  cd apache-tomcat-8.5.34.tar.gz
+
   cd bin
   # To check the running process for tomcat
    $ ps -ef | grep tomcat
