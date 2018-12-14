@@ -1,0 +1,42 @@
+﻿ ANSIBLE ON REDHAT   
+
+   Installation
+1. Launch Red-hat Linux EC2 instance 
+2. Update your EC2 instance
+
+ #yum update 
+Installation 
+3. Add a third party repository named EPEL (Extra Packages for Enterprise Linux)
+  
+# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 
+4. Install Ansible
+# yum install ansible 
+Check ansible version 
+#ansible --version 
+
+Configuration
+
+1. Create a new user for ansible administration & grant admin access to user
+    • useradd ansadmin # passwd ansadmin 
+2. Enable user login on all EC2 instances.
+    #vi /etc/ssh/sshd_config ==> Password Authentication yes
+3. Login as a ansadmin user on master and generate ssh key
+    #ssh-keygen 
+4. Copy keys to target servers
+   # ssh-copy-id <target-server> 
+5. Update target servers information on /etc/ansible/hosts file 
+   #echo "10.10.x.x" > /etc/ansible/hosts 
+run ansible command as a ansadmin user it should be successful
+ • ansible all -m ping 
+ 
+ 
+Commands for ansible
+ Rebooting - ansible all -a "/sbin/reboot"
+ Copy file - ansible all -m copy -a "src=/home/dan dest=/tmp/home" 
+ Create user- ansible all -m user -a "name=testuser password=<encrypted password>" 
+ Remove user- ansible all -m user -a "name=testuser state=absent" 
+ Change file permission - ansible all -m file -a "dest=/home/dan/filel.txt mode=777" 
+ Install package - ansible all -m yum -a "name=httpd state=latest" 
+ Start a service - ansible all -m service -a "name=httpd state=started"
+ Stop a service - ansible all -m service -a "name=httpd state=stopped" 
+
