@@ -23,7 +23,13 @@ The above can shown under in the build success
 ---- Make sure tomcat is up and running in the another server  ---
 in jenkis server 
 
-go to credentials ;select jenkins ;global credentials;add credentials
+go to credentials 
+
+select jenkins
+
+global credentials
+
+add credentials
 
 for deploying a war files through jenkins the user must have manager-script role 
 give id and password 
