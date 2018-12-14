@@ -1,0 +1,30 @@
+How to trigger jenkins for every push
+-- > we webhook
+1) we need github integration pluguin 
+a) Manage jenkins
+b) avaiabale (search for github integration)
+c) install with out restart
+2) Go to new item 
+a) give the name
+
+3) UNDER BUILD TRIGGERS
+CHECK THE GITHUB HOOK TRIGGER FOR GITSCM POLLING 
+
+
+4) go to github and login 
+a) go to the repository
+b) go to the settings
+c) CLICK ON WEBHOOK
+d) Add webhook
+e) under the payload url 
+--> give the jenkins url and 
+f) under Content type
+application/json
+
+g) Which events would you like to trigger this webhook?
+just the push event 
+
+h) check Active
+i) click add webhook
+
+j) when we push in git, building repo will build the repo
