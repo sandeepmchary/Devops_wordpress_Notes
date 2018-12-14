@@ -1,22 +1,29 @@
-﻿ sudo yum install -y java-1.8*
+﻿# installing java
+sudo yum install -y java-1.8*
 
-	
+# Check the java Version	
   java -version
+
+# Go to opt folder
   cd /opt
-  wget http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
+
+# Download the tomcat 8 version
+wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
+
+# extract the tomcat
   tar -xvf apache-tomcat-8.5.34.tar.gz
   cd apache-tomcat-8.5.34.tar.gz
-
+# to go apache folder and then to bin folder
   cd bin
-  # To check the running process for tomcat
-   $ ps -ef | grep tomcat
-	cd bin
 
-   # To check the permissions to the folders
+# To check the running process for tomcat
+   $ ps -ef | grep tomcat
+
+# To check the permissions to the folders
     $ ls -ltr
-   # To give executable permissions for .sh files
+# To give executable permissions for .sh files
    $ chmod +x *.sh
-   # To start or stop the sh files we need to go to the location 
+# To start or stop the sh files we need to go to the location 
    /opt/apache-tomcat-8.5.34/bin
    # To create a soft link 
     1) echo $PATH
