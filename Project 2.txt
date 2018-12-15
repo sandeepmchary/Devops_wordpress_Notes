@@ -74,6 +74,74 @@ again select the ansible_server >> Exec command <<ansible-playbook /opt/playbook
 build now 
 
 < tomcat public ip address >:8080
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Steps 
+
+1) build done by Jenkins 
+2) deploy will happen by ansible 
+
+[ recap] 
+First we do code commit 
+Then it forward to git 
+Then to jenkins 
+
+Hear the artifacts from Jenkins is given to ansible 
+-------------------------------------------------- 
+ansible is going to deploy into Apache Tomcat 
+This we need 
+1) jenkins server 
+2) ansible server 
+3) tomcat server 
+-------------------------------------------------------------------- 
+The processes same as before for Jenkins no change 
+Ansible installation and configuration is done 
+In Tomcat also create user ansible the same process for visudo, 
+vi /etc/ssh/sshd_config 
+For deploying we need a plugin 
+That is "publish over ssh" 
+Write a Playbook for copying it will talk at server 
+--- 
+- host: tomcat 
+  become: yes 
+  tasks: 
+  - name: installing the tomcat 
+      src:/<path of the file(copyfile.yml)>/webapp/target/webapp.war 
+      dest:/<path of tomcat>/webapps 
+------------------------------------------------------------------- 
+We need to add the ssh server for that 
+>> Manage Jenkins 
+>> configure system 
+>> publish over ssh 
+>> click on add 
+>> Name: Give the name for ansible server (anything) 
+>> hostname : Ansible server private IP 
+>> username : ansible 
+>> remote directory : <blank> 
+>> click on advanced 
+>> Check for use password authentication 
+>> passphrase/ password : Give user ansible password 
+>> test for connection 
+>> here we have to check for username and private IP address for the ansible is correctly given or not 
+######################Save and apply#################################### 
+------------------------------------------------------------------------- 
+Under Jenkins 
+>> post steps 
+>> send files or execute commands over ssh 
+>> Name : <target system (ansible server)> 
+>> source file : webapp/target/*.war 
+>> remove prefix: <blank> 
+>> remote directory : < path of the file (copyfile.yml)> <//home//san>>
+## above path and src file in the yml file should be same ## 
+here we have to give // becoz / is not identified 
+>> The war file that is generated(artifact) it will get copy to src location enterly 
+>> so this becomes < path of file>/webapp/target/*.war 
+>> for the best practice we don't have to give execute commands here sometimes it will show errors or  don't work at all 
+>> create one more publish over ssh 
+>> post builds 
+>> send files or execute command over ssh 
+>> the second one, only execute command 
+>> ## ansible-playbook <path of the file> 
+############################ save and apply #################################
 
  
  
