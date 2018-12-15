@@ -60,6 +60,51 @@ In jenkins server go to
 Build Triggers => select POLL SCM => */2 * * * * 
 
 if we change the any thing in the github the same will be updated in the jenkins server with in 2 minutes
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+We need Jenkins and Tomcat server on Ec2 
+In jenkins check for maven if not seen go to 
+>> manage jenkins 
+>> manage plugins 
+>> and search for unleash Maven 
+>> install without restart 
+----------------------------------------- 
+[ under source code management] 
+Use git paste the git here 
+[ under build] 
+Root pom : Pom.xml 
+Goals and options: Clean install package 
+Save and build now 
+------------------------------------------ 
+[To deploy war file into Tomcat] 
+1) make sure Tomcat is up and running 
+>> under jenkins 
+>> post steps 
+>> you need to deploy container plugin 
+For that we need new plugin 
+>> manage Jenkins 
+>> manage plugins 
+>> Deploy to container 
+>> install without restart 
+--------------------------------------------- 
+[ set the credentials ] 
+>> Go to Jenkins 
+>> credentials 
+>> jenkins 
+>> global credentials 
+>> username 
+>> password 
+>> ID 
+>> description 
+----------------------------------------------------- 
+Under Jenkins 
+>> post steps 
+>> deploy war / ear to container 
+>> give the war location (**/*.war) 
+>> containers (tomcat 8) 
+>> credential for deployer 
+>> tomcat URL 
+   SAVE AND APPLY
  
 
 
