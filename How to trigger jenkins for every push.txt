@@ -1,30 +1,32 @@
-How to trigger jenkins for every push
--- > we webhook
-1) we need github integration pluguin 
-a) Manage jenkins
-b) avaiabale (search for github integration)
-c) install with out restart
-2) Go to new item 
-a) give the name
-
-3) UNDER BUILD TRIGGERS
-CHECK THE GITHUB HOOK TRIGGER FOR GITSCM POLLING 
-
-
-4) go to github and login 
-a) go to the repository
-b) go to the settings
-c) CLICK ON WEBHOOK
-d) Add webhook
-e) under the payload url 
---> give the jenkins url and 
-f) under Content type
-application/json
-
-g) Which events would you like to trigger this webhook?
-just the push event 
-
-h) check Active
-i) click add webhook
-
-j) when we push in git, building repo will build the repo
+Trigger jenkins for every push in GitHub 
+>> Login to jenkins 
+>> New item 
+>>  general 
+>> github project <project url> 
+>> source code management -> git 
+>> repository Browser (githubweb) 
+>> < give the project URL > 
+>> build triggers 
+>> check for GitHub hook trigger for GITScm pooling 
+-------------------------------------------------------------------------------- 
+Under Jenkins dashboard 
+>> Manage jenkins 
+>> configure system 
+>> gitHub 
+>>  gitHub server 
+>> click on the question mark (?) 
+>> copy the URL 
+-------------------------------------------------------------------------------- 
+Under GitHub service 
+>> Login to GitHub server 
+>> repositary 
+>>  settings 
+>>  webhooks 
+>> add webhooks 
+>> under payload URL 
+>>  paste the GitHub (GitHub service) URL here 
+>>  content type < application / JSON > 
+>> which events would you like to Trigger this webhook 
+>> depending upon your choice 
+>> check for activate 
+>> add webhook
