@@ -69,6 +69,13 @@ In jenkins check for maven if not seen go to
 >> and search for unleash Maven 
 >> install without restart 
 ----------------------------------------- 
+[under global tool configuration]
+>> check for the maven 
+>> click on add maven
+>> give name for Maven(as Maven)
+>> uncheck install automatically
+>> save and apply
+---------------------------------------------
 [ under source code management] 
 Use git paste the git here 
 [ under build] 
@@ -139,7 +146,7 @@ id : Tomcat_user
 Description: Tomcat user to deploy on tomcat server
 Modify the same job which created in part-01 and add deployment steps.
 
-Post Steps
+Post Steps or post build actions
 Deploy war/ear to container
 WAR/EAR files : **/*.war
 Containers : Tomcat 8.x
