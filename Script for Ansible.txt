@@ -1,0 +1,40 @@
+# Installation steps:
+# Add a EPEL (Extra Packages for Enterprise Linux)third party repository to get packages for Ansible
+
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+# Install Ansible
+yum install ansible -yes/
+
+# Check for ansible version
+ansible --version
+
+# Create a new user for ansible administration & grant admin access to user (Master and Slave)
+useradd ansible
+passwd ansible
+
+# Below command addes ansadmin to sudoers file
+echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+
+# Using keybased authentication is advised. If you are still at learning stage use password based authentication (Master & Slave)
+sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+service sshd restart
+
+# Login with ansible user
+su - ansible
+
+# Go to the home folder of the ansible user
+cd ~
+
+# Check for the username
+whoami
+
+# Check for the present working folder
+pwd
+
+# check for the python version 
+python --version
+
+
+# Login as a ansadmin user on master and generate ssh key (Master)
+ssh-keygen

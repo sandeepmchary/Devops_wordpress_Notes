@@ -99,6 +99,7 @@ In Tomcat also create user ansible the same process for visudo,
 vi /etc/ssh/sshd_config 
 For deploying we need a plugin 
 That is "publish over ssh" 
+chown -R anisble:ansible /opt/playbook
 Write a Playbook for copying it will talk at server 
 --- 
 - host: tomcat 
