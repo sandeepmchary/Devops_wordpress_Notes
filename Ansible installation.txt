@@ -39,4 +39,9 @@ Commands for ansible
  Install package - ansible all -m yum -a "name=httpd state=latest" 
  Start a service - ansible all -m service -a "name=httpd state=started"
  Stop a service - ansible all -m service -a "name=httpd state=stopped" 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Install Ansible on AWSLinux
+1) sudo yum-config-manager --enable epel
+2) yum repolist
+3) yum install ansible -y
 

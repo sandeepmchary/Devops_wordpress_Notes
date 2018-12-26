@@ -33,7 +33,7 @@ Jenkins
 >$ Login to Jenkins 
 >$ Manage jenkins 
 >$ Configure system 
->$ Publish over ssh(for this we need deploy to container plugin) 
+>$ Publish over ssh(for this we need publish over ssh plugin) 
 >$ add docker server 
 >$ Give credentials 
 >$ click advanced use password 
