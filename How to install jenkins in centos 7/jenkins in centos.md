@@ -1,10 +1,10 @@
 #Apache Maven requires Java 1.7 or greater. For this reason, you can install OpenJDK 8 as follows.
 
-# install wget
+#  install wget
 
 sudo yum install -y wget
 
-#Step 1: Install OpenJDK 8
+# Step 1: Install OpenJDK 8
 
 sudo yum install -y java-1.8.0-openjdk-devel
 
@@ -12,13 +12,13 @@ sudo yum install -y java-1.8.0-openjdk-devel
 
 java -version
 
-#Finally, setup the JAVA_HOME environment variable.
+# Finally, setup the JAVA_HOME environment variable.
 
 echo "JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")" | sudo tee -a /etc/profile
 
 source /etc/profile
 
-#Step 2: Install Apache Maven 3.5
+# Step 2: Install Apache Maven 3.5
 
 #First, download and extract the Apache Maven 3.5 archive.
 
@@ -40,7 +40,7 @@ source /etc/profile
 
 mvn --version
 
-#Step 3: Install Jenkins
+# Step 3: Install Jenkins
 
 #Use the official YUM repo to install the latest stable version of Jenkins, which is 1.651.2 at the time of writing:
 
