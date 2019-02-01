@@ -38,3 +38,9 @@ python --version
 
 # Login as a ansadmin user on master and generate ssh key (Master)
 ssh-keygen
+
+# Take backup for hosts file
+cp /etc/ansible/hosts hosts_backup
+
+# To insert the servers names in ansible hosts
+sudo bash -c 'echo *private ip address* >> /etc/ansible/hosts'
