@@ -44,3 +44,36 @@ cp /etc/ansible/hosts hosts_backup
 
 # To insert the servers names in ansible hosts
 sudo bash -c 'echo *private ip address* >> /etc/ansible/hosts'
+
+---------------------------------------------------------------------------------------------
+
+# for Ubuntu
+
+# go root
+sudo su -
+
+# adduser ansible
+adduser ansible
+
+sudo apt-get update
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt-get install ansible -y
+
+
+---------------------------------------
+for the ansible client
+
+# go root
+sudo su -
+
+# adduser ansible
+adduser ansible
+
+sudo apt-get update
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt-get install python -y
+
+
+
