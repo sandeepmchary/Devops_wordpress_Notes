@@ -2,15 +2,15 @@ sudo yum install -y java-1.8*
 sudo yum install wget -y
 java -version
 cd /opt
-wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
-tar -xvf apache-tomcat-8.5.35.tar.gz
-cd apache-tomcat-8.5.35 
+wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz
+tar -xvf apache-tomcat-8.5.39.tar.gz
+cd apache-tomcat-8.5.39 
 cd bin
 ls -ltr
 chmod +x *.sh
-ln -s /opt/apache-tomcat-8.5.35/bin/startup.sh /usr/local/bin/tomcatup
-ln -s /opt/apache-tomcat-8.5.35/bin/shutdown.sh /usr/local/bin/tomcatdown
-cd /opt/apache-tomcat-8.5.35/conf
+ln -s /opt/apache-tomcat-8.5.39/bin/startup.sh /usr/local/bin/tomcatup
+ln -s /opt/apache-tomcat-8.5.39/bin/shutdown.sh /usr/local/bin/tomcatdown
+cd /opt/apache-tomcat-8.5.39/conf
 ls
 sed -i 's/port="8080"/port="8090"/' server.xml
 tomcatdown
@@ -18,5 +18,5 @@ tomcatup
 
 
 
-cd /opt/apache-tomcat-8.5.35/conf/
+cd /opt/apache-tomcat-8.5.39/conf/
 

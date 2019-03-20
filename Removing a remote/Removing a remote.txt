@@ -37,3 +37,8 @@ git remote rm sofake
 error: Could not remove config section 'remote.sofake'
 
 Check that you've correctly typed the remote name.
+
+-------------------------------------------------------------
+
+You should be able to remove origin with
+git remote rm origin
