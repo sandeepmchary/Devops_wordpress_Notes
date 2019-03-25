@@ -1,0 +1,223 @@
+https://www.thegeekstuff.com/2016/03/chef-workstation-install-linux/
+chef installation
+
+
+https://www.youtube.com/channel/UCWvCWBaRivPco7hoOW_uq7g/playlists
+online tutorials for devops
+
+
+
+https://www.youtube.com/watch?v=8UPGcj-Uw50&list=PLVnWcdGotHcZ2LbHjDm-kw0T1M_HoNEkP
+git real time process
+
+
+https://www.youtube.com/channel/UCYo5aJ_PChQ_UzkaNsj5ZFg/playlists
+chef,vagrant,nagios,maven,jenkins tutorial
+
+bash error
+Run this command in your terminal:
+
+export PS1='[\u@\h \W]\$ '
+
+una rosa de francia parte 4
+
+
+
+Docker-AWS Tutorial (Part 1): Running an application inside a docker container
+https://www.youtube.com/watch?v=Sf3-16eJNII
+
+
+
+
+
+https://mega.nz/#!KcB1BaoL!fCzckksDKPsevq7nrg_xv35e1UO9eKLxdlp6ycMPyMQ
+Create custom VPC with public, private subnets, internet gateways, security groups, route tables --- https://www.youtube.com/watch?v=NHozohphtEg
+AWS RDS Introduction & Best Practices --- https://www.youtube.com/watch?v=vLaW6b441x0
+
+pipe line as code --- https://www.youtube.com/watch?v=KZY4Rwsewro&list=PL8e0Up9gLkL7Ff0BqGxcbKFHULdFRVSdN
+https://www.youtube.com/watch?v=8X6vAU-jeQk -- How to configure apache tomcat server on Centos 7
+
+https://www.youtube.com/watch?v=eCg3YffSMUg&list=PLKse5vnrrZ2m_lBqplXVgyXuSwOYflrId
+
+
+ansible tower tutorials
+https://www.youtube.com/watch?v=1nnHBoEI1A4&list=PLKse5vnrrZ2nFKgH1So7KQeAi17BxzCmo
+
+python programming tutorials
+https://www.youtube.com/watch?v=EOqlxcd9qZA&list=PLhCwqbi6vy-EKt4kJyyN_tzc2l6xLu7jd
+
+Jenkins Automated Deployment with Tomcat | Web Application Deployment - 5
+https://www.youtube.com/watch?v=j7p6j9Q8zvg
+
+using-jenkins-build-deploy-python-web-applications
+https://www.stratoscale.com/blog/devops/using-jenkins-build-deploy-python-web-applications-part-2/
+
+Basic CI/CD for Python projects with Docker and Jenkins
+https://medium.com/devopslinks/basic-ci-cd-for-python-projects-with-docker-and-jenkins-38eeb547fb28
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+http://itmithran.com/installing-docker-using-ansible-playbook-in-centos7/
+https://www.youtube.com/results?search_query=Create+docker+containers+using+Ansible
+https://www.youtube.com/watch?v=_uQrJ0TkZlc -- python developers for beginers 6 hours video
+https://www.youtube.com/watch?v=lqEnooL0BkI -- ansible with docker container
+https://www.youtube.com/watch?v=Sf8urGA-Yhs -- Ansible: Setup Ansible on Docker container
+
+Bad Samaritan 
+https://www.youtube.com/watch?v=2iTMenZ2dNk
+https://www.youtube.com/results?search_query=difference+between+chef+and+ansible
+
+
+https://www.youtube.com/watch?v=tJVkERqw8SI&list=PLLsor6GJ_BEEC9jUSc760iqaOx6u5lqRA --- yogesh mehatha for ansible more info
+
+
+she is the one 1996
+ordinary decent criminal
+https://www.tamilmv.vet/index.php?/forums/topic/51766-rx-100-2018-telugu-proper-true-hq-hdrip-720p-x264-51-14gb-esub/
+
+https://www.tamilmv.vet/index.php?/forums/topic/51774-time-trap-2017-english-720p-bdrip-x264-esubs-800mb/
+
+https://yts.am/movie/the-bounty-hunter-2010
+https://www.tamilmv.vet/index.php?/forums/topic/51821-hereditary-2018-english-hdrip-720p-x264-aac-1gb-esub/
+
+https://www.voidtools.com/
+
+
+https://www.youtube.com/watch?v=eaUXYIXvFqU&list=PLc3FmsLyhBttgyq64OIjUdWi2mc17sT3f&index=3
+
+
+
+https://yts.am/movie/the-crush-1993
+The Babysitter (1995)
+https://www.imdb.com/title/tt2752200/parentalguide?ref_=tt_stry_pg
+https://yts.am/movie/place-publique-2018
+
+https://www.youtube.com/watch?v=Q2Q2FYhbIbo
+
+
+https://www.youtube.com/watch?v=79xFyOc_eEY --- ansible in aws 
+
+the score 2001
+tow for the money 2005
+foolproof
+mad money
+the heat
+
+
+https://kisscartoon.ac/Cartoon/Marvel-s-Avengers-Assemble-Season-3.31512/
+http://www.addic7ed.com/serie/Marvel%27s_Avengers/2/5/Beneath_the_Surface
+
+season 3
+---------------
+https://mysmccd-my.sharepoint.com/personal/louveniapadilla_my_smccd_edu/Documents/Forms/All.aspx?slrid=04b59f9e-e060-7000-68ef-d90c3e36f082&RootFolder=%2fpersonal%2flouveniapadilla_my_smccd_edu%2fDocuments%2fD%2fAvengers%20Assemble%20S03%20WEB-DL%20720p%20x264%20%5bPahe%2ein%5d&FolderCTID=0x0120000338B32A5F7CC04CABDDE1BE570C09D1
+
+https://mega.nz/#F!De4RCYoD!PcL3qDueqPiIeb9Nh3eDnA
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+season 4
+----------------
+https://mysmccd-my.sharepoint.com/personal/louveniapadilla_my_smccd_edu/Documents/Forms/All.aspx?slrid=52b59f9e-f069-7000-68ef-dbee0586fa41&RootFolder=%2fpersonal%2flouveniapadilla_my_smccd_edu%2fDocuments%2fD%2fAvengers%20Assemble%20S04%20WEB-DL%20720p%20x264%20%5bPahe%2ein%5d&FolderCTID=0x0120000338B32A5F7CC04CABDDE1BE570C09D1
+
+
+https://mega.nz/#F!napjVYCI!C7ItgB5VV6nQ92SXMF0jSA
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+https://pahe.in/the-long-kiss-goodnight-1996-bluray-480p-720p/
+https://pahe.in/the-sure-thing-1985-bluray-480p-720p/
+https://pahe.in/scoop-2006-bluray-480p-720p/
+
+
+
+
+Third Person 2013
+Legacies 
+-------------------------------------------------------------------------
+Asoka 2001
+
+https://mega.nz/#!z6AwyahD!0LFhoe9FhuO4psOGwULAN31Vs2SebK02eMB8_0KeZy0
+
+emazter 
+
+
+---------------------------------------------------------------------------
+
+The.Road.to.El.Dorado.2000.720p.
+
+https://mega.nz/#!XzpQEaYZ!V241V8tTCpRrNmagEj6D4UxsRR4abyUEfG8d1rYVtd8
+
+Duplicate.1998.720p
+
+https://mega.nz/#!z7JAEQ4Q!n-a3RPrOUvF6YIU-BJ4PSdrvoDBbtKMUdacMILtESho
+
+Singh Is Kinng 
+
+https://mega.nz/#!v7ZGEYga!UQDp5T9Oanfl2hiqUmwFft_Izazcx8WgXuoIWMBI_YA
+
+
+
+https://www.youtube.com/watch?v=4ANJNeK0I-k --- temp email 
+-----------------------------------------------------------------------------------------------------------------------
+
+
+https://www.imdb.com/list/ls021781227/
+
+
+presumed innocent
+The Bone Collector (1999)
+
+
+
+Misery (1990)
+The Talented Mr. Ripley (1999)
+
+Primal Fear (1996)
+
+
+
+
+
+
+Dolores Claiborne (1995)
+
+Breakdown (1997)
+Malice (1993)
+Copycat (1995)
+
+Sleeping with the Enemy (1991)
+Kiss the Girls (1997)
+The Good Son (1993)
+Open Your Eyes (1997)
+!
+
+Dead Again (1991)
+
+
+
+evil master https://mega.nz/#!KawzhC5L!NWn1RrYIQFFr4Tx6RfzTy4JkALedJwnFv6vCGMlqdLU
+
+
+https://mega.nz/#!Mx1wgAoR!TbHcydjgF1eCGl0CD3iRA2ZB2ckO9KOUjTJXfdeBzMc
+
+https://www.youtube.com/watch?v=zk01n7Fd5kE
+
+
+
+--------------------------
+life partners 2014 
+
+http://mc1.dl3enter.in/files/d1/film/2014/Life%20Partners/
+
+

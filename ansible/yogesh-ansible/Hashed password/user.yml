@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : user creation 
+      user:
+        name: "{{ user_name }}"
+        shell: /bin/bash
+        state: present
+        password: "{{ pass_word }}"
+  vars:
+    user_name: san
+    pass_word: san

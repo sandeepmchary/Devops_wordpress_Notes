@@ -1,0 +1,60 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : update packages and install packages
+      apt:
+        name: apache2
+        update_cache: yes
+      notify:
+      - restart apache
+      when: ansible_os_family == "Debian"
+# When the os is RedHat
+    - name: install httpd
+      yum:
+        name: httpd
+        state: present
+      notify:
+      - restart httpd
+      when: ansible_os_family == "RedHat"
+# when the os is Debian
+    - name: Install php modules
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - php
+        - libapache2-mod-php
+        - php-mcrypt
+        - php-mysql
+      notify:
+      - restart apache
+      when: ansible_os_family == "Debian"
+# when the os is Redhat
+    - name: Install PHP for redhat
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - php
+        - php-mysql
+      notify:
+      - restart httpd
+      when: ansible_os_family == "RedHat"
+    - name: Download the webpage
+      get_url:
+        url: https://raw.githubusercontent.com/sandeepmchary/Devops_wordpress_Notes/master/info.php
+        dest: /var/www/html/info.php
+  handlers:
+  - name: restart apache
+    service:
+        name: apache2
+        enabled: yes
+        state: restarted
+    when: ansible_os_family == "Debian"
+  - name: restart httpd
+    service:
+      name: httpd
+      enabled: yes
+      state: restarted
+    when: ansible_os_family == "RedHat"
