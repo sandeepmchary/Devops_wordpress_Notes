@@ -17,6 +17,19 @@
     - even before pushing the changes the old one/previous one comes back in the servers
     - to make these changes to remote repository as well 
     - $ git push origin master
+3) Have you encounter failed deployment and how you handled them?
+    - Best Practice:
+                    1) Automate testing code
+                    2) use docker for same environment
+                    3) use microservices
+                    4) overcome risks to avoid failure
+                                        # VIRTULIZATION AND CONTAINERIZATION
+
+4) Difference between virtulization and containerization
+    - virtulization: host os > hypervisor > guest os > bin/libs > app1/app2
+    - containerization : host os > container engine > bin/libs > app1/app2
+        --> container engine does not encourage to install whole os, we can do that we will have bare min/.. libraries that are useful to run \n to run the os without kernel
+        
     
     
     
