@@ -1,3 +1,4 @@
+<pre>
 1)Explain Git Architecture
     - Dev1 --> Commits --> local repo
     - Dev2 --> Commits --> local repo
@@ -16,3 +17,9 @@
     - even before pushing the changes the old one/previous one comes back in the servers
     - to make these changes to remote repository as well 
     - $ git push origin master
+    
+    
+    
+    
+    
+</pre>
