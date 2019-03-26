@@ -28,7 +28,7 @@
 4) Difference between virtulization and containerization
     - virtulization: host os > hypervisor > guest os > bin/libs > app1/app2
     - containerization : host os > container engine > bin/libs > app1/app2
-        --> container engine does not encourage to install whole os, we can do that we will have bare min/.. libraries that are useful to run <br/> to run the os without kernel
+        --> container engine does not encourage to install whole os, we can do that we will have bare min/.. libraries that are useful to   run  to run the os without kernel
         
     
     
