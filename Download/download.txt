@@ -1,3 +1,12 @@
+chefdk for windows
+check seedr.cc files lenovo
+https://pirateproxy.id/torrent/22355899/Udemy_-_The_Complete_Python_3_Course__Beginner_to_Advanced_
+https://pirateproxy.id/torrent/11667722/CBT_Nuggets_-_Python_Programming
+https://pirateproxy.id/torrent/7838122/Lynda.com_-_Python_3_Essential_Training
+
+
+
+
 https://www.youtube.com/watch?v=CW1ZQR7XdcE
 recovery data from broken screen mi3w
 
@@ -28,7 +37,7 @@ Run this command in your terminal:
 export PS1='[\u@\h \W]\$ '
 
 una rosa de francia parte 4
-
+point break
 
 
 Docker-AWS Tutorial (Part 1): Running an application inside a docker container
@@ -103,6 +112,7 @@ https://www.voidtools.com/
 
 
 https://www.youtube.com/watch?v=eaUXYIXvFqU&list=PLc3FmsLyhBttgyq64OIjUdWi2mc17sT3f&index=3
+python for devops
 
 
 
