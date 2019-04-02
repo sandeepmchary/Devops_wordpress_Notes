@@ -1,8 +1,119 @@
+https://www.youtube.com/watch?v=eXZ4uidLQUU
+Setup Jenkins Master Slave Configuration | Detailed explanation with Real time Scenarios
+
+Nagios server installation and configuration
+https://www.youtube.com/watch?v=4lLkYMK3Ups
+
+
+Ansible Introduction | Ansible for Network Configuration Templates
+https://www.youtube.com/watch?v=B_nH6Uw3go0
+
+Ansible Configuration Management-Introduction
+https://www.youtube.com/watch?v=dPZcbxoatBM
+
+
+Docker to deploy Apache, Nginx, Wordpress and Nodejs containers in Linux
+https://www.youtube.com/watch?v=gz12F7kuPP4
+
+
+https://www.youtube.com/channel/UCYo5aJ_PChQ_UzkaNsj5ZFg/playlists
+IT-Help Stream --- devops all
+
+
+
+http://hedge-ops.com/devops-project/
+Devops project
+
+
+https://www.youtube.com/watch?v=H8DzV1fzF6k
+DevOps | linux commands | real time apache tomcat logs troubleshoot | AWK | GREP | SED
+
+
+https://www.youtube.com/watch?v=DxpwSpX3OZc
+DevOps | Ansible | install ansible on aws ec2 step by step | file and copy module playbooks|Hands-on
+
+
+https://www.youtube.com/watch?v=MBn3fx9OfRk
+DevOps | Jenkins pipeline | Jenkinsfile | groovy sandbox | deploy war file into tomcat | Real-time
+
+
+https://www.youtube.com/watch?v=Mde05zXu0O4
+How to integrate nexus with jenkins and upload artifacts to nexus server step by step
+
+
+https://www.youtube.com/watch?v=8ZESaXwwWQ8
+Jenkins docker Integration with pipeline |cloud bees build and publish | Docker and Dockerhub
+
+
+
+
+https://www.youtube.com/watch?v=meD1dsQIlAw
+DevOps | real-time | Nginx Load Balancer | Docker | aws ubuntu instances
+
+
+
+https://www.onlinefreecourse.net/project-in-devops-build-real-world-processes-udemy-free-download/
+
+
+
+
+https://www.youtube.com/watch?v=j9nrFlHGsCU&index=4&list=PLLsor6GJ_BEFLq3VDcbGf4OamKbQVQWVD
+Docker Swarm | Quick Introduction and Basics
+
+
+https://www.youtube.com/watch?v=i_uxsIGniFA&list=PLLsor6GJ_BEFLq3VDcbGf4OamKbQVQWVD&index=2
+Docker Containers | Customize the Docker Networking
+
+
+https://www.youtube.com/watch?v=wi-MGFhrad0&list=PLhW3qG5bs-L99pQsZ74f-LC-tOEsBp2rK
+Docker Beginner Tutorial 1 - What is DOCKER (step by step) | Docker Introduction | Docker basics
+
+https://www.brianchristner.io/how-to-automate-docker-builds-end-to-end/
+How to Automate Docker Builds and Auto Deploy
+
+
+
+https://kat2.biz/t3-ACloud-guru-Docker-for-DevOps-From-Development-to-Production-tt3288112.html
+
+
+
+
+
+
+DevOps -- Jenkins playlist 
+Devops -- Jenkins 1-4 parts
+https://www.youtube.com/watch?v=-Z7-JDMrLjY&list=PLxzKY3wu0_FLIRHj81iyBgRIhaYTvUAab
+
+
+
+
+
+https://www.youtube.com/watch?v=sfp77rdi6g4
+DevOps -- Jenkins-3: Home Directory of Jenkins
+
+
+
+
+
+
+https://www.youtube.com/watch?v=6-VPlwkMIKA
+DevOps -- Jenkins-4: AutoDeployment with Jenkins using git,maven and Tomcat server
+
+
+
+https://www.youtube.com/watch?v=WhCbLGnG9JY
+DevOps Real time Best practices Roles and Responsibilities
+
+
+
+
+
 chefdk for windows
 check seedr.cc files lenovo
 https://pirateproxy.id/torrent/22355899/Udemy_-_The_Complete_Python_3_Course__Beginner_to_Advanced_
 https://pirateproxy.id/torrent/11667722/CBT_Nuggets_-_Python_Programming
 https://pirateproxy.id/torrent/7838122/Lynda.com_-_Python_3_Essential_Training
+https://kat2.biz/t3-ACloud-guru-Docker-for-DevOps-From-Development-to-Production-tt3288112.html
 
 
 
