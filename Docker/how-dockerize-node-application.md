@@ -47,7 +47,7 @@ EXPOSE 8081
     *  $ docker login
     *  $ docker push [USERNAME]/hello-world
     * ANY SERVER USE THIS AS $ docker run [USERNAME]/hello-world
-
+    *** sudo docker run -d -p 8080(EXTERNAL FOR HOST SYSTEM):8081(INTERNAL IN THE DOCKER FILE) formycore/helloworld 
 
 
 

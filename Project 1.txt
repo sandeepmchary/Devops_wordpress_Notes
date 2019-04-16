@@ -1,5 +1,6 @@
 Login to jenkins server
-check for the "maven plugins" in pluguins install it without restart
+check for the "maven invoker and maven unleash" in pluguins install it without restart
+
 hello-world name of the project
 
 Make sure that git is installed in the jenkins server
@@ -77,7 +78,7 @@ In jenkins check for maven if not seen go to
 >> save and apply
 ---------------------------------------------
 [ under source code management] 
-Use git paste the git here 
+Use git paste the git here https://github.com/sandeepmchary/hello-world-master.git
 [ under build] 
 Root pom : Pom.xml 
 Goals and options: Clean install package 
