@@ -67,7 +67,7 @@
     - above are the teams we need to 
     
     
-    ![Build-process](D:\Devops_wordpress_Notes\Interview questions\build-process.JPG)
+    ![Build-process](https://github.com/sandeepmchary/Devops_wordpress_Notes/blob/master/Interview%20questions/build-process.JPG)
 ***********************************************************************************************************************                    
 12 am-3 pm	|positive	        |negative
 ------------------------------------------------------------------
