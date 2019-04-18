@@ -1,0 +1,44 @@
+# load balencer with nginx
+
+sudo apt-get update
+sudo apt-get install docker.io -y
+# now create write a small static webpage
+$ sudo mkdir - /data/www path
+cd /data/www
+####/// one the webserver 1
+sudo vi index.html
+<h1> Hello 1 </h1>
+:wq!
+
+### /// on the webserver2
+#### same as above for creating the files
+### $ sudo mkdir - /data/www path
+### cd /data/www
+
+
+
+sudo docker run --name webapp1 -v /data/www:/usr/share/nginx/html:ro -d -p 80:80 nginx
+
+
+
+events{
+    worker_connections 768;
+    #multi_accept on;
+}
+
+http{
+    upstream backend{
+        server ec2-18-225-36-217.us-east-2.compute.amazonaws.com;
+        server ec2-18-191-184-96.us-east-2.compute.amazonaws.com;
+    }
+    
+    server{
+        listen 80;
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+
+}
+
+
