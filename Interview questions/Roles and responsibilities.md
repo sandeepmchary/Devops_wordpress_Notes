@@ -4,7 +4,7 @@
     - 10 features , add these to above
     - within 3 months
     jan---------|mar(2.0)|---------||----- ||
-                 releaseed 2.0      3.0     4.0
+                 released 2.0      3.0     4.0
     - release types
     1) Major release: 3-6 months --features development
     2) minor release: 2 weeks --- 3 months -- features development
@@ -53,18 +53,21 @@
     - monitor CI jobs (manual), check the nightly builds, it's our responsibility for send mail to respected developers team
     - if it fails on the second day send mail to manager
     ---------------------------------------------------------------------------------------------------------------------
-    - above are the minor responsibilties
+    - above are the minor responsibilities
     ---------------------------------------------------------------------------------------------------------------------
-    - Actual responsibilties are builds
+    - Actual responsibilities are builds
     -> QA/Release builds:
      ---------------------
-                        - Release/Delivary/Project manager coordinated b/w all the teams and release project
+                        - Release/Delivery/Project manager coordinated b/w all the teams and release project
                         - This guy work coordinates with all  teams DEV,QA,OPS and get data and assigned tasks
-    -> QA build: day by day (mon & thursday)
+    -> QA build: day by day (mon & Thursday)
        ---------
-    -> performance build: wednesday
+    -> performance build: Wednesday
     -> UAT builds: 1.5 months and 1.5 months (twice)
     - above are the teams we need to 
+    
+    
+    ![Build-process](D:\Devops_wordpress_Notes\Interview questions\build-process.JPG)
 ***********************************************************************************************************************                    
 12 am-3 pm	|positive	        |negative
 ------------------------------------------------------------------
@@ -84,11 +87,11 @@
 ------------------------------------------------------------------
 15 min	    |waiting	        |    waiting
 ------------------------------------------------------------------
-1:45	    |Deploy	            |disk full,read only file-system,permission issues
+1:45	    |Deploy	            |disk full, read only file-system, permission issues
 ----------------------------------------------------------------------------------
 30 min	    |waiting	        |    waiting
 ------------------------------------------------------------------
-2:15	    |Localiation	    |    mostly no issues
+2:15	    |Localization	    |    mostly no issues
 ------------------------------------------------------------------
 15 min	    |waiting	        |    waiting
 ------------------------------------------------------------------
@@ -96,7 +99,7 @@
 ------------------------------------------------------------------
 15 min	    |waiting	        |    waiting
 ------------------------------------------------------------------
-2:45	    |Smoke Test	        |errors, go back to devlopers
+2:45	    |Smoke Test	        |errors, go back to developers
 ------------------------------------------------------------------
 15 min	    |waiting	        |    Waiting
 ------------------------------------------------------------------
@@ -115,12 +118,12 @@
 
 -------------------
 pre build check list
-- ex: At 11:30 we will circulate a email plz dont touch VCS
+- ex: At 11:30 we will circulate a email plz don't touch VCS
 - mock builds: 11 am mock build, lock the branch at 11 am
 
 ---------------------------------------------------------------------------------------------------------------------
 3) N/W issues: 
-server verfication scripts
+server verification scripts
 at 11:00 am
 - ping
 - disk Free space available at least 80%
@@ -143,25 +146,25 @@ Assume we have 4 people
 in the ideal time we explore new tools 
 - POC of new tool 
 - try with one application
-- benefits of tools quality,time ,reporting ,feature 
-- in 3.0 version we use jenkins/teamcity if the release is successful(100%) 
-- in 4.0 version they can roleout Teamcity 
+- benefits of tools quality, time ,reporting ,feature 
+- in 3.0 version we use Jenkins/teamcity if the release is successful(100%) 
+- in 4.0 version they can role out Teamcity 
 ------------------------------------------------------------------- 
-I am working in tech Mahindra company for 3.6 years as a devops engineer 
-- when comes to my roles as a part of devops team working in the organisation 
+- I have total of 6.10 into IT for Devops i have 3.6 years of experience
+- when comes to my roles as a part of Devops team working in the organization 
 - we handle enter application build and release Management process 
 - for every release it will keep changing 
 - taking responsibility of version control system 
 - implementing the branching strategy 
 - implementing the access control on the VCS, and CI systems it our  responsibility to implement the CI across the project in the account 
-- as a part of it we use tools like jenkins 
+- as a part of it we use tools like Jenkins 
 - when comes to deployment part  we use ansible as deployment tool 
 - we write all the ansible Playbooks 
 - we check into git repository 
 - we follow different release cycles like waterfall and V model 
 - We have different types of releases each releases handled by one team member of our team 
-- I deal with QA builds in our organisation QA builds are done Monday and Thursday
-- Buils will take in 12-3pm, i do builds manually before ansible came in picture , we automates the builds, we use ansible to do the deployment
+- I deal with QA builds in our organization QA builds are done Monday and Thursday
+- Builds will take in 12-3pm, i do builds manually before ansible came in picture , we automates the builds, we use ansible to do the deployment
 
 
     </pre>
