@@ -28,3 +28,8 @@ you can use --extra-vars like this:
 
 $ ansible all --inventory=10.0.1.2, -m ping \
     --extra-vars "ansible_user=root ansible_password=yourpassword"
+-----------------------------------------------------
+ansible-playbook spinawsec2.yml -e instance_type=t2.micro -e security_group=WebServers -e image=ami-0080e4c5bc078760e -e region=us-east-1 -e keypair=NVirginia -e count=1
+
+
+awx installation with geerlinguy

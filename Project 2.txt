@@ -99,14 +99,14 @@ In Tomcat also create user ansible the same process for visudo,
 vi /etc/ssh/sshd_config 
 For deploying we need a plugin 
 That is "publish over ssh" 
-chown -R anisble:ansible /opt/playbook
+chown -R ansible:ansible /opt/playbooks
 Write a Playbook for copying it will talk at server 
 --- 
 - host: tomcat 
   become: yes 
   tasks: 
   - name: installing the tomcat 
-      src:/<path of the file(copyfile.yml)>/webapp/target/webapp.war 
+      src:/<path of the file(copyfile.yml)>/webapp/target/webapp.war  --- HERE PATH CAN BE ANYTHING SOMETIMES WE GET PERMISSION ISSUES FOR CREATING THE FOLDER
       dest:/<path of tomcat>/webapps 
 ------------------------------------------------------------------- 
 We need to add the ssh server for that 
