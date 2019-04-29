@@ -64,10 +64,10 @@
        ---------
     -> performance build: Wednesday
     -> UAT builds: 1.5 months and 1.5 months (twice)
-    - above are the teams we need to 
+    - above are the teams we need to	
     
     
-    ![Build-process](https://github.com/sandeepmchary/Devops_wordpress_Notes/blob/master/Interview%20questions/build-process.JPG)
+    ![Build-process](https://raw.githubusercontent.com/sandeepmchary/Devops_wordpress_Notes/master/Interview%20questions/build-process.JPG)
 ***********************************************************************************************************************                    
 12 am-3 pm	|positive	        |negative
 ------------------------------------------------------------------
