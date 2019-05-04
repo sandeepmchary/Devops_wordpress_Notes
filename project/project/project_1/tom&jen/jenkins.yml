@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: Install Java 
+    package:
+      name: java-1.8*
+      state: present
+  - name: Java Home Path
+    lineinfile:
+      dest: /root/.bash_profile
+      insertafter: '# User specific environment and startup programs'
+      line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64'
+  - name: paths
+    lineinfile:
+      dest: /root/.bash_profile
+      regexp: PATH=$PATH:$HOME/bin
+      line: PATH=$PATH:$JAVA_HOME:$HOME/bin
+  - name: download jenkins repo
+    get_url:
+      url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+  - name: import jenkins key
+    rpm_key:
+      state: present
+      key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  - name: install jenkins
+    yum:
+      name: jenkins
+      state: present
+  - name : start jenkins
+    service:
+      name: jenkins
+      state: started
+      enabled: yes
+  - name: init password jenkin
+    shell: cat /    
+    changed_when: false
+    register: result
+  - name: print init password jenkins
+    debug:
+      var: result.stdout

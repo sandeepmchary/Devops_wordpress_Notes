@@ -1,0 +1,9 @@
+---
+- hosts: tom
+  become: yes
+  tasks:
+    - name: copy war files to tomcat
+      copy:
+        src: /opt/playbooks/webapp/target/webapp.war
+        dest: /var/lib/tomcat/webapps
+        
