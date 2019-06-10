@@ -166,5 +166,8 @@ in the ideal time we explore new tools
 - I deal with QA builds in our organization QA builds are done Monday and Thursday
 - Builds will take in 12-3pm, i do builds manually before ansible came in picture , we automates the builds, we use ansible to do the deployment
 
-
     </pre>
+
+	
+	
+ssl certificate for 
