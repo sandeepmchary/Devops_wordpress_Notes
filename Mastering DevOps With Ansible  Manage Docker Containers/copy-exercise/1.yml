@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: cp files
+      copy:
+        src: /home/ansible/copy-exercise/sample.txt
+        dest: /tmp

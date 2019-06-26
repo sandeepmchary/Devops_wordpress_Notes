@@ -23,6 +23,11 @@ service sshd restart
 # Login with ansible user
 su - ansible
 
+Login as a ansible user on master and generate ssh key
+    #ssh-keygen 
+Copy keys to target servers
+   # ssh-copy-id <target-server> 
+
 # Go to the home folder of the ansible user
 cd ~
 
