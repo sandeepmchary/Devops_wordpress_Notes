@@ -1,0 +1,42 @@
+---
+- hosts: google
+  become: yes
+  vars:
+    java_version: java-1.8.0-openjdk
+    java_alternatives: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.232.b09-1.el6_10.x86_64/jre/bin/java"
+    jenkins_url: "http://pkg.jenkins-ci.org/redhat/jenkins.repo"
+    jenkins_key: "https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+  tasks:
+    - name: Install java 8 
+      package:
+        name: "{{ java_version }}"
+    - name: Correct the alternatives to change default Java version
+      alternatives:
+        name: java
+        link: /usr/bin/java
+        path: "{{ java_alternatives}}"
+    - name: Download jenkins repo 
+      get_url:
+        url: "{{jenkins_url}}"
+        dest: /etc/yum.repos.d/jenkins.repo
+    - name: Import jenkins key
+      rpm_key:
+        state: present
+        key: "{{jenkins_key}}"
+        validate_certs: False
+    - name: install jenkins 
+      yum:
+        name: jenkins
+        state: present
+    - name: Start service and enable on boot
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+    - name: init password jenkin
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword   
+      changed_when: false
+      register: result
+    - name: print init password jenkins
+      debug:
+        var: result.stdout

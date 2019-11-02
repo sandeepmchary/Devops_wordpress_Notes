@@ -1,0 +1,9 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Create a file
+      file:
+        path: /tmp/lenovo
+        state: touch
+        
