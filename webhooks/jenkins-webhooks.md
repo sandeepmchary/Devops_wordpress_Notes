@@ -1,8 +1,11 @@
 $ jenkins --> manage plugins --> available --> github integration --> install without restart
 $ jenkins --> GitHub project --> <provide the project url> --> 
+---------------------------------------
 under
 Source Code Management
 -->  Git --> provide Repository URL
+
+------------------------------------
 Build Triggers
 --> GitHub hook trigger for GITScm polling
 
