@@ -1,0 +1,17 @@
+There are 3 types tenancies
+- shared tenancy
+- Dedicated instances
+- Dedicated hosts
+STEP 3: 
+		 Shared Tenancy: Shared is default model
+		- in shared tenancy, the cpu can change position form one place to another instance after stop and starting the instance
+		- In reboot underlying H/W does not change
+Dedicated instance:
+				    - no other shared tenancy model does not comes into this
+				    - after stop and start it gets launched on a different host
+Dedicated host:
+					- Even after stop and start it will run in the same physical host
+					- License for S/W or H/W
+					- billing for the full physical host
+					- costly among the three
+					
