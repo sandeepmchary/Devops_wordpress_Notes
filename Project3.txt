@@ -53,7 +53,11 @@ Goals and options : Clean install package
   Remove prefix: Webapp/target 
   Remote directory: //opt//docker 
 (in the file it is given as copy ./wepapp.war in the current location) 
-Execute commands: Docker stop Sandeep docker rm -f sandeep docker image rm -f sandeep cd /opt/docker docker build -t sandeep 
+Execute commands: 
+docker stop Sandeep 
+docker rm -f sandeep
+docker image rm -f sandeep 
+cd /opt/docker docker build -t sandeep 
 >> add server 
 Execute commands: docker run -d --name sandeep -p 8080:8090 sandeep 
 -------------------------------------------------------------------------------- 
