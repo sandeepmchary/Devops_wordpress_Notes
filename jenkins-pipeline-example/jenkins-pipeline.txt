@@ -1,0 +1,17 @@
+## https://www.youtube.com/watch?v=pts8zdHel5E
+
+node{
+		stage('SCM'){
+			git 'https://github.com/sandeepmchary/project-1.git'
+		}
+		stage ('Build & Package'){
+		    def mvnHome = tool name: 'Maven', type: 'maven'
+			sh "${mvnHome}/bin/mvn package"
+		}
+		stage('Results'){
+			archiveArtifacts 'webapp/target/webapp.war'
+		}
+			
+		
+	}
+	

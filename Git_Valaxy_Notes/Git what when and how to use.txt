@@ -1,0 +1,125 @@
+- git is an open source,distributed version control system designed for speed & effiency
+- Work offline (no n/w needed)
+	- commiting changes
+	- performing a diff
+	- Merging branches
+	- viewing file history
+	- Switching branches
+	- obtaining file versions
+---------------------------------
+- difference between git,gitlab,github
+	- git is command line
+	- Github is web interface
+	- Github is also a hosting site
+	- free for public repositories
+	- Gitlab the open-source github,that enterprises can run on their own severs
+	- the command line is the only place you can run all git commands
+--------------------------------------
+Customize your git environment
+$ git config --global user.name "sandeepmchary"
+$ git config --global user.email "awssandeepchary@gmail.com"
+$ git config -list
+$ git help <verb>
+-----------------------------
+- action of saving is called commit
+- 
+*************************************
+		GIT OPERATIONS
+
+- creating repositories
+- making changes to repositories
+- Parallel Development with other coders
+- sync repositories
+*************************************
+		GIT COMMANDS
+
+$ git init (after creating the repositories)
+
+
+** below three after making changes
+$ git status
+$ git add
+$ git commit  (saving the changes to local repositories)
+
+** Parallel Developing
+
+$ git brach 
+	creating new brach to work on some other feature
+$ git merge
+	after working on the feature we have to merge it to main brach
+$ git rebase
+	merging 2 or more branches we use rebase
+	
+** SYNCING
+$ git add origin
+$ git push 
+$ git pull
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
