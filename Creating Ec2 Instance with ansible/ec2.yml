@@ -5,7 +5,7 @@
   vars:
     instance_type: t2.micro
     security_group: webservers_sg
-    image: ami-0d03add87774b12c5
+    image: ami- ******
     keypair: sam 
     region: us-east-2
     count: 1
