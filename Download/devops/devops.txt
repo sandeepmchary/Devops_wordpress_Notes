@@ -1,3 +1,29 @@
+devopscube
+
+https://devopscube.com/setup-ecs-cluster-as-build-slave-jenkins/
+https://devopscube.com/mount-ebs-volume-ec2-instance/
+https://devopscube.com/how-to-setup-gui-for-amazon-ec2-rhel-7-instance/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://devopscube.com/docker-machine-tutorial-getting-started-guide/
+https://devopscube.com/aws-codecommit-tutorial-beginners/
+https://devopscube.com/things-to-do-for-securing-aws-account/
+https://devopscube.com/jenkins-backup-data-configurations/
+https://devopscube.com/setup-ecs-cluster-as-build-slave-jenkins/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://github.com/bibinwilson/jenkins-docker-slave
+
+
+
+
+
+
+
+
+
+
+https://www.youtube.com/watch?v=5aY38VygvaA == Packer - Ansible - Terraform Practical Session
+
 https://www.youtube.com/watch?v=YzaYqxW0wGs&list=PL34sAs7_26wNBRWM6BDhnonoA5FMERax0 --- LEARN KUBERNETES
 
 
@@ -20,7 +46,7 @@ https://www.youtube.com/watch?v=kKytd5laE8Q -- DevOps Jenkins with Docker Integr
 https://www.youtube.com/channel/UCosFqIt2ejM08YrM4Bc7leQ/videos -- ansible
 
 
-https://www.youtube.com/channel/UCy2r0x3lRKQvBOcFB0u3cAA/videos
+https://www.youtube.com/channel/UCy2r0x3lRKQvBOcFB0u3cAA/videos --- it in ameerpet playlist
 
 
 https://www.youtube.com/watch?v=Ok3zPrfC-Jw&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2
