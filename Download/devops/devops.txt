@@ -15,7 +15,38 @@ https://github.com/bibinwilson/jenkins-docker-slave
 
 
 
+----------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=aFFBTsHjdKE
 
+small job for .net application in jenkins
+small job for nodejs application in jenkins
+small job for java application in jenkins
+
+tfs -- ticketing tool
+
+Project for Jenkins
+project for terraform
+project for packer
+project for docker
+project for ansible
+project for chef
+project for maven
+project for nagios
+project for elastic beam,kibana,elastic search
+
+https://www.youtube.com/channel/UC_evcfxhjjui5hChhLE08tQ/videos
+https://www.youtube.com/watch?v=uCleiJw40Kw
+https://www.youtube.com/channel/UCuFg53ZTr6maqBC-4i9o4-w/videos   --- for devops videos
+https://www.youtube.com/watch?v=3EyT1i0wYUY&list=PL9ooVrP1hQOE5ZDJJsnEXZ2upwK7aTYiX  -- eduraka videos for devops
+https://www.youtube.com/channel/UCR5fgyj9JaFvTMBUrKRdqYg/videos
+
+
+valaxy docker installation on centos
+
+
+
+
+----------------------------------------------------------------------------------------
 
 
 

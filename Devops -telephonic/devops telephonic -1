@@ -1,0 +1,80 @@
+what is branching & merging ?
+	- we have a sprint of 21 days
+	- we need to talk with developers team at what point we need to merge with master branch
+Q) Branch with production defect? this branch already merged with master branch? how to fix the code on a particular branch? pull this code from a particular branch?
+	- we will ask them to raise a specific defect, so that on regerssion they will find the bugs,once the fix done we will do patch for the defect
+Q) PATCHING BUILD
+
+
+	- we will take the .war file & push in the bin directory along with the binary avaialable with major release
+Q) Scripting Language?
+	- shell scripting ,mostly with ANSIBLE PLAYBOOK	
+-- git hardening & git upgrade there will be 2 upgrades in every month, we hava git architecture as 
+1 fail over server
+1 backup server
+1 backup backup server
+1 replica server
+1 primary server
+-- and we are looking into blue and green deployment
+------------------------------------------------------------------------------------------
+
+i hava done							AWS
+-> 150+ servers
+-> Ec2 Instances
+-> snapshots of Ec2 Instances
+-> IAM
+-> spin up new Instances
+-> Auto Scaling 
+-> load balancing
+-> VPC
+----------------------
+Devops Environment on cloud
+-> we use ansible for cloud Environment for autoscaling
+-> DYNAMIC INVENTRY
+-> if the server cpu is ultilizing more than 50 % CPU, with the autoscaling polocies it will turn up another instance, and it terminates when the cpu ultilizing is less than 50 % 
+-> I have done docker 
+	- dettached mode
+	- containers
+	- expose the port
+	- how to run command inside the container
+	- running basic syntax for Dockerfile
+	- Docker Installation
+Q) Code Deployement on QA & other environment where do u see perfect fit for docker?
+	- it will work on QA,DEV,& PROD also
+	- Ex: I am working on sprint, my sprint team wansts only 2 servers to do QA test for downgrade testing,along with current sprint, then they request for 4 more, if we maintain a Dockerfile with configurations, we will provide the same configuration with minutes
+	- ON PROD:
+		- Image Specific if we are using AMI,in our environment we take snapshot of our Ec2 Instances with all the app/.. installed ,we make use of those snapshots in our Ec2 instance creation, along with docker,containers and Kubernetes 
+Q) WEBLOGIC & WEBSPEHERE
+	- we use tomcat for hosting jenkins and nexus
+Q) Delivery pipeline form end to end on our own? form starch
+	- we migrated more than 120+ app/.. 
+Q) Intergrated any code review or Quality Testing? (NO)
+Q) Whenever the build fails what info we can pull and pass to the dev team?
+	- whenever the build fails,we need to go to the console output, check for the exact issue causing the failure 
+	- whether it is related to conf/.. file in pom.xml or in build.xml file, if not from these we need to check with java heap memory issue,we need to specify the build failure if it is from our end or there end, we need to rectify and build the trigger again
+Q) Intergrated any defect tracking system with in delivery pipeline?
+	- we are using some incident management ticketing tools. HSPM
+	- in HSPM all our apps are integrated
+	- memory threshold will be t2 incident
+	- we will have some metrics,whenever any process dont come up, it will check 3 times for the application, it will wait for 2 min/.. and raises an incident for us
+Q) DOCUMent
+	- company wiki pages
+Q) Ansible as Deployment
+	- we have job template on the ansible tower, whenever any new artifacts to the nexus system, we take war or ear files to deploy on the end server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
