@@ -1,0 +1,28 @@
+---
+- hosts: ubuntu
+  become: yes
+  vars:
+    tomcat_username: "admin"
+    tomcat_password: "password"
+  tasks:
+  - name: Install Tomcat
+    package:
+      name: tomcat7
+      state: present
+      update_cache: yes
+  - name: Additional packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - tomcat7-docs 
+      - tomcat7-admin 
+      - tomcat7-examples
+  - name: Configure Tomcat Web Management Interface
+    template:
+      src: tomcat-users.xml.j2
+      dest: /etc/tomcat7/tomcat-users.xml
+  - name: restart tomcat
+    service:
+      name: tomcat7
+      state: restarted

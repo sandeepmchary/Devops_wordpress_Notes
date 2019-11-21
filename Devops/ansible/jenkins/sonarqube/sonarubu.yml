@@ -1,0 +1,39 @@
+- name: Install add apt-repository
+  apt:
+    name: software-properties-common
+    state: latest
+- name: Add oracle java repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+- name: Accept Java 8 License
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+- name: Install Oracle Java 8
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - oracle-java8-installer
+    - ca-certificates
+    - oracle-java8-set-default
+    - wget
+- name: unarchive SonarQube installer 
+  unarchive:
+    src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+    dest: /opt
+    remote_src: yes
+- name: Rename the directory
+  copy:
+    src: /opt/sonarqube-7.6
+    dest: /opt/sonarqube
+- name: Setup for Systemd unit file for SonarQube
+  copy:
+    src: sonar.services
+    dest: "/etc/systemd/system/sonar.service"
+    backup: yes
+- name: start the application
+  package:
+    name: sonar
+    state: 
+
+  
+  
