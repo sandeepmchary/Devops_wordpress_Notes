@@ -61,7 +61,9 @@ Q) DOCUMent
 	- company wiki pages
 Q) Ansible as Deployment
 	- we have job template on the ansible tower, whenever any new artifacts to the nexus system, we take war or ear files to deploy on the end server
-
+----------------------------------------------------------------------------------
+QUESTIONS FOR ME??
+		SCOPE OF DEVOPS ENGINEER IN THIS PROJECT
 
 
 
