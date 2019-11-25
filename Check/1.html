@@ -1,0 +1,2232 @@
+
+<!DOCTYPE html>
+<html lang="en-US" class="no-js no-svg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+
+<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>21 Days of AWS using Terraform &#8211; Day 1- Introduction to Terraform &#8211; 100 Days of DevOps</title>
+<link rel='dns-prefetch' href='//secureservercdn.net' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="100 Days of DevOps &raquo; Feed" href="http://100daysofdevops.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="100 Days of DevOps &raquo; Comments Feed" href="http://100daysofdevops.com/comments/feed/" />
+<link rel='preconnect' href='http://secureservercdn.net' crossorigin />
+<link rel="alternate" type="application/rss+xml" title="100 Days of DevOps &raquo; 21 Days of AWS using Terraform &#8211; Day 1- Introduction to Terraform Comments Feed" href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/feed/" />
+		<script>
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/secureservercdn.net\/198.71.233.109\/spn.da2.myftpupload.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.3&time=1574650292"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style>
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/block-library/style.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-block-library-theme-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/block-library/theme.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wc-block-style-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/style.css?ver=2.4.5&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-components-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/components/style.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-editor-font-css'  href='https://fonts.googleapis.com/css?family=Noto+Serif%3A400%2C400i%2C700%2C700i&#038;ver=5.3' media='all' />
+<link rel='stylesheet' id='wp-block-editor-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/block-editor/style.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-nux-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/nux/style.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-editor-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/editor/style.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='wp-edit-blocks-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/css/dist/block-library/editor.min.css?ver=5.3&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='contact-widgets-contact-block-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/contact-widgets/includes/blocks/contact/css/contact-block.min.css?ver=1.0.1&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/contact-widgets/assets/css/font-awesome.min.css?ver=4.7.0&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='contact-widgets-social-block-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/contact-widgets/includes/blocks/social/css/social-block.min.css?ver=1.0.1&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.1.4&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='woocommerce-layout-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=3.8.0&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='woocommerce-smallscreen-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=3.8.0&#038;time=1574650292' media='only screen and (max-width: 768px)' />
+<link rel='stylesheet' id='woocommerce-general-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/css/twenty-seventeen.css?ver=3.8.0&#038;time=1574650292' media='all' />
+<style id='woocommerce-inline-inline-css'>
+.woocommerce form .form-row .required { visibility: visible; }
+</style>
+<link rel='stylesheet' id='twentyseventeen-fonts-css'  href='https://fonts.googleapis.com/css?family=Libre+Franklin%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C800%2C800i&#038;subset=latin%2Clatin-ext&#038;display=fallback' media='all' />
+<link rel='stylesheet' id='twentyseventeen-style-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/style.css?ver=20190507&#038;time=1574650292' media='all' />
+<link rel='stylesheet' id='twentyseventeen-block-style-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/css/blocks.css?time=1574650292&#038;ver=20190105' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyseventeen-ie8-css'  href='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/css/ie8.css?time=1574650292&#038;ver=20161202' media='all' />
+<![endif]-->
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp&#038;time=1574650292'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1&#038;time=1574650292'></script>
+<!--[if lt IE 9]>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/js/html5.js?time=1574650292&#038;ver=20161020'></script>
+<![endif]-->
+<link rel='https://api.w.org/' href='http://100daysofdevops.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://100daysofdevops.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/wlwmanifest.xml?time=1574650292" /> 
+<link rel='prev' title='21 Days of AWS using Terraform' href='http://100daysofdevops.com/21-days-of-aws-using-terraform/' />
+<link rel='next' title='21 Days of AWS using Terraform – Day 2- Building AWS VPC using Terraform' href='http://100daysofdevops.com/21-days-of-aws-using-terraform-day-2-building-aws-vpc-using-terraform/' />
+<link rel="canonical" href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/" />
+<link rel='shortlink' href='http://100daysofdevops.com/?p=370' />
+<link rel="alternate" type="application/json+oembed" href="http://100daysofdevops.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2F100daysofdevops.com%2F21-days-of-aws-using-terraform-day-1-introduction-to-terraform%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://100daysofdevops.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2F100daysofdevops.com%2F21-days-of-aws-using-terraform-day-1-introduction-to-terraform%2F&#038;format=xml" />
+<meta name="referrer" content="always"/><link rel="pingback" href="http://100daysofdevops.com/xmlrpc.php">
+	<style type="text/css" id="custom-theme-colors" >
+		
+/**
+ * Twenty Seventeen: Color Patterns
+ *
+ * Colors are ordered from dark to light.
+ */
+
+.colors-custom a:hover,
+.colors-custom a:active,
+.colors-custom .entry-content a:focus,
+.colors-custom .entry-content a:hover,
+.colors-custom .entry-summary a:focus,
+.colors-custom .entry-summary a:hover,
+.colors-custom .comment-content a:focus,
+.colors-custom .comment-content a:hover,
+.colors-custom .widget a:focus,
+.colors-custom .widget a:hover,
+.colors-custom .site-footer .widget-area a:focus,
+.colors-custom .site-footer .widget-area a:hover,
+.colors-custom .posts-navigation a:focus,
+.colors-custom .posts-navigation a:hover,
+.colors-custom .comment-metadata a:focus,
+.colors-custom .comment-metadata a:hover,
+.colors-custom .comment-metadata a.comment-edit-link:focus,
+.colors-custom .comment-metadata a.comment-edit-link:hover,
+.colors-custom .comment-reply-link:focus,
+.colors-custom .comment-reply-link:hover,
+.colors-custom .widget_authors a:focus strong,
+.colors-custom .widget_authors a:hover strong,
+.colors-custom .entry-title a:focus,
+.colors-custom .entry-title a:hover,
+.colors-custom .entry-meta a:focus,
+.colors-custom .entry-meta a:hover,
+.colors-custom.blog .entry-meta a.post-edit-link:focus,
+.colors-custom.blog .entry-meta a.post-edit-link:hover,
+.colors-custom.archive .entry-meta a.post-edit-link:focus,
+.colors-custom.archive .entry-meta a.post-edit-link:hover,
+.colors-custom.search .entry-meta a.post-edit-link:focus,
+.colors-custom.search .entry-meta a.post-edit-link:hover,
+.colors-custom .page-links a:focus .page-number,
+.colors-custom .page-links a:hover .page-number,
+.colors-custom .entry-footer a:focus,
+.colors-custom .entry-footer a:hover,
+.colors-custom .entry-footer .cat-links a:focus,
+.colors-custom .entry-footer .cat-links a:hover,
+.colors-custom .entry-footer .tags-links a:focus,
+.colors-custom .entry-footer .tags-links a:hover,
+.colors-custom .post-navigation a:focus,
+.colors-custom .post-navigation a:hover,
+.colors-custom .pagination a:not(.prev):not(.next):focus,
+.colors-custom .pagination a:not(.prev):not(.next):hover,
+.colors-custom .comments-pagination a:not(.prev):not(.next):focus,
+.colors-custom .comments-pagination a:not(.prev):not(.next):hover,
+.colors-custom .logged-in-as a:focus,
+.colors-custom .logged-in-as a:hover,
+.colors-custom a:focus .nav-title,
+.colors-custom a:hover .nav-title,
+.colors-custom .edit-link a:focus,
+.colors-custom .edit-link a:hover,
+.colors-custom .site-info a:focus,
+.colors-custom .site-info a:hover,
+.colors-custom .widget .widget-title a:focus,
+.colors-custom .widget .widget-title a:hover,
+.colors-custom .widget ul li a:focus,
+.colors-custom .widget ul li a:hover {
+	color: hsl( 222, 50%, 0% ); /* base: #000; */
+}
+
+.colors-custom .entry-content a,
+.colors-custom .entry-summary a,
+.colors-custom .comment-content a,
+.colors-custom .widget a,
+.colors-custom .site-footer .widget-area a,
+.colors-custom .posts-navigation a,
+.colors-custom .widget_authors a strong {
+	-webkit-box-shadow: inset 0 -1px 0 hsl( 222, 50%, 6% ); /* base: rgba(15, 15, 15, 1); */
+	box-shadow: inset 0 -1px 0 hsl( 222, 50%, 6% ); /* base: rgba(15, 15, 15, 1); */
+}
+
+.colors-custom button,
+.colors-custom input[type="button"],
+.colors-custom input[type="submit"],
+.colors-custom .entry-footer .edit-link a.post-edit-link {
+	background-color: hsl( 222, 50%, 13% ); /* base: #222; */
+}
+
+.colors-custom input[type="text"]:focus,
+.colors-custom input[type="email"]:focus,
+.colors-custom input[type="url"]:focus,
+.colors-custom input[type="password"]:focus,
+.colors-custom input[type="search"]:focus,
+.colors-custom input[type="number"]:focus,
+.colors-custom input[type="tel"]:focus,
+.colors-custom input[type="range"]:focus,
+.colors-custom input[type="date"]:focus,
+.colors-custom input[type="month"]:focus,
+.colors-custom input[type="week"]:focus,
+.colors-custom input[type="time"]:focus,
+.colors-custom input[type="datetime"]:focus,
+.colors-custom .colors-custom input[type="datetime-local"]:focus,
+.colors-custom input[type="color"]:focus,
+.colors-custom textarea:focus,
+.colors-custom button.secondary,
+.colors-custom input[type="reset"],
+.colors-custom input[type="button"].secondary,
+.colors-custom input[type="reset"].secondary,
+.colors-custom input[type="submit"].secondary,
+.colors-custom a,
+.colors-custom .site-title,
+.colors-custom .site-title a,
+.colors-custom .navigation-top a,
+.colors-custom .dropdown-toggle,
+.colors-custom .menu-toggle,
+.colors-custom .page .panel-content .entry-title,
+.colors-custom .page-title,
+.colors-custom.page:not(.twentyseventeen-front-page) .entry-title,
+.colors-custom .page-links a .page-number,
+.colors-custom .comment-metadata a.comment-edit-link,
+.colors-custom .comment-reply-link .icon,
+.colors-custom h2.widget-title,
+.colors-custom mark,
+.colors-custom .post-navigation a:focus .icon,
+.colors-custom .post-navigation a:hover .icon,
+.colors-custom .site-content .site-content-light,
+.colors-custom .twentyseventeen-panel .recent-posts .entry-header .edit-link {
+	color: hsl( 222, 50%, 13% ); /* base: #222; */
+}
+
+.colors-custom .entry-content a:focus,
+.colors-custom .entry-content a:hover,
+.colors-custom .entry-summary a:focus,
+.colors-custom .entry-summary a:hover,
+.colors-custom .comment-content a:focus,
+.colors-custom .comment-content a:hover,
+.colors-custom .widget a:focus,
+.colors-custom .widget a:hover,
+.colors-custom .site-footer .widget-area a:focus,
+.colors-custom .site-footer .widget-area a:hover,
+.colors-custom .posts-navigation a:focus,
+.colors-custom .posts-navigation a:hover,
+.colors-custom .comment-metadata a:focus,
+.colors-custom .comment-metadata a:hover,
+.colors-custom .comment-metadata a.comment-edit-link:focus,
+.colors-custom .comment-metadata a.comment-edit-link:hover,
+.colors-custom .comment-reply-link:focus,
+.colors-custom .comment-reply-link:hover,
+.colors-custom .widget_authors a:focus strong,
+.colors-custom .widget_authors a:hover strong,
+.colors-custom .entry-title a:focus,
+.colors-custom .entry-title a:hover,
+.colors-custom .entry-meta a:focus,
+.colors-custom .entry-meta a:hover,
+.colors-custom.blog .entry-meta a.post-edit-link:focus,
+.colors-custom.blog .entry-meta a.post-edit-link:hover,
+.colors-custom.archive .entry-meta a.post-edit-link:focus,
+.colors-custom.archive .entry-meta a.post-edit-link:hover,
+.colors-custom.search .entry-meta a.post-edit-link:focus,
+.colors-custom.search .entry-meta a.post-edit-link:hover,
+.colors-custom .page-links a:focus .page-number,
+.colors-custom .page-links a:hover .page-number,
+.colors-custom .entry-footer .cat-links a:focus,
+.colors-custom .entry-footer .cat-links a:hover,
+.colors-custom .entry-footer .tags-links a:focus,
+.colors-custom .entry-footer .tags-links a:hover,
+.colors-custom .post-navigation a:focus,
+.colors-custom .post-navigation a:hover,
+.colors-custom .pagination a:not(.prev):not(.next):focus,
+.colors-custom .pagination a:not(.prev):not(.next):hover,
+.colors-custom .comments-pagination a:not(.prev):not(.next):focus,
+.colors-custom .comments-pagination a:not(.prev):not(.next):hover,
+.colors-custom .logged-in-as a:focus,
+.colors-custom .logged-in-as a:hover,
+.colors-custom a:focus .nav-title,
+.colors-custom a:hover .nav-title,
+.colors-custom .edit-link a:focus,
+.colors-custom .edit-link a:hover,
+.colors-custom .site-info a:focus,
+.colors-custom .site-info a:hover,
+.colors-custom .widget .widget-title a:focus,
+.colors-custom .widget .widget-title a:hover,
+.colors-custom .widget ul li a:focus,
+.colors-custom .widget ul li a:hover {
+	-webkit-box-shadow: inset 0 0 0 hsl( 222, 50%, 13% ), 0 3px 0 hsl( 222, 50%, 13% );
+	box-shadow: inset 0 0 0 hsl( 222, 50% , 13% ), 0 3px 0 hsl( 222, 50%, 13% );
+}
+
+body.colors-custom,
+.colors-custom button,
+.colors-custom input,
+.colors-custom select,
+.colors-custom textarea,
+.colors-custom h3,
+.colors-custom h4,
+.colors-custom h6,
+.colors-custom label,
+.colors-custom .entry-title a,
+.colors-custom.twentyseventeen-front-page .panel-content .recent-posts article,
+.colors-custom .entry-footer .cat-links a,
+.colors-custom .entry-footer .tags-links a,
+.colors-custom .format-quote blockquote,
+.colors-custom .nav-title,
+.colors-custom .comment-body,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-current-item .wp-playlist-item-album {
+	color: hsl( 222, 40%, 20% ); /* base: #333; */
+}
+
+.colors-custom .social-navigation a:hover,
+.colors-custom .social-navigation a:focus {
+	background: hsl( 222, 40%, 20% ); /* base: #333; */
+}
+
+.colors-custom input[type="text"]:focus,
+.colors-custom input[type="email"]:focus,
+.colors-custom input[type="url"]:focus,
+.colors-custom input[type="password"]:focus,
+.colors-custom input[type="search"]:focus,
+.colors-custom input[type="number"]:focus,
+.colors-custom input[type="tel"]:focus,
+.colors-custom input[type="range"]:focus,
+.colors-custom input[type="date"]:focus,
+.colors-custom input[type="month"]:focus,
+.colors-custom input[type="week"]:focus,
+.colors-custom input[type="time"]:focus,
+.colors-custom input[type="datetime"]:focus,
+.colors-custom input[type="datetime-local"]:focus,
+.colors-custom input[type="color"]:focus,
+.colors-custom textarea:focus,
+.bypostauthor > .comment-body > .comment-meta > .comment-author .avatar {
+	border-color: hsl( 222, 40%, 20% ); /* base: #333; */
+}
+
+.colors-custom h2,
+.colors-custom blockquote,
+.colors-custom input[type="text"],
+.colors-custom input[type="email"],
+.colors-custom input[type="url"],
+.colors-custom input[type="password"],
+.colors-custom input[type="search"],
+.colors-custom input[type="number"],
+.colors-custom input[type="tel"],
+.colors-custom input[type="range"],
+.colors-custom input[type="date"],
+.colors-custom input[type="month"],
+.colors-custom input[type="week"],
+.colors-custom input[type="time"],
+.colors-custom input[type="datetime"],
+.colors-custom input[type="datetime-local"],
+.colors-custom input[type="color"],
+.colors-custom textarea,
+.colors-custom .site-description,
+.colors-custom .entry-content blockquote.alignleft,
+.colors-custom .entry-content blockquote.alignright,
+.colors-custom .colors-custom .taxonomy-description,
+.colors-custom .site-info a,
+.colors-custom .wp-caption,
+.colors-custom .gallery-caption {
+	color: hsl( 222, 50%, 40% ); /* base: #666; */
+}
+
+.colors-custom abbr,
+.colors-custom acronym {
+	border-bottom-color: hsl( 222, 50%, 40% ); /* base: #666; */
+}
+
+.colors-custom h5,
+.colors-custom .entry-meta,
+.colors-custom .entry-meta a,
+.colors-custom.blog .entry-meta a.post-edit-link,
+.colors-custom.archive .entry-meta a.post-edit-link,
+.colors-custom.search .entry-meta a.post-edit-link,
+.colors-custom .nav-subtitle,
+.colors-custom .comment-metadata,
+.colors-custom .comment-metadata a,
+.colors-custom .no-comments,
+.colors-custom .comment-awaiting-moderation,
+.colors-custom .page-numbers.current,
+.colors-custom .page-links .page-number,
+.colors-custom .navigation-top .current-menu-item > a,
+.colors-custom .navigation-top .current_page_item > a,
+.colors-custom .main-navigation a:hover,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-current-item .wp-playlist-item-artist {
+	color: hsl( 222, 50%, 46% ); /* base: #767676; */
+}
+
+.colors-custom :not( .mejs-button ) > button:hover,
+.colors-custom :not( .mejs-button ) > button:focus,
+.colors-custom input[type="button"]:hover,
+.colors-custom input[type="button"]:focus,
+.colors-custom input[type="submit"]:hover,
+.colors-custom input[type="submit"]:focus,
+.colors-custom .entry-footer .edit-link a.post-edit-link:hover,
+.colors-custom .entry-footer .edit-link a.post-edit-link:focus,
+.colors-custom .social-navigation a,
+.colors-custom .prev.page-numbers:focus,
+.colors-custom .prev.page-numbers:hover,
+.colors-custom .next.page-numbers:focus,
+.colors-custom .next.page-numbers:hover,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:hover,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus {
+	background: hsl( 222, 50%, 46% ); /* base: #767676; */
+}
+
+.colors-custom button.secondary:hover,
+.colors-custom button.secondary:focus,
+.colors-custom input[type="reset"]:hover,
+.colors-custom input[type="reset"]:focus,
+.colors-custom input[type="button"].secondary:hover,
+.colors-custom input[type="button"].secondary:focus,
+.colors-custom input[type="reset"].secondary:hover,
+.colors-custom input[type="reset"].secondary:focus,
+.colors-custom input[type="submit"].secondary:hover,
+.colors-custom input[type="submit"].secondary:focus,
+.colors-custom hr {
+	background: hsl( 222, 50%, 73% ); /* base: #bbb; */
+}
+
+.colors-custom input[type="text"],
+.colors-custom input[type="email"],
+.colors-custom input[type="url"],
+.colors-custom input[type="password"],
+.colors-custom input[type="search"],
+.colors-custom input[type="number"],
+.colors-custom input[type="tel"],
+.colors-custom input[type="range"],
+.colors-custom input[type="date"],
+.colors-custom input[type="month"],
+.colors-custom input[type="week"],
+.colors-custom input[type="time"],
+.colors-custom input[type="datetime"],
+.colors-custom input[type="datetime-local"],
+.colors-custom input[type="color"],
+.colors-custom textarea,
+.colors-custom select,
+.colors-custom fieldset,
+.colors-custom .widget .tagcloud a:hover,
+.colors-custom .widget .tagcloud a:focus,
+.colors-custom .widget.widget_tag_cloud a:hover,
+.colors-custom .widget.widget_tag_cloud a:focus,
+.colors-custom .wp_widget_tag_cloud a:hover,
+.colors-custom .wp_widget_tag_cloud a:focus {
+	border-color: hsl( 222, 50%, 73% ); /* base: #bbb; */
+}
+
+.colors-custom thead th {
+	border-bottom-color: hsl( 222, 50%, 73% ); /* base: #bbb; */
+}
+
+.colors-custom .entry-footer .cat-links .icon,
+.colors-custom .entry-footer .tags-links .icon {
+	color: hsl( 222, 50%, 73% ); /* base: #bbb; */
+}
+
+.colors-custom button.secondary,
+.colors-custom input[type="reset"],
+.colors-custom input[type="button"].secondary,
+.colors-custom input[type="reset"].secondary,
+.colors-custom input[type="submit"].secondary,
+.colors-custom .prev.page-numbers,
+.colors-custom .next.page-numbers {
+	background-color: hsl( 222, 50%, 87% ); /* base: #ddd; */
+}
+
+.colors-custom .widget .tagcloud a,
+.colors-custom .widget.widget_tag_cloud a,
+.colors-custom .wp_widget_tag_cloud a {
+	border-color: hsl( 222, 50%, 87% ); /* base: #ddd; */
+}
+
+.colors-custom.twentyseventeen-front-page article:not(.has-post-thumbnail):not(:first-child),
+.colors-custom .widget ul li {
+	border-top-color: hsl( 222, 50%, 87% ); /* base: #ddd; */
+}
+
+.colors-custom .widget ul li {
+	border-bottom-color: hsl( 222, 50%, 87% ); /* base: #ddd; */
+}
+
+.colors-custom pre,
+.colors-custom mark,
+.colors-custom ins {
+	background: hsl( 222, 50%, 93% ); /* base: #eee; */
+}
+
+.colors-custom .navigation-top,
+.colors-custom .main-navigation > div > ul,
+.colors-custom .pagination,
+.colors-custom .comments-pagination,
+.colors-custom .entry-footer,
+.colors-custom .site-footer {
+	border-top-color: hsl( 222, 50%, 93% ); /* base: #eee; */
+}
+
+.colors-custom .navigation-top,
+.colors-custom .main-navigation li,
+.colors-custom .entry-footer,
+.colors-custom .single-featured-image-header,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item,
+.colors-custom tr {
+	border-bottom-color: hsl( 222, 50%, 93% ); /* base: #eee; */
+}
+
+.colors-custom .site-content .wp-playlist-light {
+	border-color: hsl( 222, 50%, 93% ); /* base: #eee; */
+}
+
+.colors-custom .site-header,
+.colors-custom .single-featured-image-header {
+	background-color: hsl( 222, 50%, 98% ); /* base: #fafafa; */
+}
+
+.colors-custom button,
+.colors-custom input[type="button"],
+.colors-custom input[type="submit"],
+.colors-custom .entry-footer .edit-link a.post-edit-link,
+.colors-custom .social-navigation a,
+.colors-custom .site-content .wp-playlist-light a.wp-playlist-caption:hover,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:hover a,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus a,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:hover,
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus,
+.colors-custom .prev.page-numbers:focus,
+.colors-custom .prev.page-numbers:hover,
+.colors-custom .next.page-numbers:focus,
+.colors-custom .next.page-numbers:hover,
+.colors-custom.has-header-image .site-title,
+.colors-custom.has-header-video .site-title,
+.colors-custom.has-header-image .site-title a,
+.colors-custom.has-header-video .site-title a,
+.colors-custom.has-header-image .site-description,
+.colors-custom.has-header-video .site-description {
+	color: hsl( 222, 50%, 100% ); /* base: #fff; */
+}
+
+body.colors-custom,
+.colors-custom .navigation-top,
+.colors-custom .main-navigation ul {
+	background: hsl( 222, 50%, 100% ); /* base: #fff; */
+}
+
+.colors-custom .widget ul li a,
+.colors-custom .site-footer .widget-area ul li a {
+	-webkit-box-shadow: inset 0 -1px 0 hsl( 222, 50%, 100% ); /* base: rgba(255, 255, 255, 1); */
+	box-shadow: inset 0 -1px 0 hsl( 222, 50%, 100% );  /* base: rgba(255, 255, 255, 1); */
+}
+
+.colors-custom .menu-toggle,
+.colors-custom .menu-toggle:hover,
+.colors-custom .menu-toggle:focus,
+.colors-custom .menu .dropdown-toggle,
+.colors-custom .menu-scroll-down,
+.colors-custom .menu-scroll-down:hover,
+.colors-custom .menu-scroll-down:focus {
+	background-color: transparent;
+}
+
+.colors-custom .widget .tagcloud a,
+.colors-custom .widget .tagcloud a:focus,
+.colors-custom .widget .tagcloud a:hover,
+.colors-custom .widget.widget_tag_cloud a,
+.colors-custom .widget.widget_tag_cloud a:focus,
+.colors-custom .widget.widget_tag_cloud a:hover,
+.colors-custom .wp_widget_tag_cloud a,
+.colors-custom .wp_widget_tag_cloud a:focus,
+.colors-custom .wp_widget_tag_cloud a:hover,
+.colors-custom .entry-footer .edit-link a.post-edit-link:focus,
+.colors-custom .entry-footer .edit-link a.post-edit-link:hover {
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+/* Reset non-customizable hover styling for links */
+.colors-custom .entry-content a:hover,
+.colors-custom .entry-content a:focus,
+.colors-custom .entry-summary a:hover,
+.colors-custom .entry-summary a:focus,
+.colors-custom .comment-content a:focus,
+.colors-custom .comment-content a:hover,
+.colors-custom .widget a:hover,
+.colors-custom .widget a:focus,
+.colors-custom .site-footer .widget-area a:hover,
+.colors-custom .site-footer .widget-area a:focus,
+.colors-custom .posts-navigation a:hover,
+.colors-custom .posts-navigation a:focus,
+.colors-custom .widget_authors a:hover strong,
+.colors-custom .widget_authors a:focus strong {
+	-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 3px 0 rgba(0, 0, 0, 1);
+	box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 3px 0 rgba(0, 0, 0, 1);
+}
+
+.colors-custom .gallery-item a,
+.colors-custom .gallery-item a:hover,
+.colors-custom .gallery-item a:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+@media screen and (min-width: 48em) {
+
+	.colors-custom .nav-links .nav-previous .nav-title .icon,
+	.colors-custom .nav-links .nav-next .nav-title .icon {
+		color: hsl( 222, 50%, 20% ); /* base: #222; */
+	}
+
+	.colors-custom .main-navigation li li:hover,
+	.colors-custom .main-navigation li li.focus {
+		background: hsl( 222, 50%, 46% ); /* base: #767676; */
+	}
+
+	.colors-custom .navigation-top .menu-scroll-down {
+		color: hsl( 222, 50%, 46% ); /* base: #767676; */;
+	}
+
+	.colors-custom abbr[title] {
+		border-bottom-color: hsl( 222, 50%, 46% ); /* base: #767676; */;
+	}
+
+	.colors-custom .main-navigation ul ul {
+		border-color: hsl( 222, 50%, 73% ); /* base: #bbb; */
+		background: hsl( 222, 50%, 100% ); /* base: #fff; */
+	}
+
+	.colors-custom .main-navigation ul li.menu-item-has-children:before,
+	.colors-custom .main-navigation ul li.page_item_has_children:before {
+		border-bottom-color: hsl( 222, 50%, 73% ); /* base: #bbb; */
+	}
+
+	.colors-custom .main-navigation ul li.menu-item-has-children:after,
+	.colors-custom .main-navigation ul li.page_item_has_children:after {
+		border-bottom-color: hsl( 222, 50%, 100% ); /* base: #fff; */
+	}
+
+	.colors-custom .main-navigation li li.focus > a,
+	.colors-custom .main-navigation li li:focus > a,
+	.colors-custom .main-navigation li li:hover > a,
+	.colors-custom .main-navigation li li a:hover,
+	.colors-custom .main-navigation li li a:focus,
+	.colors-custom .main-navigation li li.current_page_item a:hover,
+	.colors-custom .main-navigation li li.current-menu-item a:hover,
+	.colors-custom .main-navigation li li.current_page_item a:focus,
+	.colors-custom .main-navigation li li.current-menu-item a:focus {
+		color: hsl( 222, 50%, 100% ); /* base: #fff; */
+	}
+}
+			.colors-custom .select2-container--default .select2-selection--single {
+				border-color: hsl( 222, 50%, 73% );
+			}
+			.colors-custom .select2-container--default .select2-selection__rendered {
+				color: hsl( 222, 50%, 40% );
+			}
+			.colors-custom .select2-container--default .select2-selection--single .select2-selection__arrow b {
+				border-color: hsl( 222, 50%, 40% ) transparent transparent transparent;
+			}
+			.colors-custom .select2-container--focus .select2-selection {
+				border-color: #000;
+			}
+			.colors-custom .select2-container--focus .select2-selection--single .select2-selection__arrow b {
+				border-color: #000 transparent transparent transparent;
+			}
+			.colors-custom .select2-container--focus .select2-selection .select2-selection__rendered {
+				color: #000;
+			}
+			</style>
+		<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<style>.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>		<style id="twentyseventeen-custom-header-styles" type="text/css">
+				.site-title,
+		.site-description {
+			position: absolute;
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+				</style>
+		</head>
+
+<body class="post-template-default single single-post postid-370 single-format-standard wp-embed-responsive theme-twentyseventeen woocommerce-no-js has-header-image has-sidebar title-tagline-hidden colors-custom">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header" role="banner">
+
+		<div class="custom-header">
+
+		<div class="custom-header-media">
+			<div id="wp-custom-header" class="wp-custom-header"><img src="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/images/header.jpg" width="2000" height="1200" alt="100 Days of DevOps" /></div>		</div>
+
+	<div class="site-branding">
+	<div class="wrap">
+
+		
+		<div class="site-branding-text">
+							<p class="site-title"><a href="http://100daysofdevops.com/" rel="home">100 Days of DevOps</a></p>
+			
+							<p class="site-description">This site is all about DevOps</p>
+					</div><!-- .site-branding-text -->
+
+		
+	</div><!-- .wrap -->
+</div><!-- .site-branding -->
+
+</div><!-- .custom-header -->
+
+					<div class="navigation-top">
+				<div class="wrap">
+					<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Top Menu">
+	<button class="menu-toggle" aria-controls="top-menu" aria-expanded="false">
+		<svg class="icon icon-bars" aria-hidden="true" role="img"> <use href="#icon-bars" xlink:href="#icon-bars"></use> </svg><svg class="icon icon-close" aria-hidden="true" role="img"> <use href="#icon-close" xlink:href="#icon-close"></use> </svg>Menu	</button>
+
+	<div class="menu-mymenu-container"><ul id="top-menu" class="menu"><li id="menu-item-90" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-90"><a href="http://100daysofdevops.com">Home</a></li>
+<li id="menu-item-92" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-92"><a href="http://100daysofdevops.com/blog/">Blog</a></li>
+<li id="menu-item-93" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-93"><a href="http://100daysofdevops.com/contact-us/">Contact Us</a></li>
+</ul></div>
+	</nav><!-- #site-navigation -->
+				</div><!-- .wrap -->
+			</div><!-- .navigation-top -->
+		
+	</header><!-- #masthead -->
+
+	
+	<div class="site-content-contain">
+		<div id="content" class="site-content">
+
+<div class="wrap">
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+			
+<article id="post-370" class="post-370 post type-post status-publish format-standard hentry category-21_days_aws_using_terraform">
+		<header class="entry-header">
+		<div class="entry-meta"><span class="posted-on"><span class="screen-reader-text">Posted on</span> <a href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/" rel="bookmark"><time class="entry-date published" datetime="2019-11-10T07:35:13-08:00">November 10, 2019</time><time class="updated" datetime="2019-11-10T18:54:55-08:00">November 10, 2019</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="http://100daysofdevops.com/author/lakhera2019/">lakhera2019</a></span></span></div><!-- .entry-meta --><h1 class="entry-title">21 Days of AWS using Terraform &#8211; Day 1- Introduction to Terraform</h1>	</header><!-- .entry-header -->
+
+	
+	<div class="entry-content">
+		
+<p><strong>Session link</strong></p>
+
+
+
+<figure class="wp-block-embed-youtube wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<iframe title="21 Days of AWS using Terraform-Introduction to Terraform using AWS" width="525" height="295" src="https://www.youtube.com/embed/xDopu9OTVY4?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div></figure>
+
+
+
+<p></p>
+
+
+
+<p><strong>GitHub Link</strong></p>
+
+
+
+<p><a href="https://github.com/100daysofdevops/21_days_of_aws_using_terraform">https://github.com/100daysofdevops/21_days_of_aws_using_terraform</a></p>
+
+
+
+<p>Hello everyone and welcome to Day 1 of 21 Days of AWS using Terraform, the topic for today is Introduction to Terraform.  Let&#8217;s begin our AWS automation journey using Terraform. </p>
+
+
+
+<blockquote class="wp-block-quote"><p><strong>What is terraform?</strong></p></blockquote>
+
+
+
+<p><em>Terraform is a tool for provisioning infrastructure(or managing Infrastructure as Code). It supports multiple providers(eg, AWS, Google Cloud, Azure, OpenStack..)</em>.</p>
+
+
+
+<p><a href="https://www.terraform.io/docs/providers/index.html">https://www.terraform.io/docs/providers/index.html</a></p>
+
+
+
+<blockquote class="wp-block-quote"><p><strong><em>Installing Terraform</em></strong></p></blockquote>
+
+
+
+<p><em>Installing Terraform is pretty straightforward, download it from Terraform download page and select the appropriate package based on your operating system</em>.</p>
+
+
+
+<p><a href="https://learn.hashicorp.com/terraform/getting-started/install.html">https://learn.hashicorp.com/terraform/getting-started/install.html</a></p>
+
+
+
+<p><a href="https://www.terraform.io/downloads.html">https://www.terraform.io/downloads.html</a></p>
+
+
+
+<p><em>I am using Centos7, so these are the steps I need to follow, to install terraform on Centos7</em>.</p>
+
+
+
+<pre class="wp-block-code"><code>Step1: Download the Package
+$ wget https://releases.hashicorp.com/terraform/0.12.13/terraform_0.12.13_linux_amd64.zip
+--2019-11-08 18:47:29--  https://releases.hashicorp.com/terraform/0.12.13/terraform_0.12.13_linux_amd64.zip
+Resolving releases.hashicorp.com (releases.hashicorp.com)... 2a04:4e42:2f::439, 151.101.201.183
+Connecting to releases.hashicorp.com (releases.hashicorp.com)|2a04:4e42:2f::439|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 16341595 (16M) [application/zip]
+Saving to: ‘terraform_0.12.13_linux_amd64.zip’
+
+100%[==================================================================================================================================================================>] 16,341,595  --.-K/s   in 0.09s   
+
+2019-11-08 18:47:29 (172 MB/s) - ‘terraform_0.12.13_linux_amd64.zip’ saved [16341595/16341595]
+
+Step2: Unzip it
+$ unzip terraform_0.12.13_linux_amd64.zip 
+Archive:  terraform_0.12.13_linux_amd64.zip
+  inflating: terraform      
+
+Step3: Add the binary to PATH environment variable
+sudo cp terraform /usr/local/bin/
+sudo chmod +x /usr/local/bin/terraform
+
+Step4:  Logout and log back in
+</code></pre>
+
+
+
+<ul><li>To verify terraform is installed properly</li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ terraform version
+Terraform v0.12.13</code></pre>
+
+
+
+<p><em>As mentioned above terraform support many providers, for my use case I am using AWS.</em></p>
+
+
+
+<pre class="wp-block-preformatted"><strong><em>Prerequisites</em></strong><em>1: Existing AWS Account(OR Setup a new account)<br>2: IAM full access(OR at least have AmazonEC2FullAccess)<br>3: AWS Credentials(AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)</em></pre>
+
+
+
+<p><em>Once you have pre-requisites 1 and 2 done, the first step is to export Keys AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.</em></p>
+
+
+
+<pre class="wp-block-code"><code>export AWS_ACCESS_KEY_ID="your access key id here"
+export AWS_SECRET_ACCESS_KEY="your secret access key id here"</code></pre>
+
+
+
+<p><strong><em>NOTE:&nbsp;</em></strong><em>These two variables are bound to your current shell, in case of reboot, or if open a new shell window, these changes will be lost</em></p>
+
+
+
+<p><em>With all pre-requisites in place, it’s time to write your first terraform code, but before that just a brief overview about terraform language</em></p>
+
+
+
+<ul><li><em>Terraform code is written in the HashiCorp Configuration Language(HCL)</em></li><li><em>All the code ends with the extension of .tf</em></li><li><em>It’s a declarative language(We need to define what infrastructure we want and terraform will figure out how to create it)</em></li></ul>
+
+
+
+<p><em>In this first example I am going to build EC2 instance, but before creating EC2 instance go to AWS console and think what the different things we need to build EC2 instance are</em></p>
+
+
+
+<ul><li><em>Amazon Machine Image(AMI)</em></li><li><em>Instance Type</em></li><li><em>Network Information(VPC/Subnet)</em></li><li><em>Tags</em></li><li><em>Security Group</em></li><li><em>Key Pair</em></li></ul>
+
+
+
+<p><em>Let break each of these steps by step</em></p>
+
+
+
+<ul><li><strong><em>Amazon Machine Image(AMI):</em></strong><em>&nbsp;It’s an Operating System Image used to run EC2 instance. For this example, I am using Centos 7  </em>ami-01ed306a12b7d1c96<em>. We can create our own AMI using AWS console or Packer.</em></li></ul>
+
+
+
+<p><a href="https://www.packer.io/intro/">https://www.packer.io/intro/</a></p>
+
+
+
+<p>Other ways to find out the AMI id for Centos7 Image is</p>
+
+
+
+<pre class="wp-block-code"><code>$ aws ec2 describe-images \
+>       --owners aws-marketplace \
+>       --filters Name=product-code,Values=aw0evgkw8e5c1q413zgy5pjce \
+>       --query 'Images[*].[CreationDate,Name,ImageId]' \
+>       --filters "Name=name,Values=CentOS Linux 7*" \
+>       --region us-west-2 \
+>       --output table \
+>   | sort -r
+|                                                                        DescribeImages                                                                         |
+|  2019-01-30T23:43:37.000Z|  CentOS Linux 7 x86_64 HVM EBS ENA 1901_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-05713873c6794f575.4  |  ami-01ed306a12b7d1c96  |
+|  2018-06-13T15:58:14.000Z|  CentOS Linux 7 x86_64 HVM EBS ENA 1805_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-77ec9308.4           |  ami-3ecc8f46           |
+|  2018-05-17T09:30:44.000Z|  CentOS Linux 7 x86_64 HVM EBS ENA 1804_2-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-55a2322a.4            |  ami-5490ed2c           |
+|  2018-04-04T00:11:39.000Z|  CentOS Linux 7 x86_64 HVM EBS ENA 1803_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-8274d6ff.4           |  ami-0ebdd976           |
+|  2017-12-05T14:49:18.000Z|  CentOS Linux 7 x86_64 HVM EBS 1708_11.01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-95096eef.4            |  ami-b63ae0ce           |
++--------------------------+----------------------------------------------------------------------------------------------------------+-------------------------+
++--------------------------+----------------------------------------------------------------------------------------------------------+-------------------------+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------</code></pre>
+
+
+
+<p><em>For more info please refer to AWS official doc</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html</a></p>
+
+
+
+<ul><li><strong><em>Instance Type:</em></strong><em>&nbsp;Type of EC2 instance to run, as every instance type provides different capabilities(CPU, Memory, I/O). For this example, I am using t2.micro(1 Virtual CPU, 1GB Memory)</em></li></ul>
+
+
+
+<p><em>For more info please refer to</em> Amazon EC2 instance type</p>
+
+
+
+<p><a href="https://aws.amazon.com/ec2/instance-types/">https://aws.amazon.com/ec2/instance-types/</a></p>
+
+
+
+<ul><li><strong><em>Network Information(VPC/Subnet Id):</em></strong><em>&nbsp;Virtual Private Cloud(VPC) is an isolated area of AWS account that has it’s own virtual network and IP address space. For this example, I am using default VPC which is part of a new AWS account. In case if you want to set up your instance in custom VPC, you need to add two additional parameters(vpc_security_group_ids and subnet_id) to your terraform code</em></li></ul>
+
+
+
+<p><em>For more information about VPC, please refer</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html</a></p>
+
+
+
+<p><strong><em>Tags:</em></strong><em>&nbsp;Tag we can think of a label that helps to categorize AWS resources.</em></p>
+
+
+
+<p><em>For more information about the tag, please refer</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html</a></p>
+
+
+
+<p><strong><em>Security Group:&nbsp;</em></strong><em>Security group can think like a virtual firewall, and it controls the traffic of your instance</em></p>
+
+
+
+<p><em>For more information about Security Group, please refer</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html</a></p>
+
+
+
+<p><strong><em>Key Pair:</em></strong><em>&nbsp;Key Pair is used to access EC2 instance</em></p>
+
+
+
+<p><em>For more info about Key Pair, please refer to</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#key-pairs">https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#key-pairs</a></p>
+
+
+
+<p><em>Let review all these parameters and see what we already have and what we need to create to spun our first EC2 instance</em></p>
+
+
+
+<ul><li><em>Amazon Machine Image(AMI) → </em>ami-01ed306a12b7d1c96</li><li><em>Instance Type → t2.micro</em></li><li><em>Network Information(VPC/Subnet) → Default VPC</em></li><li><em>Tags</em></li><li><em>Security Group</em></li><li><em>Key Pair</em></li></ul>
+
+
+
+<p><em>So we already have AMI, Instance Type and Network Information, we need to write terraform code for rest of the parameter to spun our first EC2 instance</em>.</p>
+
+
+
+<p><strong><em>Let start with Key Pair</em></strong></p>
+
+
+
+<p><em>Go to terraform documentation and search for aws key pair</em></p>
+
+
+
+<p><a href="https://www.terraform.io/docs/providers/aws/r/key_pair.html">https://www.terraform.io/docs/providers/aws/r/key_pair.html</a></p>
+
+
+
+<pre class="wp-block-code"><code>resource "aws_key_pair" "example" {
+  key_name = "example-key"
+  public_key = ""
+}</code></pre>
+
+
+
+<p><em>Let try to dissect this code</em></p>
+
+
+
+<ul><li><em>Under resource, we specify the type of resource to create, in this case we are using aws_key_pair as a resource</em></li><li><em>an example is an identifier which we can use throughout the code to refer back to this resource</em></li><li><em>key_name: Is the name of the Key</em></li><li><em>public_key: Is the public portion of ssh generated Key</em></li></ul>
+
+
+
+<p><em>The same thing we need to do for Security Group, go back to the terraform documentation and search for the security group</em>.</p>
+
+
+
+<p><a href="https://www.terraform.io/docs/providers/aws/r/security_group.html">https://www.terraform.io/docs/providers/aws/r/security_group.html</a></p>
+
+
+
+<pre class="wp-block-code"><code>resource "aws_security_group" "examplesg" {
+  
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}</code></pre>
+
+
+
+<ul><li><em>Same thing let do with this code, first two parameter is similar to key pair</em></li><li><em>ingress: refer to in-bound traffic to port 22, using protocol tcp</em></li><li><em>cidr_block: list of cidr_block where you want to allow this traffic(This is just as an example please never use 0.0.0.0/0)</em></li></ul>
+
+
+
+<p><em>With Key_pair and Security Group in place it’s time to create first EC2 instance.</em></p>
+
+
+
+<p><a href="https://www.terraform.io/docs/providers/aws/d/instance.html">https://www.terraform.io/docs/providers/aws/d/instance.html</a></p>
+
+
+
+<pre class="wp-block-code"><code>resource "aws_instance" "ec2_instance" {
+  ami = "ami-01ed306a12b7d1c96"
+  instance_type = "t2.micro"
+  vpc_security_group_ids = ["${aws_security_group.examplesg.id}"]
+  key_name = "${aws_key_pair.example.id}"
+  tags = {
+    Name = "my-first-ec2-instance"
+  }
+}</code></pre>
+
+
+
+<ul><li><em>In this case we just need to check the doc and fill out all the remaining values</em></li><li><em>To refer back to the security group we need to use interpolation syntax by terraform</em></li></ul>
+
+
+
+<p><a href="https://www.terraform.io/docs/configuration-0-11/interpolation.html">https://www.terraform.io/docs/configuration-0-11/interpolation.html</a></p>
+
+
+
+<p><em>This look like</em></p>
+
+
+
+<pre class="wp-block-preformatted"><em>"${var_to_interpolate}</em></pre>
+
+
+
+<p><em>Whenever you see a $ sign and curly braces inside the double quotes, that means terraform is going to interpolate that code specially. To get the id of the security group</em></p>
+
+
+
+<pre class="wp-block-preformatted"><strong><em>"${aws_security_group.examplesg.id}"</em></strong></pre>
+
+
+
+<p><em>Same thing applied to key pair</em></p>
+
+
+
+<pre class="wp-block-preformatted"><strong><em>"${aws_key_pair.example.id}"</em></strong></pre>
+
+
+
+<p><em>Our code is ready but we are missing one thing, provider before starting any code we need to tell terraform which provider we are using(aws in this case)</em></p>
+
+
+
+<pre class="wp-block-preformatted"><em>provider </em><strong><em>"aws" </em></strong><em>{<br>  </em><strong><em>region </em></strong><em>= </em><strong><em>"us-west-2"<br></em></strong><em>}</em></pre>
+
+
+
+<ul><li><em>This tells terraform that you are going to use AWS as provider and you want to deploy your infrastructure in us-west-2 region</em></li><li><em>AWS has datacenter all over the world, which are grouped in region and availability zones. Region is a separate geographic area(Oregon, Virginia, Sydney) and each region has multiple isolated datacenters(us-west-2a,us-west-2b..)</em></li></ul>
+
+
+
+<p><em>For more info about regions and availability zones, please refer to the below doc</em></p>
+
+
+
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html</a></p>
+
+
+
+<pre class="wp-block-code"><code>provider "aws"{
+  region = "us-west-2"
+}
+
+resource "aws_key_pair" "example" {
+  key_name = "example-key"
+  public_key = "ssh public key"
+}
+
+
+resource "aws_security_group" "examplesg" {
+  ingress {
+    from_port = 22
+    protocol = "tcp"
+    to_port = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_instance" "ec2_instance" {
+  ami = "ami-01ed306a12b7d1c96"
+  instance_type = "t2.micro"
+  vpc_security_group_ids = ["${aws_security_group.examplesg.id}"]
+  key_name = "${aws_key_pair.example.id}"
+  tags = {
+    Name = "my-first-ec2-instance"
+  }
+}
+
+</code></pre>
+
+
+
+<p><em>Before running terraform command to spun our first EC2 instance, run terraform fmt command which will rewrite terraform configuration files to a canonical format and style</em></p>
+
+
+
+<pre class="wp-block-code"><code>$ terraform  fmt
+main.tf</code></pre>
+
+
+
+<ul><li><em>The first command we are going to run to setup our instance is terraform init, what this will do is going to download code for a provider(aws) that we are going to use</em></li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Checking for available provider plugins...
+- Downloading plugin for provider "aws" (hashicorp/aws) 2.35.0...
+
+The following providers do not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, it is recommended to add version = "..." constraints to the
+corresponding provider blocks in configuration, with the constraint strings
+suggested below.
+
+* provider.aws: version = "~> 2.35"
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+</code></pre>
+
+
+
+<ul><li><em>Next command we are going to run is “terraform plan”, this will tell what terraform actually do before making any changes</em></li><li><em>This is good way of making any sanity check before making actual changes to env</em></li><li><em>Output of terraform plan command looks similar to Linux diff command</em></li></ul>
+
+
+
+<p><em>1: (+ sign): Resource going to be created</em></p>
+
+
+
+<p><em>2: (- sign): Resources going to be deleted</em></p>
+
+
+
+<p><em>3: (~ sign): Resource going to be modified</em></p>
+
+
+
+<pre class="wp-block-code"><code>t$ terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.ec2_instance will be created
+  + resource "aws_instance" "ec2_instance" {
+      + ami                          = "ami-01ed306a12b7d1c96"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + network_interface_id         = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "my-first-ec2-instance"
+        }
+      + tenancy                      = (known after apply)
+      + volume_tags                  = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_key_pair.example will be created
+  + resource "aws_key_pair" "example" {
+      + fingerprint = (known after apply)
+      + id          = (known after apply)
+      + key_name    = "example-key"
+      + public_key  = ""
+    }
+
+  # aws_security_group.examplesg will be created
+  + resource "aws_security_group" "examplesg" {
+      + arn                    = (known after apply)
+      + description            = "Managed by Terraform"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+        ]
+      + name                   = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + vpc_id                 = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
+</code></pre>
+
+
+
+<ul><li><em>To apply these changes, run</em><strong><em> terraform apply</em></strong></li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ terraform  apply
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.ec2_instance will be created
+  + resource "aws_instance" "ec2_instance" {
+      + ami                          = "ami-01ed306a12b7d1c96"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + network_interface_id         = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "my-first-ec2-instance"
+        }
+      + tenancy                      = (known after apply)
+      + volume_tags                  = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_key_pair.example will be created
+  + resource "aws_key_pair" "example" {
+      + fingerprint = (known after apply)
+      + id          = (known after apply)
+      + key_name    = "example-key"
+      + public_key  = ""
+    }
+
+  # aws_security_group.examplesg will be created
+  + resource "aws_security_group" "examplesg" {
+      + arn                    = (known after apply)
+      + description            = "Managed by Terraform"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+        ]
+      + name                   = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + vpc_id                 = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes &lt;------------------------
+
+aws_key_pair.example: Creating...
+aws_security_group.examplesg: Creating...
+aws_key_pair.example: Creation complete after 0s [id=example-key]
+aws_security_group.examplesg: Creation complete after 2s [id=sg-0e1a943b062aa2315]
+aws_instance.ec2_instance: Creating...
+aws_instance.ec2_instance: Still creating... [10s elapsed]
+aws_instance.ec2_instance: Still creating... [20s elapsed]
+aws_instance.ec2_instance: Still creating... [30s elapsed]
+aws_instance.ec2_instance: Creation complete after 33s [id=i-0d1ab0d8c1fc57f3d]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+</code></pre>
+
+
+
+<ul><li><em>What terraform is doing here is reading code and translating it to api calls to providers(aws in this case)</em></li></ul>
+
+
+
+<p><em>W00t you have deployed your first EC2 server using terraform</em></p>
+
+
+
+<p><em>Go back to the EC2 console to verify your first deployed server</em></p>
+
+
+
+<figure class="wp-block-image"><img src="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform-ec2-instance-1024x37.png" alt="" class="wp-image-380" srcset="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform-ec2-instance-1024x37.png 1024w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform-ec2-instance-300x11.png 300w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform-ec2-instance-768x28.png 768w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform-ec2-instance.png 1608w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px" /></figure>
+
+
+
+<p><em>Let say after verification you realize that I need to give more meaningful tag to this server, so the rest of the code remain the same and you modified the tag parameter</em></p>
+
+
+
+<pre class="wp-block-code"><code>  tags = {
+    Name = "my-webserver-instance"
+  }</code></pre>
+
+
+
+<ul><li><em>Run terraform plan command again, as you can see</em></li></ul>
+
+
+
+<pre class="wp-block-code"><code>  ~ tags                         = {
+      ~ "Name" = "my-first-ec2-instance" -> "my-webserver-instance"
+    }</code></pre>
+
+
+
+<pre class="wp-block-code"><code>$ terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+aws_key_pair.example: Refreshing state... [id=example-key]
+aws_security_group.examplesg: Refreshing state... [id=sg-0e1a943b062aa2315]
+aws_instance.ec2_instance: Refreshing state... [id=i-0d1ab0d8c1fc57f3d]
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_instance.ec2_instance will be updated in-place
+  ~ resource "aws_instance" "ec2_instance" {
+        ami                          = "ami-01ed306a12b7d1c96"
+        arn                          = "arn:aws:ec2:us-west-2:355622012945:instance/i-0d1ab0d8c1fc57f3d"
+        associate_public_ip_address  = true
+        availability_zone            = "us-west-2a"
+        cpu_core_count               = 1
+        cpu_threads_per_core         = 1
+        disable_api_termination      = false
+        ebs_optimized                = false
+        get_password_data            = false
+        id                           = "i-0d1ab0d8c1fc57f3d"
+        instance_state               = "running"
+        instance_type                = "t2.micro"
+        ipv6_address_count           = 0
+        ipv6_addresses               = []
+        key_name                     = "example-key"
+        monitoring                   = false
+        primary_network_interface_id = "eni-0e5ddbe136b7d599d"
+        private_dns                  = "ip-172-31-28-131.us-west-2.compute.internal"
+        private_ip                   = "172.31.28.131"
+        public_dns                   = "ec2-54-185-56-146.us-west-2.compute.amazonaws.com"
+        public_ip                    = "54.185.56.146"
+        security_groups              = [
+            "terraform-20191110052042521000000001",
+        ]
+        source_dest_check            = true
+        subnet_id                    = "subnet-3b929b42"
+      ~ tags                         = {
+          ~ "Name" = "my-first-ec2-instance" -> "my-webserver-instance"
+        }
+        tenancy                      = "default"
+        volume_tags                  = {}
+        vpc_security_group_ids       = [
+            "sg-0e1a943b062aa2315",
+        ]
+
+        credit_specification {
+            cpu_credits = "standard"
+        }
+
+        root_block_device {
+            delete_on_termination = false
+            encrypted             = false
+            iops                  = 100
+            volume_id             = "vol-0f48e9a8f42ac6dc4"
+            volume_size           = 8
+            volume_type           = "gp2"
+        }
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
+
+</code></pre>
+
+
+
+<ul><li><em>Now if we can think about it, how does terraform knows that there only change in the tag parameter and nothing else</em></li><li><em>Terraform keep track of all the resources it already created in&nbsp;</em><strong><em>.tfstate files</em></strong><em>, so its  aware of the resources that already exist</em>.</li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ ls -la
+total 28
+drwxr-xr-x  4 prashant prashant 4096 Nov  9 21:25 .
+drwxr-xr-x 31 prashant prashant 4096 Nov  9 21:14 ..
+-rw-r--r--  1 prashant prashant 1009 Nov  9 21:24 main.tf
+drwxr-xr-x  3 prashant prashant 4096 Nov  9 21:15 .terraform
+-rw-rw-r--  1 prashant prashant 5348 Nov  9 21:21 terraform.tfstate
+</code></pre>
+
+
+
+<ul><li><em>If you notice at the top it says “</em><strong><em>Refreshing Terraform state in-memory prior to plan…”</em></strong></li><li><em>If I refresh my webbrowser after running terraform apply</em>.</li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ terraform apply
+aws_key_pair.example: Refreshing state... [id=example-key]
+aws_security_group.examplesg: Refreshing state... [id=sg-0e1a943b062aa2315]
+aws_instance.ec2_instance: Refreshing state... [id=i-0d1ab0d8c1fc57f3d]
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_instance.ec2_instance will be updated in-place
+  ~ resource "aws_instance" "ec2_instance" {
+        ami                          = "ami-01ed306a12b7d1c96"
+        arn                          = "arn:aws:ec2:us-west-2:355622012945:instance/i-0d1ab0d8c1fc57f3d"
+        associate_public_ip_address  = true
+        availability_zone            = "us-west-2a"
+        cpu_core_count               = 1
+        cpu_threads_per_core         = 1
+        disable_api_termination      = false
+        ebs_optimized                = false
+        get_password_data            = false
+        id                           = "i-0d1ab0d8c1fc57f3d"
+        instance_state               = "running"
+        instance_type                = "t2.micro"
+        ipv6_address_count           = 0
+        ipv6_addresses               = []
+        key_name                     = "example-key"
+        monitoring                   = false
+        primary_network_interface_id = "eni-0e5ddbe136b7d599d"
+        private_dns                  = "ip-172-31-28-131.us-west-2.compute.internal"
+        private_ip                   = "172.31.28.131"
+        public_dns                   = "ec2-54-185-56-146.us-west-2.compute.amazonaws.com"
+        public_ip                    = "54.185.56.146"
+        security_groups              = [
+            "terraform-20191110052042521000000001",
+        ]
+        source_dest_check            = true
+        subnet_id                    = "subnet-3b929b42"
+      ~ tags                         = {
+          ~ "Name" = "my-first-ec2-instance" -> "my-webserver-instance"
+        }
+        tenancy                      = "default"
+        volume_tags                  = {}
+        vpc_security_group_ids       = [
+            "sg-0e1a943b062aa2315",
+        ]
+
+        credit_specification {
+            cpu_credits = "standard"
+        }
+
+        root_block_device {
+            delete_on_termination = false
+            encrypted             = false
+            iops                  = 100
+            volume_id             = "vol-0f48e9a8f42ac6dc4"
+            volume_size           = 8
+            volume_type           = "gp2"
+        }
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_instance.ec2_instance: Modifying... [id=i-0d1ab0d8c1fc57f3d]
+aws_instance.ec2_instance: Modifications complete after 2s [id=i-0d1ab0d8c1fc57f3d]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+</code></pre>
+
+
+
+<figure class="wp-block-image"><img src="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/ec2-instance-update-tag-1024x39.png" alt="" class="wp-image-381" srcset="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/ec2-instance-update-tag-1024x39.png 1024w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/ec2-instance-update-tag-300x12.png 300w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/ec2-instance-update-tag-768x30.png 768w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/ec2-instance-update-tag.png 1612w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px" /></figure>
+
+
+
+<p><em>In most of the cases we are working in team where we want to share this code with rest of team members and the best way to share code is by using GIT</em></p>
+
+
+
+<pre class="wp-block-preformatted"><em>git add main.tf</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>git commit -m "first terraform EC2 instance"</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>vim .gitignore</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>git add .gitignore</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>git commit -m "Adding gitignore file for terraform repository"</em></pre>
+
+
+
+<ul><li><em>Via&nbsp;.gitignore we are telling terraform to ignore(.terraform folder(temporary directory for terraform)and all *.tfstates file(as this file may contain secrets))</em></li></ul>
+
+
+
+<pre class="wp-block-preformatted"><em>$ cat .gitignore</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>.terraform</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>*.tfstate</em></pre>
+
+
+
+<pre class="wp-block-preformatted"><em>*.tfstate.backup</em></pre>
+
+
+
+<ul><li><em>Create a shared git repository</em></li></ul>
+
+
+
+<pre class="wp-block-preformatted"><em>git remote add origin https://github.com/&lt;user name&gt;/terraform.git</em></pre>
+
+
+
+<ul><li><em>Push the code</em></li></ul>
+
+
+
+<pre class="wp-block-preformatted"><em>$ git push -u origin master</em></pre>
+
+
+
+<ul><li><em>To Perform cleanup whatever we have created so far, run terraform destroy</em></li></ul>
+
+
+
+<pre class="wp-block-code"><code>$ terraform destroy
+aws_key_pair.example: Refreshing state... [id=example-key]
+aws_security_group.examplesg: Refreshing state... [id=sg-0e1a943b062aa2315]
+aws_instance.ec2_instance: Refreshing state... [id=i-0d1ab0d8c1fc57f3d]
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.ec2_instance will be destroyed
+  - resource "aws_instance" "ec2_instance" {
+      - ami                          = "ami-01ed306a12b7d1c96" -> null
+      - arn                          = "arn:aws:ec2:us-west-2:355622012945:instance/i-0d1ab0d8c1fc57f3d" -> null
+      - associate_public_ip_address  = true -> null
+      - availability_zone            = "us-west-2a" -> null
+      - cpu_core_count               = 1 -> null
+      - cpu_threads_per_core         = 1 -> null
+      - disable_api_termination      = false -> null
+      - ebs_optimized                = false -> null
+      - get_password_data            = false -> null
+      - id                           = "i-0d1ab0d8c1fc57f3d" -> null
+      - instance_state               = "running" -> null
+      - instance_type                = "t2.micro" -> null
+      - ipv6_address_count           = 0 -> null
+      - ipv6_addresses               = [] -> null
+      - key_name                     = "example-key" -> null
+      - monitoring                   = false -> null
+      - primary_network_interface_id = "eni-0e5ddbe136b7d599d" -> null
+      - private_dns                  = "ip-172-31-28-131.us-west-2.compute.internal" -> null
+      - private_ip                   = "172.31.28.131" -> null
+      - public_dns                   = "ec2-54-185-56-146.us-west-2.compute.amazonaws.com" -> null
+      - public_ip                    = "54.185.56.146" -> null
+      - security_groups              = [
+          - "terraform-20191110052042521000000001",
+        ] -> null
+      - source_dest_check            = true -> null
+      - subnet_id                    = "subnet-3b929b42" -> null
+      - tags                         = {
+          - "Name" = "my-webserver-instance"
+        } -> null
+      - tenancy                      = "default" -> null
+      - volume_tags                  = {} -> null
+      - vpc_security_group_ids       = [
+          - "sg-0e1a943b062aa2315",
+        ] -> null
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = false -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - volume_id             = "vol-0f48e9a8f42ac6dc4" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+        }
+    }
+
+  # aws_key_pair.example will be destroyed
+  - resource "aws_key_pair" "example" {
+      - fingerprint = "45:dd:55:74:bf:a3:07:3f:c7:02:9a:c1:9a:37:bf:40" -> null
+      - id          = "example-key" -> null
+      - key_name    = "example-key" -> null
+      - public_key  = ""
+    }
+
+  # aws_security_group.examplesg will be destroyed
+  - resource "aws_security_group" "examplesg" {
+      - arn                    = "arn:aws:ec2:us-west-2:355622012945:security-group/sg-0e1a943b062aa2315" -> null
+      - description            = "Managed by Terraform" -> null
+      - egress                 = [] -> null
+      - id                     = "sg-0e1a943b062aa2315" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = ""
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+        ] -> null
+      - name                   = "terraform-20191110052042521000000001" -> null
+      - owner_id               = "355622012945" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {} -> null
+      - vpc_id                 = "vpc-79e55a01" -> null
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_instance.ec2_instance: Destroying... [id=i-0d1ab0d8c1fc57f3d]
+aws_instance.ec2_instance: Still destroying... [id=i-0d1ab0d8c1fc57f3d, 10s elapsed]
+aws_instance.ec2_instance: Still destroying... [id=i-0d1ab0d8c1fc57f3d, 20s elapsed]
+aws_instance.ec2_instance: Still destroying... [id=i-0d1ab0d8c1fc57f3d, 30s elapsed]
+aws_instance.ec2_instance: Destruction complete after 30s
+aws_key_pair.example: Destroying... [id=example-key]
+aws_security_group.examplesg: Destroying... [id=sg-0e1a943b062aa2315]
+aws_key_pair.example: Destruction complete after 0s
+aws_security_group.examplesg: Destruction complete after 0s
+
+Destroy complete! Resources: 3 destroyed.
+</code></pre>
+
+
+
+<ul><li>Looking forward for you guys to join this journey</li></ul>
+
+
+
+<ul><li><strong><em>Website:&nbsp;</em></strong><a href="http://100daysofdevops.com/"><em>http://100daysofdevops.com/</em></a></li><li><strong><em>Twitter:&nbsp;</em></strong><a href="http://twitter.com/100daysofdevops"><em>@100daysofdevops</em></a><em>&nbsp;OR @</em><a href="https://twitter.com/lakhera2015"><em>lakhera2015</em></a></li><li><strong><em>Facebook:&nbsp;</em></strong><a href="https://www.facebook.com/groups/795382630808645/"><em>https://www.facebook.com/groups/795382630808645/</em></a></li><li><strong><em>Medium:&nbsp;</em></strong><a href="https://medium.com/@devopslearning"><em>https://medium.com/@devopslearning</em></a></li><li><strong><em>GitHub:&nbsp;</em></strong><a href="https://github.com/100daysofdevops/100daysofdevops"><em>https://github.com/100daysofdevops/100daysofdevops</em></a></li><li><strong><em>Slack:&nbsp;&nbsp;</em></strong><a href="https://join.slack.com/t/100daysofdevops/shared_invite/enQtNzg1MjUzMzQzMzgxLWM4Yjk0ZWJiMjY4ZWE3ODBjZjgyYTllZmUxNzFkNTgxZjQ4NDlmZjkzODAwNDczOTYwOTM2MzlhZDNkM2FkMDA"><em>https://join.slack.com/t/100daysofdevops/shared_invite/enQtNzg1MjUzMzQzMzgxLWM4Yjk0ZWJiMjY4ZWE3ODBjZjgyYTllZmUxNzFkNTgxZjQ4NDlmZjkzODAwNDczOTYwOTM2MzlhZDNkM2FkMDA</em></a></li><li><strong><em>YouTube Channel:&nbsp;</em></strong><a href="https://www.youtube.com/user/laprashant/videos?view_as=subscriber"><em>https://www.youtube.com/user/laprashant/videos?view_as=subscriber</em></a></li></ul>
+
+
+
+<p>In addition to that, I am going to host 5 meetups whose aim is to build the below architecture.</p>
+
+
+
+<figure class="wp-block-image"><img src="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform_design-1024x591.jpeg" alt="" class="wp-image-362" srcset="http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform_design-1024x591.jpeg 1024w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform_design-300x173.jpeg 300w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform_design-768x443.jpeg 768w, http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/uploads/2019/11/terraform_design.jpeg 1420w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px" /></figure>
+
+
+
+<ul><li><strong>Meetup:</strong>&nbsp;https://www.meetup.com/100daysofdevops</li><li>Day1(Nov 10): Introduction to Terraform https://www.meetup.com/100daysofdevops/events/266192294/</li><li>Day 2(Nov 16): Building VPC using Terraform</li><li>Day 3(Nov 17): Creating EC2 Instance inside this VPC using Terraform</li><li>Day 4(Nov 23): Adding Application Load Balancer and Auto-Scaling to the EC2 instance created on Day 3</li><li>Day5(Nov 24): Add Backend MySQL Database and CloudWatch Alarm using Terraform</li></ul>
+
+
+
+<p></p>
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer"><span class="cat-tags-links"><span class="cat-links"><svg class="icon icon-folder-open" aria-hidden="true" role="img"> <use href="#icon-folder-open" xlink:href="#icon-folder-open"></use> </svg><span class="screen-reader-text">Categories</span><a href="http://100daysofdevops.com/category/21_days_aws_using_terraform/" rel="category tag">21_days_aws_using_terraform</a></span></span></footer> <!-- .entry-footer -->
+</article><!-- #post-370 -->
+
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			2 Replies to &ldquo;21 Days of AWS using Terraform &#8211; Day 1- Introduction to Terraform&rdquo;		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-182" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-182" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='http://1.gravatar.com/avatar/dbf8ed772356a01601c7a9f0f95d88e2?s=100&#038;d=monsterid&#038;r=g' srcset='http://1.gravatar.com/avatar/dbf8ed772356a01601c7a9f0f95d88e2?s=200&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' />						<b class="fn">Anere Faithful</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/#comment-182">
+							<time datetime="2019-11-20T00:24:43-08:00">
+								November 20, 2019 at 12:24 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi the slack invite link has expired</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/?replytocom=182#respond' data-commentid="182" data-postid="370" data-belowelement="div-comment-182" data-respondelement="respond" aria-label='Reply to Anere Faithful'><svg class="icon icon-mail-reply" aria-hidden="true" role="img"> <use href="#icon-mail-reply" xlink:href="#icon-mail-reply"></use> </svg>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-183" class="comment byuser comment-author-lakhera2019 bypostauthor odd alt depth-2">
+			<article id="div-comment-183" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='http://1.gravatar.com/avatar/a346d412d11f2e9b1993d435a9f1eda7?s=100&#038;d=monsterid&#038;r=g' srcset='http://1.gravatar.com/avatar/a346d412d11f2e9b1993d435a9f1eda7?s=200&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' />						<b class="fn">lakhera2019</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/#comment-183">
+							<time datetime="2019-11-20T09:50:48-08:00">
+								November 20, 2019 at 9:50 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Anere</p>
+<p>Thanks for the heads-up, Updated Slack link <a href="https://join.slack.com/t/100daysofdevops/shared_invite/enQtODI1MzM3ODc1MDYyLTJjNTQyYmM4MTNhNGZkM2Y1YzUyZmMwNzAxNDJhZWFhNTYxYjY2MDZhMWU0MWZhNGI3ZDJjZjlkYTE4NmI2MmY" rel="nofollow ugc">https://join.slack.com/t/100daysofdevops/shared_invite/enQtODI1MzM3ODc1MDYyLTJjNTQyYmM4MTNhNGZkM2Y1YzUyZmMwNzAxNDJhZWFhNTYxYjY2MDZhMWU0MWZhNGI3ZDJjZjlkYTE4NmI2MmY</a></p>
+<p>Thanks<br />
+Prashant</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://100daysofdevops.com/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/?replytocom=183#respond' data-commentid="183" data-postid="370" data-belowelement="div-comment-183" data-respondelement="respond" aria-label='Reply to lakhera2019'><svg class="icon icon-mail-reply" aria-hidden="true" role="img"> <use href="#icon-mail-reply" xlink:href="#icon-mail-reply"></use> </svg>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		</ol>
+
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/21-days-of-aws-using-terraform-day-1-introduction-to-terraform/#respond" style="display:none;">Cancel reply</a></small></h3><form action="http://100daysofdevops.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" /></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='370' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p></form>	</div><!-- #respond -->
+	
+</div><!-- #comments -->
+
+	<nav class="navigation post-navigation" role="navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="http://100daysofdevops.com/21-days-of-aws-using-terraform/" rel="prev"><span class="screen-reader-text">Previous Post</span><span aria-hidden="true" class="nav-subtitle">Previous</span> <span class="nav-title"><span class="nav-title-icon-wrapper"><svg class="icon icon-arrow-left" aria-hidden="true" role="img"> <use href="#icon-arrow-left" xlink:href="#icon-arrow-left"></use> </svg></span>21 Days of AWS using Terraform</span></a></div><div class="nav-next"><a href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-2-building-aws-vpc-using-terraform/" rel="next"><span class="screen-reader-text">Next Post</span><span aria-hidden="true" class="nav-subtitle">Next</span> <span class="nav-title">21 Days of AWS using Terraform – Day 2- Building AWS VPC using Terraform<span class="nav-title-icon-wrapper"><svg class="icon icon-arrow-right" aria-hidden="true" role="img"> <use href="#icon-arrow-right" xlink:href="#icon-arrow-right"></use> </svg></span></span></a></div></div>
+	</nav>
+		</main><!-- #main -->
+	</div><!-- #primary -->
+	
+<aside id="secondary" class="widget-area" role="complementary" aria-label="Blog Sidebar">
+	<section id="search-2" class="widget widget_search"><h2 class="widget-title">Search</h2>
+
+<form role="search" method="get" class="search-form" action="http://100daysofdevops.com/">
+	<label for="search-form-1">
+		<span class="screen-reader-text">Search for:</span>
+	</label>
+	<input type="search" id="search-form-1" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	<button type="submit" class="search-submit"><svg class="icon icon-search" aria-hidden="true" role="img"> <use href="#icon-search" xlink:href="#icon-search"></use> </svg><span class="screen-reader-text">Search</span></button>
+</form>
+</section><section id="recent-comments-2" class="widget widget_recent_comments"><h2 class="widget-title">Recent Comments</h2><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">lakhera2019</span> on <a href="http://100daysofdevops.com/day-2%e2%80%8a-%e2%80%8afirst-docker-container/#comment-201">21 Days of Docker-Day 2 — First Docker Container</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.guqinz.com' rel='external nofollow ugc' class='url'>GuQin</a></span> on <a href="http://100daysofdevops.com/day-2%e2%80%8a-%e2%80%8afirst-docker-container/#comment-200">21 Days of Docker-Day 2 — First Docker Container</a></li><li class="recentcomments"><span class="comment-author-link"><a href='https://www.cravefreebies.com' rel='external nofollow ugc' class='url'>Free Stuff</a></span> on <a href="http://100daysofdevops.com/day-2%e2%80%8a-%e2%80%8afirst-docker-container/#comment-199">21 Days of Docker-Day 2 — First Docker Container</a></li><li class="recentcomments"><span class="comment-author-link"><a href='https://www.cravefreebies.com' rel='external nofollow ugc' class='url'>Free Stuff</a></span> on <a href="http://100daysofdevops.com/day-2%e2%80%8a-%e2%80%8afirst-docker-container/#comment-198">21 Days of Docker-Day 2 — First Docker Container</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://nice' rel='external nofollow ugc' class='url'>Swapnil</a></span> on <a href="http://100daysofdevops.com/21-days-of-aws-using-terraform-day-7-introduction-to-cloudwatch-using-terraform/#comment-196">21 Days of AWS using Terraform – Day 7- Introduction to CloudWatch using Terraform</a></li></ul></section><section id="categories-3" class="widget widget_categories"><h2 class="widget-title">Categories</h2><form action="http://100daysofdevops.com" method="get"><label class="screen-reader-text" for="cat">Categories</label><select  name='cat' id='cat' class='postform' >
+	<option value='-1'>Select Category</option>
+	<option class="level-0" value="8">21_days_aws_using_terraform</option>
+	<option class="level-0" value="7">21_days_of_docker</option>
+	<option class="level-0" value="6">AWS Lambda</option>
+	<option class="level-0" value="1">Uncategorized</option>
+</select>
+</form>
+<script>
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "cat" );
+	function onCatChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			dropdown.parentNode.submit();
+		}
+	}
+	dropdown.onchange = onCatChange;
+})();
+/* ]]> */
+</script>
+
+			</section><section id="text-4" class="widget widget_text">			<div class="textwidget"></div>
+		</section><section id="text-5" class="widget widget_text"><h2 class="widget-title">Connect with 100 Days of Devops</h2>			<div class="textwidget"><p><a href="https://feedburner.google.com/fb/a/mailverify?uri=100daysofdevops/kOFA&amp;loc=en_US">Subscribe to 100 Days of DevOps by Email</a></p>
+</div>
+		</section></aside><!-- #secondary -->
+</div><!-- .wrap -->
+
+
+		</div><!-- #content -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<div class="wrap">
+				
+
+	<aside class="widget-area" role="complementary" aria-label="Footer">
+					<div class="widget-column footer-widget-1">
+				<section id="text-3" class="widget widget_text"><h2 class="widget-title">Contact Us</h2>			<div class="textwidget"><p>plakhera2019@gmail.com</p>
+</div>
+		</section>			</div>
+				</aside><!-- .widget-area -->
+
+					<nav class="social-navigation" role="navigation" aria-label="Footer Social Links Menu">
+						<div class="menu-social-media-menu-container"><ul id="menu-social-media-menu" class="social-links-menu"><li id="menu-item-103" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-103"><a href="https://www.facebook.com/groups/795382630808645/"><span class="screen-reader-text">Facebook</span><svg class="icon icon-facebook" aria-hidden="true" role="img"> <use href="#icon-facebook" xlink:href="#icon-facebook"></use> </svg></a></li>
+<li id="menu-item-104" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-104"><a href="https://twitter.com/100daysofdevops"><span class="screen-reader-text">Twitter</span><svg class="icon icon-twitter" aria-hidden="true" role="img"> <use href="#icon-twitter" xlink:href="#icon-twitter"></use> </svg></a></li>
+</ul></div>					</nav><!-- .social-navigation -->
+					<div class="site-info">
+		<a href="https://wordpress.org/" class="imprint">
+		Proudly powered by WordPress	</a>
+</div><!-- .site-info -->
+			</div><!-- .wrap -->
+		</footer><!-- #colophon -->
+	</div><!-- .site-content-contain -->
+</div><!-- #page -->
+<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='9d08800039dc8100a8ed6300526cdb0080214d00e46680002b901f0066553100';j.dataset.sumoPlatform='wordpress';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumo.com/');</script>    <script type="application/javascript">
+      var ajaxurl = "http://100daysofdevops.com/wp-admin/admin-ajax.php";
+
+      function sumo_add_woocommerce_coupon(code) {
+        jQuery.post(ajaxurl, {
+          action: 'sumo_add_woocommerce_coupon',
+          code: code,
+        });
+      }
+
+      function sumo_remove_woocommerce_coupon(code) {
+        jQuery.post(ajaxurl, {
+          action: 'sumo_remove_woocommerce_coupon',
+          code: code,
+        });
+      }
+
+      function sumo_get_woocommerce_cart_subtotal(callback) {
+        jQuery.ajax({
+          method: 'POST',
+          url: ajaxurl,
+          dataType: 'html',
+          data: {
+            action: 'sumo_get_woocommerce_cart_subtotal',
+          },
+          success: function(subtotal) {
+            return callback(null, subtotal);
+          },
+          error: function(err) {
+            return callback(err, 0);
+          }
+        });
+      }
+    </script>
+    	<script type="text/javascript">
+		var c = document.body.className;
+		c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+		document.body.className = c;
+	</script>
+	<script>
+var wpcf7 = {"apiSettings":{"root":"http:\/\/100daysofdevops.com\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"}};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.1.4&#038;time=1574650292'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.70&#038;time=1574650292'></script>
+<script>
+var wc_add_to_cart_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%","i18n_view_cart":"View cart","cart_url":"http:\/\/100daysofdevops.com","is_cart":"","cart_redirect_after_add":"no"};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=3.8.0&#038;time=1574650292'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4&#038;time=1574650292'></script>
+<script>
+var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%"};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=3.8.0&#038;time=1574650292'></script>
+<script>
+var wc_cart_fragments_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%","cart_hash_key":"wc_cart_hash_17e945c5286bcd2d8bbb7c804317ce02","fragment_name":"wc_fragments_17e945c5286bcd2d8bbb7c804317ce02","request_timeout":"5000"};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=3.8.0&#038;time=1574650292'></script>
+<script>
+var mailchimp_public_data = {"site_url":"http:\/\/100daysofdevops.com","ajax_url":"http:\/\/100daysofdevops.com\/wp-admin\/admin-ajax.php"};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/plugins/mailchimp-for-woocommerce/public/js/mailchimp-woocommerce-public.min.js?ver=2.3&#038;time=1574650292'></script>
+<script>
+var twentyseventeenScreenReaderText = {"quote":"<svg class=\"icon icon-quote-right\" aria-hidden=\"true\" role=\"img\"> <use href=\"#icon-quote-right\" xlink:href=\"#icon-quote-right\"><\/use> <\/svg>","expand":"Expand child menu","collapse":"Collapse child menu","icon":"<svg class=\"icon icon-angle-down\" aria-hidden=\"true\" role=\"img\"> <use href=\"#icon-angle-down\" xlink:href=\"#icon-angle-down\"><\/use> <span class=\"svg-fallback icon-angle-down\"><\/span><\/svg>"};
+</script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/js/skip-link-focus-fix.js?time=1574650292&#038;ver=20161114'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/js/navigation.js?time=1574650292&#038;ver=20161203'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/js/global.js?time=1574650292&#038;ver=20190121'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-content/themes/twentyseventeen/assets/js/jquery.scrollTo.js?time=1574650292&#038;ver=2.1.2'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/js/comment-reply.min.js?ver=5.3&#038;time=1574650292'></script>
+<script src='http://secureservercdn.net/198.71.233.109/spn.da2.myftpupload.com/wp-includes/js/wp-embed.min.js?ver=5.3&#038;time=1574650292'></script>
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<symbol id="icon-behance" viewBox="0 0 37 32">
+<path class="path1" d="M33 6.054h-9.125v2.214h9.125v-2.214zM28.5 13.661q-1.607 0-2.607 0.938t-1.107 2.545h7.286q-0.321-3.482-3.571-3.482zM28.786 24.107q1.125 0 2.179-0.571t1.357-1.554h3.946q-1.786 5.482-7.625 5.482-3.821 0-6.080-2.357t-2.259-6.196q0-3.714 2.33-6.17t6.009-2.455q2.464 0 4.295 1.214t2.732 3.196 0.902 4.429q0 0.304-0.036 0.839h-11.75q0 1.982 1.027 3.063t2.973 1.080zM4.946 23.214h5.286q3.661 0 3.661-2.982 0-3.214-3.554-3.214h-5.393v6.196zM4.946 13.625h5.018q1.393 0 2.205-0.652t0.813-2.027q0-2.571-3.393-2.571h-4.643v5.25zM0 4.536h10.607q1.554 0 2.768 0.25t2.259 0.848 1.607 1.723 0.563 2.75q0 3.232-3.071 4.696 2.036 0.571 3.071 2.054t1.036 3.643q0 1.339-0.438 2.438t-1.179 1.848-1.759 1.268-2.161 0.75-2.393 0.232h-10.911v-22.5z"></path>
+</symbol>
+<symbol id="icon-deviantart" viewBox="0 0 18 32">
+<path class="path1" d="M18.286 5.411l-5.411 10.393 0.429 0.554h4.982v7.411h-9.054l-0.786 0.536-2.536 4.875-0.536 0.536h-5.375v-5.411l5.411-10.411-0.429-0.536h-4.982v-7.411h9.054l0.786-0.536 2.536-4.875 0.536-0.536h5.375v5.411z"></path>
+</symbol>
+<symbol id="icon-medium" viewBox="0 0 32 32">
+<path class="path1" d="M10.661 7.518v20.946q0 0.446-0.223 0.759t-0.652 0.313q-0.304 0-0.589-0.143l-8.304-4.161q-0.375-0.179-0.634-0.598t-0.259-0.83v-20.357q0-0.357 0.179-0.607t0.518-0.25q0.25 0 0.786 0.268l9.125 4.571q0.054 0.054 0.054 0.089zM11.804 9.321l9.536 15.464-9.536-4.75v-10.714zM32 9.643v18.821q0 0.446-0.25 0.723t-0.679 0.277-0.839-0.232l-7.875-3.929zM31.946 7.5q0 0.054-4.58 7.491t-5.366 8.705l-6.964-11.321 5.786-9.411q0.304-0.5 0.929-0.5 0.25 0 0.464 0.107l9.661 4.821q0.071 0.036 0.071 0.107z"></path>
+</symbol>
+<symbol id="icon-slideshare" viewBox="0 0 32 32">
+<path class="path1" d="M15.589 13.214q0 1.482-1.134 2.545t-2.723 1.063-2.723-1.063-1.134-2.545q0-1.5 1.134-2.554t2.723-1.054 2.723 1.054 1.134 2.554zM24.554 13.214q0 1.482-1.125 2.545t-2.732 1.063q-1.589 0-2.723-1.063t-1.134-2.545q0-1.5 1.134-2.554t2.723-1.054q1.607 0 2.732 1.054t1.125 2.554zM28.571 16.429v-11.911q0-1.554-0.571-2.205t-1.982-0.652h-19.857q-1.482 0-2.009 0.607t-0.527 2.25v12.018q0.768 0.411 1.58 0.714t1.446 0.5 1.446 0.33 1.268 0.196 1.25 0.071 1.045 0.009 1.009-0.036 0.795-0.036q1.214-0.018 1.696 0.482 0.107 0.107 0.179 0.161 0.464 0.446 1.089 0.911 0.125-1.625 2.107-1.554 0.089 0 0.652 0.027t0.768 0.036 0.813 0.018 0.946-0.018 0.973-0.080 1.089-0.152 1.107-0.241 1.196-0.348 1.205-0.482 1.286-0.616zM31.482 16.339q-2.161 2.661-6.643 4.5 1.5 5.089-0.411 8.304-1.179 2.018-3.268 2.643-1.857 0.571-3.25-0.268-1.536-0.911-1.464-2.929l-0.018-5.821v-0.018q-0.143-0.036-0.438-0.107t-0.42-0.089l-0.018 6.036q0.071 2.036-1.482 2.929-1.411 0.839-3.268 0.268-2.089-0.643-3.25-2.679-1.875-3.214-0.393-8.268-4.482-1.839-6.643-4.5-0.446-0.661-0.071-1.125t1.071 0.018q0.054 0.036 0.196 0.125t0.196 0.143v-12.393q0-1.286 0.839-2.196t2.036-0.911h22.446q1.196 0 2.036 0.911t0.839 2.196v12.393l0.375-0.268q0.696-0.482 1.071-0.018t-0.071 1.125z"></path>
+</symbol>
+<symbol id="icon-snapchat-ghost" viewBox="0 0 30 32">
+<path class="path1" d="M15.143 2.286q2.393-0.018 4.295 1.223t2.92 3.438q0.482 1.036 0.482 3.196 0 0.839-0.161 3.411 0.25 0.125 0.5 0.125 0.321 0 0.911-0.241t0.911-0.241q0.518 0 1 0.321t0.482 0.821q0 0.571-0.563 0.964t-1.232 0.563-1.232 0.518-0.563 0.848q0 0.268 0.214 0.768 0.661 1.464 1.83 2.679t2.58 1.804q0.5 0.214 1.429 0.411 0.5 0.107 0.5 0.625 0 1.25-3.911 1.839-0.125 0.196-0.196 0.696t-0.25 0.83-0.589 0.33q-0.357 0-1.107-0.116t-1.143-0.116q-0.661 0-1.107 0.089-0.571 0.089-1.125 0.402t-1.036 0.679-1.036 0.723-1.357 0.598-1.768 0.241q-0.929 0-1.723-0.241t-1.339-0.598-1.027-0.723-1.036-0.679-1.107-0.402q-0.464-0.089-1.125-0.089-0.429 0-1.17 0.134t-1.045 0.134q-0.446 0-0.625-0.33t-0.25-0.848-0.196-0.714q-3.911-0.589-3.911-1.839 0-0.518 0.5-0.625 0.929-0.196 1.429-0.411 1.393-0.571 2.58-1.804t1.83-2.679q0.214-0.5 0.214-0.768 0-0.5-0.563-0.848t-1.241-0.527-1.241-0.563-0.563-0.938q0-0.482 0.464-0.813t0.982-0.33q0.268 0 0.857 0.232t0.946 0.232q0.321 0 0.571-0.125-0.161-2.536-0.161-3.393 0-2.179 0.482-3.214 1.143-2.446 3.071-3.536t4.714-1.125z"></path>
+</symbol>
+<symbol id="icon-yelp" viewBox="0 0 27 32">
+<path class="path1" d="M13.804 23.554v2.268q-0.018 5.214-0.107 5.446-0.214 0.571-0.911 0.714-0.964 0.161-3.241-0.679t-2.902-1.589q-0.232-0.268-0.304-0.643-0.018-0.214 0.071-0.464 0.071-0.179 0.607-0.839t3.232-3.857q0.018 0 1.071-1.25 0.268-0.339 0.705-0.438t0.884 0.063q0.429 0.179 0.67 0.518t0.223 0.75zM11.143 19.071q-0.054 0.982-0.929 1.25l-2.143 0.696q-4.911 1.571-5.214 1.571-0.625-0.036-0.964-0.643-0.214-0.446-0.304-1.339-0.143-1.357 0.018-2.973t0.536-2.223 1-0.571q0.232 0 3.607 1.375 1.25 0.518 2.054 0.839l1.5 0.607q0.411 0.161 0.634 0.545t0.205 0.866zM25.893 24.375q-0.125 0.964-1.634 2.875t-2.42 2.268q-0.661 0.25-1.125-0.125-0.25-0.179-3.286-5.125l-0.839-1.375q-0.25-0.375-0.205-0.821t0.348-0.821q0.625-0.768 1.482-0.464 0.018 0.018 2.125 0.714 3.625 1.179 4.321 1.42t0.839 0.366q0.5 0.393 0.393 1.089zM13.893 13.089q0.089 1.821-0.964 2.179-1.036 0.304-2.036-1.268l-6.75-10.679q-0.143-0.625 0.339-1.107 0.732-0.768 3.705-1.598t4.009-0.563q0.714 0.179 0.875 0.804 0.054 0.321 0.393 5.455t0.429 6.777zM25.714 15.018q0.054 0.696-0.464 1.054-0.268 0.179-5.875 1.536-1.196 0.268-1.625 0.411l0.018-0.036q-0.411 0.107-0.821-0.071t-0.661-0.571q-0.536-0.839 0-1.554 0.018-0.018 1.339-1.821 2.232-3.054 2.679-3.643t0.607-0.696q0.5-0.339 1.161-0.036 0.857 0.411 2.196 2.384t1.446 2.991v0.054z"></path>
+</symbol>
+<symbol id="icon-vine" viewBox="0 0 27 32">
+<path class="path1" d="M26.732 14.768v3.536q-1.804 0.411-3.536 0.411-1.161 2.429-2.955 4.839t-3.241 3.848-2.286 1.902q-1.429 0.804-2.893-0.054-0.5-0.304-1.080-0.777t-1.518-1.491-1.83-2.295-1.92-3.286-1.884-4.357-1.634-5.616-1.259-6.964h5.054q0.464 3.893 1.25 7.116t1.866 5.661 2.17 4.205 2.5 3.482q3.018-3.018 5.125-7.25-2.536-1.286-3.982-3.929t-1.446-5.946q0-3.429 1.857-5.616t5.071-2.188q3.179 0 4.875 1.884t1.696 5.313q0 2.839-1.036 5.107-0.125 0.018-0.348 0.054t-0.821 0.036-1.125-0.107-1.107-0.455-0.902-0.92q0.554-1.839 0.554-3.286 0-1.554-0.518-2.357t-1.411-0.804q-0.946 0-1.518 0.884t-0.571 2.509q0 3.321 1.875 5.241t4.768 1.92q1.107 0 2.161-0.25z"></path>
+</symbol>
+<symbol id="icon-vk" viewBox="0 0 35 32">
+<path class="path1" d="M34.232 9.286q0.411 1.143-2.679 5.25-0.429 0.571-1.161 1.518-1.393 1.786-1.607 2.339-0.304 0.732 0.25 1.446 0.304 0.375 1.446 1.464h0.018l0.071 0.071q2.518 2.339 3.411 3.946 0.054 0.089 0.116 0.223t0.125 0.473-0.009 0.607-0.446 0.491-1.054 0.223l-4.571 0.071q-0.429 0.089-1-0.089t-0.929-0.393l-0.357-0.214q-0.536-0.375-1.25-1.143t-1.223-1.384-1.089-1.036-1.009-0.277q-0.054 0.018-0.143 0.063t-0.304 0.259-0.384 0.527-0.304 0.929-0.116 1.384q0 0.268-0.063 0.491t-0.134 0.33l-0.071 0.089q-0.321 0.339-0.946 0.393h-2.054q-1.268 0.071-2.607-0.295t-2.348-0.946-1.839-1.179-1.259-1.027l-0.446-0.429q-0.179-0.179-0.491-0.536t-1.277-1.625-1.893-2.696-2.188-3.768-2.33-4.857q-0.107-0.286-0.107-0.482t0.054-0.286l0.071-0.107q0.268-0.339 1.018-0.339l4.893-0.036q0.214 0.036 0.411 0.116t0.286 0.152l0.089 0.054q0.286 0.196 0.429 0.571 0.357 0.893 0.821 1.848t0.732 1.455l0.286 0.518q0.518 1.071 1 1.857t0.866 1.223 0.741 0.688 0.607 0.25 0.482-0.089q0.036-0.018 0.089-0.089t0.214-0.393 0.241-0.839 0.17-1.446 0-2.232q-0.036-0.714-0.161-1.304t-0.25-0.821l-0.107-0.214q-0.446-0.607-1.518-0.768-0.232-0.036 0.089-0.429 0.304-0.339 0.679-0.536 0.946-0.464 4.268-0.429 1.464 0.018 2.411 0.232 0.357 0.089 0.598 0.241t0.366 0.429 0.188 0.571 0.063 0.813-0.018 0.982-0.045 1.259-0.027 1.473q0 0.196-0.018 0.75t-0.009 0.857 0.063 0.723 0.205 0.696 0.402 0.438q0.143 0.036 0.304 0.071t0.464-0.196 0.679-0.616 0.929-1.196 1.214-1.92q1.071-1.857 1.911-4.018 0.071-0.179 0.179-0.313t0.196-0.188l0.071-0.054 0.089-0.045t0.232-0.054 0.357-0.009l5.143-0.036q0.696-0.089 1.143 0.045t0.554 0.295z"></path>
+</symbol>
+<symbol id="icon-search" viewBox="0 0 30 32">
+<path class="path1" d="M20.571 14.857q0-3.304-2.348-5.652t-5.652-2.348-5.652 2.348-2.348 5.652 2.348 5.652 5.652 2.348 5.652-2.348 2.348-5.652zM29.714 29.714q0 0.929-0.679 1.607t-1.607 0.679q-0.964 0-1.607-0.679l-6.125-6.107q-3.196 2.214-7.125 2.214-2.554 0-4.884-0.991t-4.018-2.679-2.679-4.018-0.991-4.884 0.991-4.884 2.679-4.018 4.018-2.679 4.884-0.991 4.884 0.991 4.018 2.679 2.679 4.018 0.991 4.884q0 3.929-2.214 7.125l6.125 6.125q0.661 0.661 0.661 1.607z"></path>
+</symbol>
+<symbol id="icon-envelope-o" viewBox="0 0 32 32">
+<path class="path1" d="M29.714 26.857v-13.714q-0.571 0.643-1.232 1.179-4.786 3.679-7.607 6.036-0.911 0.768-1.482 1.196t-1.545 0.866-1.83 0.438h-0.036q-0.857 0-1.83-0.438t-1.545-0.866-1.482-1.196q-2.821-2.357-7.607-6.036-0.661-0.536-1.232-1.179v13.714q0 0.232 0.17 0.402t0.402 0.17h26.286q0.232 0 0.402-0.17t0.17-0.402zM29.714 8.089v-0.438t-0.009-0.232-0.054-0.223-0.098-0.161-0.161-0.134-0.25-0.045h-26.286q-0.232 0-0.402 0.17t-0.17 0.402q0 3 2.625 5.071 3.446 2.714 7.161 5.661 0.107 0.089 0.625 0.527t0.821 0.67 0.795 0.563 0.902 0.491 0.768 0.161h0.036q0.357 0 0.768-0.161t0.902-0.491 0.795-0.563 0.821-0.67 0.625-0.527q3.714-2.946 7.161-5.661 0.964-0.768 1.795-2.063t0.83-2.348zM32 7.429v19.429q0 1.179-0.839 2.018t-2.018 0.839h-26.286q-1.179 0-2.018-0.839t-0.839-2.018v-19.429q0-1.179 0.839-2.018t2.018-0.839h26.286q1.179 0 2.018 0.839t0.839 2.018z"></path>
+</symbol>
+<symbol id="icon-close" viewBox="0 0 25 32">
+<path class="path1" d="M23.179 23.607q0 0.714-0.5 1.214l-2.429 2.429q-0.5 0.5-1.214 0.5t-1.214-0.5l-5.25-5.25-5.25 5.25q-0.5 0.5-1.214 0.5t-1.214-0.5l-2.429-2.429q-0.5-0.5-0.5-1.214t0.5-1.214l5.25-5.25-5.25-5.25q-0.5-0.5-0.5-1.214t0.5-1.214l2.429-2.429q0.5-0.5 1.214-0.5t1.214 0.5l5.25 5.25 5.25-5.25q0.5-0.5 1.214-0.5t1.214 0.5l2.429 2.429q0.5 0.5 0.5 1.214t-0.5 1.214l-5.25 5.25 5.25 5.25q0.5 0.5 0.5 1.214z"></path>
+</symbol>
+<symbol id="icon-angle-down" viewBox="0 0 21 32">
+<path class="path1" d="M19.196 13.143q0 0.232-0.179 0.411l-8.321 8.321q-0.179 0.179-0.411 0.179t-0.411-0.179l-8.321-8.321q-0.179-0.179-0.179-0.411t0.179-0.411l0.893-0.893q0.179-0.179 0.411-0.179t0.411 0.179l7.018 7.018 7.018-7.018q0.179-0.179 0.411-0.179t0.411 0.179l0.893 0.893q0.179 0.179 0.179 0.411z"></path>
+</symbol>
+<symbol id="icon-folder-open" viewBox="0 0 34 32">
+<path class="path1" d="M33.554 17q0 0.554-0.554 1.179l-6 7.071q-0.768 0.911-2.152 1.545t-2.563 0.634h-19.429q-0.607 0-1.080-0.232t-0.473-0.768q0-0.554 0.554-1.179l6-7.071q0.768-0.911 2.152-1.545t2.563-0.634h19.429q0.607 0 1.080 0.232t0.473 0.768zM27.429 10.857v2.857h-14.857q-1.679 0-3.518 0.848t-2.929 2.134l-6.107 7.179q0-0.071-0.009-0.223t-0.009-0.223v-17.143q0-1.643 1.179-2.821t2.821-1.179h5.714q1.643 0 2.821 1.179t1.179 2.821v0.571h9.714q1.643 0 2.821 1.179t1.179 2.821z"></path>
+</symbol>
+<symbol id="icon-twitter" viewBox="0 0 30 32">
+<path class="path1" d="M28.929 7.286q-1.196 1.75-2.893 2.982 0.018 0.25 0.018 0.75 0 2.321-0.679 4.634t-2.063 4.437-3.295 3.759-4.607 2.607-5.768 0.973q-4.839 0-8.857-2.589 0.625 0.071 1.393 0.071 4.018 0 7.161-2.464-1.875-0.036-3.357-1.152t-2.036-2.848q0.589 0.089 1.089 0.089 0.768 0 1.518-0.196-2-0.411-3.313-1.991t-1.313-3.67v-0.071q1.214 0.679 2.607 0.732-1.179-0.786-1.875-2.054t-0.696-2.75q0-1.571 0.786-2.911 2.161 2.661 5.259 4.259t6.634 1.777q-0.143-0.679-0.143-1.321 0-2.393 1.688-4.080t4.080-1.688q2.5 0 4.214 1.821 1.946-0.375 3.661-1.393-0.661 2.054-2.536 3.179 1.661-0.179 3.321-0.893z"></path>
+</symbol>
+<symbol id="icon-facebook" viewBox="0 0 19 32">
+<path class="path1" d="M17.125 0.214v4.714h-2.804q-1.536 0-2.071 0.643t-0.536 1.929v3.375h5.232l-0.696 5.286h-4.536v13.554h-5.464v-13.554h-4.554v-5.286h4.554v-3.893q0-3.321 1.857-5.152t4.946-1.83q2.625 0 4.071 0.214z"></path>
+</symbol>
+<symbol id="icon-github" viewBox="0 0 27 32">
+<path class="path1" d="M13.714 2.286q3.732 0 6.884 1.839t4.991 4.991 1.839 6.884q0 4.482-2.616 8.063t-6.759 4.955q-0.482 0.089-0.714-0.125t-0.232-0.536q0-0.054 0.009-1.366t0.009-2.402q0-1.732-0.929-2.536 1.018-0.107 1.83-0.321t1.679-0.696 1.446-1.188 0.946-1.875 0.366-2.688q0-2.125-1.411-3.679 0.661-1.625-0.143-3.643-0.5-0.161-1.446 0.196t-1.643 0.786l-0.679 0.429q-1.661-0.464-3.429-0.464t-3.429 0.464q-0.286-0.196-0.759-0.482t-1.491-0.688-1.518-0.241q-0.804 2.018-0.143 3.643-1.411 1.554-1.411 3.679 0 1.518 0.366 2.679t0.938 1.875 1.438 1.196 1.679 0.696 1.83 0.321q-0.696 0.643-0.875 1.839-0.375 0.179-0.804 0.268t-1.018 0.089-1.17-0.384-0.991-1.116q-0.339-0.571-0.866-0.929t-0.884-0.429l-0.357-0.054q-0.375 0-0.518 0.080t-0.089 0.205 0.161 0.25 0.232 0.214l0.125 0.089q0.393 0.179 0.777 0.679t0.563 0.911l0.179 0.411q0.232 0.679 0.786 1.098t1.196 0.536 1.241 0.125 0.991-0.063l0.411-0.071q0 0.679 0.009 1.58t0.009 0.973q0 0.321-0.232 0.536t-0.714 0.125q-4.143-1.375-6.759-4.955t-2.616-8.063q0-3.732 1.839-6.884t4.991-4.991 6.884-1.839zM5.196 21.982q0.054-0.125-0.125-0.214-0.179-0.054-0.232 0.036-0.054 0.125 0.125 0.214 0.161 0.107 0.232-0.036zM5.75 22.589q0.125-0.089-0.036-0.286-0.179-0.161-0.286-0.054-0.125 0.089 0.036 0.286 0.179 0.179 0.286 0.054zM6.286 23.393q0.161-0.125 0-0.339-0.143-0.232-0.304-0.107-0.161 0.089 0 0.321t0.304 0.125zM7.036 24.143q0.143-0.143-0.071-0.339-0.214-0.214-0.357-0.054-0.161 0.143 0.071 0.339 0.214 0.214 0.357 0.054zM8.054 24.589q0.054-0.196-0.232-0.286-0.268-0.071-0.339 0.125t0.232 0.268q0.268 0.107 0.339-0.107zM9.179 24.679q0-0.232-0.304-0.196-0.286 0-0.286 0.196 0 0.232 0.304 0.196 0.286 0 0.286-0.196zM10.214 24.5q-0.036-0.196-0.321-0.161-0.286 0.054-0.25 0.268t0.321 0.143 0.25-0.25z"></path>
+</symbol>
+<symbol id="icon-bars" viewBox="0 0 27 32">
+<path class="path1" d="M27.429 24v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804zM27.429 14.857v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804zM27.429 5.714v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804z"></path>
+</symbol>
+<symbol id="icon-google-plus" viewBox="0 0 41 32">
+<path class="path1" d="M25.661 16.304q0 3.714-1.554 6.616t-4.429 4.536-6.589 1.634q-2.661 0-5.089-1.036t-4.179-2.786-2.786-4.179-1.036-5.089 1.036-5.089 2.786-4.179 4.179-2.786 5.089-1.036q5.107 0 8.768 3.429l-3.554 3.411q-2.089-2.018-5.214-2.018-2.196 0-4.063 1.107t-2.955 3.009-1.089 4.152 1.089 4.152 2.955 3.009 4.063 1.107q1.482 0 2.723-0.411t2.045-1.027 1.402-1.402 0.875-1.482 0.384-1.321h-7.429v-4.5h12.357q0.214 1.125 0.214 2.179zM41.143 14.125v3.75h-3.732v3.732h-3.75v-3.732h-3.732v-3.75h3.732v-3.732h3.75v3.732h3.732z"></path>
+</symbol>
+<symbol id="icon-linkedin" viewBox="0 0 27 32">
+<path class="path1" d="M6.232 11.161v17.696h-5.893v-17.696h5.893zM6.607 5.696q0.018 1.304-0.902 2.179t-2.42 0.875h-0.036q-1.464 0-2.357-0.875t-0.893-2.179q0-1.321 0.92-2.188t2.402-0.866 2.375 0.866 0.911 2.188zM27.429 18.714v10.143h-5.875v-9.464q0-1.875-0.723-2.938t-2.259-1.063q-1.125 0-1.884 0.616t-1.134 1.527q-0.196 0.536-0.196 1.446v9.875h-5.875q0.036-7.125 0.036-11.554t-0.018-5.286l-0.018-0.857h5.875v2.571h-0.036q0.357-0.571 0.732-1t1.009-0.929 1.554-0.777 2.045-0.277q3.054 0 4.911 2.027t1.857 5.938z"></path>
+</symbol>
+<symbol id="icon-quote-right" viewBox="0 0 30 32">
+<path class="path1" d="M13.714 5.714v12.571q0 1.857-0.723 3.545t-1.955 2.92-2.92 1.955-3.545 0.723h-1.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h1.143q1.893 0 3.232-1.339t1.339-3.232v-0.571q0-0.714-0.5-1.214t-1.214-0.5h-4q-1.429 0-2.429-1t-1-2.429v-6.857q0-1.429 1-2.429t2.429-1h6.857q1.429 0 2.429 1t1 2.429zM29.714 5.714v12.571q0 1.857-0.723 3.545t-1.955 2.92-2.92 1.955-3.545 0.723h-1.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h1.143q1.893 0 3.232-1.339t1.339-3.232v-0.571q0-0.714-0.5-1.214t-1.214-0.5h-4q-1.429 0-2.429-1t-1-2.429v-6.857q0-1.429 1-2.429t2.429-1h6.857q1.429 0 2.429 1t1 2.429z"></path>
+</symbol>
+<symbol id="icon-mail-reply" viewBox="0 0 32 32">
+<path class="path1" d="M32 20q0 2.964-2.268 8.054-0.054 0.125-0.188 0.429t-0.241 0.536-0.232 0.393q-0.214 0.304-0.5 0.304-0.268 0-0.42-0.179t-0.152-0.446q0-0.161 0.045-0.473t0.045-0.42q0.089-1.214 0.089-2.196 0-1.804-0.313-3.232t-0.866-2.473-1.429-1.804-1.884-1.241-2.375-0.759-2.75-0.384-3.134-0.107h-4v4.571q0 0.464-0.339 0.804t-0.804 0.339-0.804-0.339l-9.143-9.143q-0.339-0.339-0.339-0.804t0.339-0.804l9.143-9.143q0.339-0.339 0.804-0.339t0.804 0.339 0.339 0.804v4.571h4q12.732 0 15.625 7.196 0.946 2.393 0.946 5.946z"></path>
+</symbol>
+<symbol id="icon-youtube" viewBox="0 0 27 32">
+<path class="path1" d="M17.339 22.214v3.768q0 1.196-0.696 1.196-0.411 0-0.804-0.393v-5.375q0.393-0.393 0.804-0.393 0.696 0 0.696 1.196zM23.375 22.232v0.821h-1.607v-0.821q0-1.214 0.804-1.214t0.804 1.214zM6.125 18.339h1.911v-1.679h-5.571v1.679h1.875v10.161h1.786v-10.161zM11.268 28.5h1.589v-8.821h-1.589v6.75q-0.536 0.75-1.018 0.75-0.321 0-0.375-0.375-0.018-0.054-0.018-0.625v-6.5h-1.589v6.982q0 0.875 0.143 1.304 0.214 0.661 1.036 0.661 0.857 0 1.821-1.089v0.964zM18.929 25.857v-3.518q0-1.304-0.161-1.768-0.304-1-1.268-1-0.893 0-1.661 0.964v-3.875h-1.589v11.839h1.589v-0.857q0.804 0.982 1.661 0.982 0.964 0 1.268-0.982 0.161-0.482 0.161-1.786zM24.964 25.679v-0.232h-1.625q0 0.911-0.036 1.089-0.125 0.643-0.714 0.643-0.821 0-0.821-1.232v-1.554h3.196v-1.839q0-1.411-0.482-2.071-0.696-0.911-1.893-0.911-1.214 0-1.911 0.911-0.5 0.661-0.5 2.071v3.089q0 1.411 0.518 2.071 0.696 0.911 1.929 0.911 1.286 0 1.929-0.946 0.321-0.482 0.375-0.964 0.036-0.161 0.036-1.036zM14.107 9.375v-3.75q0-1.232-0.768-1.232t-0.768 1.232v3.75q0 1.25 0.768 1.25t0.768-1.25zM26.946 22.786q0 4.179-0.464 6.25-0.25 1.054-1.036 1.768t-1.821 0.821q-3.286 0.375-9.911 0.375t-9.911-0.375q-1.036-0.107-1.83-0.821t-1.027-1.768q-0.464-2-0.464-6.25 0-4.179 0.464-6.25 0.25-1.054 1.036-1.768t1.839-0.839q3.268-0.357 9.893-0.357t9.911 0.357q1.036 0.125 1.83 0.839t1.027 1.768q0.464 2 0.464 6.25zM9.125 0h1.821l-2.161 7.125v4.839h-1.786v-4.839q-0.25-1.321-1.089-3.786-0.661-1.839-1.161-3.339h1.893l1.268 4.696zM15.732 5.946v3.125q0 1.446-0.5 2.107-0.661 0.911-1.893 0.911-1.196 0-1.875-0.911-0.5-0.679-0.5-2.107v-3.125q0-1.429 0.5-2.089 0.679-0.911 1.875-0.911 1.232 0 1.893 0.911 0.5 0.661 0.5 2.089zM21.714 3.054v8.911h-1.625v-0.982q-0.946 1.107-1.839 1.107-0.821 0-1.054-0.661-0.143-0.429-0.143-1.339v-7.036h1.625v6.554q0 0.589 0.018 0.625 0.054 0.393 0.375 0.393 0.482 0 1.018-0.768v-6.804h1.625z"></path>
+</symbol>
+<symbol id="icon-dropbox" viewBox="0 0 32 32">
+<path class="path1" d="M7.179 12.625l8.821 5.446-6.107 5.089-8.75-5.696zM24.786 22.536v1.929l-8.75 5.232v0.018l-0.018-0.018-0.018 0.018v-0.018l-8.732-5.232v-1.929l2.625 1.714 6.107-5.071v-0.036l0.018 0.018 0.018-0.018v0.036l6.125 5.071zM9.893 2.107l6.107 5.089-8.821 5.429-6.036-4.821zM24.821 12.625l6.036 4.839-8.732 5.696-6.125-5.089zM22.125 2.107l8.732 5.696-6.036 4.821-8.821-5.429z"></path>
+</symbol>
+<symbol id="icon-instagram" viewBox="0 0 27 32">
+<path class="path1" d="M18.286 16q0-1.893-1.339-3.232t-3.232-1.339-3.232 1.339-1.339 3.232 1.339 3.232 3.232 1.339 3.232-1.339 1.339-3.232zM20.75 16q0 2.929-2.054 4.982t-4.982 2.054-4.982-2.054-2.054-4.982 2.054-4.982 4.982-2.054 4.982 2.054 2.054 4.982zM22.679 8.679q0 0.679-0.482 1.161t-1.161 0.482-1.161-0.482-0.482-1.161 0.482-1.161 1.161-0.482 1.161 0.482 0.482 1.161zM13.714 4.75q-0.125 0-1.366-0.009t-1.884 0-1.723 0.054-1.839 0.179-1.277 0.33q-0.893 0.357-1.571 1.036t-1.036 1.571q-0.196 0.518-0.33 1.277t-0.179 1.839-0.054 1.723 0 1.884 0.009 1.366-0.009 1.366 0 1.884 0.054 1.723 0.179 1.839 0.33 1.277q0.357 0.893 1.036 1.571t1.571 1.036q0.518 0.196 1.277 0.33t1.839 0.179 1.723 0.054 1.884 0 1.366-0.009 1.366 0.009 1.884 0 1.723-0.054 1.839-0.179 1.277-0.33q0.893-0.357 1.571-1.036t1.036-1.571q0.196-0.518 0.33-1.277t0.179-1.839 0.054-1.723 0-1.884-0.009-1.366 0.009-1.366 0-1.884-0.054-1.723-0.179-1.839-0.33-1.277q-0.357-0.893-1.036-1.571t-1.571-1.036q-0.518-0.196-1.277-0.33t-1.839-0.179-1.723-0.054-1.884 0-1.366 0.009zM27.429 16q0 4.089-0.089 5.661-0.179 3.714-2.214 5.75t-5.75 2.214q-1.571 0.089-5.661 0.089t-5.661-0.089q-3.714-0.179-5.75-2.214t-2.214-5.75q-0.089-1.571-0.089-5.661t0.089-5.661q0.179-3.714 2.214-5.75t5.75-2.214q1.571-0.089 5.661-0.089t5.661 0.089q3.714 0.179 5.75 2.214t2.214 5.75q0.089 1.571 0.089 5.661z"></path>
+</symbol>
+<symbol id="icon-flickr" viewBox="0 0 27 32">
+<path class="path1" d="M22.286 2.286q2.125 0 3.634 1.509t1.509 3.634v17.143q0 2.125-1.509 3.634t-3.634 1.509h-17.143q-2.125 0-3.634-1.509t-1.509-3.634v-17.143q0-2.125 1.509-3.634t3.634-1.509h17.143zM12.464 16q0-1.571-1.107-2.679t-2.679-1.107-2.679 1.107-1.107 2.679 1.107 2.679 2.679 1.107 2.679-1.107 1.107-2.679zM22.536 16q0-1.571-1.107-2.679t-2.679-1.107-2.679 1.107-1.107 2.679 1.107 2.679 2.679 1.107 2.679-1.107 1.107-2.679z"></path>
+</symbol>
+<symbol id="icon-tumblr" viewBox="0 0 19 32">
+<path class="path1" d="M16.857 23.732l1.429 4.232q-0.411 0.625-1.982 1.179t-3.161 0.571q-1.857 0.036-3.402-0.464t-2.545-1.321-1.696-1.893-0.991-2.143-0.295-2.107v-9.714h-3v-3.839q1.286-0.464 2.304-1.241t1.625-1.607 1.036-1.821 0.607-1.768 0.268-1.58q0.018-0.089 0.080-0.152t0.134-0.063h4.357v7.571h5.946v4.5h-5.964v9.25q0 0.536 0.116 1t0.402 0.938 0.884 0.741 1.455 0.25q1.393-0.036 2.393-0.518z"></path>
+</symbol>
+<symbol id="icon-dockerhub" viewBox="0 0 24 28">
+<path class="path1" d="M1.597 10.257h2.911v2.83H1.597v-2.83zm3.573 0h2.91v2.83H5.17v-2.83zm0-3.627h2.91v2.829H5.17V6.63zm3.57 3.627h2.912v2.83H8.74v-2.83zm0-3.627h2.912v2.829H8.74V6.63zm3.573 3.627h2.911v2.83h-2.911v-2.83zm0-3.627h2.911v2.829h-2.911V6.63zm3.572 3.627h2.911v2.83h-2.911v-2.83zM12.313 3h2.911v2.83h-2.911V3zm-6.65 14.173c-.449 0-.812.354-.812.788 0 .435.364.788.812.788.447 0 .811-.353.811-.788 0-.434-.363-.788-.811-.788"></path>
+<path class="path2" d="M28.172 11.721c-.978-.549-2.278-.624-3.388-.306-.136-1.146-.91-2.149-1.83-2.869l-.366-.286-.307.345c-.618.692-.8 1.845-.718 2.73.063.651.273 1.312.685 1.834-.313.183-.668.328-.985.434-.646.212-1.347.33-2.028.33H.083l-.042.429c-.137 1.432.065 2.866.674 4.173l.262.519.03.048c1.8 2.973 4.963 4.225 8.41 4.225 6.672 0 12.174-2.896 14.702-9.015 1.689.085 3.417-.4 4.243-1.968l.211-.4-.401-.223zM5.664 19.458c-.85 0-1.542-.671-1.542-1.497 0-.825.691-1.498 1.541-1.498.849 0 1.54.672 1.54 1.497s-.69 1.498-1.539 1.498z"></path>
+</symbol>
+<symbol id="icon-dribbble" viewBox="0 0 27 32">
+<path class="path1" d="M18.286 26.786q-0.75-4.304-2.5-8.893h-0.036l-0.036 0.018q-0.286 0.107-0.768 0.295t-1.804 0.875-2.446 1.464-2.339 2.045-1.839 2.643l-0.268-0.196q3.286 2.679 7.464 2.679 2.357 0 4.571-0.929zM14.982 15.946q-0.375-0.875-0.946-1.982-5.554 1.661-12.018 1.661-0.018 0.125-0.018 0.375 0 2.214 0.786 4.223t2.214 3.598q0.893-1.589 2.205-2.973t2.545-2.223 2.33-1.446 1.777-0.857l0.661-0.232q0.071-0.018 0.232-0.063t0.232-0.080zM13.071 12.161q-2.143-3.804-4.357-6.75-2.464 1.161-4.179 3.321t-2.286 4.857q5.393 0 10.821-1.429zM25.286 17.857q-3.75-1.071-7.304-0.518 1.554 4.268 2.286 8.375 1.982-1.339 3.304-3.384t1.714-4.473zM10.911 4.625q-0.018 0-0.036 0.018 0.018-0.018 0.036-0.018zM21.446 7.214q-3.304-2.929-7.732-2.929-1.357 0-2.768 0.339 2.339 3.036 4.393 6.821 1.232-0.464 2.321-1.080t1.723-1.098 1.17-1.018 0.67-0.723zM25.429 15.875q-0.054-4.143-2.661-7.321l-0.018 0.018q-0.161 0.214-0.339 0.438t-0.777 0.795-1.268 1.080-1.786 1.161-2.348 1.152q0.446 0.946 0.786 1.696 0.036 0.107 0.116 0.313t0.134 0.295q0.643-0.089 1.33-0.125t1.313-0.036 1.232 0.027 1.143 0.071 1.009 0.098 0.857 0.116 0.652 0.107 0.446 0.080zM27.429 16q0 3.732-1.839 6.884t-4.991 4.991-6.884 1.839-6.884-1.839-4.991-4.991-1.839-6.884 1.839-6.884 4.991-4.991 6.884-1.839 6.884 1.839 4.991 4.991 1.839 6.884z"></path>
+</symbol>
+<symbol id="icon-skype" viewBox="0 0 27 32">
+<path class="path1" d="M20.946 18.982q0-0.893-0.348-1.634t-0.866-1.223-1.304-0.875-1.473-0.607-1.563-0.411l-1.857-0.429q-0.536-0.125-0.786-0.188t-0.625-0.205-0.536-0.286-0.295-0.375-0.134-0.536q0-1.375 2.571-1.375 0.768 0 1.375 0.214t0.964 0.509 0.679 0.598 0.714 0.518 0.857 0.214q0.839 0 1.348-0.571t0.509-1.375q0-0.982-1-1.777t-2.536-1.205-3.25-0.411q-1.214 0-2.357 0.277t-2.134 0.839-1.589 1.554-0.598 2.295q0 1.089 0.339 1.902t1 1.348 1.429 0.866 1.839 0.58l2.607 0.643q1.607 0.393 2 0.643 0.571 0.357 0.571 1.071 0 0.696-0.714 1.152t-1.875 0.455q-0.911 0-1.634-0.286t-1.161-0.688-0.813-0.804-0.821-0.688-0.964-0.286q-0.893 0-1.348 0.536t-0.455 1.339q0 1.643 2.179 2.813t5.196 1.17q1.304 0 2.5-0.33t2.188-0.955 1.58-1.67 0.589-2.348zM27.429 22.857q0 2.839-2.009 4.848t-4.848 2.009q-2.321 0-4.179-1.429-1.375 0.286-2.679 0.286-2.554 0-4.884-0.991t-4.018-2.679-2.679-4.018-0.991-4.884q0-1.304 0.286-2.679-1.429-1.857-1.429-4.179 0-2.839 2.009-4.848t4.848-2.009q2.321 0 4.179 1.429 1.375-0.286 2.679-0.286 2.554 0 4.884 0.991t4.018 2.679 2.679 4.018 0.991 4.884q0 1.304-0.286 2.679 1.429 1.857 1.429 4.179z"></path>
+</symbol>
+<symbol id="icon-foursquare" viewBox="0 0 23 32">
+<path class="path1" d="M17.857 7.75l0.661-3.464q0.089-0.411-0.161-0.714t-0.625-0.304h-12.714q-0.411 0-0.688 0.304t-0.277 0.661v19.661q0 0.125 0.107 0.018l5.196-6.286q0.411-0.464 0.679-0.598t0.857-0.134h4.268q0.393 0 0.661-0.259t0.321-0.527q0.429-2.321 0.661-3.411 0.071-0.375-0.205-0.714t-0.652-0.339h-5.25q-0.518 0-0.857-0.339t-0.339-0.857v-0.75q0-0.518 0.339-0.848t0.857-0.33h6.179q0.321 0 0.625-0.241t0.357-0.527zM21.911 3.786q-0.268 1.304-0.955 4.759t-1.241 6.25-0.625 3.098q-0.107 0.393-0.161 0.58t-0.25 0.58-0.438 0.589-0.688 0.375-1.036 0.179h-4.839q-0.232 0-0.393 0.179-0.143 0.161-7.607 8.821-0.393 0.446-1.045 0.509t-0.866-0.098q-0.982-0.393-0.982-1.75v-25.179q0-0.982 0.679-1.83t2.143-0.848h15.857q1.696 0 2.268 0.946t0.179 2.839zM21.911 3.786l-2.821 14.107q0.071-0.304 0.625-3.098t1.241-6.25 0.955-4.759z"></path>
+</symbol>
+<symbol id="icon-wordpress" viewBox="0 0 32 32">
+<path class="path1" d="M2.268 16q0-2.911 1.196-5.589l6.554 17.946q-3.5-1.696-5.625-5.018t-2.125-7.339zM25.268 15.304q0 0.339-0.045 0.688t-0.179 0.884-0.205 0.786-0.313 1.054-0.313 1.036l-1.357 4.571-4.964-14.75q0.821-0.054 1.571-0.143 0.339-0.036 0.464-0.33t-0.045-0.554-0.509-0.241l-3.661 0.179q-1.339-0.018-3.607-0.179-0.214-0.018-0.366 0.089t-0.205 0.268-0.027 0.33 0.161 0.295 0.348 0.143l1.429 0.143 2.143 5.857-3 9-5-14.857q0.821-0.054 1.571-0.143 0.339-0.036 0.464-0.33t-0.045-0.554-0.509-0.241l-3.661 0.179q-0.125 0-0.411-0.009t-0.464-0.009q1.875-2.857 4.902-4.527t6.563-1.67q2.625 0 5.009 0.946t4.259 2.661h-0.179q-0.982 0-1.643 0.723t-0.661 1.705q0 0.214 0.036 0.429t0.071 0.384 0.143 0.411 0.161 0.375 0.214 0.402 0.223 0.375 0.259 0.429 0.25 0.411q1.125 1.911 1.125 3.786zM16.232 17.196l4.232 11.554q0.018 0.107 0.089 0.196-2.25 0.786-4.554 0.786-2 0-3.875-0.571zM28.036 9.411q1.696 3.107 1.696 6.589 0 3.732-1.857 6.884t-4.982 4.973l4.196-12.107q1.054-3.018 1.054-4.929 0-0.75-0.107-1.411zM16 0q3.25 0 6.214 1.268t5.107 3.411 3.411 5.107 1.268 6.214-1.268 6.214-3.411 5.107-5.107 3.411-6.214 1.268-6.214-1.268-5.107-3.411-3.411-5.107-1.268-6.214 1.268-6.214 3.411-5.107 5.107-3.411 6.214-1.268zM16 31.268q3.089 0 5.92-1.214t4.875-3.259 3.259-4.875 1.214-5.92-1.214-5.92-3.259-4.875-4.875-3.259-5.92-1.214-5.92 1.214-4.875 3.259-3.259 4.875-1.214 5.92 1.214 5.92 3.259 4.875 4.875 3.259 5.92 1.214z"></path>
+</symbol>
+<symbol id="icon-stumbleupon" viewBox="0 0 34 32">
+<path class="path1" d="M18.964 12.714v-2.107q0-0.75-0.536-1.286t-1.286-0.536-1.286 0.536-0.536 1.286v10.929q0 3.125-2.25 5.339t-5.411 2.214q-3.179 0-5.42-2.241t-2.241-5.42v-4.75h5.857v4.679q0 0.768 0.536 1.295t1.286 0.527 1.286-0.527 0.536-1.295v-11.071q0-3.054 2.259-5.214t5.384-2.161q3.143 0 5.393 2.179t2.25 5.25v2.429l-3.482 1.036zM28.429 16.679h5.857v4.75q0 3.179-2.241 5.42t-5.42 2.241q-3.161 0-5.411-2.223t-2.25-5.366v-4.786l2.339 1.089 3.482-1.036v4.821q0 0.75 0.536 1.277t1.286 0.527 1.286-0.527 0.536-1.277v-4.911z"></path>
+</symbol>
+<symbol id="icon-digg" viewBox="0 0 37 32">
+<path class="path1" d="M5.857 5.036h3.643v17.554h-9.5v-12.446h5.857v-5.107zM5.857 19.661v-6.589h-2.196v6.589h2.196zM10.964 10.143v12.446h3.661v-12.446h-3.661zM10.964 5.036v3.643h3.661v-3.643h-3.661zM16.089 10.143h9.518v16.821h-9.518v-2.911h5.857v-1.464h-5.857v-12.446zM21.946 19.661v-6.589h-2.196v6.589h2.196zM27.071 10.143h9.5v16.821h-9.5v-2.911h5.839v-1.464h-5.839v-12.446zM32.911 19.661v-6.589h-2.196v6.589h2.196z"></path>
+</symbol>
+<symbol id="icon-spotify" viewBox="0 0 27 32">
+<path class="path1" d="M20.125 21.607q0-0.571-0.536-0.911-3.446-2.054-7.982-2.054-2.375 0-5.125 0.607-0.75 0.161-0.75 0.929 0 0.357 0.241 0.616t0.634 0.259q0.089 0 0.661-0.143 2.357-0.482 4.339-0.482 4.036 0 7.089 1.839 0.339 0.196 0.589 0.196 0.339 0 0.589-0.241t0.25-0.616zM21.839 17.768q0-0.714-0.625-1.089-4.232-2.518-9.786-2.518-2.732 0-5.411 0.75-0.857 0.232-0.857 1.143 0 0.446 0.313 0.759t0.759 0.313q0.125 0 0.661-0.143 2.179-0.589 4.482-0.589 4.982 0 8.714 2.214 0.429 0.232 0.679 0.232 0.446 0 0.759-0.313t0.313-0.759zM23.768 13.339q0-0.839-0.714-1.25-2.25-1.304-5.232-1.973t-6.125-0.67q-3.643 0-6.5 0.839-0.411 0.125-0.688 0.455t-0.277 0.866q0 0.554 0.366 0.929t0.92 0.375q0.196 0 0.714-0.143 2.375-0.661 5.482-0.661 2.839 0 5.527 0.607t4.527 1.696q0.375 0.214 0.714 0.214 0.518 0 0.902-0.366t0.384-0.92zM27.429 16q0 3.732-1.839 6.884t-4.991 4.991-6.884 1.839-6.884-1.839-4.991-4.991-1.839-6.884 1.839-6.884 4.991-4.991 6.884-1.839 6.884 1.839 4.991 4.991 1.839 6.884z"></path>
+</symbol>
+<symbol id="icon-soundcloud" viewBox="0 0 41 32">
+<path class="path1" d="M14 24.5l0.286-4.304-0.286-9.339q-0.018-0.179-0.134-0.304t-0.295-0.125q-0.161 0-0.286 0.125t-0.125 0.304l-0.25 9.339 0.25 4.304q0.018 0.179 0.134 0.295t0.277 0.116q0.393 0 0.429-0.411zM19.286 23.982l0.196-3.768-0.214-10.464q0-0.286-0.232-0.429-0.143-0.089-0.286-0.089t-0.286 0.089q-0.232 0.143-0.232 0.429l-0.018 0.107-0.179 10.339q0 0.018 0.196 4.214v0.018q0 0.179 0.107 0.304 0.161 0.196 0.411 0.196 0.196 0 0.357-0.161 0.161-0.125 0.161-0.357zM0.625 17.911l0.357 2.286-0.357 2.25q-0.036 0.161-0.161 0.161t-0.161-0.161l-0.304-2.25 0.304-2.286q0.036-0.161 0.161-0.161t0.161 0.161zM2.161 16.5l0.464 3.696-0.464 3.625q-0.036 0.161-0.179 0.161-0.161 0-0.161-0.179l-0.411-3.607 0.411-3.696q0-0.161 0.161-0.161 0.143 0 0.179 0.161zM3.804 15.821l0.446 4.375-0.446 4.232q0 0.196-0.196 0.196-0.179 0-0.214-0.196l-0.375-4.232 0.375-4.375q0.036-0.214 0.214-0.214 0.196 0 0.196 0.214zM5.482 15.696l0.411 4.5-0.411 4.357q-0.036 0.232-0.25 0.232-0.232 0-0.232-0.232l-0.375-4.357 0.375-4.5q0-0.232 0.232-0.232 0.214 0 0.25 0.232zM7.161 16.018l0.375 4.179-0.375 4.393q-0.036 0.286-0.286 0.286-0.107 0-0.188-0.080t-0.080-0.205l-0.357-4.393 0.357-4.179q0-0.107 0.080-0.188t0.188-0.080q0.25 0 0.286 0.268zM8.839 13.411l0.375 6.786-0.375 4.393q0 0.125-0.089 0.223t-0.214 0.098q-0.286 0-0.321-0.321l-0.321-4.393 0.321-6.786q0.036-0.321 0.321-0.321 0.125 0 0.214 0.098t0.089 0.223zM10.518 11.875l0.339 8.357-0.339 4.357q0 0.143-0.098 0.241t-0.241 0.098q-0.321 0-0.357-0.339l-0.286-4.357 0.286-8.357q0.036-0.339 0.357-0.339 0.143 0 0.241 0.098t0.098 0.241zM12.268 11.161l0.321 9.036-0.321 4.321q-0.036 0.375-0.393 0.375-0.339 0-0.375-0.375l-0.286-4.321 0.286-9.036q0-0.161 0.116-0.277t0.259-0.116q0.161 0 0.268 0.116t0.125 0.277zM19.268 24.411v0 0zM15.732 11.089l0.268 9.107-0.268 4.268q0 0.179-0.134 0.313t-0.313 0.134-0.304-0.125-0.143-0.321l-0.25-4.268 0.25-9.107q0-0.196 0.134-0.321t0.313-0.125 0.313 0.125 0.134 0.321zM17.5 11.429l0.25 8.786-0.25 4.214q0 0.196-0.143 0.339t-0.339 0.143-0.339-0.143-0.161-0.339l-0.214-4.214 0.214-8.786q0.018-0.214 0.161-0.357t0.339-0.143 0.33 0.143 0.152 0.357zM21.286 20.214l-0.25 4.125q0 0.232-0.161 0.393t-0.393 0.161-0.393-0.161-0.179-0.393l-0.107-2.036-0.107-2.089 0.214-11.357v-0.054q0.036-0.268 0.214-0.429 0.161-0.125 0.357-0.125 0.143 0 0.268 0.089 0.25 0.143 0.286 0.464zM41.143 19.875q0 2.089-1.482 3.563t-3.571 1.473h-14.036q-0.232-0.036-0.393-0.196t-0.161-0.393v-16.054q0-0.411 0.5-0.589 1.518-0.607 3.232-0.607 3.482 0 6.036 2.348t2.857 5.777q0.946-0.393 1.964-0.393 2.089 0 3.571 1.482t1.482 3.589z"></path>
+</symbol>
+<symbol id="icon-codepen" viewBox="0 0 32 32">
+<path class="path1" d="M3.857 20.875l10.768 7.179v-6.411l-5.964-3.982zM2.75 18.304l3.446-2.304-3.446-2.304v4.607zM17.375 28.054l10.768-7.179-4.804-3.214-5.964 3.982v6.411zM16 19.25l4.857-3.25-4.857-3.25-4.857 3.25zM8.661 14.339l5.964-3.982v-6.411l-10.768 7.179zM25.804 16l3.446 2.304v-4.607zM23.339 14.339l4.804-3.214-10.768-7.179v6.411zM32 11.125v9.75q0 0.732-0.607 1.143l-14.625 9.75q-0.375 0.232-0.768 0.232t-0.768-0.232l-14.625-9.75q-0.607-0.411-0.607-1.143v-9.75q0-0.732 0.607-1.143l14.625-9.75q0.375-0.232 0.768-0.232t0.768 0.232l14.625 9.75q0.607 0.411 0.607 1.143z"></path>
+</symbol>
+<symbol id="icon-twitch" viewBox="0 0 32 32">
+<path class="path1" d="M16 7.75v7.75h-2.589v-7.75h2.589zM23.107 7.75v7.75h-2.589v-7.75h2.589zM23.107 21.321l4.518-4.536v-14.196h-21.321v18.732h5.821v3.875l3.875-3.875h7.107zM30.214 0v18.089l-7.75 7.75h-5.821l-3.875 3.875h-3.875v-3.875h-7.107v-20.679l1.946-5.161h26.482z"></path>
+</symbol>
+<symbol id="icon-meanpath" viewBox="0 0 27 32">
+<path class="path1" d="M23.411 15.036v2.036q0 0.429-0.241 0.679t-0.67 0.25h-3.607q-0.429 0-0.679-0.25t-0.25-0.679v-2.036q0-0.429 0.25-0.679t0.679-0.25h3.607q0.429 0 0.67 0.25t0.241 0.679zM14.661 19.143v-4.464q0-0.946-0.58-1.527t-1.527-0.58h-2.375q-1.214 0-1.714 0.929-0.5-0.929-1.714-0.929h-2.321q-0.946 0-1.527 0.58t-0.58 1.527v4.464q0 0.393 0.375 0.393h0.982q0.393 0 0.393-0.393v-4.107q0-0.429 0.241-0.679t0.688-0.25h1.679q0.429 0 0.679 0.25t0.25 0.679v4.107q0 0.393 0.375 0.393h0.964q0.393 0 0.393-0.393v-4.107q0-0.429 0.25-0.679t0.679-0.25h1.732q0.429 0 0.67 0.25t0.241 0.679v4.107q0 0.393 0.393 0.393h0.982q0.375 0 0.375-0.393zM25.179 17.429v-2.75q0-0.946-0.589-1.527t-1.536-0.58h-4.714q-0.946 0-1.536 0.58t-0.589 1.527v7.321q0 0.375 0.393 0.375h0.982q0.375 0 0.375-0.375v-3.214q0.554 0.75 1.679 0.75h3.411q0.946 0 1.536-0.58t0.589-1.527zM27.429 6.429v19.143q0 1.714-1.214 2.929t-2.929 1.214h-19.143q-1.714 0-2.929-1.214t-1.214-2.929v-19.143q0-1.714 1.214-2.929t2.929-1.214h19.143q1.714 0 2.929 1.214t1.214 2.929z"></path>
+</symbol>
+<symbol id="icon-pinterest-p" viewBox="0 0 23 32">
+<path class="path1" d="M0 10.661q0-1.929 0.67-3.634t1.848-2.973 2.714-2.196 3.304-1.393 3.607-0.464q2.821 0 5.25 1.188t3.946 3.455 1.518 5.125q0 1.714-0.339 3.357t-1.071 3.161-1.786 2.67-2.589 1.839-3.375 0.688q-1.214 0-2.411-0.571t-1.714-1.571q-0.179 0.696-0.5 2.009t-0.42 1.696-0.366 1.268-0.464 1.268-0.571 1.116-0.821 1.384-1.107 1.545l-0.25 0.089-0.161-0.179q-0.268-2.804-0.268-3.357 0-1.643 0.384-3.688t1.188-5.134 0.929-3.625q-0.571-1.161-0.571-3.018 0-1.482 0.929-2.786t2.357-1.304q1.089 0 1.696 0.723t0.607 1.83q0 1.179-0.786 3.411t-0.786 3.339q0 1.125 0.804 1.866t1.946 0.741q0.982 0 1.821-0.446t1.402-1.214 1-1.696 0.679-1.973 0.357-1.982 0.116-1.777q0-3.089-1.955-4.813t-5.098-1.723q-3.571 0-5.964 2.313t-2.393 5.866q0 0.786 0.223 1.518t0.482 1.161 0.482 0.813 0.223 0.545q0 0.5-0.268 1.304t-0.661 0.804q-0.036 0-0.304-0.054-0.911-0.268-1.616-1t-1.089-1.688-0.58-1.929-0.196-1.902z"></path>
+</symbol>
+<symbol id="icon-periscope" viewBox="0 0 24 28">
+<path class="path1" d="M12.285,1C6.696,1,2.277,5.643,2.277,11.243c0,5.851,7.77,14.578,10.007,14.578c1.959,0,9.729-8.728,9.729-14.578 C22.015,5.643,17.596,1,12.285,1z M12.317,16.551c-3.473,0-6.152-2.611-6.152-5.664c0-1.292,0.39-2.472,1.065-3.438 c0.206,1.084,1.18,1.906,2.352,1.906c1.322,0,2.393-1.043,2.393-2.333c0-0.832-0.447-1.561-1.119-1.975 c0.467-0.105,0.955-0.161,1.46-0.161c3.133,0,5.81,2.611,5.81,5.998C18.126,13.94,15.449,16.551,12.317,16.551z"></path>
+</symbol>
+<symbol id="icon-get-pocket" viewBox="0 0 31 32">
+<path class="path1" d="M27.946 2.286q1.161 0 1.964 0.813t0.804 1.973v9.268q0 3.143-1.214 6t-3.259 4.911-4.893 3.259-5.973 1.205q-3.143 0-5.991-1.205t-4.902-3.259-3.268-4.911-1.214-6v-9.268q0-1.143 0.821-1.964t1.964-0.821h25.161zM15.375 21.286q0.839 0 1.464-0.589l7.214-6.929q0.661-0.625 0.661-1.518 0-0.875-0.616-1.491t-1.491-0.616q-0.839 0-1.464 0.589l-5.768 5.536-5.768-5.536q-0.625-0.589-1.446-0.589-0.875 0-1.491 0.616t-0.616 1.491q0 0.911 0.643 1.518l7.232 6.929q0.589 0.589 1.446 0.589z"></path>
+</symbol>
+<symbol id="icon-vimeo" viewBox="0 0 32 32">
+<path class="path1" d="M30.518 9.25q-0.179 4.214-5.929 11.625-5.946 7.696-10.036 7.696-2.536 0-4.286-4.696-0.786-2.857-2.357-8.607-1.286-4.679-2.804-4.679-0.321 0-2.268 1.357l-1.375-1.75q0.429-0.375 1.929-1.723t2.321-2.063q2.786-2.464 4.304-2.607 1.696-0.161 2.732 0.991t1.446 3.634q0.786 5.125 1.179 6.661 0.982 4.446 2.143 4.446 0.911 0 2.75-2.875 1.804-2.875 1.946-4.393 0.232-2.482-1.946-2.482-1.018 0-2.161 0.464 2.143-7.018 8.196-6.821 4.482 0.143 4.214 5.821z"></path>
+</symbol>
+<symbol id="icon-reddit-alien" viewBox="0 0 32 32">
+<path class="path1" d="M32 15.107q0 1.036-0.527 1.884t-1.42 1.295q0.214 0.821 0.214 1.714 0 2.768-1.902 5.125t-5.188 3.723-7.143 1.366-7.134-1.366-5.179-3.723-1.902-5.125q0-0.839 0.196-1.679-0.911-0.446-1.464-1.313t-0.554-1.902q0-1.464 1.036-2.509t2.518-1.045q1.518 0 2.589 1.125 3.893-2.714 9.196-2.893l2.071-9.304q0.054-0.232 0.268-0.375t0.464-0.089l6.589 1.446q0.321-0.661 0.964-1.063t1.411-0.402q1.107 0 1.893 0.777t0.786 1.884-0.786 1.893-1.893 0.786-1.884-0.777-0.777-1.884l-5.964-1.321-1.857 8.429q5.357 0.161 9.268 2.857 1.036-1.089 2.554-1.089 1.482 0 2.518 1.045t1.036 2.509zM7.464 18.661q0 1.107 0.777 1.893t1.884 0.786 1.893-0.786 0.786-1.893-0.786-1.884-1.893-0.777q-1.089 0-1.875 0.786t-0.786 1.875zM21.929 25q0.196-0.196 0.196-0.464t-0.196-0.464q-0.179-0.179-0.446-0.179t-0.464 0.179q-0.732 0.75-2.161 1.107t-2.857 0.357-2.857-0.357-2.161-1.107q-0.196-0.179-0.464-0.179t-0.446 0.179q-0.196 0.179-0.196 0.455t0.196 0.473q0.768 0.768 2.116 1.214t2.188 0.527 1.625 0.080 1.625-0.080 2.188-0.527 2.116-1.214zM21.875 21.339q1.107 0 1.884-0.786t0.777-1.893q0-1.089-0.786-1.875t-1.875-0.786q-1.107 0-1.893 0.777t-0.786 1.884 0.786 1.893 1.893 0.786z"></path>
+</symbol>
+<symbol id="icon-hashtag" viewBox="0 0 32 32">
+<path class="path1" d="M17.696 18.286l1.143-4.571h-4.536l-1.143 4.571h4.536zM31.411 9.286l-1 4q-0.125 0.429-0.554 0.429h-5.839l-1.143 4.571h5.554q0.268 0 0.446 0.214 0.179 0.25 0.107 0.5l-1 4q-0.089 0.429-0.554 0.429h-5.839l-1.446 5.857q-0.125 0.429-0.554 0.429h-4q-0.286 0-0.464-0.214-0.161-0.214-0.107-0.5l1.393-5.571h-4.536l-1.446 5.857q-0.125 0.429-0.554 0.429h-4.018q-0.268 0-0.446-0.214-0.161-0.214-0.107-0.5l1.393-5.571h-5.554q-0.268 0-0.446-0.214-0.161-0.214-0.107-0.5l1-4q0.125-0.429 0.554-0.429h5.839l1.143-4.571h-5.554q-0.268 0-0.446-0.214-0.179-0.25-0.107-0.5l1-4q0.089-0.429 0.554-0.429h5.839l1.446-5.857q0.125-0.429 0.571-0.429h4q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5l-1.393 5.571h4.536l1.446-5.857q0.125-0.429 0.571-0.429h4q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5l-1.393 5.571h5.554q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5z"></path>
+</symbol>
+<symbol id="icon-chain" viewBox="0 0 30 32">
+<path class="path1" d="M26 21.714q0-0.714-0.5-1.214l-3.714-3.714q-0.5-0.5-1.214-0.5-0.75 0-1.286 0.571 0.054 0.054 0.339 0.33t0.384 0.384 0.268 0.339 0.232 0.455 0.063 0.491q0 0.714-0.5 1.214t-1.214 0.5q-0.268 0-0.491-0.063t-0.455-0.232-0.339-0.268-0.384-0.384-0.33-0.339q-0.589 0.554-0.589 1.304 0 0.714 0.5 1.214l3.679 3.696q0.482 0.482 1.214 0.482 0.714 0 1.214-0.464l2.625-2.607q0.5-0.5 0.5-1.196zM13.446 9.125q0-0.714-0.5-1.214l-3.679-3.696q-0.5-0.5-1.214-0.5-0.696 0-1.214 0.482l-2.625 2.607q-0.5 0.5-0.5 1.196 0 0.714 0.5 1.214l3.714 3.714q0.482 0.482 1.214 0.482 0.75 0 1.286-0.554-0.054-0.054-0.339-0.33t-0.384-0.384-0.268-0.339-0.232-0.455-0.063-0.491q0-0.714 0.5-1.214t1.214-0.5q0.268 0 0.491 0.063t0.455 0.232 0.339 0.268 0.384 0.384 0.33 0.339q0.589-0.554 0.589-1.304zM29.429 21.714q0 2.143-1.518 3.625l-2.625 2.607q-1.482 1.482-3.625 1.482-2.161 0-3.643-1.518l-3.679-3.696q-1.482-1.482-1.482-3.625 0-2.196 1.571-3.732l-1.571-1.571q-1.536 1.571-3.714 1.571-2.143 0-3.643-1.5l-3.714-3.714q-1.5-1.5-1.5-3.643t1.518-3.625l2.625-2.607q1.482-1.482 3.625-1.482 2.161 0 3.643 1.518l3.679 3.696q1.482 1.482 1.482 3.625 0 2.196-1.571 3.732l1.571 1.571q1.536-1.571 3.714-1.571 2.143 0 3.643 1.5l3.714 3.714q1.5 1.5 1.5 3.643z"></path>
+</symbol>
+<symbol id="icon-thumb-tack" viewBox="0 0 21 32">
+<path class="path1" d="M8.571 15.429v-8q0-0.25-0.161-0.411t-0.411-0.161-0.411 0.161-0.161 0.411v8q0 0.25 0.161 0.411t0.411 0.161 0.411-0.161 0.161-0.411zM20.571 21.714q0 0.464-0.339 0.804t-0.804 0.339h-7.661l-0.911 8.625q-0.036 0.214-0.188 0.366t-0.366 0.152h-0.018q-0.482 0-0.571-0.482l-1.357-8.661h-7.214q-0.464 0-0.804-0.339t-0.339-0.804q0-2.196 1.402-3.955t3.17-1.759v-9.143q-0.929 0-1.607-0.679t-0.679-1.607 0.679-1.607 1.607-0.679h11.429q0.929 0 1.607 0.679t0.679 1.607-0.679 1.607-1.607 0.679v9.143q1.768 0 3.17 1.759t1.402 3.955z"></path>
+</symbol>
+<symbol id="icon-arrow-left" viewBox="0 0 43 32">
+<path class="path1" d="M42.311 14.044c-0.178-0.178-0.533-0.356-0.711-0.356h-33.778l10.311-10.489c0.178-0.178 0.356-0.533 0.356-0.711 0-0.356-0.178-0.533-0.356-0.711l-1.6-1.422c-0.356-0.178-0.533-0.356-0.889-0.356s-0.533 0.178-0.711 0.356l-14.578 14.933c-0.178 0.178-0.356 0.533-0.356 0.711s0.178 0.533 0.356 0.711l14.756 14.933c0 0.178 0.356 0.356 0.533 0.356s0.533-0.178 0.711-0.356l1.6-1.6c0.178-0.178 0.356-0.533 0.356-0.711s-0.178-0.533-0.356-0.711l-10.311-10.489h33.778c0.178 0 0.533-0.178 0.711-0.356 0.356-0.178 0.533-0.356 0.533-0.711v-2.133c0-0.356-0.178-0.711-0.356-0.889z"></path>
+</symbol>
+<symbol id="icon-arrow-right" viewBox="0 0 43 32">
+<path class="path1" d="M0.356 17.956c0.178 0.178 0.533 0.356 0.711 0.356h33.778l-10.311 10.489c-0.178 0.178-0.356 0.533-0.356 0.711 0 0.356 0.178 0.533 0.356 0.711l1.6 1.6c0.178 0.178 0.533 0.356 0.711 0.356s0.533-0.178 0.711-0.356l14.756-14.933c0.178-0.356 0.356-0.711 0.356-0.889s-0.178-0.533-0.356-0.711l-14.756-14.933c0-0.178-0.356-0.356-0.533-0.356s-0.533 0.178-0.711 0.356l-1.6 1.6c-0.178 0.178-0.356 0.533-0.356 0.711s0.178 0.533 0.356 0.711l10.311 10.489h-33.778c-0.178 0-0.533 0.178-0.711 0.356-0.356 0.178-0.533 0.356-0.533 0.711v2.311c0 0.178 0.178 0.533 0.356 0.711z"></path>
+</symbol>
+<symbol id="icon-play" viewBox="0 0 22 28">
+<path d="M21.625 14.484l-20.75 11.531c-0.484 0.266-0.875 0.031-0.875-0.516v-23c0-0.547 0.391-0.781 0.875-0.516l20.75 11.531c0.484 0.266 0.484 0.703 0 0.969z"></path>
+</symbol>
+<symbol id="icon-pause" viewBox="0 0 24 28">
+<path d="M24 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1zM10 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1z"></path>
+</symbol>
+</defs>
+</svg>
+
+</body>
+</html>
