@@ -1,3 +1,7 @@
+https://tecadmin.net/tutorial/docker/docker-compose-example/ -- docker-compose
+https://www.baeldung.com/docker-compose   --- docker compose
+
+
 https://www.knowledgeindia.in/2017/04/aws-practical-exercises-001.html
 
 https://www.youtube.com/watch?v=HTlAssPBKBs --- Private repositories, GitHub & BitBucket 
