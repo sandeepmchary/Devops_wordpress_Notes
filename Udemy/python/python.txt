@@ -1,0 +1,21 @@
+wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+yum install -y gcc openssl-devel bzip2-devel libffi-devel
+cd Python-3.7.0
+./configure --enable-optimizations
+make
+make altinstall --- if we have already installed python use this or else use make install
+- ls -ltr /usr/local/bin
+- cd /usr/local/bin
+- ./python3.7 --version
+- which python3.7
+- echo $PATH
+- ln -s python3.7 python3
+- ln -s pip3.7 pip3
+- [google@python ~]$ python --version
+Python 2.7.5
+[google@python ~]$ python3 --version
+Python 3.7.0
+- [google@python ~]$ pip --version
+-bash: pip: command not found
+[google@python ~]$ pip3 --version
+pip 10.0.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)

@@ -1,0 +1,7 @@
+ERROR: "Forbidden", while: getting ElastiCache clusters
+-- https://serverfault.com/questions/677320/ansible-aws-dynamic-inventory-ec2-py-list-unauthorized
+--
+
+If not using ElasticCache you have to set that to False as well. So uncomment
+
+elasticache = False

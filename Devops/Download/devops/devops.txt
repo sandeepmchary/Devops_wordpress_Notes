@@ -1,3 +1,12 @@
+https://www.youtube.com/watch?v=Zzd9tarN3Lg&list=PL2qzCKTbjutJRM7K_hhNyvf8sfGCLklXw --shell scripting
+
+https://www.youtube.com/watch?v=FrdBzNwAcD8 -- auto scaling
+
+https://tutsgalaxy.com/introduction-to-linux-shell-scripting/
+
+https://tutsgalaxy.com/mastering-devops-with-ansible-manage-docker-containers/
+
+
 https://tecadmin.net/tutorial/docker/docker-compose-example/ -- docker-compose
 https://www.baeldung.com/docker-compose   --- docker compose
 
