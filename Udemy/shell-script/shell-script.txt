@@ -1,0 +1,143 @@
+CLASS -1
+- variables
+- filters like grep,cut,awk and sed commands
+- conditional statements
+- loops
+- functions
+-----------------------
+class -2
+
+
+---------------------------
+CLASS -3
+- pwd
+- whoami
+- id
+- clear
+- touch
+- ls
+- cd
+- date
+- sort
+- seq
+- wc
+- bc
+- head
+- tails
+- cat
+- less
+- more
+- history
+- cp
+- mv
+- mkdir
+- rm
+- tar
+- zip
+- unzip
+- wget
+- curl
+- file
+- stat
+- ln
+- grep
+- awk
+- sed
+- cut
+- last
+- paste
+- du
+- df
+- netstat
+- find
+- WHATIS
+- MAN
+-------------------
+CLASS 4
+- Redirection operators and STDIN,STDOUT,STDERR
+- linux commands needs some input(file or any another attribute) and it results some output
+- By default,input is given with the keyboard and output/error are displaying on your screen
+- sometimes you will want to put output cmd into a file, or you may want to issue another cmd on the o/p of one cmd
+- in another case,you want a file to be the input for a cmd
+- so we have : o/p redirection
+- input redirection
+- comibing redirection
+
+
+-----
+ - > if we use this for the first time it will add the content to the file if we use this for the second time then the first o/p is truncated and a new content will appear
+- >> append
+
+---------------
+comibing o/p: 
+[google@python ~]$ ls -ltr
+total 4
+drwxrwxr-x. 2 google google  28 Dec  5 07:09 pythonscripts
+drwxrwxr-x. 2 google google   6 Dec  5 17:20 shell-scripts
+-rw-rw-r--. 1 google google 190 Dec  5 17:21 demo.txt
+[google@python ~]$ ls -ltr | awk '{print $1}'
+total
+drwxrwxr-x.
+drwxrwxr-x.
+-rw-rw-r--.
+[google@python ~]$ ls -ltr| awk '{print $1}'| grep d
+drwxrwxr-x.
+drwxrwxr-x.
+-----------------------
+HOW TO SEPERATE STDOUT AND STDERR ?
+ solution: using file descriptors
+- A file descriptors is a simply an integer to identify STDIN,STDOUT & STDERR
+- 0 - STDIN
+- 1 - STDOUT
+- 2 - STDERR
+--------------------------
+- ls 1>demo.txt 
+- 1 is success,if the o/p is success then store that into demo.txt
+- ls 2>demo.txt
+- 2 is error, if the o/p have some errors then store that into demo.txt
+------
+[google@python ~]$ sassdsdfs 1>success.txt 2>error.txt
+[google@python ~]$ cat success.txt # nothing
+[google@python ~]$ cat error.txt 
+-bash: sassdsdfs: command not found
+-----------------
+[google@python ~]$ python --version 1>python.txt 2>python.txt
+[google@python ~]$ cat python.txt
+Python 2.7.5
+--------------------
+[google@python ~]$ python --version 1>python.txt 2>&1
+[google@python ~]$ cat python.txt
+Python 2.7.5
+--- store the value where 1 is storing
+
+[google@python ~]$ python --version &> python.txt ()
+[google@python ~]$ cat python.txt
+Python 2.7.5
+--- error and success o/p store intp python.txt
+----------------------------
+> file_name defaults to success o/p
+1> file_name success o/p
+2> file_name error o/p
+1>file_name 2>file_name both will store into a single file
+1>file_name 2>&1 both will store into a single file
+&>file_name both will store into a single file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

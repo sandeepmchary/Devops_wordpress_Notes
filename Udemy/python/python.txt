@@ -19,3 +19,53 @@ Python 3.7.0
 -bash: pip: command not found
 [google@python ~]$ pip3 --version
 pip 10.0.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)
+------------------------------------------------------------------------------------------
+								SECTION-2
+- in windows if we want to choose python2 give the full path of the ("c:\programmefiles\python helloworld.py")
+-------------------------
+class 2 (7)
+- Indentation in python
+- indent is a space
+- in c we use 
+{
+}
+- 
+- ---------------------
+print("this is for indentation")
+if 3 > 1:
+    print("using if condition")
+    print("we are comparing 3 with 1")
+---------------------------------------
+- indentation means giving space 
+- it should be consist through the block
+- Don't include an indent unnecessarily
+==============
+Class 3(8)
+- COMMENTS:
+-----
+a=4
+b=5
+result=a+b
+print(f"the addition of {a} and {b} is {result}")
+-----
+- for comments use # 
+-------
+'''
+ this is for checking the comments
+ we can use "",'(double quotation three times or single quotes 3 time
+'''
+a=4
+b=5
+result=a+b
+print(f"the addition of {a} and {b} is {result}")
+-------
+------------------------------------
+class 4(9)
+- SPECIAL CHARACTERS OF PYTHON
+-------------
+print("welcome to python scripting \n this is for udemy")
+---------------
+ print("hello \bworld")
+ helloworld
+ 
+ 

@@ -5,3 +5,11 @@ ERROR: "Forbidden", while: getting ElastiCache clusters
 If not using ElasticCache you have to set that to False as well. So uncomment
 
 elasticache = False
+-----------------------------------------------------------------------------------
+ winpty /C/Python37/python.exe - to work with python in git-bash
+-----------------------------------------------------------------------------------
+ TO INSTALL PIP IN CENTOS7
+ - sudo yum install epel-release -y
+ - sudo yum install python-pip -y
+ 
+ 

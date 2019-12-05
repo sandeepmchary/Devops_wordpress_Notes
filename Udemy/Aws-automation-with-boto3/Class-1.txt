@@ -1,0 +1,156 @@
+Boto3 Concepts: resource,client,meta objects,collections,waiters and paginators
+Lambda: Different ways to trigger lambda functions
+-----------------------------------------------------
+							Class -2
+what is boto3?
+- boto3 is the amazon web services SDK for python
+- Boto3 enables python developers directly to create,update,configure & manage AWS services (like ec2,s3,dynamoDB,RDS,config...etc)
+- Boto3 provides easy way to use oops with API as well as low-level access to aws services
+- Boto3 built on the top of Botocore(one of the python module to work with aws) by providing it own sessions,resource,client,meta,collections,waiters & paginators
+- Botocore is the basics for the aws-client
+- INSTALL BOTO3 TO WORK WITH AWS SERVICES USING PYTHON SCRIPTS
+---------------------------------------------
+Class 3
+- Environmental setup for the boto3 to work with aws services
+- python 2.7 or python 3.7
+- python-2.7x
+1) pip2 install boto3
+2) programmatic access keys
+root,with any iam user
+ec2_iam user
+s3_iam user
+ec2_s3 iam user
+- awscli=pip2 install awscli
+-----
+aws configure --profile root
+
+
+- python 3.7
+pip3 install boto3
+=sudo pip3 install boto3
+- awscli=pip3 install awscli
+-------------------------------
+1) we can run our python-boto3 script for aws form any one of the local server
+2) Configure programmatic access keys on your local servers using
+aws configure -- profile (any_name)
+--------------------------
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+for each_in in ec2_con_re.instances.all():
+    print(each_in.id)
+----------------------------------------------
+					Class 4
+installing boto3 and awscli on windows
+configure aws name and use of the above programme
+--------------------------------------------------
+						Class 5
+-----
+concepts of boto3
+- SESSIONS
+- RESOURCE 
+- CLIENT
+- META
+- COLLECTIONS
+- WAITERS
+- PAGINATORS
+----------------------------------------------------
+Manual steps:
+work with ec2 service
+open browser -> provide credentials-> aws management console
+From aws management console -> get ec2 console
+
+
+session object: aws management console
+session object: create resource object or client object to get particular aws service
+-- here we have management console with session_root object
+-- and ec2 console with resource or client method
+****************
+import boto3
+session_root=boto3.session.Session(profile_name="root")
+(aws configure --profile)
+ec2_console_re=session_root.resource("ec2","region")
+ec2_console_cli=session_root.client("ec2","region")
+**********************
+- from the above we have SESSION for management console and resource and client for creating ec2 services
+----
+META:
+-----
+	we have 2 type of services
+		RESOURCE: high level object, each & every output is object only,only last stage of output is string or dictionary,more . operations
+		- if we take aws console as resource,we may not have all the resource in the console
+		- 
+		CLIENT: low level objects,first output is object & other operations are dictionaries,(key value pair representation)
+		- each and every operations are available
+		
+		META: useful for resource object to get operations from client object
+----------------------------------------------------------------------
+							CLASS -6
+- COMPLETE HANDS ON FOR SESSION,RESOURCE AND CLIENT
+	min.. steps to work with any of the aws resource
+	- session
+	- resource
+	- client
+----------------
+- in linux
+	- user_home:.aws/config,credentials
+	- cd /homw/ec2-user/.aws (we have 2 files)
+	- cat config
+- SESSION-OBJECT:
+				- Session management console
+				- if we want to create ec2 create ec2-console
+				- if we want to create s3 create s3 -console
+				- if we want to create sns create sns-console
+--------------------------
+- To create a console for particulat service we can use resource or client objects
+- Resource is available with some of the services
+- ---
+		which python
+#!/bin/usr/python
+import boto3
+# session
+session=boto3.session.Session(profile_name="root")
+# ec2-console
+ec2_con_re=session.resource(service_name="ec2",region="us-east-2")
+ec2_con_cli=session.client(service_name="ec2",region="us-east-2")
+#s3 console
+s3_cons_re=session.resource(service_name="s3",region="us-east-2")
+s3_cons_cli=session.client(service_name="s3",region="us-east-2")
+------------------------------------------------------------------
+in python terminal
+dir(session)(dictionary of session)
+session.get_available_resources()
+cloudformation,dynamoDB,ec2,s3,.....some other
+resource method only applicable to above some aws services
+for client method:
+				- session.get_available_services()
+- to boto3 to work we need session(aws management) and ec2 and s3 resource or client
+------------------------------------
+				class -7
+- what is session/session object?
+	- A session is python object which we can get aws management console
+	- we have to create a session object,(custom session)
+	- default session is one created with boto3 
+	- aws configure --profile (user name)[custom session]
+	
+- custom session and default session
+- custom session are those we give like profile_name and default with nothing
+- if we run the script with default we get error beacause we given aws configure with profile name, if we give "aws configure" with out any profile_name it is treated as default one
+- 
+
+*******************
+import boto3
+ec2_con_re=boto3.resource(service_name="ec2",region_name="us-east-2")
+for each_in in ec2_con_re.instances.all():
+	print(each_in.id)
+***************************
+
+
+
+
+
+
+
+
+
+

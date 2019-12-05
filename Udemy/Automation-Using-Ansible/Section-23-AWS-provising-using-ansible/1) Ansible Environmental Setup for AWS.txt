@@ -1,0 +1,100 @@
+- go to aws account
+- click on name --> my security credentials --> take access_key and secret_key
+- install ansible on any vm
+- ansible uses python boto3 libraries to call AWS API, and boto/boto3 needs aws credentials in order to function
+* sudo pip install boto boto3 --user
+* sudo pip install awscli
+* aws configure
+
+- create instance
+****************************
+---
+- name: aws instance
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: launch instance
+      ec2:
+        instance_type: t2.micro
+        image: ami-0f2b4fc905b0bd1f1
+        key_name: samdevops
+        region: us-east-2
+
+****************************
+--------------
+class 2(62)
+-- launch ec2 instances with required security groups and tags 
+
+----------------------
+start instance
+*****************
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: starting ec2 instances
+      ec2:
+        instance_ids: i-09cd119067c24683f
+        region: us-east-2
+        state: running
+        wait: yes
+**************************
+
+stop instance
+*************************
+---
+    - hosts: localhost
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: starting ec2 instances
+          ec2:
+            instance_ids: i-09cd119067c24683f
+            region: us-east-2
+            state: stopped
+            wait: yes
+*************************
+terminate instance
+**********************************
+---
+    - hosts: localhost
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: starting ec2 instances
+          ec2:
+            instance_ids: i-09cd119067c24683f
+            region: us-east-2
+            state: absent
+            wait: yes
+    
+**********************************
+- instance with multiple instances and tags
+************************************
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Creating ec2 instances
+      ec2:
+        instance_type: t2.micro
+        count: 1
+        image: ami-******
+        region: us-east-2
+        wait: yes   
+        #group: launch-wizard-1
+        # group:
+        #    - launch-wizard-1
+        #    - default
+        # group-id:
+        #    - sg-*****
+        #    - sg-*****
+        # group-id: ['sg-*****'.'sg-*******']
+        group: ['launch-wizard-1','default']
+        instance_tags:
+            Name: Test
+            ENV: db
+*****************************************************************
+
+
