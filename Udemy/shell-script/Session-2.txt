@@ -1,0 +1,16 @@
+Class 1(5)
+-----
+
+[google@python ~]$ echo "$(ls)"
+demo.txt
+error.txt
+pythonscripts
+python.txt
+shell-scripts
+success.txt
+[google@python ~]$ echo "$(pwd)"
+------
+#!/usr/bin/bash
+echo "This is a simple msg"
+echo "$USER"
+echo "$(date)"
