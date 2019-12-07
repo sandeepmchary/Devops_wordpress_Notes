@@ -96,5 +96,8 @@ terminate instance
             Name: Test
             ENV: db
 *****************************************************************
+					Class -4(64)
+- START,STOP,TERMINATE WITH SINGLE PLAYBOOK
+
 
 

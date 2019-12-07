@@ -1,4 +1,4 @@
-Boto3 Concepts: resource,client,meta objects,collections,waiters and paginators
+	Boto3 Concepts: resource,client,meta objects,collections,waiters and paginators
 Lambda: Different ways to trigger lambda functions
 -----------------------------------------------------
 							Class -2

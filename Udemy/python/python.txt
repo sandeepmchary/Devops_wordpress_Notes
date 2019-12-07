@@ -67,5 +67,33 @@ print("welcome to python scripting \n this is for udemy")
 ---------------
  print("hello \bworld")
  helloworld
- 
+- \n -- new line
+- \b -- back space
+- \t -- tab
+- \  -- escape symbol
+- \\ -- windows path 
+- \a -- alert sound
+-----
+>>> print ('python's class)
+  File "<stdin>", line 1
+    print ('python's class)
+                   ^
+SyntaxError: invalid syntax
+-------
+>>> print('python\'s class')
+python's class
+----------------------
+>>> print("this is "python" class")
+  File "<stdin>", line 1
+    print("this is "python" class")
+                         ^
+SyntaxError: invalid syntax
+---------------------------------
+>>> print("this is \"python\" class")
+this is "python" class
+-----------------------------------------
+- CLASS 5(10)
+- RUNNING SCRIPT FOR WINDOWS AND LINUX
+
+
  
