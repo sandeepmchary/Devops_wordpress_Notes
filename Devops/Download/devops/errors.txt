@@ -11,5 +11,19 @@ elasticache = False
  TO INSTALL PIP IN CENTOS7
  - sudo yum install epel-release -y
  - sudo yum install python-pip -y
+---------------------------------
+vs code file stdin line 1 error python error
+-- https://stackoverflow.com/questions/51540391/invalid-syntax-error-when-running-python-from-inside-visual-studio-code
+--
+Think this is a bug of VS Code.
+
+When you use "run selection/line in python terminal" command, VS Code starts python interpreter and doesn`t quit it after completion.
+
+You should use exit() command in python interpreter window to end python session.
+----------------------------------------------------------------------------
+- cygwin to desktop
+- https://superuser.com/questions/1286119/how-to-open-desktop-directory-from-cygwin
+- /cygdrive/c/Users/user/Desktop
+- 
  
  

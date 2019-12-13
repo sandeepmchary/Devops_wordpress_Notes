@@ -14,3 +14,90 @@ success.txt
 echo "This is a simple msg"
 echo "$USER"
 echo "$(date)"
+----------------
+#!/usr/bin/bash
+echo -n "This is one more line\t"
+echo "Today date is $(date)"
+---------------
+- env -- to list system info
+- variable names should be a-z,A-Z,0-9,_
+- dont start with number
+- 1y is not good
+- y1 is good
+- no space in variable name
+- my_name=san
+[google@python shell-scripts]$ echo $my_name
+san
+- variable are case sensitive
+- 
+------------------
+#!/bin/bash
+x=23
+y=23.9
+my_name="my name is samantha"
+x2=57
+
+echo "the value of:  $my_name"
+echo $x
+echo $y
+echo x2
+-------------------------------------
+Class-1(6)
+- How to execute a shell-scripts from another shell-script?
+- how to access variables which are defined in another file	?
+-----------
+httpd
+start_httpd.sh
+#!/bin/bash
+sudo systemctl start httpd
+
+stop_httpd.sh
+#!/bin/bash
+sudo systemctl stop httpd
+
+
+---------------
+tomcat
+start.sh
+#!/bin/bash
+/opt/tomcat/apache-tomcat-8.5.49/bin/startup.sh
+
+stop.sh
+#!/bin/bash
+/opt/tomcat/apache-tomcat-8.5.49/bin/shutdown.sh
+-------------------------------------------------------------
+/root/examples/start_httpd.sh
+/root/examples/tomcat_start.sh
+
+--- above for running form the another shell-script
+--
+vi one.sh
+#!/bin/bash
+name="Bond:James-Bond"
+chmod +x one.sh
+
+vi two.sh
+#!/bin/bash
+./one.sh
+echo $name
+--- we are calling one.sh from another shell-script, so this one.sh creates a new shell in this script and executes on that shell only 
+-- for that
+
+vi two.sh
+#!/bin/bash
+source ./one.sh
+echo $name
+----------------
+/home/google/shell-scripts/var.sh
+
+
+
+
+
+
+
+
+
+
+
+

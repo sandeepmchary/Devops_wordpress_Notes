@@ -1,0 +1,22 @@
+-EXECUTING PYTHON BOTO3 SCRIPTS FROM EC2 INSTANCE WITH AN IAM ROLE
+"WITHOUT PROGRAMMATIC ACCESS KEYS"
+-- no keys only iam role
+
+--- create a role 
+-- attach ec2 --> ec2fullaccess
+-- now no need to create a custom session we can use default session
+----------------------------------------------
+#!/usr/bin/python
+import boto3
+#session=boto3.session.Session(profile_name="root")
+#ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+ec2_con_re=boto3.resource(service_name="ec2",region_name="us-east-2")
+for each_in in ec2_con_re.instances.all():
+    print each_in
+----------------------------------------------------
+# s3 buckets
+#!/usr/bin/python
+import boto3
+s3_re=boto3.resource("s3","us-east-2")
+for each_bucket in s3_re.buckets.all():
+    print each_bucket

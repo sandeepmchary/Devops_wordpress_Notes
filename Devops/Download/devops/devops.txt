@@ -1,4 +1,7 @@
+https://admin-ahead.com/forum/general-linux/python-script-to-create-and-delete-sudo-user/ -- user creation with python
 https://www.youtube.com/watch?v=Zzd9tarN3Lg&list=PL2qzCKTbjutJRM7K_hhNyvf8sfGCLklXw --shell scripting
+
+https://computingforgeeks.com/how-to-setup-3-node-kubernetes-cluster-on-ubuntu-18-04-with-weave-net-cni/
 
 https://www.youtube.com/watch?v=FrdBzNwAcD8 -- auto scaling
 

@@ -94,6 +94,7 @@ this is "python" class
 -----------------------------------------
 - CLASS 5(10)
 - RUNNING SCRIPT FOR WINDOWS AND LINUX
+  we all know it 
 
 
  
