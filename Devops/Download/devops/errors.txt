@@ -1,5 +1,12 @@
 ERROR: "Forbidden", while: getting ElastiCache clusters
 -- https://serverfault.com/questions/677320/ansible-aws-dynamic-inventory-ec2-py-list-unauthorized
+
+=============================================================================
+
+https://stackoverflow.com/questions/18200248/cloning-a-repo-from-someone-elses-github-and-pushing-it-to-a-repo-on-my-github 
+
+- clone error
+============================================================================
 --
 
 If not using ElasticCache you have to set that to False as well. So uncomment

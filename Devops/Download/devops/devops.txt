@@ -1,3 +1,11 @@
+===============================================================================
+https://intellipaat.com/blog/interview-question/cloud-computing-interview-questions/
+
+https://intellipaat.com/blog/interview-question/devops-interview-questions/
+
+above 2 are for interview question
+===============================================================================
+
 https://admin-ahead.com/forum/general-linux/python-script-to-create-and-delete-sudo-user/ -- user creation with python
 https://www.youtube.com/watch?v=Zzd9tarN3Lg&list=PL2qzCKTbjutJRM7K_hhNyvf8sfGCLklXw --shell scripting
 
