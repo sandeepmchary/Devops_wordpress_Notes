@@ -34,3 +34,22 @@ You should use exit() command in python interpreter window to end python session
 - 
  
  
+---------------------------------------------------------------------------------------
+E: Could not get lock /var/lib/dpkg/lock - open (11 Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/) is another process using it?  
+
+pgrep -a apt
+
+sudo kill processnumber
+
+https://askubuntu.com/questions/15433/unable-to-lock-the-administration-directory-var-lib-dpkg-is-another-process
+------------------------------------------------------------
+ssh -i  ~/.ssh/my-ssh-key username@ip-address
+
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/my-ssh-key username@ip-address
+============================================================================================
+https://www.folkstalk.com/2012/06/delete-all-lines-in-vi-vim-editor-unix.html
+
+Go to command mode in the editor by pressing ESC key on the keyboard.
+Press gg. It will take to the first line of the file.
+Then press dG. This will delete from the first line to the last line.
