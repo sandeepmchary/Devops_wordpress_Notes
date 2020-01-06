@@ -1,0 +1,13 @@
+-- these operations are found in x="hi" --> print(dir(x))
+my_str="Python"
+-- print(my_str.startswith("p"))
+--print(my_str.startswith("P"))
+--print(my_str.endswith("N"))
+--print(my_str.endswith("hon"))
+--print(my_str.istitle())
+--print(my_str.islower())
+--my="Python tutorial"
+--print(my_str.istitle())
+--print(my.isspace())-- is false because my is collection of alphabets and spaces
+--print(my1.isspace())
+print(my_str.isalpha()) -- if we have space it is not alphabet
