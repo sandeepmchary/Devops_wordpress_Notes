@@ -1,0 +1,83 @@
+107. INSTALL DOCKER ON LINUX MACHINE
+-----------------------------------------
+Docker Editions:
+
+	 - Docker Editions,which do i use?
+	 - Learn which one we will use in this course
+	 - Learn Docker CE vs EE
+	 - Learn Stable vs Edge Release
+	 - 
+_______________________________________________________________________________________________	 
+ -   76  sudo yum update
+   77  sudo yum install -y yum-utils   device-mapper-persistent-data   lvm2
+   78  sudo yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+   79  ls
+   80  yum install -y docker-ce
+   81  sudo yum install -y docker-ce
+   82  lsb_release
+   83  cat /etc/issue
+   84  uname -a
+   85  sudo find /-name redhat-release
+   86  sudo find / -name redhat-release
+   87  cat /etc/redhat-release
+   88  lsb_release -a
+   89  docker --version
+   90  docker version
+   91  sudo usermod -aG $(whoami)
+   92  sudo usermod -aG docker $(whoami)
+   93  exit
+   94  docker hello-world
+   95  docker run hello-world
+   96  sudo systemctl enable docker
+   97  sudo systemctl status docker
+   98  docker version
+   99  history
+--------------------------------------------------------------------
+108. DOCKER BASICS & RUN CONTAINER
+---------------------------------------
+- image vs container
+- run container
+- check container logs and process
+------------------------------------------
+	- why container used?
+	-----------------------------------------------
+	commands:
+			- docker run -p 80:80 nginx
+			- docker run -d -p 80:80  nginx
+-------------------------------------------------
+109.Docker file basics
+	- docker can build images automatically by reading the instructions form the Docker file
+	- dokcer build -f <path of the file >
+	----------------------
+110. Docker file instruction construction commands
+	- FROM:
+		- the FROM intializes the build stage and sets for the subsequent instructions
+		- A valid Docker file starts from the FROM instruction
+		- base image can be valid image
+		- format
+			- FROM <image>[:<tag>]
+		- RUN: RUN command will execute any commands on the top of the current image and commit the results
+		- The resulting commit will be used in the next step of the docker file
+		-- FROM ubuntu:14
+		   RUN apt-get update
+		   RUN apt-get install -y curl
+		- CMD: CMD instructions are used to run the softwares that are in the image along with arguments
+		-- CMD ["executable","param1","param2"]
+		- the cmd should be only one in Dockerfile,if we put list of CMD in the file the last one will effects
+		- the main purpose of the CMD is provide the default of the executing container.
+		- EXPOSE: EXPOSE instruction provides the ports in the container listens for the containres
+		-- Expose <port>
+		- Env:
+		---- ADD:
+		---- WORKDIR
+-------------------------------------------------------------------------------------------------
+111. Create Docker File of Our Project
+- Create docker file for our project
+----
+FROM tomcat:8.0
+ADD **/*.war /usr/local/tomcat/webapps
+Expose 8080
+
+CMD["catlina.sh","run"]
+-------------------------------------------------------------
+112.Text Direction : Create Docker File of Our Project
