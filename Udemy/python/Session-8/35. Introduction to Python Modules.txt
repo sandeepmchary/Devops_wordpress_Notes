@@ -1,0 +1,93 @@
+Section 8: Working with Python MODULEs
+
+what is a module?
+it contains python defination and statements.it contains python functions and variables
+what is the use of module?
+reusability
+
+NOTE: IF SCRIPT CONTAINS MYMODULE.PY THEN MODULE NAME IS MYMODULE
+
+Types of modules:
+	- default
+	- third party modules
+	
+- EITHER IMPORT OR USE THIRD PARTY MODULES BEFORE USING THEM
+------------------------------------------------------------------------
+METHOD -1
+import math
+print(math.pi)
+print(math.pow(2,3))
+
+
+METHOD-2
+import math as mt
+print(mt.pi)
+print(mt.pow(2,3))
+
+METHOD-3
+
+from math import *(all)
+print(pi)
+print(pow(2,3))
+
+METHOD-4
+
+from math import pi,pow
+print(pi)
+print(math(4,3))
+
+METHOD-5
+
+import math
+import sys
+import subprocess
+import platfrom
+import os
+
+METHOD-6
+import math,subprocess,platfrom,sys (not good practice)
+--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+36
+PLATFROM MODULE
+--
+import platform
+#print(len(dir(platform)))
+'''
+print(f' this is {platform.architecture()}')
+print (f'the python version is {platform.python_version()}')
+print(f'The machine information is {platform.machine()}')
+print(f'The os release is {platform.release()}')
+print(f' the python version is {platform.python_version_tuple()}')
+print(f'my os architecture is {platform.architecture()}',f'my machine information is {platform.machine()}'\
+	f'The os release is {platform.release()}'\
+	f'The entire info of system is {platform.platform()}')
+'''
+dir(platform)
+---------------------
+dir(platform)
+print(platform.platform())
+print(platform.)
+------------------------------------------
+Python 3.7.0 (v3.7.0:1bf9cc5093, Jun 27 2018, 04:59:51) [MSC v.1914 64 bit (AMD64)] on win32
+Type "copyright", "credits" or "license()" for more information.
+>>> import platform
+>>> print(platform.node())
+Lakshmi-pc
+>>> print(platform.uname())
+uname_result(system='Windows', node='Lakshmi-pc', release='10', version='10.0.18362', machine='AMD64', processor='Intel64 Family 6 Model 58 Stepping 9, GenuineIntel')
+>>> 
+-----------------------------------------------------
+37	
+GETPASS()
+getpass()
+import getpass
+db_pass=getpass.getpass(prompt="Enter your DB PassworD: ")
+print(db_pass)
+print(f'The entered password is : {db_pass}')
+--------------------
+getpass(): prompts the user for a password without echoing.the getpass module provides a secure way to handle the password prompts where programme interacts with the user via terminal
+-------
+getuser():function display the login of the user.this function checks the env variables LOGNAME,USER,LNAME,
+USERNAME,IN ORDER and return the value of the first non-empty string
+

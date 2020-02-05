@@ -1,33 +1,49 @@
-Step 1: Install OpenJDK 8
+#PREREQUISITES
+#- 3GB RAM
+#- JAVA 8 VERSION
 
-Apache Maven requires Java 1.7 or greater. For this reason, you can install OpenJDK 8 as follows.
 
+#Step 1: Install OpenJDK 8
+
+#LOGIN AS ROOT USER:
+sudo su -
+cd /opt
+sudo yum -y install unzip
 sudo yum install -y java-1.8.0-openjdk-devel
 
-Step 2: Finally, setup the JAVA_HOME environment variable.
+#Step 2: Finally, setup the JAVA_HOME environment variable.
 
 echo “JAVA_HOME=$(readlink -f /usr/bin/java | sed “s:bin/java::”)” | sudo tee -a /etc/profile
 source /etc/profile
 
-Step 3: Download and configure SonarQube
+#Step 3: Download and configure SonarQube
 
-Download the SonarQube installer files archive.
+wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-7.6.zip
 
-wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.4.zip
+# Step 4: unzip the sonarqube
 
-You can always look for the link to the latest version of the application on the SonarQube download page.
+unzip sonarqube-7.6.zip
 
-Install unzip by running:
+# Add user sonar
 
-sudo yum -y install unzip
+useradd sonar
+echo "sonar ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
 
-Unzip the archive using the following command.
+# Changing the permissions
+chown -R sonar:sonar /opt/sonarqube-7.6/
 
-sudo unzip sonarqube-6.4.zip -d /opt
+# change the user
+cd /home/sonar/sonarqube-7.6/bin/linux-x86-64/
 
-Rename the directory:
+# start the sonar service
+./sonar.sh start
 
-sudo mv /opt/sonarqube-6.4 /opt/sonarqube
+
+
+
+
+
+
 
 Step 4: Configure Systemd service
 

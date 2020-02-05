@@ -1,3 +1,21 @@
+https://mkyong.com/docker/docker-and-java-application-examples/
+=====================================================================================
+
+Access denied error with python sql
+mysql -u root -p
+sudo mysql
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123';
+FLUSH PRIVILEGES;
+=============================================================================
+How to fix KeyError: 'MYSQL_DATABASE_SOCKET' in Flask?
+app.config['MYSQL_DATABASE_SOCKET'] = None
+pip3 install flask-mysql
+=============================================================================
+
+
+
+
 ERROR: "Forbidden", while: getting ElastiCache clusters
 -- https://serverfault.com/questions/677320/ansible-aws-dynamic-inventory-ec2-py-list-unauthorized
 
@@ -6,7 +24,14 @@ ERROR: "Forbidden", while: getting ElastiCache clusters
 https://stackoverflow.com/questions/18200248/cloning-a-repo-from-someone-elses-github-and-pushing-it-to-a-repo-on-my-github 
 
 - clone error
+
+
 ============================================================================
+docker removes all images at once
+docker rmi $(docker images -a -q)
+
+============================================================================
+
 --
 
 If not using ElasticCache you have to set that to False as well. So uncomment

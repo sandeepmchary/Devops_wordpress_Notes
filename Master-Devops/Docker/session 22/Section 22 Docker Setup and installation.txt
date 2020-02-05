@@ -81,3 +81,57 @@ Expose 8080
 CMD["catlina.sh","run"]
 -------------------------------------------------------------
 112.Text Direction : Create Docker File of Our Project
+-------------------------------------------------------------
+pipeline {
+    agent any
+    stages {
+        stage('Build Application') {
+            steps {
+                sh 'mvn -f pom.xml clean package'
+            }
+            post {
+                success {
+                    echo "Now Archiving the Artifacts...."
+                    archiveArtifacts artifacts: '**/*.war'
+                }
+            }
+        }
+ 
+        Stage('Create Tomcat Docker Image'){
+            steps {
+                sh "docker build . -t tomcatsamplewebapp:${env.BUILD_ID}"
+            }
+        }
+ 
+    }
+}
+-------------------------------------------------------------
+113. Build and tag project Docker image
+- install docker on jenkins machine
+- sudo usermod -a -G docker jenkins(we need to run this job as jenkins)
+- systemctl restart jenkins
+----------------------------------------------------------------
+114. Trouble Shooting: Build Docker Image
+
+Maybe some users may get Permission error like:
+
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post
+
+
+Then, you need to follow the below commands:
+
+1. Add Jenkins User in Docker Group
+
+sudo usermod -a -G docker jenkins
+
+
+
+2. Restart Your Jenkins
+
+systemctl restart jenkins
+----------------------------------------------------------------
+115. Execute project in docker
+
+-- docker images
+-- docker run container -p <host port>:<port inside the docker> <docker image with tag> -d 
+-- then check the in tomcat

@@ -46,3 +46,4 @@ for each_vol_ids in list_of_vol_ids:
         waiter = ec2_cli.get_waiter('snapshot_completed')
         waiter.wait(SnapshotIds=snapids)
         print("Successfully snaped for the the volumes of {}".format(list_of_vol_ids))
+        
