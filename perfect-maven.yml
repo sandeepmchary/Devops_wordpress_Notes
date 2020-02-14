@@ -1,0 +1,39 @@
+---
+# tasks file for apache-maven
+- name: Checking if Maven is already installed
+  stat: 
+    path: '/opt/apache-maven-3.6.3'
+  register: maven_installed
+
+- name: Downloading Maven Binaries
+  get_url:
+    url: 'http://www.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz'
+    dest: '/opt/apache-maven-3.6.3-bin.tar.gz'
+  when: not maven_installed.stat.exists
+
+- name: Unarchive Maven Binaries
+  unarchive:
+    src: '/opt/apache-maven-3.6.3-bin.tar.gz'
+    dest: '/opt'
+    copy: no
+  when: not maven_installed.stat.exists
+
+- name: Remove old path configuration
+  file:
+    path: /etc/profile.d/maven.sh
+    state: absent
+
+- name: Maven path configuration
+  lineinfile:
+    dest: /etc/profile.d/maven.sh
+    line: '{{ item.line }}'
+    create: yes
+    state: present
+  with_items:
+    - { line: 'M2_HOME=/opt/apache-maven-3.6.3' }
+    - { line: 'PATH=$PATH:$M2_HOME/bin' }
+
+- name: Cleaning Up
+  file:
+    state: absent
+    path: '/opt/apache-maven-3.6.3-bin.tar.gz'

@@ -1,0 +1,6 @@
+---
+- name: Installing sonarqube
+  hosts: sonarqube
+  become: yes
+  tasks:
+  

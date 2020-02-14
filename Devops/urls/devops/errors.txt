@@ -1,3 +1,12 @@
+https://github.com/tecris/ansible-maven -- perfect-maven
+
+https://freetutsdownload.net/  --- course videos
+
+https://freeshadow-my.sharepoint.com/personal/hoquangdai_abcda_tech/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhoquangdai%5Fabcda%5Ftech%2FDocuments%2FTUT%2FNT09%2FUdemy%2EComplete%2EDEVOPS%2Ewith%2EDocker%2EJenkins%2EGIT%2EVagrant%2Eand%2EMaven%5F%5Bfreetuts%2Edownload%5D%2Erar&parent=%2Fpersonal%2Fhoquangdai%5Fabcda%5Ftech%2FDocuments%2FTUT%2FNT09&originalPath=aHR0cHM6Ly9mcmVlc2hhZG93LW15LnNoYXJlcG9pbnQuY29tLzp1Oi9nL3BlcnNvbmFsL2hvcXVhbmdkYWlfYWJjZGFfdGVjaC9FVVE1Z3FSaVNvcEZ0MEZnMkdnWjhjQUJCNUIzRFJ4aUN3V3BNbXpvLWtDZlhRP3J0aW1lPWJHMHVXdWFyMTBn
+
+
+
+
 https://mkyong.com/docker/docker-and-java-application-examples/
 =====================================================================================
 
