@@ -1,0 +1,26 @@
+Download the kops in linux machine
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+
+- chmod +x ./kops-linux-amd64
+- sudo mv ./kops-linux-amd64 /usr/local/bin
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
+- kubectl version --client
+- pip3 install --user --upgrade awscli
+- export PATH=~/.local/bin:~/Library/Python/3.6/bin:$PATH
+- awscli will be installed
+-------------------------
+kops on aws console
+	- set up IAM permissions for kops
+	- create a user(kops) & give permissions
+	- permissions req for kops user is 
+		- AmazonEC2FullAccess
+		- AmazonRoute53FullAccess
+		- AmazonS3FullAccess
+		- AmazonVPCFullAccess
+		-
+
+

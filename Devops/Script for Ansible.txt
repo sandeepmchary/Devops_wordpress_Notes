@@ -1,6 +1,7 @@
 # Installation steps for rhel8:
 yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-yum install ansible -y
+yum install ansible
+alternatives --set python /usr/bin/python3
 
 
 # Installation steps:

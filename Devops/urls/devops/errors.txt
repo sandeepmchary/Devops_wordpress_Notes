@@ -1,3 +1,21 @@
+Installing AWS CLI via pip3 and python3
+pip3 install --user --upgrade awscli
+export PATH=~/.local/bin:~/Library/Python/3.6/bin:$PATH
+aws
+
+===============================================================
+PYTHON3 DEFAULT VERSION IN UBUNTU
+
+sudo update-alternatives --config python
+Will show you an error:
+
+update-alternatives: error: no alternatives for python3 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 2
+sudo update-alternatives --config python
+sudo update-alternatives  --set python /usr/bin/python3.6
+
+
+
 https://github.com/tecris/ansible-maven -- perfect-maven
 
 https://freetutsdownload.net/  --- course videos
