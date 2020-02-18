@@ -1,0 +1,55 @@
+- download ec2.py and ec2.ini
+- give chmod +x access to above
+  $ chmod +x ec2.py
+- give iam role(ec2 full access) attach it to the present instance or create user
+- $ ansible -i ec2.py ec2 -m ping 
+- stop the ansible node (not ansible master)
+- take that ami id from that node
+- for that ami id provide name for that 
+- launch a new instance (in this ami id we already ansible user and keys already exechanged )
+-----------------------------------------------------------------------------------------
+
+
+
+
+Pre-requisites:
+Ansible Server - Get Click here to install on RHEL 8 and click here to install on Amazon Linux
+Setup
+To get help on dynamic inventory please follow Ansible Official Document
+
+Download ec2.py and ec2.ini files
+
+Create IAM Programmatic access user with EC2 full access on AWS console
+
+IAM --> users --> Add user
+
+Export IAM user credentials on Ansible server.
+
+export AWS_ACCESS_KEY_ID='1bc123'
+export AWS_SECRET_ACCESS_KEY='abc123'
+To export keys permanently make sure that you have installed pip and boto and add credentials ~/.boto file
+
+add executing permissions to ec2.py script
+
+chmod 755 ec2.py
+test the script
+
+./ec2.py --list
+List out servers which are running on ap-south-1a AZ
+
+ansible -i ec2.py  ap-south-1a --list-hosts
+-----------------------------------------------------------------------------------------
+- FROM THE ONE OF THE NODE TAKE AMI BACKUP 
+- IF WE LAUNCH THE WITH THAT AMI ID WILL GET ALL THE ANSIBLE USER (THAT WE CREATED) 
+- FROM AMI ID WE ALREADY HAVE SSH-KEY EXCHAGED
+- assign iam role (ec2 full access)
+- ansible -i ec2.py 
+------------------------------------------------------------------------------------------
+
+- 
+
+
+
+
+
+
