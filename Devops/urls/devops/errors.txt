@@ -1,3 +1,25 @@
+http://cavaliercoder.com/blog/finding-the-latest-centos-ami.html
+
+Finding the latest CentOS AMI
+Nov 2, 2017
+
+Looking for the latest CentOS AMI image in your region? I’m frequently rewriting the following code snippets, so thought I would capture them here for posterity.
+
+Each snippet makes the following assumptions:
+
+You want an HVM, EBS backed, x86_64 image of the latest version of CentOS 7
+You have configured the desired region and credentials for the AWS SDK
+The Owner ID for the official CentOS organisation remains 679593333241
+
+===========================================================================================
+
+http://boto.cloudhackers.com/en/latest/#getting-started -- for boto3 cloud 
+===========================================================================================
+
+https://cloudaffaire.com/how-to-create-a-lamp-stack-in-aws-using-python-boto3/
+
+===========================================================================================
+
 https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
 
 echo username:new_password | chpasswd
