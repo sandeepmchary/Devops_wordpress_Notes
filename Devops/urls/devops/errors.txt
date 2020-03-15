@@ -1,3 +1,7 @@
+# Here we get the some error
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 6A030B21BA07F4FB
+
+
 http://cavaliercoder.com/blog/finding-the-latest-centos-ami.html
 
 Finding the latest CentOS AMI
