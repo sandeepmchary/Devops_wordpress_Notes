@@ -1,0 +1,25 @@
+static website in s3
+create a user and attach the administrater access to this user
+create a bucket 
+- aws s3 mb s3://(uniquename)
+- go to s3 bucket 
+- permissions
+- Bucket policy
+- click Policy generator
+-----------------------------------
+- Step 1: Select Policy Type
+- Select Type of Policy
+	- S3 bucket policy
+- Step 2: Add Statement(s)
+	- Effect (Allow)
+	- Principal *
+	- AWS Service AWS S3
+	- Actions: get object
+	- Amazon Resource Name (ARN) (get the name from Bucket policy)/*
+	- ex: arn:aws:s3:::mywebsitedemoxxxx/*
+	- Add Statement
+	- Generate policy
+	- copy the content and paste it in the Bucket policy
+
+
+	
