@@ -1,3 +1,5 @@
+#  TO UPLOAD A FILE TO S3 DONT GIVE FULL PATH FOR THE FILE JUST GIVE THE PATH UPTO THE PARENT FOLDER 
+
 # Here we get the some error
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 6A030B21BA07F4FB
 
@@ -57,6 +59,13 @@ Installing AWS CLI via pip3 and python3
 pip3 install --user --upgrade awscli
 export PATH=~/.local/bin:~/Library/Python/3.6/bin:$PATH
 aws
+
+yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+yum install -y python36u python36u-pip
+echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+ln -s /usr/bin/python3.6 /usr/local/sbin/python
+python -V
 
 ===============================================================
 PYTHON3 DEFAULT VERSION IN UBUNTU

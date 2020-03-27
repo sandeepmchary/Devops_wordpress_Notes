@@ -4,6 +4,12 @@ Install aws Elastic bean stalk
 - copy the path and add in the environmental variable
 - restart the shell
 - eb --version
+
+
+
+------------------------------------------- on Linux ---------------------------------------------
+git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+./aws-elastic-beanstalk-cli-setup/scripts/bundled_installer
 --------------------------------------------------------
 Deploy app using the EB cli
 - which eb

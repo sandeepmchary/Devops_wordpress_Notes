@@ -21,7 +21,7 @@ git push origin master
 CREATE CODEPIPELINE
 - pipeline name it
 - service role (new)
-- every thins is default
+- every thing is default
 - source provider
 	- aws codecommit
 - Repository name: (the one we created)
