@@ -1,0 +1,49 @@
+pip install awsebcli --upgrade --user
+mkdir ~/eb-lab
+cd ~/eb-lab
+eb init
+select the default region :
+Enter application name: "eb-lab"
+Select a platform: (here php)
+Select a platform version: php 5.6
+Cannot setup CodeCommit because there is no Source Control setup, continuing with initialization
+Do you want to set up SSH for your instances? (y)
+Select a keypair: samdevops
+-------------------------------------------------------
+download the source code 
+- wget https://s3-us-west-2.amazonaws.com/us-west-2-aws-training/awsu-spl/spl-47/scripts/ec2-info.zip
+- unzip ec2-info.zip
+- rm -rf ec2-info.zip
+- cp -r ec2-info/* .
+- rm -rf ec2-info
+-------------------------------------------------------------------------------------------
+- eb create --service-role aws-elasticbeanstalk-service-role
+- Enter Environment Name: 
+- Enter DNS CNAME prefix: (unique Name)
+- Select a load balancer type -- application load balancer
+- sudo yum install w3m.x86_64 -y
+- eb open
+- eb logs
+- eb logs --zip
+---------------------------------------------------------------------------
+EB SCALING
+- eb scale 2
+- (it will update the environment variable)
+- eb ssh (here we have 2 instances we have used eb scale 2)
+- copy the .pem file into .ssh of the home folder (/home/google/.ssh)(here)
+- exit (from the ec2 instances)
+- eb config save --cfg eb-lab-config (under All Applications>eb-lab>saved configuration )(this command saves the current file configuration )
+- export EDITOR=vi
+- To maintain the load balancer add the /index.php under Application Healthcheck url
+- Application Healthcheck url: '/index.php'
+--------------------------------------------------------------------------------------
+ROLLING UPDATE
+- edit the index.php file
+- eb deploy
+-----------------------------
+BLUE GRENN UPDATE
+-  edit the index.php file
+- eb create New-EB -c New-TB
+- eb swap New-EB --destination eb-lab-dev
+- 
+
