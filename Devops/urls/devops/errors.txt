@@ -1,3 +1,9 @@
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+
+
+
+
 #  TO UPLOAD A FILE TO S3 DONT GIVE FULL PATH FOR THE FILE JUST GIVE THE PATH UPTO THE PARENT FOLDER 
 
 # Here we get the some error
@@ -57,13 +63,6 @@ fi
 
 Installing AWS CLI via pip3 and python3
 pip3 install --user --upgrade awscli
-export PATH=~/.local/bin:~/Library/Python/3.6/bin:$PATH
-aws
-
-yum install -y https://centos7.iuscommunity.org/ius-release.rpm
-yum install -y python36u python36u-pip
-echo $PATH
-/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
 ln -s /usr/bin/python3.6 /usr/local/sbin/python
 python -V
 
@@ -129,7 +128,7 @@ If not using ElasticCache you have to set that to False as well. So uncomment
 
 elasticache = False
 -----------------------------------------------------------------------------------
- winpty /C/Python37/python.exe - to work with python in git-bash
+ x - to work with python in git-bash
 -----------------------------------------------------------------------------------
  TO INSTALL PIP IN CENTOS7
  - sudo yum install epel-release -y
