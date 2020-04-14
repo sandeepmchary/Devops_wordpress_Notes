@@ -1,0 +1,48 @@
+Continous interagtion is development practice that requires to interagtion the code into a shared repository several times a day
+Each Check is verified by an automated build,allowing teams to detect problems early
+if the build is not green ,system notify developer immediately by this developer can detect errors quickly and locate them more easily
+============================================================================================
+WHY DO WE NEED CONTINOUS INTEGRATION?
+- significantly less back tracking to discover where things went wrong
+- Continous INTEGRATION is cheap,if you dont follow continious integration,you'll have longer periods between integration,This make more expontentially more difficult to find and fix problems
+- Say goodbye to long and tense integrations
+- Increase visibility enabling greater communications
+- Catch issues to early and nib to the bud
+- Spending less time debugging and more time to add features
+- Stop waiting to find out if your code is going to work
+- Reduce integration problems allowing you to deliver software more rapidly
+============================================================================================
+STAGES OF ADOPTING CONTINOUS INTEGRATION
+- Continous integration is backed by several important principles and practies
+- THE PRACTICE
+	- Maintain a single source repository
+	- Automate the build
+	- Make your build self testing
+	- Make it easy for anyone to get the latest exe files
+	- Everyone can see what is happening
+	- Automate deployment
+- HOW TO DO IT
+	- Devlopers can check out the code into there own workspace
+	- When done, commit the changes to repository.
+	- CI servers monitors the repository and checks out changes when they occur
+	- CI servers builds the system and runs unit tests and intgration tests
+	- CI servers releases deployable artifacts for testing
+	- CI servers assigns a build label to the version  of the code it just build
+	- CI servers informs the team if the build is successfull
+	- If the build or test fails CI server alerts the team
+	- The team fixes the issue at the earliest oppurtunity
+- TEAMS RESPONSIBILITY
+	- Check in frequently
+	- Dont check for broken code,untested code,when the build is broken
+- CONTINOUS INTEGRATION
+	- The practice of merging Develop work to master branch constantly
+- CONTINOUS DELIVERY
+	- Continous Delivery of the code to an environment once the code is ready to ship
+	- Environment can be staging or production. First product is deliver to QA's and Review  before shipping to the customer/production
+- CONTINOUS DEPLOYMENT
+	- Essentially,it is the practice of the releasing every good build to users
+	- The deployment of the product in production as soon as it's ready
+	- BY ADOPTING BOTH CONTINOUS INTEGRATION AND CONTINOUS DEPLOYMENT,YOU REDUCE RISKS AND CATCH BUGS QUICLY,BUT ALSO MOVE RAPIDLY TO WORKING SOFTWARE
+	
+			
+
