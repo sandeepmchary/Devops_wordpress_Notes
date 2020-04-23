@@ -1,0 +1,54 @@
+1) course content
+ - introduction
+2) Course structure
+
+
+--------------------------------------------------------------------------------------------
+- Amazon RDS Introduction
+- RDS stands for relation database services
+- easy to setup,operate and scale a relation database in the cloud
+- we can create and use database which use sql as database
+- we can create database in cloud which are managed by aws
+- Amazon RDS supported database engines
+	- MySql
+	- PostgreSql
+	- Microsoft sql server
+	- MariaDB
+	- Oracle
+	- Amazon Aurora
+---------------------------------------------------------
+- steps for create rds mysql-connections
+	- after logging into the server go to database section 
+	- rds 
+	- choose the region
+	- create database
+	- standard create is selected
+	- engine options
+		- select my sql database
+		- version default
+		- template - free tier
+	- settings
+		- Name the database (fullstackdb)
+		- give user name and password
+	- DB instace sizes
+		- bustable classes
+	- Storage
+		- general purpose (default)
+	- connectivity
+		- Additional connectivity configuration
+		- subnet group (default)
+		- publically Accessable
+			- yes
+	- VPC security group
+		- choose existing
+	- Database port
+		- 3306
+	- Database authentication
+		- password authntication 
+		- crate database
+	- once done we can see the status as avialable
+	- View the credentials
+	- save those credentials we need that to connect for later point of time
+		
+		
+		
