@@ -82,3 +82,4 @@ resource "aws_instance " "example" {
     Terraform can work together with these tools to provide you CI on your machines. 
     Terraform provides Configuration Management on an infrastructure level, 
     not on the level of software of your machines.
+	

@@ -1,0 +1,4 @@
+- install java 8 in ec2
+- $ sudo yum install java-1.8* -y
+- java -version
+- download the 
