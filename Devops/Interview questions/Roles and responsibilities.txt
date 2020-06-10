@@ -166,6 +166,19 @@ in the ideal time we explore new tools
 - I deal with QA builds in our organization QA builds are done Monday and Thursday
 - Builds will take in 12-3pm, i do builds manually before ansible came in picture , we automates the builds, we use ansible to do the deployment
 
+
+-----
+- when developer commits the code to git 
+- we clone the git in jenkins server
+- with the help of pipeline script 
+- first we compile,test,package it
+- we check with sonarqube for code quality
+- then store the war/jar file in the artifactory
+- with the help publish over ssh,container on deploy, plugins 
+- we copy the war/jar file on to the tomcat server 
+- we use Dockerfile to copy the artifact to the tomcat server 
+- with the help of ansible as deployment tool we create containers and run it on the 
+
     </pre>
 
 	
