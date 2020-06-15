@@ -15,3 +15,6 @@ condition when
 - we use {{ ec2_info.tagged_instances[0].public_ip}}" -- it has lists
 - ec2_info is the registered value
 - if we have dictionaries we can use ec2_info.instance_ids
+-------------------------------------------------------------
+ex:
+find /usr/lib/jvm/java-1.8* | head -n 3
