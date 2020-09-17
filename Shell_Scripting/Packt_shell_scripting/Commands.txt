@@ -237,7 +237,74 @@ Advanced GREP commands
 -------------------------------------------------------------------
 3_3) practice grep
 	- only directories
-	  ls -ltr 
+	  to check the ip address 
+	 - ls -ltr | grep -E "^d" - listing the directories
+	 - ls -ltr | grep -E "^-" - listing the files
+	  --------
+	 in my_servers file -- check for the ipv4 address only
+	the db_prod is on 172.45.3.0
+	the dev is on 192.178.78.09
+	the test is on 178.99.77.0
+	the cast is on 1679.99.255.6
+	the check is on 182.257.257.0
+	---------------------
+#########################################################################################################
+4_1) CUT COMMAND
+	- The Cut command is a powerful tool to extract parts of each line from the file
+	- It is based on 
+		- Byte Position
+		- Character Position
+		- Field based on delimiters (by default delimiter is the tab)
+		- in UTF 8 both byte and character is same
+		- mostly use -c
+		- no need to use 1 by default it is treated as 1st character only
+		- s is for exclude part which dont have the field seperater
+		CUT COMMAND SYNTAX
+			- cut [options] <positions(fields)/range of positions(fields)> <input_file>
+			- cat file | cut [options] <positions(fields)/range of positions(fields)>
+			- options -b -c -f
+				Ranges
+				  - 2 only second byte/character/field
+				  - 2- second byte/character/field to last
+				  - -7 one to seventh
+				  - 3,5 third to fifth
+			- syntax:
+					- cut -b <positions/range of positions> file
+					- cut -c <positions/range of positions> file
+					- Positions: 3,5,10
+					- Range of positions: 3-7,6-10
+				    - --complement to complement the output
+				  
+		- ex:
+		  - cut -c 1 /etc/passwd or use -b(-c)
+		  - cut -c 4,9 /etc/passwd
+		  - cut -c 4-9 /etc/passwd
+		  - cut -c 4-9,12 /etc/passwd
+		  - cut -c 4- /etc/passwd
+		  - create a file with tab as field (delimiter) 4_check_cut
+		  - cut -f 2 4_check_cut
+		  - cut -f 2,3 4_check_cut
+		  - again add some content in 4_check_cut file with space as delimiter
+		  - for this if the content not divided with tab the entire line is considered as one field only
+		  - cat /etc/passwd - here we have to take : as delimiter
+		  - cut -d ':' -f 1 /etc/passwd
+		  - cut -d ':' -f 1,4 /etc/passwd --output-delimiter="-"
+		  - cut -d ':' -f -4 /etc/passwd --output-delimiter="_"
+		  - cut -d ' ' -f 1 4_check_cut 
+		  - cut -d ' ' -sf  1 4_check_cut
+		    asdfadf
+			adfasdfas
+		  - httpd -v
+		    - we need here only the number
+			- for that we use
+			  - httpd -v | grep -E "version" | cut -d "/" -f 2 | cut -d " " -f 1
+			  
+
+		  
+		  
+    
+	
+
 	
 	
   
