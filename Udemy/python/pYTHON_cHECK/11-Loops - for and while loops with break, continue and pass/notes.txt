@@ -1,0 +1,18 @@
+range()
+- its a built in function
+- Generate integers as a list
+syntax:
+  - range(start,stop,step)
+  - range(3) --> it means start argument value
+  - by default start=0 and step=1
+  - in python 2
+    - print(range(3))
+    - it will show (0,1,2)
+  - in python 3
+    - print(range(3))
+    - range(0, 3)
+    - for this we need to use 
+      - print(list(range(3)))
+      - it will show [0, 1, 2]
+  - when we provide one argument that is by default stop value
+  - 

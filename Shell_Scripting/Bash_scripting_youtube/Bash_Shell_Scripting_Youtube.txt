@@ -1,0 +1,83 @@
+sh - bourne shell
+bash - bourne again shell,started GNU Shell
+- which bash
+- vim hello.sh
+  #!/bin/bash
+  echo "Hello World"
+----------------------------------------------
+2. Using Variables and Comments
+  - system Variables
+    - predefined in unix os, Mostly there are in CAPITAL
+  - User defined variables
+    - lower cases
+	- variable names should not start with numbers
+	- 
+----------------------------------------------
+3. Read User Input
+  - when ever we need to take input from the user/terminal use "read"	
+  - -p allows us to enter on the same prompt/line
+  - read without any variable
+  - we can use $REPLY for this
+  - read -a for array
+  - echo ${name[0]}
+  - read array,password,without_variable
+----------------------------------------------
+4. passing argument to bash
+   - echo $1 $2 $3
+   - echo $0 $1 $2 $3
+     - here we get $0 as the file name 
+   - args=($@)
+   - echo ${args[0]} ${args[1]} ${args[2]}
+   - here we dont get the filename for args[0] 
+   - echo $@ same as args=($@)
+   - echo $# for number of arguments passed
+----------------------------------------------
+5. if_else
+   - if[condition]
+     then
+	   statement
+	 fi
+    ************************************************
+	INTEGER COMPARSION
+	  -eq - is equal to - if["$a" -eq "$b"]
+	  -ne - is not equal to - if ["$a" -ne "$b"]
+	  -gt - is greater than - if["$a" -gt "$b"]
+	  ->  - is greater than - if["$a" > "$b"]
+	  -ge - is greater than or equal to - if["$a" -ge "$b"]
+	  ->= - is greater than or equal to - if["$a" > "$b"]
+	  -lt - is less than - if["$a" -lt "$b"]
+	  -<  - is less than - if["$a" < "$b"]
+	  -le - is less than or equal to - if["$a" -le "$b"]
+	  -<= - is less than or equal to - if["$a" <= "$b"]
+	  
+	String Comparision
+	------------------
+	
+	- =
+	- == 
+	- <
+	- >
+	- z - string is null it has zero length
+	  
+	  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  

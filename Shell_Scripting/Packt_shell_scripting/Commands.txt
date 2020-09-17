@@ -1,0 +1,270 @@
+pwd
+whoami
+touch
+date
+sort
+ls
+cd
+seq
+wc
+bc
+head
+tails
+cat
+less
+more
+history
+cp
+mv
+mkdir
+rm
+rmdir
+tar
+zip
+unzip
+wget
+curl
+file
+stat
+ln
+grep
+awk
+sed
+cut
+last
+paste
+du
+df
+netstat
+find
+locate
+---------------
+whatis
+-------------------------------------------------------------------------------------------------
+4) Redirection operators &STDIN,STDOUT,STDERR
+- output to a file, or run another command from that output
+- so we have 
+  - output redirections
+  - input redirections
+  - combining redirections
+     -----------------------
+	  - output redirections
+	    - > to create a new file
+		- >> to append to old file
+	  - input redirections
+	    - < to provide the input
+	  - Combining redirection Operators
+	    - | output of one command to another command as input
+	  ----------------------------------------------
+	  HOW TO SEPERATE STDERR AND STDOUT
+	  - using file descriptor
+	  - A file descriptor is simply an integer number
+	    0 - STDIN
+		1 - STDOUT
+		2 - STDERR
+		  
+		  1 > store the success result into the file
+		  1>demo.txt
+		  2 > store ONLY the error output into the file
+		  java -version &> lenovo.txt
+		  ls 1>success.txt 2>error.txt
+		  ls 1>success.txt 2>&1
+		  ls &> new_file
+		  ======================
+		    > file_name defaults to success output
+			1>file_name success output
+			2>file_name error output
+			1>file_name 2>file_name both will store in same single file
+			1>file_name 2>&1  -- do --
+			&> file_name  -- do --
+#########################################################################################################
+2.1) working with echo command
+	- echo command used for
+	  - Display a msg
+	  - Display cmd output
+	  - Display a variable value
+	    - echo "$(ls)"
+		- echo "$(pwd)"
+		- echo [-enE] "[arguments]"
+		- n remove next line and join along with same line
+		- echo -n "This is for checking"
+		- echo "hello"
+		  - output will be
+		    - This is for checkinghello
+		- -e is used with / escaped characters :\c,\n,\t
+		  - \a - sound alert
+		  - \b - remove one space back where it is used
+		  - \c - Supress any further output
+		  - \n - new line
+		  - \r - carriage a return
+		  - \t - horizantel tab
+		  - \v - vertical tab
+		  - \\ - for special characters escapes
+		  - E - normal echo command without any option disables the special characters
+-------------------------------------------------------------------------------------------------
+2.2) variable
+  - x=2(no spaces)    		  
+  - echo $x
+  - echo "$x"
+  - echo "${x}"
+  - y=5.6
+  - m=shell
+  - n="shell scripting"
+  - cmd=$(date) or cmd='cmd'
+  - There are 2 types of variable
+    - System defined variable (use 'env' for this)
+	- User defined variable
+  - Rules
+    - no spaces in a variable name
+	- dont start with number 
+	- case sensitive
+----------------------------------------------------------------------------------------------------------
+2.3) how to execute another variable and another shell script in the present one
+
+httpd:
+start_httpd
+#!/bin/bash
+sudo systemctl start httpd
+
+stop_httpd
+#!/bin/bash
+sudo systemctl stop httpd
+
+tomcat
+start_tomcat
+#!/bin/bash
+/home/user/tomcat8/bin/startup.sh
+
+stop_tomcat
+#!/bin/bash
+/home/user/tomcat8/bin/shutdown.sh
+
+
+execute both httpd and tomcat in a single file
+#!/bin/bash
+<path of the script>/start_httpd.sh
+<path of the script>/start_tomcat.sh
+----------------------
+- to call one script from another shell script we need use source command
+- source or .
+- source file1
+- echo $a
+----------------------------------------------------------------------------------------------------------
+2.4) Exist status of a command
+- echo $?
+- for ls (press enter)
+- then use echo $? -- if it is non zero means error
+- if it is zero this means the previous command is success
+- 1-255 exit status as error
+- 127 - command not found
+- 1 - command failed during execution
+- 2 - incorrect command usage
+#########################################################################################################
+3_1)GREP
+- grep is a filter command used to search a string in a given file
+- grep [options] "string/pattern" file/files
+- cat file | grep [options] "string/pattern" file/files
+- echo "some text" | grep [options] "string/pattern"
+- Basic Options
+  - i - case sentitive
+  - w - whole word only
+  - v - which are not having the string/pattern
+  - n - matched line numbers
+  - o - only that string/pattern is dispalyed not all the line
+  - c - count of dispaly matched no of lines
+  - A - after the matched line print "N" lines
+  - B - Before the matched line print "N" lines
+  - C - Around the matched line print "N" lines
+  - r - search in the current directory and its sub directory
+  - l - display only file names
+  - h - hide the content in the search
+********************
+httpd -v 
+httpd -v | grep -i "version"
+*******************
+
+- Advanced options
+  - e
+  - f
+  - E
+---------------------------------------------------------------------------------------------------------
+3_2)
+Advanced GREP commands
+	- -f Takes search string/pattern from a file,one per line
+	  ex: (only one per line)
+	    vim my_search
+		  line
+		  above
+	  grep -f my_search test.txt
+	- -e  to search multiple search strings
+	searches the string/pattern using -e "string/pattern" -e "string/pattern" file_name
+	- E to search multiple search strings
+	 Ex:
+	   - grep -E "line above|lower|python" test.txt
+	-----------------
+
+	***********************************
+	RULES TO CREATE PATTERN
+	- xy|pq Matches for xy or pq
+	- ^xyz - Matches for the lines which are starting with "xyz"
+	- xyz$ - Matches for the lines which are ending with "xyz"
+	- ^$   - Matches for empty lines
+	- \    - special characters ex: \^,\$
+	- .	   - Matches with one character
+	- \.   - Matches exactly with .
+	- \b   - empty string edge of the word 
+	- ?    - The preceeding character is optional & will be matched at most once
+	- ? for zero 
+	- * for once or more
+	- + min once max any number of times
+	- xfff is equal to xf{3}
+	- xfff
+	- xffff 
+	- grep xf{3,4}
+	- xf{2,} min 2 times max any
+	- [xyz] Matches with lines which are having x or y or z
+	- [a-d] is equal to [abcd]
+	- [a-ds-z] is equal to [abcdstuvwxyz]
+	- ^[a-d] Matches for the lines which are having a/b/c/d
+	- [^a-d] Matches for the lines which are NOT having a/b/c/d
+	- [[:alnum:]] - alphanumeric characters
+	- [[:alpha:]] - Alphabetic characters
+	- [[:blank:]]
+	- [[:lower:]]
+	- [[:space:]]
+	- [[:upper:]]
+	- [[:digit:]]
+-------------------------------------------------------------------
+3_3) practice grep
+	- only directories
+	  ls -ltr 
+	
+	
+  
+
+		
+		  
+		  
+	  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

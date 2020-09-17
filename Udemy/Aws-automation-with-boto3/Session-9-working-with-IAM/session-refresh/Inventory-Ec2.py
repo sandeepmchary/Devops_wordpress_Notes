@@ -5,7 +5,7 @@ ec2_re=session.resource("ec2")
 ec2_cli=session.client("ec2")
 header_csv=['S_NO','instance_id','instance_type','Architecture','Launch_time','private_ip_address','public_ip_address']
 S_No=1
-fo=open("ec2_inv.csv","wb")
+fo=open("ec2_inv.csv",newline="")
 csv_w=csv.writer(fo)
 csv_w.writerow(header_csv)
 for each_in in ec2_re.instances.all():

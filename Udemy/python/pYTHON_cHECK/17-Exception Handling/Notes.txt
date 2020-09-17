@@ -1,0 +1,29 @@
+Errors are of two types
+ - syntax Error --> no way to handle syntax Errors
+ - run time Errors -- exceptions,
+            - we can handle exceptions
+            - how to handle the exceptions
+              - ans:
+                  - with try and except and Exceptions
+                  try:
+                      statement1
+                      statement2
+                      statement3
+                  except:
+                       statement4
+                       statement5
+                  or
+                  except Exception as e:
+                                        print(e)
+Types or Error:
+  - IndexError
+  - ZeroDivisionError
+  - Import Error
+  - ValueError
+  - TypeError
+  - NameError
+  - FileNotFoundError
+  - IOError
+=======================================================================
+Assertion Errors:
+             - if we get this error then we personally created this error                                                   
