@@ -84,7 +84,7 @@ whatis
 	  - Display cmd output
 	  - Display a variable value
 	    - echo "$(ls)"
-		- echo "$(pwd)"
+		- echo "$(pwd)" -- to execute commands
 		- echo [-enE] "[arguments]"
 		- n remove next line and join along with same line
 		- echo -n "This is for checking"
@@ -257,6 +257,7 @@ Advanced GREP commands
 		- Field based on delimiters (by default delimiter is the tab)
 		- in UTF 8 both byte and character is same
 		- mostly use -c
+		- in cut command we always get characters only
 		- no need to use 1 by default it is treated as 1st character only
 		- s is for exclude part which dont have the field seperater
 		CUT COMMAND SYNTAX
@@ -298,7 +299,309 @@ Advanced GREP commands
 		    - we need here only the number
 			- for that we use
 			  - httpd -v | grep -E "version" | cut -d "/" -f 2 | cut -d " " -f 1
-			  
+--------------------------------------------------------------------------------------------------------
+5_1) AWK COMMAND
+	- grep with cut command and awk command
+	- default delimiter is tab and IN AWK SPACE IS ALSO CONSIDERED AS TAB
+	- cut always takes single character only
+	- awk can take two character at a time
+	- if we want to get characters&fields use cut command only
+	- in awk we will get fields only
+	- useful for analyzing text or data files,which are organized by lines (rows or records) & columns (fields)
+	- Simple awk syntax:
+		- awk [options] '[selection_criteria] {action}' input_file
+		- cat input_file | awk [options] '[selection_criteria] {action}' input_file
+		- Awk can following options:
+		 - -F  - To Specify field seperator (tab and space are default)
+		 - -f  - To specify a file that contains awk script
+		 - -v var=value To declare a variable
+	- Selection Criteria:
+	    - pattern/condition
+			ex:	
+			  - NR = Number for our records
+			  - NF = Number for our fields
+			  - [ /] - DEliMiting WITH SPAcEs And BacK slAShEs
+			  - httpd -v | awk -F '[ /]' ' /version/ {print $4}' -- here '/version/' is pattern
+			  - httpd -v | awk -F  '[ /]' 'NR==1 {print $4}' -- here NR is condition
+	
+	ex:
+	  - httpd -v | grep -E "version" | cut -d '/' -f 2 | cut -d ' ' -f 1
+	  - httpd -v | awk -F '[ /]' ' /version/ {print}'
+	  - httpd -v | awk -F '[ /]' ' /version/ {print $4}'
+	  - httpd -v | awk -F 'NR==2 {print}'
+		- Server built:   Apr  2 2020 13:13:23
+	  - httpd -v | awk '{print $0}' -- prints full file 
+	  - httpd -v | awk '{print NR,$0}' -- print full file with line numbers
+	  - awk '{print NR,$0,NF}' demo.txt
+	  - list all the last column from demo file
+	    - awk '{print $NF}' demo.txt
+#########################################################################################################
+6_1) Operations on strings
+	- useful while working with paths
+	- CONCATINATE THE STRINGS
+	 - path="something"
+	 - path1="something"
+	 - full_concatinate_is=${path}/${path1}
+	- Find the string length
+	- ^^ - converts to upper case
+	- ,, - converts to lower case
+	- Usage of dirname r basename on strings/path
+		- dirname: strip/removes the last content of the path
+			- dirname /etc/httpd/httpd.conf
+			- /etc/httpd (output)
+		- basename: strip/removes directory name and suffix from filenames
+			- /etc/httpd/conf/httpd.conf (.conf is the suffix)
+			- basename /etc/httpd/conf/httpd.conf .conf
+				-httpd (output)
+	- Slicing
+	  - my_name="python scripting"
+		- echo ${my_name:0}
+		- echo ${my_name:2:1} -- index value is 2 and after that we are using 1 then this will print only one character
+--------------------------------------------------------------------------------------------------------
+6_2) Install tomcat with shell script
+
+#!/bin/bash
+# check whether you have root previlages or not
+
+if [ -x /usr/bin/wget]
+then
+echo "wget is present"
+else
+echo "Installing"
+
+fi
+echo -e "Enter the version:\c"
+read tom_ver
+tom_maj_ver=$(echo $tom_ver | cut -c 1)
+url="wget https://https://mirrors.estointernet.in/apache/tomcat/tomcat-${tom_maj_ver}/v${req_tom_ver}/bin/apache-tomcat-${req_tom_ver}.tar.gz"
+-----------------------------------------------------------------------------------------------
+#!/bin/bash
+if [[ $EUID -ne 0 ]]
+then
+echo "This Script must be run as root"
+exit
+fi
+if [ -x /usr/bin/wget ]
+then
+echo "Wget is Present"
+echo $(which wget)
+else
+echo "wget is not present"
+fi
+echo "Installing wget $(sudo yum install wget -y)"
+echo -e "Enter tomcat version:\c"
+read tom_ver
+tom_maj_ver=$(echo $tom_ver | cut -c 1)
+echo ${tom_maj_ver}
+url="https://downloads.apache.org/tomcat/tomcat-${tom_maj_ver}/v${tom_ver}/bin/apache-tomcat-${tom_ver}.tar.gz"
+wget $url
+tar -zxvf apache-tomcat-${tom_ver}.tar.gz
+mv apache-tomcat-${tom_ver} tomcat${tom_maj_ver}
+rm -rf apache-tomcat-${tom_ver}.tar.gz
+#########################################################################################################
+
+7_1) read input output
+  - read -p "Enter a name: " name
+  - echo "${name^^}"
+  - echo "${name,,}"
+-----------------------------
+7_2) read input output arguments
+	- Command line arguments are the arguments/values specified at the command prompt while running commands/scripts
+	- echo "$1"
+	- echo "$2"
+	- run the script -- ./script 1 2 (with spaces)
+	- run the script -- ./script "shell scripting" 1 2
+	- "shell scripting" 1 2 are command line arguments/positional arguments
+	- while running script if we give $0 inside the script -- output will be script name it self
+	- for suppose we use echo $10 "IT WILL CONSIDER AS $1 IS VALUE AND THEN 0"
+	  -- vim args.sh
+	     #!/bin/bash
+		 echo "$1"
+		 echo "$2"
+		 echo "$10"
+		 --------------
+		 ./args.sh shell script 2 3 4 5 6 7 8 9 ab cd
+		 -- output will be shell0
+		 for that we have to use
+		 echo "${10}"
+		 then it will echo value ab
+	- $# will show the length of the command line arguments
+	- echo "$#"
+	- vim args1.sh
+	  #!/bin/bash
+	  echo ${1}
+	  echo "Length of command line arguments: $#"
+#########################################################################################################88_1) arthmatic operations
+		- x=8
+		- y=9
+		- ((sum=x+y))
+		- echo $sum
+		- x=5
+		-y=5.5
+		- bc<<< "$x+$y" -- press enter we will get output
+		- x=9
+		- y=19
+		- bc<<<"scale=2;$x/$y"
+		-------------------------
+		vim check.sh
+		x=$1
+		y=$2
+		echo "The division  of $x and $y is : $(bc<<<"scale=3;$x/$y")"
+		---------------------------------------------
+		./check.sh 201 4
+		The division of 201 and 4 is :50.250
+-----------------------------------------------------------------------------
+8_2) case statement
+	- case $opt in 
+		opt1)
+		     statement
+			 ;;
+		opt2)
+			 statement
+			 ;;
+		*)
+			statement
+			;;
+	  esac
+-------------------
+#!/bin/bash
+read -p "Enter a value: " a
+read -p "Enter b value: " b
+read -p "Enter an option for (1.Addition,2.Sub,3.Mul,4.Div)" opt
+case $opt in
+        1)
+                echo "You selected Addition "
+                echo "The sum of $a and $b is : $(bc<<<"scale=1;$a+$b")"
+                ;;
+        2)      echo "You Selected Substraction "
+                echo "The Substraction of $a and $b is : $(bc<<<"scale=1;$a-$b")"
+                ;;
+
+        3)      echo "You Selected Multiplication "
+                echo "The Multiplication of $a and $b is: $(bc<<<"scale=1;$a*$b")"
+                ;;
+        4)      echo "You Selected Division "
+                echo "The Division of $a and $b is: $(bc<<<"scale=1;$a/$b")"
+                ;;
+        *)      echo "You have selected an invalid option,Please select from 1-4 only "
+                ;;
+
+esac
+-------------------------------
+9_1) Test
+		- [[]]  -- means enhanced condition for testing
+		- [[ 4 eq 4]]
+		-Numbers
+			- [[ int1 -eq int2 ]] -- it returns true if they are equal else false
+			- [[ int1 -ne int2 ]] -- it returns false if they are equal else true
+			- [[ int1 -lt int2 ]] -- it returns true if int1 is less than int2 else false
+			- [[ int1 -le int2 ]] -- it returns true if int1 is less than or euqal to int2 else false
+			- [[ int1 -gt int2 ]] -- it returns true if int1 is greater than int2 else false
+			- [[ int1 -ge int2 ]] -- it return true if int1 is greater than or equal to int2 else false
+			- [[ !int1 -eq int2 ]] -- It reverse the result
+		
+		- Strings
+			- [[ -z str ]] -- it returns true if the length of the string is zero else false
+			- [[ -n str ]] -- it returns true if the length of the string is non-zero else false
+			- [[ str1==str2 ]] -- it returns true if both strings are equal else false
+			- [[ str!=str2 ]] -- it returns true if both strings are not-equal else false
+			
+		- File Test
+			- [[ -d file ]] -- it returns true if the file/path is directory else false
+			- [[ -f file ]] -- it returns true if the file/paht is file else false
+			- [[ -e file ]] -- it return true if the file/path exists else false
+			- [[ -w file ]] -- it returns true if the file/path is writable else false
+			- [[ -x file ]] -- it returns true if the file/path is execuatable else false
+----------------------------------------------------------------------------------------------------------
+9_2) command chaning operators
+	- semicolon (;)
+		- command1;command2
+		- independent of one another 
+		- even if command1 failed,command2 will get executed
+	- Logical AND (&&)
+		- cmd1&&cmd2
+		- both are dependent on one another
+		- cat /etc/files && echo "samantha"
+		- if we get permission denied or some error then next cmd echo "samantha" will not execute
+		- ls && pwd && date
+		- [[ 4 -eq 4 ]] && echo "They are equal"
+			They are equal
+		- which httpd && sudo systemctl start httpd
+	- Logical OR (||)
+		- cmd1 || cmd2
+		- if cmd1 is failed then only cmd2 will execute
+		- date || pwd (no result for pwd becoz date cmd is executed )
+			-  Mon Sep 21 19:21:45 IST 2020
+		- ddate 2>/dev/null || pwd
+		- systemctl status httpd || sudo systemctl start httpd
+	- combining multiple operations
+		- cmd1 && cmd2 || cmd3
+		- cmd3 will execute only if cmd2 is not success and cmd2 will execute if cm1 is success
+		- cmd1 || cmd2 && cmd3
+------------------------------------------------------------------------------------------------------
+9_3) if and if else
+		
+		
+
+
+
+
+------------------------------------------------------------------------------------------------------
+9_4) shell script to find httpd is installed or not
+#!/bin/bash
+which httpd&>/dev/null
+httpd_status=$?
+if [ $httpd_status -eq 0 ]
+then
+echo "httpd is installed"
+fi
+------------------------
+	- which httpd &> /dev/null && echo "httpd is installed on this host" || sudo yum install httpd 
+
+#!/bin//bash
+if which httpd &> /dev/null
+then
+echo "Httpd is installed"
+else
+echo "Httpd is not installed on this host"
+fi
+
+#!/bin/bash
+which httpd &> /dev/null
+httpd_status=$?
+if [[ $httpd_status -eq 0 ]]
+then
+echo "Httpd is installed"
+else
+echo "Httpd is not installed"
+fi
+
+	- which httpd &> /dev/null && echo "Httpd is installed" || echo "Httpd is not installed"
+	- httpd -v | awk -F '[ /]' '/version/ {print $4}'
+
+#!/bin/bash
+if which httpd &> /dev/null
+then
+	echo "Httpd is installed on this host"
+	httpd_version=$(httpd -v | awk -F '[ /]' '/version/ {print $4}')
+	echo "The httpd version only numbers are : $httpd_version"
+else
+	echo "httpd is not installed"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		  
 		  
