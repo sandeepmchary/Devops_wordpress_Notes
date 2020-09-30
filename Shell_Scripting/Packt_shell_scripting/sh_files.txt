@@ -1,0 +1,130 @@
+#!/bin/bash
+if [[ $(id -u) != 0 ]]
+then
+echo $?
+fi
+-------------------
+9-5-1 automate_httpd.sh
+#!/bin/bash
+[[ $(id -u ) -eq 0 ]] && echo "You are root,run this script" || echo "Not root,check with root"
+--------------
+9-5-2 automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -eq 0 ]]
+then
+	echo "You are root"
+else
+	echo "Not root"
+fi
+------------------------------------
+9-5-3-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+fi
+if [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+fi
+if [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+fi
+if [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+fi
+------------------------
+9-5-5-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+elif [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+elif [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+elif [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+else
+	echo "Invalid user_action"
+	echo "valid actions are start|stop|satus|restart"
+fi
+--------------------------
+case check
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+echo "Not root"
+exit 1
+fi
+
+#read -p "Enter the action: " user_action
+user_action=$1
+
+case $user_action in 
+	start)
+			echo "Starting the httpd"
+			systemctl status httpd &> /dev/null || systemctl start httpd ;;
+	stop)
+			echo "Stoping the httpd"
+			systemctl status httpd &> /dev/null && systemctl stop httpd ;;
+	restart)
+			echo "restarting the httpd"
+			systemctl restart httpd ;;
+	status)
+			echo "Status the httpd"
+			systemctl status httpd ;;
+	*)
+			echo "Invalid input"
+			echo "valid actions are start|stop|satus|restart"
+esac
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

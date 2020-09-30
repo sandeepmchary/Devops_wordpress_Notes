@@ -588,6 +588,482 @@ then
 else
 	echo "httpd is not installed"
 fi
+----------------------------------------------------------------
+9_5)
+
+-- if,ifel,case statements
+--- RHEL >=7 USE SYSTEMCTL
+--- RHEL <7 USE SERVICE
+--- SYSTEMCTL USES SUDO ACCESS BUT NOT FOR STATUS
+- ONLY START STOP
+- 
+************************************************************************
+-------------------
+9-5-1 automate_httpd.sh
+#!/bin/bash
+[[ $(id -u ) -eq 0 ]] && echo "You are root,run this script" || echo "Not root,check with root"
+--------------
+9-5-2 automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -eq 0 ]]
+then
+	echo "You are root"
+else
+	echo "Not root"
+fi
+------------------------------------
+9-5-3-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+fi
+if [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+fi
+if [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+fi
+if [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+fi
+------------------------
+9-5-5-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+elif [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+elif [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+elif [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+else
+	echo "Invalid user_action"
+	echo "valid actions are start|stop|satus|restart"
+fi
+--------------------------
+case check
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+echo "Not root"
+exit 1
+fi
+
+#read -p "Enter the action: " user_action
+user_action=$1
+
+case $user_action in 
+	start)
+			echo "Starting the httpd"
+			systemctl status httpd &> /dev/null || systemctl start httpd ;;
+	stop)
+			echo "Stoping the httpd"
+			systemctl status httpd &> /dev/null && systemctl stop httpd ;;
+	restart)
+			echo "restarting the httpd"
+			systemctl restart httpd ;;
+	status)
+			echo "Status the httpd"
+			systemctl status httpd ;;
+	*)
+			echo "Invalid input"
+			echo "valid actions are start|stop|satus|restart"
+esac
+***************************************************
+9-6)
+BACK SCRIPT
+----------------
+	- tar -cvpzf destination source
+	- tar -cvpzf /backup-shell/my_files.tar.gz /home/google
+		- c - create
+		- p - perserving files and directory permissions
+	- tar -cvpzf /path/file_name/<destination> /<source>/
+
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1(create a directory ubuntu1)
+tar -cvzpf $DEST/my_back.tar.gz $SRC
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1 (dont create this directory ubuntu1)
+[[ -e $DEST ]] || mkdir $DEST
+tar -cvzpf $DEST/my_back.tar.gz $SRC
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1 (dont create this directory ubuntu1)
+EDTS=$(date '+%b_%d_%Y_%H_%M_%S')
+[[ -e $DEST ]] || mkdir $DEST
+tar -cvzpf $DEST/my_back_${EDTS}.tar.gz $SRC
+##########################################################################################################
+10_1)
+	- Scheduling jobs with at and crontab
+		- Ex:
+			- Shutdown the system at the specified time
+			- Taking one-time backup
+		- Syntax:
+			- at <time>
+			- shell type <bash/ksh/sh> script.sh
+			- atq -- check the queues
+			- atrm -- remove the pending queues 
+				- atrm <job_no)
+			- echo "bash bash.sh" | at 9:00AM
+			- or
+			- at <time> then enter the given script or cmd to run and
+			  CTRL+D
+			- Commands used with at
+				- at: execute commands at specified time
+				- atq : list the pending jobs
+				- atrm : delets job by job number
+				
+		- Examples:
+			- Ex-1: Schedule task at coming 10:00 AM
+				- at 10:00 AM
+			- Ex-2: Schedule task at coming next sunday 10:00 AM
+				- at 10:00 AM Sun
+			- Ex-3: Schedule task at coming 25th july
+				- at 10:00 AM July 25
+			- Ex-4: Schedule task at coming 25th july 2021
+				- at 10:00 AM 7/25/2021
+				- at 10:00 AM 7.22.2021
+			- Ex-5: Schedule task at coming on the same date at next month
+				- at 10:00 AM next month
+			- Ex-6: Schedule task at tommorow
+				- at 10:00 AM tommorow
+			- Ex-7: Schedule task to just execute just after 1 hour
+				- at now + 1 hour
+			- Ex-8: Schedule task to execute after 30 min
+				- at now +30 min
+			- Ex-9: Schedule task to execute after 1 and 2 weeks
+				- at now + 1 weeks
+				- at now + 2 weeks
+			- Ex-10: Schedule task to execute after 1 n 2 yrs
+				- at now +1 yr
+				- at now +2 yr
+			- Ex-11: Schedule task to execute at midnight
+				- at midnight	
+-------------------------------------------------------------------------------------------------------------------------------------------
+10_2)
+	- Scheduling jobs with crontab
+	- the crontab is used to running the specific task at regular intervals of time
+	- Each user can schedule jobs with crontabs
+	- syntax:
+		- minutes hours days months weekdays command/script
+	- Each scheduled job has six fields
+	- Don't change the order 
+	- six fields are separated with space
+	- The first five are integers pattern and the sixth is the cmd/script to execute
+
+	*		minute	0-59 
+	* 	  	hours  	0-23
+	* 		days	1-31
+	*		month	1-12
+	*		weekday	0-6	 (sunday=0)
+
+	- Useful commnds for crontab
+		- crontab -e to schedule a job
+		- crontab -l to list jobs
+		- crontab -r to remove jobs
+		- to remove a particular job go to crontab -e then go to that line and delete it 
+	- Ex:
+		- to run at Wed Sep 30 22:15:04 IST 2020
+		- (min hr days months weekday script)
+		- 40 22 30 9 3 full path of the script
+		- make sure that it has execution permission
+		- Wed Sep 30 22:27:18 IST 2020
+		- 33 22 30 9 3 /mnt/d/ubuntu/backup_check.sh
+		- it will execute every year september wednesday 30 date 
+		- for every year
+			- 33 22 30 * 3 /home/google/backup_check.sh
+			- there is no guarantee that every month will have 30 date on wednesday only 
+			- SO WE USE 33 22 30 * * /HOME/GOOGLE/BACKUP_CHECK.SH
+			- for every day
+				- 33 22 * * * /home/google/backup_check.sh
+			- for every hour
+				- 33 * * * * /home/google/backup_check.sh
+			- for every minute
+				- * * * * * /home/google/backup_check.sh
+			=============================================
+			- for every 9am and 9pm
+				- 0 9 * * * /home/google/backup_check.sh
+				- 0 21 * * * /home/google/backup_check.sh
+				- 0 9,21 * * * /home/google/backup_check.sh
+			- for every two hours
+				- 0 */2 * * *
+	- Ex:
+		- 30 9 15 11 6 /home/google/backup_check.sh
+		- 30 9 15 * 6 /home/google/backup_check.sh -- for every month
+		- 30 9 15 * * /home/google/backup_check.sh -- for every month this is correct
+		- 30 9 * * *  /home/google/backup_check. -- for every day
+		- 30 * * * * /home/google/backup_check. -- for every 30 minutes
+		- * * * * *  /home/google/backup_check. -- for minute
+		- * * * * 5,6  /home/google/backup_check. -- for weekends
+		- Schedule a crontab to execute on every sunday at 5pm
+			- 0 17 * * 0 /home/google/backup_check
+		- Schedule a crontab to execute on every sunday 5am and 5pm
+			- 0 5,17 * * 0 /home/google/backup_check
+		- Schedule for every two hours
+			- 0 */2 * * * /home/google/backup_check
+		- yearly once
+			- 0 0 1 1 * 
+			- zeroth min and zero hour on jan 1 
+			- @yearly
+			-@ monthly
+			- @ daily
+			- @ hourly
+			- @reboot -- IT USES FOR THOSE TASKS WHICH WILL RUN ON THE SYSTEM START
+#####################################################################################################################
+10_3)
+	- shell script to send automatic mail alert when ram is mem is low
+	- take a threshold value
+#!/bin/bash
+TO="formycore@gmail.com"
+THL=3160
+free_ram_size=$(free -mt | grep -E "Total" | awk '{print $4}')
+if [[ $free_ram_size -lt $THL ]]
+then
+echo -e "Server is running low ram size\nAvailable ram is : $free_ram_size" | mail -s "ram_info" $TO
+fi
+- * * * * * sent_mail_ram.sh
+- 
+------------------------------------------------------------
+11_1)
+ 11_1_check_permission.sh
+#!/bin/bash
+[[ -x 10_1_at2.sh ]] && echo "file is having execution permission" || echo "file dont have execution permission"
+---------------
+11_1_check_permission1.sh
+#!/bin/bash
+if [[ -x 10_1_at2.sh ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+-----------------------------
+11_1_check_permission2.sh
+#!/bin/bash
+if [[ -x 10_1_at2.sh ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+if [[ -x 10_1_at.sh  ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+-------------------------------------
+11_1_check_permission3.sh
+#!/bin/bash
+for each in 10_1_at.sh 10_1_at2.sh
+do
+
+        if [[ -x $each ]]
+        then
+                echo "$each have execution permission"
+        else
+                echo  "$each dont have execution permission"
+        fi
+done
+---------------------------------------------------------------
+11_1_check_permission4.sh
+#!/bin/bash
+for each in $(ls)
+do
+
+        if [[ -x $each ]]
+        then
+                echo "$each have execution permission"
+        else
+                echo  "$each dont have execution permission"
+        fi
+done
+---------------------------------------------
+11_1_check_permission5.sh
+#!/bin/bash
+given_path=$1
+for each in $(ls $given_path)
+do
+    if [[ -x $each ]]
+    then
+        echo "$each having execution permission"
+    else
+        echo "$each does not have execution permission"
+   fi
+done
+---------------------------------------------
+11_1_check_permission6.sh
+#!/bin/bash
+given_path=$1
+if [[ $# -ne 1 ]]
+then
+echo "Invalid"
+echo "Usage $0 /somepath"
+exit 1
+fi
+for each in $(ls $given_path)
+do
+        if [[ -x $each ]]
+        then
+                echo "$each have exe perm"
+        else
+                echo "$each dont have exe perm"
+        fi
+done
+----------------------------------------------------------------------------------------------------------
+11_2)
+
+11_2_for_c_loop.sh
+#!/bin/bash
+for (( cnt=1;cnt<=20;cnt++ ))
+do
+        echo $cnt
+done
+-------------------------
+11_2_for_c_loop1.sh
+#!/bin/bash
+for ((;;))
+do
+echo "smo"
+done
+---------------------
+11_2_for_c_loop2.sh
+#!/bin/bash
+echo "This is for loop"
+cnt=1
+for ((;;))
+do
+        echo "This is for infi loop"
+        ((cnt++))
+        sleep 1
+        if [[ $cnt -eq 10 ]]
+        then
+                break
+        fi
+
+
+done
+--------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+11_3)
+	- Install vim,httpd,nginx
+	- need to be root or sudo previlages
+	- $@ -- prints the provided cmd line arguments
+	- 
+------------------------------------------------------------------
+	- 11_3_install_mul1.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+        echo "Not Root"
+        exit 1
+fi
+for e_p in vim httpd nginx
+do
+        echo "current pkg is $e_p"
+        if which $e_p &> /dev/null
+        then
+                echo "$e_p is already installed"
+        else
+                echo "Installing $e_p..."
+                yum install $e_p -y &> /dev/null
+        if [[ $? -eq 0 ]]
+        then
+                echo "Successfully Installed $e_p pkg"
+        else
+                echo "$e_p is not installed"
+        fi
+        fi
+done
+---------------------------------------------------------------------------
+#!/bin/bash
+if [[ $# -eq 0 ]]
+then
+    echo  "usage $0 pkg1 pkg2 ...."
+    exit 1
+fi
+if [[ $(id -u) -ne 0 ]]
+then
+    echo "Not root"
+    exit 2
+fi
+for i in $@
+do
+    if which $i &> /dev/null
+    then
+        echo "Already $i is installed"
+    else
+        echo "Installing $i ..."
+        yum install $i -y &> /dev/null
+        if [[ $? -eq 0 ]]
+        then
+            echo "Successfully installed $i"
+        else
+            echo "$i is not installed"
+        fi
+    fi
+done
+-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
