@@ -1043,12 +1043,77 @@ do
     fi
 done
 -----------------------------------------------------------------------------------
+11-4)
+	- we know that $@ and $* represents all the command line arguments
+-----------------------------------------------------------------------------------
+#!/bin/bash
+#echo "$@"
+#echo "$*"
+echo "The below output is for: \$*"
+for each in "$*"
+do
+    echo $each
+done
+echo "The below output is for: \$@"
+for each in "$@"
+do
+    echo $each
+done
+					-----------------------------------------------------------------------------------
+	- IF WE TAKE "$*" INSIDE THE QOTATIONS,FOR LOOP IT WILL TAKE AS SINGLE VALUE ONLY IT WILL CONSIDER ONE ARGUMENT ONLY
+	- from now on if we use $@ and $* use qotations mostly use $@
+	- for command line argument as single value use $*
+	- if we take "$@" the output will get as it is, it will consider five different arguments only
+	- for example 
+		- /11_4_at_star.sh 1 "2 3" a b
+			- 
+				The below output is for: $*
+				1 2 3 a b
+				The below output is for: $@
+				1
+				2 3
+				a
+				b
+-------------------------------------------------------------------------
+11_5)
+	- break and continue are used to control the execution of loops
+	- break cmd is used to terminate/exit current loop completly before the actual ending of the loop
+	- continue is executing for loop will stop current iteration and it will go for next iteration 
+	
 
 
-
-
-
-
+########################################################################################################
+12_1)
+	- man ssh
+	- ssh -o StrictHostKeyChecking=No testuser@server
+	- ssh -o StrictHostKeyChecking=No testuser@server "command"
+	- ssh -t -o StrictHostKeyChecking=No testuser@server "top" -- terminal interaction
+	- ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1;cmd2;cmd3"
+-----------------
+12_2)
+	- sshpass
+	- save the password in a file
+	- then use sshpass -f "path of the file" ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1"
+	- export SSHPASS="passwd"
+	- then
+		- sshpass -e ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1"
+		- 
+---------------------------------
+12_3)
+	- Multiple commands on multiple servers
+	- 
+#!/bin/bash
+for each_ser in $(cat servers.txt)
+do
+	echo "Executing cmd on $each_ser"
+	for each_cmd in date uptime "free -mt"
+	do
+		echo "The date command on the $each_ser"
+		sshpass -f pass ssh -t -o StrictHostKeyChecking=No google@$each_ser "$each_cmd"
+		echo "----------------------------------------------------------------------------------------------------"
+	done
+done
+-----------------------------------------------------
 
 
 
