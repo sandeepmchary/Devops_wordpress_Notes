@@ -1113,8 +1113,111 @@ do
 		echo "----------------------------------------------------------------------------------------------------"
 	done
 done
------------------------------------------------------
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+12_4)
+
+multiple commands on multiple servers
+	- 
+#!/bin/bash
+echo "The date command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "date"
+echo "The uptime command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "uptime"
+echo "The free -m command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "free -m"
+------------------------
+#!/bin/bash
+for each_cmd in date uptime "free -m"
+do
+	echo "The $each_cmd command ouput on the server: serverIP"
+	sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	
+done
+-----------------------------------------
+#!/bin/bash
+for each_server in serverIP1 serverIP2
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+--------------------------------------------------
+FOR PASSWORD LESS AUTHENTICATION
+
+#!/bin/bash
+for each_server in serverIP1 serverIP2
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+---------------------------------------
+for server list file
+#!/bin/bash
+for each_server in $(cat server_list.txt)
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+
+-----------------------------------------------------
+here we have a serv1.txt which contains the server ips
+like 
+xx.xx.xx.xx google san date w uptime
+xx.xx.xx.xx testuser san uptime "free -m"
+
+
+
+12_5)
+	#!/bin/bash
+for each_server in $(cat serv1.txt)
+do
+    echo "$each_server"
+done
+--------------------------------
+12_5_1)
+#!/bin/bash
+while read each_server_info
+do
+	echo "$each_server_info"
+done < serv1.txt
+---------------------------------
+12_5_2)
+#!/bin/bash
+while read ser user pass cmd
+do
+    echo "$ser"
+done < serv1.txt
+-------------------------------------
+12_5_3)
+#!/bin/bash
+while read ser user pass cmd
+do
+    echo "Now the server is : $ser"
+    sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd" 
+done < serv1.txt
+-----------------------------
+12_5_4)
+#!/bin/bash
+while read ser user pass cmd cmd1 cmd2
+do
+    echo "Executing the cmd:$cmd on Server:$ser and the password is:$pass"
+    sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd"
+    echo "Executing the cmd:$cmd1 on Server:$ser and the password is:$pass"
+     sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd1"
+    echo "Executing the cmd:$cmd2 on Server:$ser and the password is:$pass"
+     sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd2"
+
+done < serv1.txt
 
 
 

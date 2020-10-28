@@ -1,0 +1,112 @@
+4_1)
+
+echo '<? echo "test text\n";' > index.php
+docker run -it --rm -v ${PWD}:/myfiles --name my-running-script php:7.2-cli /bin/bash
+
+Docker file
+---------------------
+FROM php:7.2-cli
+RUN mkdir /myproject
+COPY index.php /myproject
+WORKDIR /myproject
+CMD php index.php
+
+
+index.php
+-------------------
+<? 
+echo "hello World\n\n";
+
+
+- docker build -t myphpapp .
+- docker images
+- docker ps -a
+- docker rm <container_id>
+- docker build -t myphpapp .
+- docker images
+- docker stop <container_id>
+- docker rm <container_id>
+- docker rmi <images_id>
+- 
+
+--------------------------------------------------------------------------------------------------------------------
+4_2)
+
+Dockerfile
+--------------
+FROM php:7.2-cli
+EXPOSE 8000
+RUN mkdir /myproject
+COPY index.php /myproject
+WORKDIR /myproject
+CMD ["php","-S","0.0.0.0:8000"]
+
+index.php
+-------------------
+<? 
+echo "hello World\n\n";
+
+- docker build -t myphpapp
+- docker ps -a
+- docker run -p 8080:8000 myphpapp
+- open the 8080 in the browser
+
+--------------------------------------------------------------------------------------------------------------------
+4_3)
+
+Dockerfile
+---------------
+FROM php:7.2-apache
+COPY index.php /var/www/html
+
+
+index.php
+-------------------
+<? 
+echo "hello World\n\n";
+
+- docker build -t myphpapa
+- docker ps -a
+- docker run -p 8080:80 myphpapa
+- open the 8080 in the browser
+--------------------------------------------------------------------------------------------------------------------
+4-4)
+
+Dockerfile
+---------------
+FROM alpine
+RUN apk update && apk add curl
+ENTRYPOINT [ "curl" ]
+
+- upload this to docker hub
+- we need to tag this in a specific way username/image_name (re_tagging)
+- docker tag old_image_name username/old_image_name:<tag>
+- docker tag alpineimage formycore/alpineimage:latest
+- docker image ls
+- we can see same image id tagged with two repositories
+- docker push username/image_name:<tag>
+- docker push formycore/alpineimage:1.1
+- docker rmi formycore/alpineimage
+- docker run formycore/alpineimage www.google.com
+- docker rmi formycore/alpineimage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
