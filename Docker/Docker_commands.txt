@@ -89,7 +89,34 @@ ENTRYPOINT [ "curl" ]
 - docker rmi formycore/alpineimage
 - docker run formycore/alpineimage www.google.com
 - docker rmi formycore/alpineimage
+--------------------------------------------------------------------------------------------------------------------
+5-1)compose
 
+docker_compose.yml
+--------------------
+version: '3'
+services: 
+    phpapp:
+        ports: 
+            - "8080:80"
+        build: 
+            context: ./
+            dockerfile: Dockerfile
+
+
+Dockerfile
+------------------
+FROM php:7.2-apache
+COPY index.php /var/www/html
+
+
+index.php
+------------
+<?
+echo "Hello Samantha \n\n";
+-----------------------
+- WE CANNOT RELAIBLE ON IP ADDRESS IN THE DOCKER
+- 
 
 
 
