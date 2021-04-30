@@ -1,0 +1,28 @@
+Manual installation of Docker
+pull latest image of centos
+Test the image
+Verify the image
+--------------------
+2) Working with Docker
+- Manual installation of Docker
+    yum install docker-ce,systemctl start docker
+- Pull latest image of centos
+    docker pull centos:latest
+- Test the image 
+    docker run -d --name test_instance centos:latest
+- Verify the image
+    docker ps -a
+--------------------------------
+3) install Docker CE
+yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce
+systemctl start docker
+systemctl enable docker
+sudo systemctl status docker
+sudo usermod -aG docker $USER
+newgrp docker
+docker --version
+docker pull centos:latest
+docker images
+docker ps -a

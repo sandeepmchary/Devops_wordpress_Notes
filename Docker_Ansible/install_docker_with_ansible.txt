@@ -1,0 +1,2 @@
+- Installing docker with ansible
+- Uninstalling dokcer with ansible

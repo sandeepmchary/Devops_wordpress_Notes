@@ -1,0 +1,20 @@
+- name: Create ec2
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Provision set of instances
+      ec2:
+        key_name: my_key
+        group: All_Tcp_Ip_Ping
+        instance_type: t2.micro
+        image: ami-01e36b7901e884a10
+        region: us-east-2
+        wait: true
+        exact_count: 1
+        count_tag:
+            Name: Demo
+        instance_tags:
+            Name: Demo
+      register: ec2_info
+    - debug:
+        msg: "{{ ec2_info }}"
