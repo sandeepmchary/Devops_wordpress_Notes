@@ -1218,8 +1218,113 @@ do
      sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd2"
 
 done < serv1.txt
+--------------------------------------
+13_1)
+	- Different ways to use while loop
+	- Reading a file content
+		- while read line
+			do
+				statement/command
+			done < file_name
+
+	- Reading command output
+		- command | while read line
+		   do
+			statement/command
+		   done
+
+13_1)
+
+#!/bin/bash
+file_name="server.txt"
+while read each_line
+do
+        echo "$each_line"
+done < $file_name
+		   
+-------------------------------------------
+13_1_1)
+#!/bin/bash
+cat servers.txt | while read line
+do
+        echo "awk 'NR==2 {print $1}' $line"
+done
+----------------------
+13_1_2)
+#!/bin/bash
+ls -ltr | while read line
+do
+        echo "$line"
+        echo "----------"
+done
+---------------------------------
+13_2)
+	- if there are 5 fileds and we take only 2 fields in the script then 1 st field is from script is assigned to first field in the file and remaining fields are in the file assigned to the second field in the script 
+	
+	---- serv2.txt ------
+	Server_ip,UserName,password,cmd1,cmd2
+	xx.xx.xx.xx,google,san,date,w,uptime
+	xx.xx.xx.xx,testuser,san,uptime,"free,-m"
+	------------
+	#!/bin/bash
+	cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+	do
+	        echo "$f2"
+	done
+	-----------------------
+	Server_ip,UserName,password,cmd1,cmd2
+	xx.xx.xx.xx,google,san,date,w,uptime
+	xx.xx.xx.xx,testuser,san,uptime,"free,-m"
+	--------------------------
+	#!/bin/bash
+	old_ifs=$IFS
+	cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+	do
+			echo "$f2"
+	done
+	IFS=$old_ifs
+--------------------------------
+13_2)
+#!/bin/bash
+while read f1 f2 f3
+do
+        echo "The user name is: $f2"
+done < serv1.txt
+--------------------------
+13_3)
+#!/bin/bash
+while IFS="," read f1 f2 f3 f4 f5
+do
+        echo "$f2"
+done < serv2.txt
+---------------------------------
+13_4)
+$ cat 13_while_loop_ifs_3.sh
+#!/bin/bash
+cat serv2.txt | awk 'NR!=1 {print }' | while IFS="," read f1 f2 f3 f4 f5
+do
+        echo "$f1 $f2"
+done
+------------------------------------
+13_5)
+#!/bin/bash
+cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+do
+        echo "$f2"
+done
+-----------------------------
+#!/bin/bash
+old_ifs=$IFS
+cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+do
+        echo "$f2"
+done
+IFS=$old_ifs
+#########################################################################################################
 
 
+
+      
 
 
 

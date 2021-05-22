@@ -1,0 +1,234 @@
+---
+Installig node js 
+
+	- curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+	- sudo apt install nodejs -y
+	- node --version
+	- npm --version
+	- npm i
+	- npm init -y
+	- cat package.json
+	- npm install express
+=================
+CREATING CUSTOM IMAGE
+- vi Dockerfile
+	- FROM node:15
+	  WORKDIR /app
+	  COPY package.json
+	  RUN npm install
+	  COPY . ./
+	  EXPOSE 3000
+	  CMD ["node", "index.js"]
+
+- docker build -t node_app:v1 .
+- docker run -d -p 3000:3000 --name docker_pro:v1 
+- docker exec -it docker_pro bash
+- docker rm docker_pro -f
+----------------------------------------
+- vi .dockerignore
+	- node_modules
+	  Dockerfile
+	  .dockerignore
+	  .git
+	  .gitignore
+========================================
+Volume_binding
+    - docker run -v $(pwd):/app -p 3000:3000 -d --name node-app1 
+    - HERE THE THING IS NODEMOD
+    - IN NODE OR EXPRESS APPLICATION ANYTIME WE MAKE CHANGES TO CODE WE HAVE TO RESTART THE NODE PROCESS
+    - HERE WE DID NOT RESTARTED THE NODE PROCESS
+    - WE ONLY CHANGED THE CODE
+    - WE HAVE TO USE NODEMOD 
+    - NODEMOD ALWAYS LOOKS FOR THE CHANGE IT GOING TO RESTART THE NODE PROCESS SO THE CHANGES ARE UPDATED IN REAL TIME
+    - sudo npm install nodemon --save-dev (this is going to be dev dependency just becoz we dont need it to run 
+      when we actually deploy in the production)
+    - in the package.json we need setup a few scripts
+        - in the scripts 
+            "start": "node index.js"
+            "dev": "nodemon index.js"(it's going to automatically restart node process for any changes to the source code)
+            (if we use windows version use nodemon -L index.js)
+    - we need to change some thing in the Dockerfile also
+     vi Dockerfile
+        - FROM node:15
+          WORKDIR /app
+          COPY package.json .
+          RUN npm install
+          COPY . ./
+          EXPOSE 3000
+          # CMD [ "node","index.js" ]
+          CMD ["npm", "run", "dev"]
+    - docker build -t node_pro:v1 .
+    - docker run -it -v <path>:/app --name docker_project node_pro:v1
+    - docker ps -a
+    - curl ip:3000
+======================================================================
+- here we deleted the node_modules folder 
+    -  docker run -v $(pwd):/app -p 3000:3000 -d --name node_app node_app_image
+    - docker ps -a
+    - docker rm node_app -f
+- actually we used the -v for Volume_binding
+- so here we deleted the node_modules so in the container also it will deleted 
+- this is sync
+- here we are looking for new Volume_binding
+- first delete the broken container
+- docker rm docker_project -f
+- all volumes in docker are based on specifity
+- so we use another volume here, -v /app/node_modules
+- first bind mount -v $(pwd):/app is sync with the /app directory 
+- we can see that another volume that references the -v /app/node_modules
+- this -v is going to prevent deleting the /app/node_modules 
+- in general way the second -v says "hey dont touch this node_modules folder "
+- the bind mount will sync the other files 
+- it just cannot touch the node_modules folder
+    - docker run -v $(pwd):/app -v /app/node_modules -p 3000:3000 -d --name node_app node_app:v2
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- READ ONLY VOLUMES
+- here the thing if we go for volumes it will also change the source code 
+- so we need to go with read only 
+- cd /pro
+- docker run -v $(pwd):/app:ro -v /app/node_modules -p 3000:3000 -d --name node_app node_app_image
+- docker rm node_app -f (removing the container)
+============================================================================================
+- ENVIRONMENTAL VARIABLES
+	- vi Dockerfile
+		FROM node:15
+		WORKDIR /app
+	    COPY package.json .
+		RUN npm install
+		COPY . ./
+		# if the value of port is not given then 3000 is taken as default value 
+		ENV PORT 3000
+		# The Value of port is submitted here
+		EXPOSE $PORT
+		# CMD [ "node","index.js" ]
+        CMD ["npm", "run", "dev"]
+- docker rm -f node_app
+- we changed the Dockerfile 
+- we have to rebuild the code
+- docker images
+- docker build -t node_app_image .
+- for any none images 
+	- docker rmi $(docker images -a -q --filter "dangling=true")
+- in the Dockerfile we can also override the default value of the PORT
+- docker run -v $(pwd):/app -v /app/node_modules --env PORT=4000 -d -p 3000:4000 --name node_app node_app_image
+- docker ps -a
+- for double check we need to change the index.js file
+- change the value of <h1> This is for testing</h1>
+- docker exec -it node_app bash
+- in the container
+	- printenv
+	- exit
+- in the application we have lot of environmental variables
+- for example
+	- docker run -v $(pwd):/app -v /app/node_modules --env PORT=4000 --env PORT=5000 --name node_app node_app_image
+- for example if we have 10 environmental variables then it is best to have a file and fill the all the ports in the file 
+	- vi .env
+		PORT=4000
+		PORT=5000
+- docker run -v $(pwd):/app -v /app/node_modules --env-file ./.env -d -p 3000:4000 --name node_app node_app_image
+_____________________________________________________________________________________________________________
+
+- DOCKER VOLUMES
+	= docker volume ls
+	= docker volume prune (this will remove all the unneccessary volumes)
+	= docker volume ls
+	= docker ps -a
+	= docker rm node_app -fv(v will delete the volume attached to this container)
+_____________________________________________________________________________________________________________
+- DOCKER COMPOSE
+	- install docker compose
+		- sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	- sudo chmod +x /usr/local/bin/docker-compose
+	- docker-compose --version
+============================================
+- vi docker-compose.yml
+		- version: "3"
+services: 
+    node_app:
+        build: .
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - ./:/app
+            - /app/node_modules
+        environment: 
+            - PORT=3000
+        # env_file: 
+        #    - ./.env    
+============================================
+	docker-compose up -d
+	docker image ls
+	it will create the image name with the directory name_service name
+	docker ps -a
+	vi index.js
+	change the <h1> learning devops</h1>
+	docker-compose down -v
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	- docker-compose down -d --build
+	- docker-compose up -d 
+	- docker-compose up -d will not build the new changes in the Dockerfile 
+	- we need to specify the --build cmd then only it will build the new changes in the Dockerfile
+	- so new build we use 
+		- docker-compose up -d --build
+	- how we have seperate set of commands for production and development
+	- 
+_____________________________________________________________________________________________________________
+	- there are some diff b/w prod and dev environments
+	- mostly here we need to change in the Dockerfile 
+		- CMD ["npm", "run" ,"dev"] -- for dev
+		- CMD ["node", "index.js "] -- for prod
+	- rename the docker-compose.yml to docker-compose_backup.yml
+	- create brand new docker-compose.yml file
+	- create 2 .yml files 
+		- docker-compose.dev.yml
+		- docker-compose.prod.yml -- in prod we dont need to binding volumes 
+	- creating the docker-compose.yml
+		version: "3"
+		services:
+		  node_app
+		  build: .
+		  ports:
+		    - "3000:3000"
+		  environment:
+		    - PORT=3000
+	- the final image is the same from Dockerfile
+	- we can overwrite the ports with dev and prod yml files
+	- in the dev yml file ,we need volumes and extra volumes for the node_modules not getting deleted
+	- here we need to change the environment values and change the command to npm run dev
+	- in the package.json we have the script to run nodemon it restart our code in the dev env
+=====================================================================================
+		- vi docker-compose.dev.yml
+			- version: "3"
+			  services:
+			    node_app:
+				  volumes:
+				    - ./:./app
+					- /app/node_modules
+				  environment:
+				    - NODE_ENV=development
+				  command: npm run dev
+====================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

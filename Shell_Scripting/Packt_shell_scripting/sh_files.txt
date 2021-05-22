@@ -108,6 +108,16 @@ case $user_action in
 			echo "Invalid input"
 			echo "valid actions are start|stop|satus|restart"
 esac
+------------------------------------------
+9-6)
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Not root"
+	exit 1
+fi
+
+if [[ ]]
 
 
 
