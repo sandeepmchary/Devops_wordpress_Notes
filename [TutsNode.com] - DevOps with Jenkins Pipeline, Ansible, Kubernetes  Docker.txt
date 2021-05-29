@@ -1,0 +1,87 @@
+1) Install jenkins -- this already knew
+	- here selected amazon linux2 
+	- come with java 7
+	- java --version
+	- we need java 8
+	- sudo yum list | grep java-1.8
+	- java-1.8.0-openjdl-devel
+	- IF it still points to java-1.7
+	- sudo update-alternatives --config java
+	- select the java-1.8
+	- find /usr/lib/jvm/java-1.8* | head -n 3
+	- vi ~/.bash_profile
+	- JAVA_HOME=(SELECT THE THIRD LINE)
+	- UNDER THE FILE 
+	- PATH:$JAVA_HOME
+	- sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat/jenkins.repo
+	- sudo rpm --import http://pkg.jenkins.io/redhat/jenkins.io.key
+	- sudo yum install jenkins -y
+	- sudo systemctl start jenkins
+	- sudo chkconfig jenkins on (or) sudo systemctl enable jenkins
+-------------------------------------------------------------------------------------------------------------------
+1-3) Maven Installation
+
+	- Go to https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+	- sudo yum install unzip -y
+	- mv apache-3.6.3 /opt
+	- vi ~/.bashrc
+		export M2_HOME=/opt/apache-maven-3.6.3
+		export M2=$M2_HOME/bin
+		export PATH=$M2:$PATH
+	- source ~/.bashrc
+	- mvn --version
+1-6) first build
+
+	- go to jenkins
+	- manage jenkins
+	- Global tool configuration
+	- find /usr/lib/jvm/java-1.8* | head -n 3
+	- the third line 
+	- put under the JDK
+	- mvn --version
+	- maven installation home directory
+	- select git
+	- keep the git url
+	- select build
+	- Add build step
+	- invoke top level maven targets
+	- maven version
+	- save
+	- 
+===================================================================================================================	
+2) jenkins master and slave configuration
+    - Java is required on the slave node 
+	- Remote root Directory - create a jenkins folder  and give ec2-user and ec2-user as group permissions
+		- chown ec2-user:ec2-user jenkins
+	- Go to jenkins 
+	- Manage jenkins
+	- Manage nodes and clouds
+	- New node
+	- Name it (slave1)
+	- select permanent agent
+	- ok
+	- # of executors -- no. of builds this slave can run concorently ,choose the no of executors depends upon the cpu cores of the slave 
+	- Build executors
+	  - 2 idle ( it means master can run 2 builds concorently)
+	  - if there are 10 jobs are there 2 are done by master and remaing 8 will be waiting in the queue
+	- Remote root Directory 
+		- give some path 
+	- Labels - used to tie a job on this slave
+	- Usage - use this node as much as possible 
+			or
+		    - Only build jobs with label expression matching the node
+	- Launch Method : Launch agents via ssh
+		- Host : Private ip of the slave
+		- Credentials : 
+			- Add
+			- jenkins
+			- Kind: SSH username with private key
+			- ID: give some name
+			- Description:
+			- username: ec2-user
+			- private-key: 
+				- Enter direcly 
+				- copy the content of the pem file of the slave and paste here 
+			- Add
+			- Host key verification strategy : Non verify Verification strategy
+	- Availbility : Keep this agent online as much as possible 
