@@ -202,14 +202,293 @@ ________________________________________________________________________________
 			  services:
 			    node_app:
 				  volumes:
-				    - ./:./app
+				    - ./:/app
 					- /app/node_modules
 				  environment:
 				    - NODE_ENV=development
 				  command: npm run dev
 ====================================================================================
+	- in the prod file what needed to change
+		- we dont need volume
+		- change the environment values to prod
+		- change the command to "node" ,"index.js"
+=====================================================================================
+	vi docker-compose.prod.yml
+		- version:"3"
+		  services:
+		    node_app:
+			  environment:
+			    - NODE_ENV=production
+			  command: node index.js
+=====================================================================================
+	- docker-compose down -v
+	- here we are running to docker-compose files
+	- docker-compose.yml and docker-compose.dev.yml (base+dev)
+	- docker-compose.yml and docker-compose.prod.yml (base+prod)
+	- -f for file
+	- docker-compose -f docker-compose.yml -f docker-compose.dev.yml
+	- it will load all the configuration file from the base file(docker-compose.yml) and load all the configuration file from the dev file (docker-compose.dev.yml)
+	- if it needs to override the base file
+	- docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+	- docker ps -a
+	- change some thing in the index.js file 
+	- check the file in the web 
+	- docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+	- now for the prod 
+		- docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d build
+	- check for the update 
+	- there should be not update
+	- change the index.js file 
+	- it should not change
+		-docker-compose -f docker-compose.yml -f docker-compose.prod.yml down -v
+		-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+	- as there is not bind mount to see the udpate we need to build it
+		- docker exec -it <name of the container> bash
+	- as we can see all the docker-compose files so we NEED TO CHANGE THE DOCKERIGNORE FILE 
+		- exit
+=========================================
+	- vi .dockerignore
+		-docker-compose*.yml
+=========================================
+		- docker exec -it <name of the container> bash
+		- cd node_modules
+		- ls
+	- we can see nodemon,if we check in the package.json file nodemon is dev dependency, we dont use nodemon in production 
+	- nodemon automatically restarts the code, which is not required in the prod
+	- to prevent nodemon from installing taking space and does nothing
+	- so we need to change the Dockerfile that if this is only for prod then dont install the npm install or dev install the npm install
+	- in the Dockerfile 
+		- RUN npm install --only=production
+	- this will prevents any dev dependency get installed on the prod
+	- if we check in package.json nodemon is dev dependency not the prod dependency
+	- so we put 
+		RUN npm install --only=production
+	- then it will not install the npm install becoz this is dev dependency not prod dependency
+	- so we need to change the Dockerfile
+======================================================================
+		vi Dockerfile
+			- FROM node:15
+			  WORKDIR /app
+			  COPY package.json .
+			  ARG NODE_ENV
+			  RUN if [ "$NODE_ENV" = "development" ]; \
+			           then npm install ; \
+					   else npm install --only=production; \
+                  fi
+              COPY . ./
+              ENV PORT 3000
+			  EXPOSE $PORT
+			  CMD ["npm" ,"run" ,"dev"]
+======================================================================
+- we need to set the value of NODE_ENV value in the docker-compose.dev.yml and docker-compose.prod.yml 
+======================================================================
+- vi docker-compose.dev.yml
+	- version: "3"
+	  services:
+	    node_app:
+		  build:
+		    context: . #(specify Dockerfile)
+			args: # all the diff arguments we want to pass
+			  NODE_ENV: development
+		  volumes:
+			- ./:/app
+			- /app/node_modules
+		  environment:
+			- NODE_ENV=development
+		  command: npm run dev
+======================================================================
+======================================================================			  
+-vi docker-compose.prod.yml
+	- version: "3"
+	  services:
+	    node_app:
+		  build:
+		    context: .
+			args: 
+			  NODE_ENV: production
+			environment:
+				- NODE_ENV=production
+			command: node index.js
+======================================================================
+	-docker ps -a			  
+	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml down -v
+	-docker ps -a
+	- docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+	- change index.js file
+	- check
+	- docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+	- bring back up for the prod
+	- docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+	- change index.js
+	- no update
+	- docker  exec  -it node_app bash
+	- ls
+	- cd node_modules
+	- check for the nodemon (we dont find it )
+	$ ls -al
+	$ printenv
+====================================================================================================================
+	- ADDING MONGO DB TO APPLICATION
+		- go to dockerhub check for mongo
+		- vi docker-compose.yml
+===========================================
+	version:"3"
+    services:
+		node_app:
+		  build: .
+		  ports:
+		    - "3000:3000"
+		volumes:
+		  - ./:/app
+		  - /app/node_modules
+		environment:
+		  -PORT: 3000
+		# env_file:
+		#  - ./.env
+	    # this should lined with node_app
+		mongo: # we call what ever we want 
+		  image: mongo
+		  environment:
+			- MONGO_INITDB_ROOT_USERNAME=samantha
+			- MONGO_INITDB_ROOT_PASSWORD=samantha123
+===========================================
+ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d 
+ $ docker ps -a
+ - we will see the two containers
+ - mongo container and node_app container
+ $ docker exec -it <name of the container> bash
+ $ mongo -u "samantha" -p "samantha123"
+ > db
+   test
+ > use <new db>
+ > use mydb
+ switched to new db
+ > show dbs
+ > db.books.insert ({"name": "Harry Potter"}) # new db creation with name books
+ > db.books.find()
+ > show dbs
+ exit
+ $ docker exec -it <name of the container> mongo -u "samantha" -p "samantha123" (we will directly go to the mongo db connection)
+ $ exit
+ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+ - boot up the db again 
+ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+ $ docker exec -it <name of the container> mongo -u "samantha" -p "samantha123"
+ > show dbs
+ - the db we created mydb is gone
+ - this is a brand new container so every thing is new 
+ - no data should be lost in container especially prod environment
+ - in the docker-compose.yml
+	$ vi docker-compose.yml
+	  version: "3"
+	  services:
+	    node_app:
+		  build: .
+		  ports:
+		    - "3000:3000"
+		  environment:
+		    - PORT=3000
+		mongo:
+			image: mongo
+			environment:
+			  - MONGO_INITDB_ROOT_USERNAME=samantha
+			  - MONGO_INITDB_ROOT_PASSWORD=samantha123
+			volumes:
+			# /data/db this is annonomos volume we should name it
+			# - name: /path
+			  - mongo_db:/data/db #(no space)
+		volumes:
+			# list all the named volumes here
+			mongo_db:
+
+- named volumes needs a declaration we need to declare the volume mongo_db in another protion of this docker-compose.yml file
+- named volumes can be used by multiple services
+- if we have a another mongo instance or another mongo services they can attach to this mongo_db volume like this services does
+	$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+	$ docker exec -it <container> bash
+	> use mydb
+	> db.books.insert({"name": "harry potter"})
+	> db.books.find()
+	exit
+	$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down (-v deletes ananmous volumes and named volumes also)
+	$ docker volume ls
+	$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+	$ docker exec -it <container> bash
+	> showdbs
+	> use mydb
+	> db.books.find()
+=========================================================================================================		
+- CHECK FOR PERSISTANCE VOLUMES OR NFS	 (check)
+	- CHANGES TO EXPRESS APPLICATION TO MONGO DB
+		$ docker-compose up -d --build
+		- need to check in the https://www.npmjs.com/package
+		- search for mongoose
+		$ sudo npm install mongoose
+		$ docker-compose down 
+		$ docker-compose up -d --build
+		- now we import mongoose
+		- in the package.json file 
+		- paste under cons express
+		$ const mongoose = require('mongoose');
+		- now we have to connect to db
+		- Connecting to MongoDB
+		- Connections
+		- You can connect to MongoDB with the mongoose.connect() method.
+		- You can also specify several more parameters in the uri:
+		$ mongoose.connect('mongodb://username:password@host:port/database?options...', {useNewUrlParser: true});
+		- under package.json
+			- mongoose.connect("mongodb://samantha:samantha123@ipaddress")
+		$ docker inspect <name of the mongodb container> | grep -i ipaddress
+		
+		- every time the ipaddress may vary 
+		- for that we need to look into
+		$ docker ps -a
+		$ docker inspect <name of the container>
+			- mongoose.connect("mongo://samantha:samantha123@172.x.x.x:27017/?authSource=admin").then((
+			)=> console.log("successfully connected to DB")).catch((e)=>console.log(e));
+		$ docker ps 
+		$ docker logs <name of the node container>
+===========================================
+vi index.js
+
+const express = require("express")
+cons mongoose = re
+const app = express()
+app.get("/",(req,res) => {
+    res.send("<h1> Doing this on sunday </h1>");
+})
+const port = process.env.PORT || 3000;
+app.listen(port,() => console.log(`listening on the the port ${port}`));
 
 
+
+		
+		
+	
+	
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+		
+		
+		
 
 
 
