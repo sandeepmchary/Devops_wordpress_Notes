@@ -1,0 +1,383 @@
+1)
+	- list of project we are going to do 
+	- Project 1 
+		- Automated setup for 3 tier Application,Locally
+			- vagrant
+			- virtual box
+			- Bash scripting 
+		- This is foundation project services used in this project are
+			- Nginix
+			- Rabbit MQ
+			- Memcache
+			- MySQL
+	- Project 2
+		- Lift and Shift Web Application on AWS cloud
+			- services used
+				- EC2
+				- Autoscaling
+				- Load Balencer
+				- Cloud Watch Alarms
+				- Route 53
+	- Project 3:
+		- RE Architecture Web Application on AWS cloud
+			- By using PAAS & SAAS cloud services in your web Application,using services like
+
+				- RDS,Elasticcache,Amazon MQ
+				- Cloud Front, Route 53
+				- ELB,EFS,S3,SNS + EC2
+	- Project 4:
+		- Continious Intergration of Java Project
+			- learn automated Project release management by using
+				- Git
+				- jenkins
+				- maven
+				- Sonarqube
+				- nexus
+				- Check style ??
+				- Slack channel
+	- Project 5:
+		- Continious Intergration on AWS cloud
+			- learn automated Project release management on AWS
+				- AWS code commit
+				- AWS code build
+				- AWS code artifact
+				- Sonar cloud
+				- SNS
+				- S3 Bucket
+	- project 6:
+		- Continious delivery of java project
+			- Automated code delivery pipeline with s/w testing
+				- jenkins
+				- git
+				- Maven
+				- nexus
+				- sonarqube
+				- Selenium
+				- Tomcat
+				- MySQL
+				- Memcache
+				- Rabbit MQ
+	- Project 7:
+		- Continious delivery on AWS Cloud
+			-Automated code delivery pipeline using AWS Services
+				- code commit
+				- code build
+				- code artifact
+				- sonar cloud
+				- code deploy
+				- code pipeline
+				- Elastic bean stack
+				- RDS
+	- Project 8:
+		- project configuration management with Ansible
+			- Ansible to automate/manage configs of your entire project
+	- Project 9:
+		- Setup your cloud stack for your project using ansible
+			- 
+	- project 10:
+		- continour delivery with jenkins & ansible
+			- intergration of CI with ansible for continous delivery
+				- with jenkins pipeline
+	- project 11:
+		- Continious delivery with jenkins & AWS services
+			- Intergrate CI server with aws services for CI/CD pipeline
+				- along with bean stack
+				- RDS
+	- Project 12:
+		- Containerization of java web project
+			- learn how to containerize the existing project.local development work flow 
+				- Docker
+				- Docker build
+				- Docker Hub
+				- Docker compose
+	- Project 13:
+		- Kubernetes for production containers
+			- Setup production grade kubernetes cluster to Host your apps
+				- KOPS
+				- KUBEADM
+	- Project 14:
+		- Setup Entire web Application on Java stack on kubernetes cluster
+		- Setup Entire web Application on Java stack on kubernetes cluster
+	- project 15: 
+		- CI/CD for containers
+		- Continous delivery docker changes to kubernetes pods
+		- Docker docker hub and kubernetes
+		- by combainig jenkins pipeline docker,docker hub and kubernetes
+	- Project 16:
+		- AWS security implementations
+			- Implementation security and its best practices on AWS Cloud on the project and pipeline
+			- IAM
+			- Detective controls
+			- Infrastructure protection
+			- Data Protection
+			- Incident Response
+	- Project 17:
+		- Cloudformation to setup entire cloudstack
+			- Automate AWS cloud infra
+				- 
+	- Project 18:
+		- Terraform to setup cloud stack
+			- Automate AWS Cloud Infra
+				- 
+--------------------------------------------------------------------------------------------------------------------2)	- Emma wants a website
+	-  Emma need all the requirements of the webpage
+		- Welcome page
+		- Login
+		- Dashboard
+		- Gallery
+		- List of products
+		- price + Discount
+		- User Notification
+		- Customer Support
+		- Chart
+		- cart
+		- Payment Gateway
+		
+	- 2-4 weeks
+		- welcome page
+		- login
+		- Dashboard
+		- Gallery
+	- 2-4 weeks
+		- list of products
+		- price + Discount
+		- User Notification
+		- Customer Support
+	- 2-4 weeks
+		- chat
+		- cart
+		- payment gateways
+	- ABOVE LIFE CYCLE IS CALLED AGILE 
+	- each iteration could be 2-4 weeks
+	- Demo will be given to Emma after every iteration
+	- new ideas/features we take from the emma then we inject it to the next iteration
+	- DEVOPS LIFE CYCLE
+		- CODE
+		- CODE BUILD
+		- CODE TEST
+		- CODE ANALYSIS
+		- DELIVERY
+		- DB/SECURIRY/OS CHANGES
+		- SOFTWARE CHANGES
+		- DEPLOY TO PROD
+		- GO LIVE
+		- USER APPROVAL
+--------------------------------------------------------------------------------------------------------------------
+3) What is Continuous Integration
+	- CI is automated process in DevOps
+	- centralized place like github
+	- Version Control System
+	- Build sever 
+		- builds
+		- Tested
+		- Evaluated
+		- we get build or Artifact this will be stored in a s/w repository
+		- Archive of file of Artifact repo can be 
+			- war/jar
+			- DLL/MSI/EXE
+			- Tar/Zip
+		- then to testing s/w if everything is ok
+		- then to production 
+	- PROBLEM
+		- coded then to build server
+			- problem is 
+				- Errors
+				- Bugs
+				- conflicts
+				- build failures
+			- code is merged into the repo but not intergrated
+	- SOLUTION
+		- for every commit their should be build & tested
+		- Automate this process 
+		- for every commit we build it and test it if their is any error we notify it to the Developer
+		- then Developer fix the code and commit it again
+	- Cyclic View 
+		- CODE
+		- FETCH
+		- Build
+		- TEST
+		- NOTIFY
+		- FEEDBACK AND CODE,..,...,..
+	- this is automation or CI
+	- Goal of CI is to detect defects at early stage 
+	
+	- Build Tools
+		- maven,ant,gradle
+		- msbuild,visual build
+		- IBM urban code
+		- Make
+		- Grunt
+	- S/W Repositories
+		- SONATYPE NEXUS
+		- JFROG ARTIFACTORY
+		- ArchivA
+		- CLOUDSMITH PACKAGE
+		- GRUNT
+	- CI Tools
+		- JENKINS
+		- CIRCLECI
+		- TEAMCITY
+		- BAMBOO CI
+		- CRUISE CONTROL
+--------------------------------------------------------------------------------------------------------------------
+4) 004 What is Continuous Delivery
+	- Deployment
+		- Server provsioning
+		- Dependencies
+		- conf changes
+		- n/w
+		- Artifactory Deployment
+	- There are lot automation tools
+		- ansible,puppet,chef for system automation
+		- terraform,cloudformation for cloud infrastucture automation
+		- jenkins,octopus deploy for ci/cd automation
+		- helm charts
+		- code deploy
+	- Test Automation
+		- Functional 
+		- load
+		- performance
+		- db
+		- security
+--------------------------------------------------------------------------------------------------------------------
+5) 005 Course Prerequisites
+	- Skills
+		- Intermediate understanding of Linux systems
+		- Basic scripting knowledge
+		- Troubleshoot skills
+		- Basics of AWS
+		- jenkins
+		- ansible
+		- docker
+		- container
+--------------------------------------------------------------------------------------------------------------------
+6) pre requistes
+	- virtual box 
+	- vagrant
+	- git
+	- java8
+	- maven
+	- awscli
+	- vscode
+	- sublime
+	- Domain
+	- github signin
+	- Dockerhub signin
+	- sonarcloud (go with signin with github,then just testing,create projects manually ,create org manually,key(name it),project key (name it),setup)
+	- create user in aws with aws management console access
+		- console passwd
+		- permissions
+		- attach existing policies
+		- Administrator access
+		- create user
+		- login with the link 
+	- choose north virgina region
+		- search for cloudwatch service
+		- purchase a certificate
+			- search for acm (certificate manager)
+			- select provision certificate
+			- get started
+			- request a public certificate
+			- request a certificate
+			- give the domain that we have purchased
+			- *.<name of the domain >
+			- next
+			- DNS validation
+			- next
+			- tag values
+			- confirm and request
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2_1) Section_2_Multi_tier_web_application_setup_locally
+	- Clone the source code
+	- cd into the vargrant dir
+	- bring the vm's
+	- Validate
+	- Setup all the services
+		- MySQL
+		- Memcache
+		- Rabbit MQ
+		- Tomcat
+		- Nginix
+		- App Build & Deploy
+	- verify from the browser
+----------------------------------------------------------------------------------------------------------
+2_2) 008 b. VM Setup
+	- go to  devopshydclub/vprofile-project
+	- check for the branch local-setup 
+	- go to the directory
+	- clone the vprofile-project 
+	$ git checkout local-setup
+	$ cd vprofile-project/vagrant/Manual_provisioning
+	- we should be in the vargrant file folder 
+	$ vagrant up 
+	- in the vagrant file we have 
+		- Nginix
+		- Tomcat
+		- Rabbit MQ
+		- Memcache
+		- DB
+	- vagrant up 
+	- after completion of all the servers
+	- vagrant ssh web01 name of the nginix server
+	$ cat /etc/hosts
+	- this file is automatically updated
+	$ ping another server it will connect
+	$ repeat this process from another servers
+	$ go to db server
+	$ yum update -y
+	- we take a variable DATABASE_PASS='admin123'
+	- if we restart the value will lost
+	- we have to put it in the /etc/profile
+		- vi /etc/profile
+			- Shift+G
+			- DATABASE_PASS='admin123'
+		:wq!
+	$ source /etc/profile
+	$ yum install epel-release -y (for repository access)
+	$ yum install git mariadb-server -y
+	$ systemctl start mariadb
+	$ systemctl enable mariadb
+	$ systemctl status mariadb
+	$ mysql_secure_installation (??)
+	$ y
+	$ reset the passwd
+	$ remove annomous user access : y
+	$ disallow root access: n
+	$ remove test db: y
+	$ Reload privilages : y
+	- now the mysql root passwd is setup check it once
+		$ mysql -u root -p <passwd>
+		$ exit
+	$ git clone -b local-setup https://github.com/devopshydclub/vprofile-project.git
+	$ ls
+	$ cd vprofile-project
+	$ cd src
+	$ cd main
+	$ cd resources
+	$ pwd
+	- intialize the db with this 
+	   $ mysql -u root -p "$DATABASE_PASS" -e "create database accounts"
+	- add the user admin in mysql db
+	- this can be accessed with admin username
+	- have all the privilages on accounts that we just created
+	- go the project directory
+	- to execute sql quiries 
+	$ mysql -u root -p "$DATABASE_PASS" accounts < src/main/resources/db_back.sql (to execute sql query on acounts db we need to have the path)
+	- it's gonna login into the db on accounts db then it gonna execute all these sql quries
+	- flush the previlage
+	$ mysql -u root -p "$DATABASE_PASS" -e "FLUSH PRIVILEGES"
+	-  login to the db
+		- mariadb > show databases;
+		  mariadb > use accounts;
+					> show tables;
+	- exit
+	$ systemctl restart mariadb
+	- starting the firewall  and allowing the mariadb to access from port no 3306
+		# systemctl start firewalld
+		# systemctl enable firewalld
+		# firewall-cmd --get-active-zones
+		# firewall-cmd --zone=public --add-port=3306/tcp --permanent
+		# firewall-cmd --reload
+		# systemctl start mariadb
+	
+	
