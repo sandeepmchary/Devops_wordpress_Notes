@@ -318,12 +318,13 @@
 		- DB
 	- vagrant up 
 	- after completion of all the servers
-	- vagrant ssh web01 name of the nginix server
+	- vagrant ssh web01 (name of the nginix server)
 	$ cat /etc/hosts
 	- this file is automatically updated
 	$ ping another server it will connect
 	$ repeat this process from another servers
 	$ go to db server
+	$ vagrant ssh app01
 	$ yum update -y
 	- we take a variable DATABASE_PASS='admin123'
 	- if we restart the value will lost
@@ -356,7 +357,8 @@
 	$ cd resources
 	$ pwd
 	- intialize the db with this 
-	   $ mysql -u root -p "$DATABASE_PASS" -e "create database accounts"
+	   $ mysql -u root -p"$DATABASE_PASS" -e "create database accounts"
+	   $ mysql -u root -p"$DATABASE_PASS" -e "grant all privileges on accounts.* TO 'admin'@'app01' identified by 'admin123' "
 	- add the user admin in mysql db
 	- this can be accessed with admin username
 	- have all the privilages on accounts that we just created
@@ -376,8 +378,284 @@
 		# systemctl start firewalld
 		# systemctl enable firewalld
 		# firewall-cmd --get-active-zones
-		# firewall-cmd --zone=public --add-port=3306/tcp --permanent
-		# firewall-cmd --reload
+		# sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
+		# sudo firewall-cmd --reload
 		# systemctl start mariadb
+========================================================================
+MEMCACHE Setup
+		$ sudo -i
+		$ yum update -y
+		$ yum install epel-release -y
+		$ yum install memcached -y
+		$ sudo systemctl start memcached
+		$ sudo systemctl enable memcached
+		$ systemctl status memcached
+		$ memcached -p 11211 -U 11111 -u memcached -d
+		- validate it's running on the right port
+		$ ss -tunlp | grep 11211
+		$ exit
+========================================================================
+RABBIT MQ
+	$ vagrant ssh rmq01
+	$ sudo -i
+	$ yum update -y (must)
+	- Rabbit Mq Version will depend on latest kernel version and some latest patches
+	$ yum install epel-release -y
+	- dependencies installation
+		$ yum install socat -y
+		$ yum intall wget -y
+		$ wget http://erlang.org/download/otp_src_R15B01.tar.gz
+		$ tar zxvf otp_src_R15B01.tar.gz
+		$ cd otp_src_R15B01
+		$ ./configure && make && sudo make install
+		$ wget  
+		https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_16/rabbitmq-server-3.6.16-1.el6.noarch.rpm
+        $ rpm --import  https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+        $ yum install rabbitmq-server-3.6.16-1.el6.noarch.rpm
+        $ systemctl start rabbitmq-server
+        $ systemctl enable rabbitmq-server
+        $ systemctl status rabbitmq-server
+        $ echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+        $ rabbitmqctl add_user test test (rabbitmqctl add_user user_name passwd)
+        $ rabbitmqctl set_user_tags test administrator
+        - restart the rabbitmq-server
+        $ systemctl restart rabbitmq-server
+        $ systemctl status rabbitmq-server
+=========================================================================================================================
+	- TILL NOW WEB01,MEM01,RMQ01 ARE COMPLETED
+		$ vagrant ssh app01
+		# sudo -i
+		# yum update -y
+		# yum install epel-release -y
+		- dependency for tomcat is jdk-1.8.0
+		# yum install java-1.8.0-openjdk -y
+		# yum install maven git wget -y
+		# cd /tmp
+		# wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz -O tomcatbin.tar.gz
+		- <-O for renaming the file after downloading>
+		# tar -xzvf tomcatbin.tar.gz
+		# cd ./apache-tomcat-8.5.37
+		- we need to copy all these into /usr/local/tomcat8
+		- instead of creating that directory 
+		- we are creating user with tomcat8 as home directory
+		- start and stop the tomcat with systemctl 
+		- so we need setup 
+						- user
+						- directory
+						- ownerships
+						- systemctl file
+		- set up the use with home directory
+		# useradd --home-dir /usr/local/tomcat8 --shell /sbin/nologin tomcat
+		- instead of copying we use rsync
+		# rsync -avzh /tmp/apache-tomcat-8.5.37/ /usr/local/tomcat8/
+		- lets make tomcat user as owner of tomcat8 dir
+		# chown -R tomcat.tomcat /usr/local/tomcat8
+		- for systemctl command we need to a file
+============================================================================================
+		# vi /etc/systemd/system/tomcat.service
+[Unit]
+Description=Tomcat
+After=network.target
+[Service]
+User=tomcat
+WorkingDirectory=/usr/local/tomcat8
+Environment=JRE_HOME=/usr/lib/jvm/jre
+Environment=JAVA_HOME=/usr/lib/jvm/jre
+Environment=CATALINA_HOME=/usr/local/tomcat8
+Environment=CATALINE_BASE=/usr/local/tomcat8
+ExecStart=/usr/local/tomcat8/bin/catalina.sh run
+ExecStop=/usr/local/tomcat8/bin/shutdown.sh
+SyslogIdentifier=tomcat-%i
+[Install]
+WantedBy=multi-user.target
+
+=========================================================================================			
+	# systemctl daemon-reload
+	# systemctl start tomcat
+	# systemctl enable tomcat
+	# systemctl status tomcat
+- now we build the artifact from the source and deploy to tomcat server
+	# pwd
+	# git clone -b local-setup https://github.com/devopshydclub/vprofile-project.git
+	# git status
+- we should be in the local-setup branch
+- we need to update the configuration file that will be used by application to connet to backend services 
+	- db
+	- memcache
+	- rabbitmq
+=========================================================================================			
+vi src/main/resources/application.properties
+
+#JDBC Configutation for Database Connection
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://db01:3306/accounts?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+jdbc.username=admin
+jdbc.password=admin123
+
+#Memcached Configuration For Active and StandBy Host
+#For Active Host
+memcached.active.host=mc01
+memcached.active.port=11211
+#For StandBy Host
+memcached.standBy.host=127.0.0.2
+memcached.standBy.port=11211
+
+#RabbitMq Configuration
+rabbitmq.address=rmq01
+rabbitmq.port=5672
+rabbitmq.username=test
+rabbitmq.password=test
+
+#Elasticesearch Configuration
+elasticsearch.host =192.168.1.85
+elasticsearch.port =9300
+elasticsearch.cluster=vprofile
+elasticsearch.node=vprofilenode
+=========================================================================================			
+	 # mvn install
+	 # ls 
+- check for the target directory
+- check for vprofile-v2.war
+- removing default application of tomcat
+- systemctl stop tomcat
+- systemctl status tomcat
+- rm -rf /usr/local/tomcat8/webapps/ROOT*
+- cp target/vprofile-v2.war /usr/local/tomcat8/webapps/ROOT.war
+- ls /usr/local/tomcat8/webapps/
+- systemctl start tomcat
+- now we need setup nginix server
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+NGINX
+	# vagrant ssh web01
+	- is ubuntu machine
+	# sudo apt-get update && apt upgrade -y
+	# sudo -i
+	# apt install nginx -y
+- to access tomcat without port we create this file
+=======================================================================
+vi /etc/nginx/sites-available/vproapp
+
+upstream vproapp {
+server app01:8080;
+}
+server {
+listen 80;
+location / {
+proxy_pass http://vproapp;
+}
+}
+
+
+=======================================================================
+- we are removing the default website of nginix
+	# rm -rf /etc/nginx/sites-enabled/default
+	# ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/vproapp
+- the above one enable our site
+	# systemctl restart nginx
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+f) 
+	- FLOW OF EXECUTION
+		- setup memcache,rabbitmq,nginix,tomcat,mysql,app01
+		- clone source code
+		- cd into vagrant dir
+		- bring vagrant up
+		- validate
+		- setup all the services
+			- MySQL
+			- Memcache
+			- RABBITMQ
+			- Tomcat
+			- NGINX
+			- App build & Deploy
+		- login with web01 address
+			- id: admin_vp
+			  pass: admin_vp
+		- click on rabbitmq
+		- click on memcache(all users button)
+		- select the user (on the number)
+		- [data is from DB and Data  inserted in cache]
+		- select the same user
+			- [Data is from Cache] very quickly
+		- vagrant destroy
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	- USERS -> nginix -> Tomcat -> rabbitmq -> Memcache -> mysql
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
