@@ -579,6 +579,69 @@ f)
 		- vagrant destroy
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	- USERS -> nginix -> Tomcat -> rabbitmq -> Memcache -> mysql
+	
+********************************************************************************************************************
+Section_4_AWS_cloud_for_Web_app_setup_[Lift & Shift]
+	- a) Introduction
+		- Lift & Shift App work load
+		- About the project
+			- Multi tier web application stack [Vprofile]
+			- Host & Run on AWS Cloud for production
+			- we are using Lift & Shift Strategy
+		- Scenario
+			- Application services are running on Physical Machine
+			- work load in data center
+			- we need virtualization,Data center ops ,Monitoring,SysAdmin Teams
+		- PROBLEM
+			- Complex management
+			- Scale up/Down Complexity
+			- Upfront Capital(money) /Regular (Expenses)
+			- 
+	    - Aws Services
+			- EC2 instances
+				- vm for tomcat,rabbit,memcache,mysql
+			- ELB[Elastic Load Balancer]
+				- Replacement of NGINX 
+		- Autoscaling
+			- Automation for Vm Scaling
+		- s3/EFS
+			- Shared Storage
+		- Route 53
+			- Private Dns server
+		- Architecture OF AWS SERVICE FOR THE Project
+			- EC2 instances
+			- ELB
+			- Autoscaling
+			- S3/EFS for shared storage
+			- Amazon certificate manager
+			- Route 53
+		- After this we get 
+			- user will access the website with URL the URL will endpoint
+			- this entry will be mentioned in godaddy DNS
+			- Users/App will connect to the load balancer by using HTTPS
+			- this certificate encryption will be mentioned in ACM service
+			- Users will access the application load balancer endpoint
+			- Our Load Balancer will be in a security group and will only allow https traffic
+			- then the application load balancer will route to tomcat instances 
+			- Apache tomcat services will be running on set EC2 instances which will be managed by autoscaling group
+			- These tomcat instances will be in the seperate security group and will allow only port 8080 from load balancer
+			- Information of backend server/services ip address are mentioned in Route 53 private DNS zone
+			- tomcat instances will access backend server with a name that are mentioned in route 53 private DNS with private ip of the backend servers will be mentioned
+			- these backend ec2 instances which will be running mysql,rabbit,memcache will be in seperate security group
+		- FLOW OF EXECUTION
+			- Login to AWS 
+			- create key pairs
+			- create security groups
+			- launch Instances with user data [Bash scripts]
+			- update IP in the name mapping  in route 53
+			- Build application from the source code
+			- upload the artifact to s3 bucket
+			- From s3 bucket we download artifact to tomcat ec2 instances
+			- setup load balancer with https connection [certificate from Amazon Certificate Manager]
+			- Map ELB ENDpoint to website name in Godaddy Dns
+			- verify
+			- build Autoscaling group to Tomcat instances
+			
 
 
 
