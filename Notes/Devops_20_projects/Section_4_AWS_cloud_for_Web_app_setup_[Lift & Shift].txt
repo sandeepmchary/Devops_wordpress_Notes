@@ -1,0 +1,351 @@
+Section_4_AWS_cloud_for_Web_app_setup_[Lift & Shift]
+	- a) Introduction
+		- Lift & Shift App work load
+		- About the project
+			- Multi tier web application stack [Vprofile]
+			- Host & Run on AWS Cloud for production
+			- we are using Lift & Shift Strategy
+		- Scenario
+			- Application services are running on Physical Machine
+			- work load in data center
+			- we need virtualization,Data center ops ,Monitoring,SysAdmin Teams
+		- PROBLEM
+			- Complex management
+			- Scale up/Down Complexity
+			- Upfront Capital(money) /Regular (Expenses)
+			- 
+	    - Aws Services
+			- EC2 instances
+				- vm for tomcat,rabbit,memcache,mysql
+			- ELB[Elastic Load Balancer]
+				- Replacement of NGINX 
+		- Autoscaling
+			- Automation for Vm Scaling
+		- s3/EFS
+			- Shared Storage
+		- Route 53
+			- Private Dns server
+		- Architecture OF AWS SERVICE FOR THE Project
+			- EC2 instances
+			- ELB
+			- Autoscaling
+			- S3/EFS for shared storage
+			- Amazon certificate manager
+			- Route 53
+		- After this we get 
+			- user will access the website with URL the URL will endpoint
+			- this entry will be mentioned in godaddy DNS
+			- Users/App will connect to the load balancer by using HTTPS
+			- this certificate encryption will be mentioned in ACM service
+			- Users will access the application load balancer endpoint
+			- Our Load Balancer will be in a security group and will only allow https traffic
+			- then the application load balancer will route to tomcat instances 
+			- Apache tomcat services will be running on set EC2 instances which will be managed by autoscaling group
+			- These tomcat instances will be in the seperate security group and will allow only port 8080 from load balancer
+			- Information of backend server/services ip address are mentioned in Route 53 private DNS zone
+			- tomcat instances will access backend server with a name that are mentioned in route 53 private DNS with private ip of the backend servers will be mentioned
+			- these backend ec2 instances which will be running mysql,rabbit,memcache will be in seperate security group
+		- FLOW OF EXECUTION
+			- Login to AWS 
+			- create key pairs
+			- create security groups
+			- launch Instances with user data [Bash scripts]
+			- update IP in the name mapping  in route 53
+			- Build application from the source code
+			- upload the artifact to s3 bucket
+			- From s3 bucket we download artifact to tomcat ec2 instances
+			- setup load balancer with https connection [certificate from Amazon Certificate Manager]
+			- Map ELB ENDpoint to website name in Godaddy Dns
+			- verify
+			- build Autoscaling group to Tomcat instances
+*******************************************************************************************************************
+017 b. Security Group & Key Pairs
+	- create security group for load balancer
+		- security groups
+		- give a name (vprofile-ElB-SG)
+		- Inbound Rules
+			- http allowed from anywhere
+				- http,https 
+				- source anywhere
+				- save
+	- Creating sg for tomcat instances
+		- name 
+		- Inbound Rules
+			- Custom TCP :8080 
+		- Source
+			- custom: (sg of load balancer)
+	- Creating sg for backend services (rabbit,memcache,mysql)
+		- name
+		- Inbound Rules
+			- MySQL/Aurora:3306
+		- Source
+			- custom: (sg of tomcat) (application sg is tomcat)
+		-Description: Allow tomcat to connect mysql/aurora
+		- Add Rules
+			- Custom Tcp : 11211
+			-source
+				- custom: (sg of tomcat)
+		-Description: Allow tomcat to connect memcache
+		- Add Rules
+			- Custom Tcp: 5672
+			- Source
+				- custom: (sg of tomcat)
+		-Description: Allow tomcat to connect rabbitmq
+	- here we need another sg , all the sgs need to communicate with each other so we need its own security group id
+		- Add Rules
+			- All traffic: All
+				- custom: (sg of this security group)
+			-Description: Allow interanal traffic to flow to all ports
+	--------------------------------------
+	- login key pairs
+*******************************************************************************************************************
+18_c) Ec2 instances
+	= CENTOS 7 FOR MARIADB
+	- create ec2 instances with some user data
+	- go to git 
+	- clone it 
+	- go to vprofile-project
+	- git checkout aws-LiftAndShift
+	- cd /userdata
+	- ec2 instances creation 
+		3) Configure instance
+			- Under Advanced Details
+				- under user data
+-----------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+DATABASE_PASS='admin123'
+sudo yum update -y
+sudo yum install epel-release -y
+sudo yum install git zip unzip -y
+sudo yum install mariadb-server -y
+
+
+# starting & enabling mariadb-server
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+cd /tmp/
+git clone -b vp-rem https://github.com/devopshydclub/vprofile-repo.git
+#restore the dump file for the application
+sudo mysqladmin -u root password "$DATABASE_PASS"
+sudo mysql -u root -p"$DATABASE_PASS" -e "UPDATE mysql.user SET Password=PASSWORD('$DATABASE_PASS') WHERE User='root'"
+sudo mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
+sudo mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.user WHERE User=''"
+sudo mysql -u root -p"$DATABASE_PASS" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
+sudo mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
+sudo mysql -u root -p"$DATABASE_PASS" -e "create database accounts"
+sudo mysql -u root -p"$DATABASE_PASS" -e "grant all privileges on accounts.* TO 'admin'@'localhost' identified by 'admin123'"
+sudo mysql -u root -p"$DATABASE_PASS" -e "grant all privileges on accounts.* TO 'admin'@'%' identified by 'admin123'"
+sudo mysql -u root -p"$DATABASE_PASS" accounts < /tmp/vprofile-repo/src/main/resources/db_backup.sql
+sudo mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
+
+# Restart mariadb-server
+sudo systemctl restart mariadb
+
+
+#starting the firewall and allowing the mariadb to access from port no. 3306
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+sudo firewall-cmd --get-active-zones
+sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
+sudo firewall-cmd --reload
+sudo systemctl restart mariadb
+
+-----------------------------------------------------------------------------------------------------------------
+	- section 5: Add tags:
+		- name: vprofile-db01
+	    - add another tags
+			- project vprofile
+	- security group:
+		- select for backend-sg
+	- to select the user data 
+		- curl http://169.254.169.254/latest/user-data
+	- systemctl status mariadb
+--------------------------------------------------------------------------------------------------------
+	= CENTOS 7 for MEMCACHE
+		3)
+			- User data
+-----------------------------------------------------------------------------------------------
+#!/bin/bash
+sudo yum install epel-release -y
+sudo yum install memcached -y
+sudo systemctl start memcached
+sudo systemctl enable memcached
+sudo systemctl status memcached
+sudo memcached -p 11211 -U 11111 -u memcached -d
+------------------------------------------------------------------------------------------------
+- security group
+	- select backend-sg
+---------------------------------------------------------------
+= CENTOS 7 for rabbitmq
+		user-data
+---------------------------------------------------------------
+#!/bin/bash
+sudo yum install epel-release -y
+sudo yum update -y
+sudo yum install wget -y
+cd /tmp/
+wget http://packages.erlang-solutions.com/erlang-solutions-2.0-1.noarch.rpm
+sudo rpm -Uvh erlang-solutions-2.0-1.noarch.rpm
+sudo yum -y install erlang socat
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+sudo yum install rabbitmq-server -y
+sudo systemctl start rabbitmq-server
+sudo systemctl enable rabbitmq-server
+sudo systemctl status rabbitmq-server
+sudo sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config'
+sudo rabbitmqctl add_user test test
+sudo rabbitmqctl set_user_tags test administrator
+sudo systemctl restart rabbitmq-server
+---------------------------------------------------------------
+name : rmq01
+security group: backend-sg
+------------------------------
+- we need private ip of these rmq01,mc01,db01 for route 53
+- route 53 service
+	- create hosted zone
+		- this will be private
+		- we can give any domain name
+		- vprofile.in
+		- description (hosted zone for backend services)
+		- select the region north virginia select the default vpc
+	click on create hosted zone
+		
+	- create records
+		- create record
+		- simple routing
+		- next
+		- Define simple record
+		- record name (db01)
+		- endpoint (Ipaddress or value depending on the record type)
+		- provide the db01 private IP
+		- Define simple record
+		- record name(mc01)
+		- endpoint (Ipaddress or value depending on the record type)
+		- provide the  mc01 private ip
+		- Define simple record
+		- record name(rmq01)
+		- endpoint (Ipaddress or value depending on the record type)
+		- provide the  rmq01 private ip
+	- click on create record
+	- in the application.properties file we need to mention the name rather than ip addresses
+	- LAUNCH TOMCAT EC2 Instances
+		- ubuntu 18 AMI
+	- we are trying to build the source code localy and push the artifact to tomcat ec2 instance through s3 bucket
+	- use tomcat-ubuntu.sh
+	- in the user-data
+	- tags:
+		Name app01
+	- security group
+		- select app-sg from the load balancer
+		
+*******************************************************************************************************************
+19_d_build_and_deploy
+		- we need to deploy the artifact to tomcat locally
+		- we need java8 and maven
+		- choco install java8 -y
+		- choco install maven -y
+        - we need to update the application.properties
+		- vi /vprofile-project/src/main/resources/application.properties
+		- at the place of db01 replace with db01.vprofile.in (as per route 53 DNS zone entries)
+		- at the place of mc01 replace with mc01.vprofile.in
+		- at the place of rmq01 replace with rmq01.vprofile.in
+		- cd ../../../
+		- top level directory 
+		- where we have pom.xml file 
+		- mvn install
+		- if the build was success we have target directory
+		- cd target
+		- we have vprofile-v2.war
+		- to deploy we need awscli
+		- choco install awscli -y
+		- create a user with s3 full access
+		# aws configuration
+		- create the s3 bucket with name vprofile-artifact
+		# aws s3 mb s3://vprofile-artifact-storage
+		- in the local computer go to the target directory
+		# aws s3 cp vprofile-v2.war s3://vprofile-artifact-storage/vprofile-v2.war
+		# aws s3 ls s3://vprofile-artifact-storage
+		- in order to download the artifact into the tomcat ec2-instance we need to create a role
+		$ aws iam -> roles -> Ec2 -> s3 full access -> (role name) vprofile-artifact-storage-role
+		$ to go to ec2 instance attach the iam role to tomcat instance
+		- login to app01(tomcat)
+		- may be we need to add port 22 
+		# systemctl status tomcat8
+		# cd /var/lib/tomcat8
+		# cd webapps
+		# ls
+		- we need to delete the ROOT directory,before that we need to stop tomcat service
+		# systemctl stop tomcat8
+		# rm -rf ROOT
+		# apt install awscli -y
+		# aws s3 ls s3://vprofile-artifact-storage
+		# aws s3 cp s3://vprofile-artifact-storage/vprofile-v2.war /tmp/vprofile-v2.war
+		# cd /tmp/
+		# cp vprofile-v2.war /var/lib/tomcat8/webapps/ROOT.war
+		# systemctl start tomcat8
+		# ls /var/lib/tomcat8/webapps
+		# cd /var/lib/tomcat8/webapps/ROOT/WEB-INF/classes
+		# cat application.properties
+		# apt install telnet
+		# telnet db01.vprofile.in 3306
+********************************************************************************************************************
+20_e_load_balancer)
+			- backend and front end services are running
+			- ec2
+			- load balancer
+			- we are creating application load balancer we need a target group
+		$ Target group	
+			- create a target group
+			- choose instances
+			- name the target group (vprofile-app-TG)
+			- Protocol: HTTP
+			- PORT : 8080
+			- health check will be : /login
+			- Advanced health check
+				- Port:
+					- override : 8080
+				- Healthy threshold
+					- 3
+				- NEXT
+			- Available instance
+			- select tomcat 
+			- include as pending below
+			- create target group
+		$ Load Balancer
+			- select Application load balancer 
+				- create
+			- we need HTTP and HTTPS are opt for us
+			- name: vprofile-prod-elb
+			  scheme: internet facing
+			LISTENERS:
+				- hTTPS:443
+			- Add  listener
+				- http:80
+			- Availablilty Zones
+				- select all (further we will create autoscaling the instances will be created on all the zones)
+				- min 2 zone
+			- NEXT
+		- Configure Security Settings:
+			- if we already have certificate from ACM select choose a certificate from ACM
+			- certificate name: list our certificate
+			- next security group
+			- select the security group for the load balancer
+		- Configure routing	
+			- Target Group:
+				Existing target group
+			- Register Target
+			- Review
+			- create
+		- it will be in provising state untill then we can use the DNS name(ENDpoint)
+		- Copy the endpoint of the load balancer
+		- go to domain provider
+		- add cname record
+		- type: cname
+		  Host: vprofileapp
+		  Points to : paste the elb endpoint
+		- validate : vprofileapp.awssandeepchary.xyz
+		- id: admin_vp
+		  pass: admin_vp
+		  
+		
+		
