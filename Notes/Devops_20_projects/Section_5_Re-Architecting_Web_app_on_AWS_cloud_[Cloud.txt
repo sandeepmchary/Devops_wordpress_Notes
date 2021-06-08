@@ -1,0 +1,177 @@
+a) Introduction:
+	- About the project
+		- multi tier web application stack [vprofile]
+		- Re-Architect Services for aws cloud
+		- Architecture to boost agility or imporve business continuity
+		- Paas & Saas
+		- cloud managed services from aws services
+		- IAAC - Infrastruture as Code
+		- Flexible
+		- Automation
+		- Aws services (front end)
+			- Bean stack 
+				- vm for tomcat (app server)
+				- Nginx LB replacement
+				- Autoscaling for vm scaling
+			- s3/efs - storage
+		- Aws Services (Backend) (Paas)
+			- RDS instances - DB
+			- Elastic cache - memcache
+			- Active MQ - Rabbit MQ
+			- Route 53 	- DNS
+			- Cloud Front - content delivery n/w
+	- Comparision
+	
+	Bean Stack         --- Tomcat Ec2 
+	ELB in Bean Stack  --- Nginx lb/elb
+	Autoscaling        --- Autoscaling
+	EFS/S3			   --- NFS/S3/EFS
+	RDS				   --- 	MYsql on vm
+	Elastic cache      --- memcache on vm
+	Active MQ          --- Rabbit MQ
+	Route 53 	       --- DNS
+	Cloud Front        --- multi DC across world
+    - Architecture of AWS of this project
+		- Ec2 instances
+		- ELB
+		- Autoscaling
+		- EFS/S3
+		- RDS
+		- Elastic cache
+		- Active MQ
+		- Route 53
+		- Cloud Front
+	users > url > resolved to end point route 53 > endpoint will be of amazon cloud front(content delivery n/w) (this will cache so many things) > redirected to application lb (which is part of elstic beanstalk) > ec2 instances(tomcat app will be running) in auto scaling group (all these are in part of elastic beanstalk) >
+	there will be also amazon cloud watch (for monitoring) > s3 bucket (to store artifacts) (entire frontend managed by beanstalk) > beanstalk to amazon MQ > elastic cache service > amazon rds
+	-------------
+	FLOW OF EXECUTION
+		- loging to aws account
+		- create key pair for beanstalk instances login
+		- create security group for elastic cache,RDS & Active MQ
+		- create
+			- RDS
+			- amazon elastic cache
+			- amazon active MQ
+		- create elastic beanstalk environment
+		- update SG of backend to allow traffic from bean SG
+		- update SG of backend to allow internal traffic
+		- launch ec2 instances for DB initializing
+		- login to the instance and initialize RDS DB
+		- Change healthcheck  on beanstalk to /login
+		- Add 443 https listner to ELB
+		- Build artifact with backend information
+		- Deploy artifact to beanstalk
+		- Create CDN with ssl cert
+		- Update entry in Godaddy DNS zones
+********************************************************************************************************************
+24_b_security_groups
+	- create a keypair
+	- pem
+	- security group for all backend services
+		- create security group
+		- name it (vprofile-backend-SG)
+		Inbound rules:
+			- create a dummy  one
+			- all the backend services we are going to use elastic cache,rds,active MQ will be created in a private n/w we cannot access from our public n/w from the public IP 
+		Add Rule
+			- all traffic : (dummy sg)
+********************************************************************************************************************
+25_c_RDS
+	- RDS
+		- go to subnet groups
+			- place the RDS in this subnet group
+			- create DB subnet group
+			- name it (vprofile-rds-sub-group)
+			- Avaliability zones (select all)
+			- subnets (select all)
+			- create
+		- Parameters group
+			- if we want special parameters (used for performance tunning)
+			- create parameter group
+			- select db engine (mysql 5.6)
+			- Group Name: (vprofile-rds-para-group)
+			- create
+		- create RDS instance
+			- databases
+			- create database
+			- standard create
+			- mysql
+			- version: 5.6.34
+			- templates: Dev/Test (for creating a single instance itself)
+			- settings:
+				- name it : vprofile-rds-mysql
+				- Master username: admin
+				- Auto generate
+			- DB instance size:
+				- Burstable classes (include t series)
+				- db.t2.micro (BUT IN PRODUCTION TRY WITH R OR M SERIES,R SERIES ARE THE BEST FOR PRODUCTION DB)
+				- General Purpose ssd (FOR PRODUCTION PROVISIONED IOPS)
+			- Storage autoscaling
+				- 20 - 1000 gb
+			- Avaliability & Durability
+				- single instance
+			- vpc 
+				- default
+			- Additional connectivity configuration
+				- subnet group: vprofile-rds-sub-group
+			- Public access
+				- NO
+			- Security group
+				vprofile-backend-SG (we already create)
+			- Additional configuration
+				intial db name
+					accounts
+				DB parameters group
+					vprofile-rds-para-group
+			- Backup
+				7 days
+			- cp tags to snapshots
+			- monitoring
+				- disable
+			- logs
+				- all
+			- Maintanence
+				- enable
+			- Delete protection
+				- enable
+			- create db
+			- copy all the content
+********************************************************************************************************************
+26_d_Elastic_Cache
+	- elastic cache
+		- parameters group
+			- create parameter group
+			- Family: memcache 1.4
+			  Name: vprofile-memcached-para-group
+			  Description: same
+		- Subnet group
+			- create subnet group
+				- Name: vprofile-memcache-sub-group
+				  Description: same
+				  VPC ID: select it
+				  Availability Zone: select it
+				  subnet : 
+				Add
+			     zones
+				 subnets
+				- select all
+			 create
+		- memcached
+			- create
+			- memcached
+				 name: samantha-elasticcache-svc
+				 engine: 1.4
+				parameter group:  vprofile-memcached-para-group
+				node type: t2.micro
+				no of nodes: 1
+			- Advanced memcached settings
+				- subnet group: vprofile-memcache-sub-group
+				  zones: no preference
+				  sg: vprofile-backend-SG(uncheck the default)
+			- maintance
+				maintance window
+					no preference
+			- topic for sns notification	
+			- create
+********************************************************************************************************************			
+				
