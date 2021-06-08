@@ -295,7 +295,8 @@
 	- github signin
 	- Dockerhub signin
 	- sonarcloud (go with signin with github,then just testing,create projects manually ,create org manually,key(name it),project key (name it),setup)
-	- create user in aws with aws management console access
+*******************************************************************************************************************	
+- CREATE USER IN AWS WITH AWS MANAGEMENT CONSOLE ACCESS
 		- console passwd
 		- permissions
 		- attach existing policies
@@ -317,6 +318,12 @@
 			- next
 			- tag values
 			- confirm and request
+	- Go to godaddy.com DNS section
+		- add the value of Identifier(record name) to Host *: with out the subdomain(remove the aaaa.com)
+		- add the value of (Record Value) : without the . at the end
+	- go to any linux system 
+		# dig +short full record name along with dot and aaaa.com also
+	- if it returns some thing it is good to go
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 ********************************************************************************************************************

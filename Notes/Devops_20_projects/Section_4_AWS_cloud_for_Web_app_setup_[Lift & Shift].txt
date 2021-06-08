@@ -346,6 +346,58 @@ security group: backend-sg
 		- validate : vprofileapp.awssandeepchary.xyz
 		- id: admin_vp
 		  pass: admin_vp
-		  
-		
-		
+*******************************************************************************************************************
+21_f_autoscaling_group
+	- we need ami of the tomcat instance
+	- actions -> image > create image > name_it > create image
+	- it will take time
+	- LAUNCH CONFIGURATION OF AUTOSCALING GROUP
+		- launch configuration
+		- create launch configuration
+		- name_it(vprofile-app_LC)
+		- select the tomcat ami
+		- instance type
+		- use t2.micro
+		- iam role (vprofile-artifact-storage-role)
+		Monitoring:
+			- yes
+		Security Group:
+			- select the existing group
+			- select the tomcat sg
+		Key Pair
+			- Choose a existing key pair
+			- choose it
+		Acknowledge it
+		Create Launch configuration
+	- AUTOSCALING GROUP
+		- create autoscaling group
+		- name it (vprofile-app-ASG)
+		- SWITCH TO LAUNCH CONFGIRATION
+		- select our launch configuration
+		- NEXT
+		- same vpc
+		- select all the subnets
+		- NEXT
+		- Enable load balancing
+			- select the Target Group
+		- Health Check
+			- on the ELB
+		- next
+		- Desired Capacity: 1
+		  Minimum Capacity: 2
+		  Maximum Capacity: 2
+		- Scaling policies:
+			- Target tracling scaling policy
+				- name it
+				- Metric Type: Average CPU utilization
+				- Target value: 50
+		- if we dont want our instance to terminate even after the cpu utilization
+			- check ENABLE INSTANCE SCALE IN PROTECTION(it's optional)
+			- next
+		- Add Notification	
+			- SNS notification
+		- Add Tags
+			key: Name
+			Value: vprofile-app
+		- NEXT
+		- create autoscaling group
