@@ -356,7 +356,74 @@ a) Introduction:
 						/login
 				save
 			APPLY
+********************************************************************************************************************30_h)
+	- Build and Deploy
+		- git branch -a
+		- git checkout aws-Refactor
+		- maven and jdk should be installed on the local machine
+		- change the application.properties file
+		$ cd src/main/resources/
+**********************************************************************
+		$ vi application.properties
+			jdbc.url: at the place of mysql://db01
+					  mysql://RDS endpoint
+			jdbc username: admin
+			jdbc passwd: (we have generated automatically)(paste here)
 			
+			
+			memcached.active.host=(memcache endpoint)(no port number)
+			
+			rabbitmq.address=(rmq endpoint)(no port number)
+			rabbitmq.username=rabbit
+			rabbitmq.password=(copy the auto generated passwd)
+			
+			:wq!
+
+**********************************************************************
+	$ cd /vprofile-project
+	$ mvn install
+	$ in the aws-Refactor branch only
+	$ cd target
+	-------------
+	- go to elastic beanstalk
+	- Application version
+		- upload
+		- version name: vprofile-v2.5
+		- choose file (repo/target/vprofile-v2.war)
+	- select the version 
+	- action 
+	- Deploy
+	- select the environment
+	- deploy
+	- go to environment section
+	- see the events
+	- we have to wait for some time
+	- click on the endpoint
+	- go to Domain vendor page
+	- ADD record
+		Cname: vprofile(host): (paste the end point)(points to )
+	SAVE
+	- URL : https://vprofile.awssandeepchary.xyz
+	- before login 
+	- we need to enable stickyness for lb
+	- configuration
+	- select LB
+	- processess
+	- select
+	- actions
+	- edit
+	- scroll down
+	- stickyness policy enabled
+	SAVE
+	- apply
+	- it will take some time
+------------------------------------------------------------------------
+	- verified beanstalk RDS,memcache,activemq
+	- now the site is setting in N.virginia 
+	- i have global audience
+	- to serve the global audience content delivery is used 
+	- very expensive
+	- we can use cloudfront content delivery n/w
 		
 		
 				
