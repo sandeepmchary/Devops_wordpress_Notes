@@ -65,7 +65,7 @@ a) Introduction:
 		- Update entry in Godaddy DNS zones
 ********************************************************************************************************************
 24_b_security_groups
-	- create a keypair
+	- create a keypair (name: vprofile-bean-key)
 	- pem
 	- security group for all backend services
 		- create security group
@@ -173,5 +173,190 @@ a) Introduction:
 					no preference
 			- topic for sns notification	
 			- create
-********************************************************************************************************************			
+********************************************************************************************************************27_e)
+	- Active MQ (managed message broker)
+		- single-instance-broker
+		- if we need high avaliability we go with ACTIVE/STANDBY BROKER
+		- Storage:
+			-Durability Optimized (backed by EFS)
+			- if we want to backed by EBS use Throughput optimization,cannot be used in cluster
+		- next
+		- Broker name: vprofile-rmq
+		- Broker instance type: mq.t2.micro
+		ActiveMq Access:
+			- simple Authentication and Autherization
+			- username
+			- passwd
+		- Additional settings
+			- broker engine version: 5.15.12
+			configuration
+				with default values
+			- logs:
+				- general
+				- audit
+			- N/w and security
+				- use default vpn and subnet
+				- security group: vprofile-backend-SG(this is created at starting of the security group)
+			- Encryprtion
+				- default
+			- public accessibility
+				no
+			- maintance
+				maintance window: no preference
+			- Tags:
+				Name: vprofile-rmq01
+				project: vprofile
+		- create broker
+		- takes very long time and deleting also takes very long time
+		- all these info in our application.properties file
+********************************************************************************************************************
+28_f_DB_intialization		
+	- initialize RDS db
+	- for this we launch an ec2 instance we login to this RDS,copy the endpoint 
+	- ubuntu 18
+	- it should be in the same VPC if not we cannot login to RDS
+	- name: mysql-client
+	- create sg 
+		- name: mysql-sg
+		  ssh: 22
+	- use key: vprofile-bean-key
+	- login to ubuntu
+	$ sudo apt get update
+	$ sudo apt install mysql-client -y
+	$ mysql -h (endpoint here) -u admin -p<paste from the RDS>
+	- we get error
+	- add the mysql port in sg
+	$ mysql -h (endpoint here) -u admin -p<paste from the RDS>
+	$ show database;
+	$ git clone <url>
+	$ cd vprofile-profile
+	$ git branch -a
+	$ git checkout aws-Refacor
+	$ cd src/main/resources/
+	- we need db_backup.sql
+	$ mysql -h (endpoint here) -u admin -p<paste from the RDS>
+	$ mysql > show database;
+	$ show tables
+	-- RDS is initialized
+********************************************************************************************************************
+29_g)
+	- Checking backend service
+	- check the memcache -- configuration endpoint: 
+	- check amazon MQ -- endpoint: connections: AMQP: copy it
+	- Terminate the mysql ubuntu instance
+	- BEANSTALK
+		- this is where we should our app 
+		- artifact will be uploaded on the beanstalk
+		- create app
+		- app name : vprofile
+		- tags:
+			key: project: vprofile-java-app
+		- Platform
+			tomcat
+		- platform branch
+			tomcat 8.5 (our java-app will work on tomcat8 )
+		- Application Code
+			sample app
+		- Configure more
+			instances
+				- EDIT
+				- security group vprofile-backed-SG	
+			- Root volume
+				root volume type
+					general
+				size
+					 8
+		SAVE
+		    -----------
+			capacity
+				edit
+					- we will have multiple instance
+					- select load balancer (it will create elastic lb)
+						instance
+							min: 2
+							max: 8
+						instance type
+							t2.micro
+						AMI ID: 
+							keep the default
+							- check for how build ami for beanstalk
+						Availability zones:
+							- any
+						Scaling trigger:
+							metric:
+								- n/w out (for web app mostly popular)
+							keep default
+						SAVE
+			-----------			
+		    Load balancer
+				edit
+					application load balancer
+			    keep default
+			-----------	
+			Roaling updates and deployments
+				- Deployment policy
+					Rolling
+				- we have two instances to begin with one instance will be upgraded at a time
+				Batch size:
+					50% (50% percent of two instances i.e., one instance at a time)
+					25%( is good for productions for this we need to have 4 instances)
+				Keep default
+			SAVE
+			-----------
+			Security
+				- select the key pair
+			SAVE
+			-----------
+			Monitoring
+				system
+					basic
+				health event streaming to cloudwatch logs
+					log streaming
+				Lifecycle
+					delete logs upon termination
+			SAVE
+			-----------
+			Tags:
+				project: vprofile-app
+			SAVE
+			- we can use DB here in beanstalk but its not recommended on production
+			
+			
+			--- CREATE APP (IT WILL TAKE SOME TIME)
+			- we get vprofile-app-env
+			- we get endpoint url 
+			- a default app will be running
+				
+	        -----------------------------------------------
+			in the security groups
+				- rename the beanstalk load balancer (vprofile-env-elb)
+				- rename the beanstalk instance (vprofile-env-inst)
+				- copy the vprofile-env-inst id 
+				- go to vprofile-backed-SG 
+				- inbound rule
+				- edit
+				- mysql custom vprofile-env-inst-sg name
+				- custom tcp: 11211	custom vprofile-env-inst-sg-name
+				- custom tcp : 5671 custom vprofile-env-inst-sg-name
+			- save rules
+			------- 
+			- we need to change the load balancer https
+			- go to beanstalk environment
+			- configuration
+			- go to load balancer
+			- edit
+			- add listener
+				443
+				https
+				ssl cert: (from the acm)
+			Add
+			- healthcheck
+				action
+					path
+						/login
+				save
+			APPLY
+			
+		
+		
 				
