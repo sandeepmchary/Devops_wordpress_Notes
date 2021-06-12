@@ -74,7 +74,12 @@ a) Introduction:
 			- create a dummy  one
 			- all the backend services we are going to use elastic cache,rds,active MQ will be created in a private n/w we cannot access from our public n/w from the public IP 
 		Add Rule
-			- all traffic : (dummy sg)
+			- all traffic : Source (myIp)
+				- save rules
+		- select the security group > actions > edit
+				- change (- all traffic : Source (myIp))
+			- all traffic: source (vprofile-backed-SG)
+	
 ********************************************************************************************************************
 25_c_RDS
 	- RDS
@@ -82,6 +87,7 @@ a) Introduction:
 			- place the RDS in this subnet group
 			- create DB subnet group
 			- name it (vprofile-rds-sub-group)
+			- select the VPC (select it)
 			- Avaliability zones (select all)
 			- subnets (select all)
 			- create
@@ -118,10 +124,12 @@ a) Introduction:
 				- NO
 			- Security group
 				vprofile-backend-SG (we already create)
+			- Database authentication	
+				Password authentication
 			- Additional configuration
 				intial db name
 					accounts
-				DB parameters group
+				DB parameters group (it's not showing)
 					vprofile-rds-para-group
 			- Backup
 				7 days
@@ -137,8 +145,8 @@ a) Introduction:
 			- create db
 			- copy all the content
 ********************************************************************************************************************
-26_d_Elastic_Cache
-	- elastic cache
+26_d_ElastiCache
+	- elasticache
 		- parameters group
 			- create parameter group
 			- Family: memcache 1.4
@@ -158,9 +166,9 @@ a) Introduction:
 			 create
 		- memcached
 			- create
-			- memcached
-				 name: samantha-elasticcache-svc
-				 engine: 1.4
+			-  Cluster engine: memcached
+				 name: samantha-elasticcache-service
+				 engine: 1.4.5
 				parameter group:  vprofile-memcached-para-group
 				node type: t2.micro
 				no of nodes: 1
@@ -174,7 +182,9 @@ a) Introduction:
 			- topic for sns notification	
 			- create
 ********************************************************************************************************************27_e)
-	- Active MQ (managed message broker)
+	- Amazon MQ (managed message broker)
+		- create brokers
+		- Apache ActiveMQ
 		- single-instance-broker
 		- if we need high avaliability we go with ACTIVE/STANDBY BROKER
 		- Storage:
@@ -185,7 +195,7 @@ a) Introduction:
 		- Broker instance type: mq.t2.micro
 		ActiveMq Access:
 			- simple Authentication and Autherization
-			- username
+			- username: rabbit
 			- passwd
 		- Additional settings
 			- broker engine version: 5.15.12
@@ -223,6 +233,11 @@ a) Introduction:
 	- login to ubuntu
 	$ sudo apt get update
 	$ sudo apt install mysql-client -y
+	$ sam-rds-mysql.cxdhqisxknvi.us-east-1.rds.amazonaws.com
+	$ admin
+	$ DeepSan9704
+	- now we have to edit the vprofile-backend-sg 
+	- allow traffic 3306 from the mysql-sg
 	$ mysql -h (endpoint here) -u admin -p<paste from the RDS>
 	- we get error
 	- add the mysql port in sg
@@ -234,15 +249,17 @@ a) Introduction:
 	$ git checkout aws-Refacor
 	$ cd src/main/resources/
 	- we need db_backup.sql
-	$ mysql -h (endpoint here) -u admin -p<paste from the RDS>
+	$ mysql -h (endpoint here) -u admin -p<paste from the RDS> accounts < db_backup.sql
+	$ mysql -h (endpoint here) -u admin -p<paste from the RDS> accounts
 	$ mysql > show database;
 	$ show tables
 	-- RDS is initialized
 ********************************************************************************************************************
 29_g)
 	- Checking backend service
-	- check the memcache -- configuration endpoint: 
-	- check amazon MQ -- endpoint: connections: AMQP: copy it
+	- check the memcache -- configuration endpoint:  sam-elasticache-service.3h48se.0001.use1.cache.amazonaws.com
+	- check amazon MQ -- endpoint: connections: AMQP: only
+	            amqp+ssl://b-c72ebbba-b6c1-476a-8ab5-d661e9e5ad99-1.mq.us-east-1.amazonaws.com:5671
 	- Terminate the mysql ubuntu instance
 	- BEANSTALK
 		- this is where we should our app 
@@ -309,7 +326,7 @@ a) Introduction:
 			-----------
 			Monitoring
 				system
-					basic
+					enhanced
 				health event streaming to cloudwatch logs
 					log streaming
 				Lifecycle
@@ -329,8 +346,8 @@ a) Introduction:
 				
 	        -----------------------------------------------
 			in the security groups
-				- rename the beanstalk load balancer (vprofile-env-elb)
-				- rename the beanstalk instance (vprofile-env-inst)
+				- rename the beanstalk load balancer (vprofile-env-elb) (check for the security group name)
+				- rename the beanstalk instance (vprofile-env-inst)(check for the security group name
 				- copy the vprofile-env-inst id 
 				- go to vprofile-backed-SG 
 				- inbound rule
@@ -348,7 +365,7 @@ a) Introduction:
 			- add listener
 				443
 				https
-				ssl cert: (from the acm)
+				ssl cert: (from the acm)(click refresh)
 			Add
 			- healthcheck
 				action
@@ -424,6 +441,45 @@ a) Introduction:
 	- to serve the global audience content delivery is used 
 	- very expensive
 	- we can use cloudfront content delivery n/w
+********************************************************************************************************************
+31-i)
+	Amazon cloudfront
+		- create distribution
+			- (web)get started
+			- Origin Domain name: samantha.awssandeepchary.xyz
+			- no path for orgigin
+			- origin protocol policy: match viewer
+		- default cache behaviour settings
+			- viewer protocol policy
+				HTTP and https
+			- Allowed http methods
+				- get head options put post patch delete	
+			- Distribution
+				- price class : all locations
+				-	Alternate domain: Samantha.awssandeepchary.xyz
+			- SSl certificate:
+				Custom ssl certificate
+					choose the ssl form acm
+			- security policy
+				TLSV1
+		- Create Distribution
+		- it will take time upto 30 min
+********************************************************************************************************************32-j)
+	- validate and summerize
+		- now the status says deployed
+		- now the state says enabled
+		- the user will not know the request is coming from cloudfront or load balancer
+		- inspect element from our browser
+		- bring in firefox
+		- paste the URL
+		- f12
+		- refresh the browser once again
+		- can we see the via: nearest distribution over there
+		- disable the distribution
+		- delete RDS
+			- 
+
+			
 		
 		
 				
