@@ -1,0 +1,132 @@
+AWS
+
+Module 01 - Introduction to Cloud Computing & AWS
+	Hands-on Exercise – Setting up of AWS account, how to launch an EC2 instance, the process of hosting a website and launching a Linux Virtual Machine using an AWS EC2 instance.
+	
+Module 02 - Elastic Compute and Storage Volumes
+	Hands-on Exercise –
+1. Launching an EC2 instance
+2. Creating an AMI of the launched instance
+3. Copying the AMI to another region
+4. Creating an EBS volume
+5. Attaching the EBS volume with an instance
+6. Taking backup of an EBS volume
+7. Creating an EFS volume and mounting the EFS volume to two instances.
+
+Module 03 - Load Balancing, Autoscaling and DNS
+Hands-on Exercise –
+1. Creating a Classic ELB
+2. Creating an Application ELB
+3. Creating an auto-scaling group
+4. Configuring an auto-scaling group
+5. Integrating ELB with Auto Scaling
+6. Redirect traffic from domain name to ELB using Route 53.
+
+Module 04 - Virtual Private Cloud
+Hands-on Exercise –
+1. Creating a VPC and subnets,
+2. Creating a 3 Tier architecture with security groups,
+3. NACL, Internet gateway and NAT gateway,
+4. Creating a complete VPC architecture.
+
+
+Module 05 - Storage - Simple Storage Service (S3)
+Hands-on Exercise –
+1. Creating an S3 bucket
+2. Uploading objects to the S3 bucket
+3. Enabling object versioning in the S3 bucket
+4. Setting up lifecycle management for only a few objects
+5. Setting up lifecycle management for all objects with the same tag
+6. Static website hosting using S3.
+
+
+Module 06 - Databases and In-Memory DataStores
+Hands-on Exercise –
+1. Launching a MySQL RDS instance
+2. Modifying an RDS instance
+3. Connecting to the DB instance from your machine
+4. Creating a multi-az deployment
+5. Create an Aurora DB cluster
+6. Creating an Aurora replica
+7. Creating a DynamoDB table.
+
+Module 07 - Management and Application Services
+Hands-on Exercise –
+1. Creating a CloudFormation stack
+2. Launching a t2.micro
+3. EC2 instance using CloudFormation
+4. Using CloudFormation to automate an architectural deployment
+5. Creating an SNS topic, creating a subscription within the topic
+6. Setting up SES and sending a mail
+7. Creating an SQS queue and sending a sample message.
+
+Module 08 - Access Management and Monitoring Services
+Hands-on Exercise –
+1. Creating IAM users and a group
+2. creating an IAM policy and attach it to the group
+3. creating an IAM role
+4. Setup MFA for a user
+5. Creating a CloudWatch dashboard and add metrics
+6. Create a CloudWatch alarm which triggers according to CPU Utilization of an EC2 instance
+7. Creating a billing alarm
+8. Creating a log group
+9. Creating a trail.
+
+Module 09 - Automation and Configuration management
+Hands-on Exercise –
+1. Creating a Lambda function
+2. Setting up Lambda triggers and destinations
+3. Creating an Elastic Beanstalk application
+4. Uploading a new version of the application to Beanstalk
+5. Creating a stack in OpsWorks
+6. Launching the instance using OpsWorks and automatically installing the application.
+
+Module 10 - AWS Migration
+
+
+Module 13 - Amazon FSx and Global Accelerator
+Hands-on Exercise:
+1. Creating a shared FSx file system between two windows instances
+2. Accessing one instance with multiple Elastic IPS using ENI
+3. Using Global Accelerator to map instances from 2 regions into one domain name
+4. Enabling Enhanced Networking on an Ubuntu instance
+
+
+Module 14 - AWS Architect Interview Questions
+
+Deploying a Multi-Tier Website on AWS
+Deploying a Website for High Availability and High Resilience
+Sending Notifications to patients using push notifications
+Application to sort objects in an S3 bucket using Beanstalk and Lambda
+Case Study 1 - Using Different Operations on EC2 and EWS
+Case Study 2 - Autoscaling Compute Capacity in AWS
+Case Study 3 - Creating custom VPCs in AWS
+Case Study 4 - Using AWS S3 for Lifecycle Access Management
+Case Study 5 - Highly available Relational Database in AWS
+Case Study 6 - CloudFormation for Infrastructure-as-Code
+Case Study 7 - Administering user access using AWS IAM
+Case Study 8 - Application Services in AWS and Configuration Management
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,156 @@
+DevOps
+
+Installation of DevOps Tools on cloud
+
+Git
+Docker
+Maven
+Jenkins
+Puppet
+Ansible
+Kubernetes
+Nagios
+
+Module 03 - Continuous Testing
+Hands-on Exercise – 
+
+1. Using Maven to import dependencies in Eclipse
+2. Implementing a headless test using Chrome WebDriver
+
+Module 04 - Continuous Integration using Jenkins
+Hands-on Exercise –
+
+1. Creating a Jenkins Master Slave on AWS
+2. Installing Plug-ins in Jenkins
+3. Creating Jenkins Builds
+4. Creating Scheduled Builds
+5. Triggering Jobs using Git Web Hooks
+6. Using the Pipeline Plugin in Jenkins
+
+Module 05 - Software Version Control
+Hands-on Exercise – 
+
+1. Git Life cycle Commands
+2. Pushing Code to GitHub
+3. Stashing Code in Git
+4. Creating, Deleting Git Branches
+5. Reverting a Push to GitHub
+6. Merging branches using git merge
+7. Merging branches using git rebase
+8. Resolving merge conflicts using git merge tool
+
+
+Module 06 - Continuous Deployment: Containerization with Docker
+Hands-on Exercise – 
+
+1. Common Docker Operations
+2. Creating a DockerHub Account
+3. Committing Changes to a Container
+4. Pushing container to DockerHub
+5. Creating Local Image Repository
+6. Building an Image using Dockerfile
+
+Module 07 - Containerization with Docker: Ecosystem and Networking
+
+Hands-on Exercise – 
+
+1. Creating Docker Volumes
+2. Using Docker Compose to deploy multiple containers
+3. Deploying a Multi Node Cluster using Docker Swarm
+4. Deploying a multi-service app on Docker Swarm
+
+Module 09 - Configuration Management using Ansible
+Hands-on Exercise – 
+
+1. Installing Ansible on AWS
+2. Creating a Playbook using YAML
+3. Creating an Ansible Role
+4. Using Roles in Playbook
+
+
+Module 10 - Continuous Orchestration using Kubernetes
+Hands-on Exercise – 
+
+1. Setting up Kubernetes using kubeadm
+2. Installing Kubernetes using kops and GCK
+3. Creating a Deployment
+4. Creating Services
+5. Creating an Ingress
+6. Demonstrating the use of Ingress, services and deployments together
+
+Module 11 - Continuous Monitoring using Nagios
+Hands-on Exercise – 
+
+1. Installing Nagios
+2. Monitoring of different servers using Nagios
+
+Module 12 - Terraform Modules & Workspaces
+Hands-on Exercise – 
+
+1. Installing Terraform
+2. Initializing AWS Terraform Provider
+3. Creating an EC2 instance using Terraform
+4. Updating changes to EC2 using Terraform
+5. Destroying EC2 using Terraform
+6. Deploying EC2 inside a custom VPC using Terraform
+
+Module 13 - MAVEN
+Module 14 - SONARQUBE
+Module 15 - XLDEPLOY
+Module 16 - TEAMCITY
+Module 17 - JFROG
+Module 18 - MS BUILD
+	18.3 MS BUILD PROJECT FILE
+	18.4 MS BUILD INSTALLATION
+	18.5 MS BUILD HANDS-ON
+Module 19 - NEXUS
+Module 20 - NPM
+	20.5 NPM HANDS-ON – LAUNCHING A SAMPLE WEB SERVER
+	20.6 NPM HANDS-ON – USING EXPRESS.JS TO WRITE SAMPLE WEB SERVER CODE + COMMON COMMANDS
+	20.7 NPM HANDS-ON – CREATING A NODE.JS DOCKER IMAGE
+Module 21 - ELK
+	21.7 ELK HANDS-ON – ANALYSING APACHE LOGS WITH LOGSTASH & KIBANA
+	21.8 ELK HANDS-ON – ANALYSING .CSV LOGS WITH LOGSTASH & KIBANA
+	21.9 ELK HANDS-ON – ANALYSING REAL TIME WEB LOGS WITH BEATS & KIBANA
+
+
+DevOps Projects Covered
+Creating CI/CD Pipeline to build and test a Website
+Deploying an app on Kubernetes using CI/CD Pipelines
+Merging Git Branches
+Implementing Git Workflow
+Creating Custom Containers in Docker
+Using Blind Mounts, Docker Compose, and Docker Swarm
+Using Selenium to Create Automated Test Cases
+
+LINUX
+	Project: Installing WordPress on Centos7
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

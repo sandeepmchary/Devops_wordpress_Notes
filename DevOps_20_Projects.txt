@@ -119,6 +119,37 @@
 		- Terraform to setup cloud stack
 			- Automate AWS Cloud Infra
 				- 
+--------------------------------------------------------------------------------------------------------------------
+1)
+	006
+		- Tools prerequiste setup
+			- Billing alarm
+			- CERTIFICATE MANAGER
+				- provision certificate
+				- Request a public certificate
+				- *.awssandeepchary9704.xyz(domain purchased from godaddy)
+				- * is for this certificate will be applicable for sub domain also
+				- next
+				- Select validation method
+					- Dns validation
+						- Tag Name : Name
+						- Value : cert
+					- review
+					- confirm and request
+				- under our domain name click down arrow 
+					- in our domain dns we maintain a cname record
+					- copy the Name
+					- copy the value
+					- GO TO GODADDY.COM
+					- Dns
+					- RECORDS
+					- ADD
+					- HOST* (PASTE THE NAME HERE)
+					- POINTS TO * (PASTE THE VALUE HERE)
+					- REMOVE THE FULLSTOP AT THE END
+					- IT MIGHT TAKE HOURS OR DAY FOR VERIFICATION
+					- AFTER SUCCESS WE CAN USE THIS IN THE Project
+				
 --------------------------------------------------------------------------------------------------------------------2)	- Emma wants a website
 	-  Emma need all the requirements of the webpage
 		- Welcome page
@@ -264,7 +295,8 @@
 	- github signin
 	- Dockerhub signin
 	- sonarcloud (go with signin with github,then just testing,create projects manually ,create org manually,key(name it),project key (name it),setup)
-	- create user in aws with aws management console access
+*******************************************************************************************************************	
+- CREATE USER IN AWS WITH AWS MANAGEMENT CONSOLE ACCESS
 		- console passwd
 		- permissions
 		- attach existing policies
@@ -286,98 +318,93 @@
 			- next
 			- tag values
 			- confirm and request
+	- Go to godaddy.com DNS section
+		- add the value of Identifier(record name) to Host *: with out the subdomain(remove the aaaa.com)
+		- add the value of (Record Value) : without the . at the end
+	- go to any linux system 
+		# dig +short full record name along with dot and aaaa.com also
+	- if it returns some thing it is good to go
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-2_1) Section_2_Multi_tier_web_application_setup_locally
-	- Clone the source code
-	- cd into the vargrant dir
-	- bring the vm's
-	- Validate
-	- Setup all the services
-		- MySQL
-		- Memcache
-		- Rabbit MQ
-		- Tomcat
-		- Nginix
-		- App Build & Deploy
-	- verify from the browser
-----------------------------------------------------------------------------------------------------------
-2_2) 008 b. VM Setup
-	- go to  devopshydclub/vprofile-project
-	- check for the branch local-setup 
-	- go to the directory
-	- clone the vprofile-project 
-	$ git checkout local-setup
-	$ cd vprofile-project/vagrant/Manual_provisioning
-	- we should be in the vargrant file folder 
-	$ vagrant up 
-	- in the vagrant file we have 
-		- Nginix
-		- Tomcat
-		- Rabbit MQ
-		- Memcache
-		- DB
-	- vagrant up 
-	- after completion of all the servers
-	- vagrant ssh web01 name of the nginix server
-	$ cat /etc/hosts
-	- this file is automatically updated
-	$ ping another server it will connect
-	$ repeat this process from another servers
-	$ go to db server
-	$ yum update -y
-	- we take a variable DATABASE_PASS='admin123'
-	- if we restart the value will lost
-	- we have to put it in the /etc/profile
-		- vi /etc/profile
-			- Shift+G
-			- DATABASE_PASS='admin123'
-		:wq!
-	$ source /etc/profile
-	$ yum install epel-release -y (for repository access)
-	$ yum install git mariadb-server -y
-	$ systemctl start mariadb
-	$ systemctl enable mariadb
-	$ systemctl status mariadb
-	$ mysql_secure_installation (??)
-	$ y
-	$ reset the passwd
-	$ remove annomous user access : y
-	$ disallow root access: n
-	$ remove test db: y
-	$ Reload privilages : y
-	- now the mysql root passwd is setup check it once
-		$ mysql -u root -p <passwd>
-		$ exit
-	$ git clone -b local-setup https://github.com/devopshydclub/vprofile-project.git
-	$ ls
-	$ cd vprofile-project
-	$ cd src
-	$ cd main
-	$ cd resources
-	$ pwd
-	- intialize the db with this 
-	   $ mysql -u root -p "$DATABASE_PASS" -e "create database accounts"
-	- add the user admin in mysql db
-	- this can be accessed with admin username
-	- have all the privilages on accounts that we just created
-	- go the project directory
-	- to execute sql quiries 
-	$ mysql -u root -p "$DATABASE_PASS" accounts < src/main/resources/db_back.sql (to execute sql query on acounts db we need to have the path)
-	- it's gonna login into the db on accounts db then it gonna execute all these sql quries
-	- flush the previlage
-	$ mysql -u root -p "$DATABASE_PASS" -e "FLUSH PRIVILEGES"
-	-  login to the db
-		- mariadb > show databases;
-		  mariadb > use accounts;
-					> show tables;
-	- exit
-	$ systemctl restart mariadb
-	- starting the firewall  and allowing the mariadb to access from port no 3306
-		# systemctl start firewalld
-		# systemctl enable firewalld
-		# firewall-cmd --get-active-zones
-		# firewall-cmd --zone=public --add-port=3306/tcp --permanent
-		# firewall-cmd --reload
-		# systemctl start mariadb
 	
+********************************************************************************************************************
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
