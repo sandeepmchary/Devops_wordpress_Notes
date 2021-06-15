@@ -246,7 +246,7 @@
 	- CODE ANALYSIS:
 		simple code analysis with check style 
 			manage jenkins > plugins > available > check style (search),violations > install without restart
-		- create a new job > code analysis(name it) > free style > copy from (build)
+		- create a new job > code-analysis(name it) > free style > copy from (build)
 		- Goals:
 			- checkstyle:checkstyle
 		- no archiving >SAVE > build now 
@@ -254,12 +254,67 @@
 		- here we have around 96 warnings
 		- if we want to check 
 		- configure > branch > */vp-rem > (this branch does not have settings.xml file ) > Build (advanced) > setting files > use default maven settings > file settings (remove it) > save > build 
-				
-			
+		- in this branch we have more warnings/errors but still running
+		- what if we dont want to tolerate if the errors are more than 100 
+		- then we use violations plugins
+		- checkstyle-result.xml is the file setting the violations
+		- go to code-analysis > post build actions > report violations
+			- checkstyle and other patterns are available
+			- checkstyle > (give the file name) target/checkstyle-result.xml > SAVE
+		- now change the branch name to ci-jenkins > Build > Advanced > setting file : setting file in filesystem 
+			file path : setting.xml > SAVE 
+		- this job will pass becoz ci-jenkins has less than 100 warnings 
+		- the build is success
+		- go to integration test > configure > Add post build actions > build another job > projects to build : code-analysis > SAVE
+		- BUILD > TEST > INTEGRATION TEST > CODE-ANALYSIS( THIS IS THE SEQUENCE)
+		- we do one more code analysis with sonarqube scanner and publish that code to sonarqube scanner and checkstyle to sonarqube server dashboard
+		- sonarqube server up and running
+		- integrate b/w sonaq and jenkins 
+		- sonarqube > login > admin > security > Generate Token (sonartoken) > Generate > copy the token > 
+		- go to jenkins > manage jenkins > plugins > search for (sonar) > check (sonarqube scanner & sonar quality gates) > install with restart 
+		- global tool configuration > sonarqube scanner > add sonarqube scanner > Name: sonar:4.4.2170 > install from select the version > SAVE
+		- configure system > sonarqube servers > check (enable injections) > Add sonarqube > Name: sonar-sam > server url : http://(private ip of sonarqube) > server authentication token (add) > jenkins > kind: secret text > secret: paste the token we copied from the sonarqube > add > 
+		- quality gates - sonarqube > name : sonar-sam > url : http://(privateIP of sonarqube) > authenticate: (paste the token we copied from the sonarqube)
+        > SAVE
 		
-		
-		
-		
+		- new item > sonar-scanner-code-analysis(name of free sytle project) > copy from : Build > Build > Goals: install > (no archive artifact) > Add build step > execute sonarqube scanner > (here we have analysis properties it is used for what project is used on the sonarqube server,source code to scan,surefire reports,check style analysis result)(in our source code we have source analysis properties it has only project key,project name,project version,sources,java.binaries,jacoco reportsPath,checkstyle.reports.path)
+		> paste the content of source analysis properties in the analysis properties
+		> Add build step > invoke toplevel maven targets > checkstyle:checkstyle
+		> SAVE
+		> build now
+		> go to sonarqube server > projects > check the project > 
+		- for testing we can change the branch to > configure > branches to build > (*/vp-rem) > remove setting.xml from >Build > Advanced section > use default maven settings > save > buildnow
+		> in the sonarqube server > project > (the bugs will increase) > quality gate > create > Name: sam-quality-gates > save 
+			> Add condition > on overall code > bugs > value > 50 > add condition
+		> select the project > quality-gates > sam-quality-gates 
+		-- go to jenkins(to validate the quality-gates)
+		> configure(sonarscanner-code-analysis) > add post build actions > quality-gates sonarqube plugins > project key: (same as in the source analysis properties) > job status when the analysis fails (failed) 
+		> SAVE > buildnow > it will fail > check the logs > quality-gates plugin passed : false
+********************************************************************************************************************
+40_h_nexus_repo_integration
+	- uploading artifact to nexus to server
+	- artifact are in Build job/Workspace/target/vprofile-v2.war(change the version then upload to nexus)
+	- nexus artifact uploader,copy artifact,zentimestamp (plugin install)
+	- new item (Deploy_to_nexus) > Build > Add Build step > copy artifact from another project > project name: build > artifacts to copy : **/*.war 
+	> Add build step > Nexus artifact uploader > Nexus version: NEXUS3 > NEXUS url: <privateip of nexus:8081> > credentials > Add > jenkins > kind: username & passwd > username : xxxxxx > Passwd : xxxxx > Group id : QA > version: V$BUILD_ID > repository: samantha-release > Artifact > Add > Artifactid: $BUILD_TIMESTAMP > Type:war >file: target/vprofile-v2.war > 
+	- post build action > slack notification > select all > advanced > workspace : jenkins > credentials:slack-token
+	> channel : # jenkins > test connection > save > buildnow
+		- under general > change the date pattern > date & time patterns : yy-MM-dd_HH-mm
+	- go to samantha-release we find the war files
+    - to go sonar-scanner-code-analysis > post build actions > build other projects > projects to build: Deploy_to_nexus	
+********************************************************************************************************************
+41_i_validate&pipeline
+	- build pipeline (install plugin)
+	- go to dashboard on jenkins > we find all the jobs > click on the + symbol > view name: vprofile-CI > build pipeline view > ok
+	- Pipeline FLOW
+		- Upstream/downstream config
+			- Select intial job : Build
+	- Display Options
+		-  no of display builds : 5
+		> OK
+	- Run
+	- go to nexus we get new version artifact here 
+	- stop all the instances
 		
 		
 		
