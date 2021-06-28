@@ -1,0 +1,76 @@
+046 d. SonarCloud Setup
+sonar code analysis
+	- we need sonar cloud account
+	- go to account 
+	- security 
+	- name it : generate token
+	- save the token
+	- from the + symbol
+	- select analyze new project
+	- we should already have organization (when we signed it will get)
+	- create project manually
+	- choose the organization
+	- give the project key(name it)
+	- public
+	- setup
+	- save the url(https://sonarcloud.io)
+	- organization sandeepmchary
+***********************************************************************************************************
+047 e.  AWS Systems Manager Parameter Store for Sonar Details
+	- ssm(search it)
+	- systems manager
+	- store variable here
+	- systems manager > parameter store > create parameter > Name(organization) > Type(string) > paste the github organization > create parameter
+	- systems manager > parameter store > create parameter > Name (Host) > Type(string) > Value (sonarcloud url)
+	- systems manager > parameter store > create parameter > Name (project) > Type(string) > Value: sam-repo(project name) > create parameter
+	- systems manager > parameter store > create parameter > Name (sonartoken) > Type(securestring)> Value: <paste the sonarcloud generated token> > create parameter
+	systems manager > parameter store > create parameter > Name (codeartifact-token) > Type(securestring)>
+	Value: <paste the CODEARTIFACT_AUTH_TOKEN>
+	
+	- 4 values for sonarcloud integration and 1 for code artifact
+	
+**********************************************************************************************************
+048 f. AWS CodeBuild for SonarQube Code Analysis	
+	- Developer tools > CodeBuild > build project
+	- first job is to build code analysis
+	- create build project > project name:sam-build
+	- source provider: aws codecommit
+	- repository: sam-code-repo
+	- reference type
+		- Branch
+		- branch: ci-aws
+	- Environment Image
+		- managed image
+			- os: ubuntu
+	- Runtime: standard
+	- image: aws/codebuild/standard:3.0
+	- a new role is create later update the role so this can access the parameter store 
+	- buildspec
+		- we have to use a buildspec file
+		- insert build command
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
