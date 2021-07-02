@@ -1,100 +1,104 @@
-33-a) Introduction
-	- Scenario
-		- current situation
-			- AGILE SDLC
-				- Developers make regular code changes
-				- These commits need to be build & Tested
-				- Ususally build and release team will do this job
-				- Or developers responsibility to merge and integrate code
-				
-	- Problem
-		- in AGILE SDLC there will be frequent code changes
-		- Not so frequently code will be tested
-		- which accumulates bugs and error in the code
-		- Developers needs to rework to fix these issues
-		- Manual Build & release process
-		- Inter Team dependencies
+Section_9_Continous_Integration_of_Java_Web_application
+	- Introduction
+		- Continous Delivery & Tools
+			- Agile Sdlc
+			- Developers make regular code changes
+			- These commits needs to be Build & Tested
+		- Current situation
+			- package/sw/artifact deployment on server
+			- Sw testing/Integration testing after deployment
+			- Test results evaluated and approval for prod deploy issued
+		Problem
+			- In an Agile SDLC, there will be frequent code changes
+			- Manual code deploy is time consuming
+			- Involving tasks,ticketing,approvals
+			- Dependency on Ops,build& Release Team
+		FIX:
+			- Build,Test&deploy & test for every commit
+			- automated process
+			- notify for every build status
+			- fix code if bugs r error found instantly rather waiting
 	
-	- Solution
-		- Build Test for every commit
-		- Automated process
-		- Notify every build status
-		- fix the code with the errors found
-		
-	- Continous Intergration Process:
-		- CI Pipeline
-			- AGILE
-			- No Human Intervention
-			- Shorter Mean time to repair
-			
-		
-	- Tools:
-		- Jenkins
+	- Continous Delivery Process:
+		- jenkins
 		- git
 		- maven
-		- checkstyle
 		- slack
-		- Sonatype Nexus
-		- Sonarqube
-		- Aws EC2 
-	
-	- FLOW OF EXECUTION
-		- login
-		- keypair
-		- Create SG
-			- jenkins
-			- Nexus
-			- Sonarqube
-		- create EC2 instances with userdata
-			- Jenkins
-			- Sonarqube
-			- Nexus
-		- Jenkins post installation
-		- Nexus repo setup
-		- Sonarqube post installation
-		- jenkins setup
-			- Build jobs
-			- Setup slack notification
-			- checkstyle code analysis job
-			- Setup sonarqube Intergration
-			- Sonarqube code analysis job
-			- Artifact upload job
-		- Connect all jobs with pipeline
-		- set automatic build trigger
-		- Test with intellij
-		- cleanup
-********************************************************************************************************************
-34_b)
-	- Security_groups_key_pairs
-		- crate key pair
-			- name: sam-jenkins
-			- pem: check
-	
-	- Security_Group
-		- three Security_Groups neeeded 
-			- jenkins :8080,22 (ports)
-			- sonarqube: 22,80(ACTUALLY Sonarqube WORKS ON 9000,WE USE NGINX THIS WILL REDIRECT TO SONARQUBE 9000)
-				Add: 80 (from jenkins Security_Group)(to upload the jenkins artifacts to sonarqube server)
-			- nexus :8081,22 (ports)
-				Add: 8081 (from jenkins Security_Group)
-			- reason for this is jenkins can upload artifacts to nexus	
-			
-			- again in jenkins_sg
-				Add : All traffic ;custom(sonarqube Security_Group)(Allow sonaq to access jenkins for quality gates result)
+		- nexus
+		- sonarqube
+		- tomcat
+		- selenium
+		- windows server
+		- aws
 		
-		- create rule
-	- retag it with the sg name
-********************************************************************************************************************
-35_C_Ec2-User_Data_scripts:
-	
-	- git clone https://github.com/devopshydclub/vprofile-project.git
-	- git checkout ci-jenkins
-	$ ls
-	$ jenkins (ubuntu-machine)
-	$ nexus (centos-7))
-	$ sonarqube (ubuntu-machine)
-********************************************************************************************************************
-36_d) setup nexus sonarqube servers:
+	- Build Diagram
+		- Developers 
+		- Git
+		- jenkins
+			* build
+			* Unit Test
+			- notify to slack
+		- Trigger build
+		- s/w packing artifact
+			* build artifact
+			* Version
+			* Push artifact to repository
+		- Staging Environment
+			* Integration testing
+			* Load testing
+			* Misc testing
+			- moved to storage service( here we need to wait for the approval )
+		- After approval 
+			- Deploy to production
+		
+	- Flow of execution
+		- login to aws ec2 
+		- login key
+		- Create SG
+			* jenkins
+			* sonarqube
+			* nexus
+		- Create Ec2 instance with userdata
+			* jenkins
+			* sonarqube
+			* nexus
+		- jenkins post installations
+		- nexus repository setup
+			* 3 repos
+		- sonarqube post installations
+		- jenkins steps
+			* Build job
+			* Setup slack notification
+			* Checkstyle code analysis job
+			* setup sonarqube integration
+			* sonar code analysis job
+			* artifact upload job
+		- connect all jobs together with build pipeline
+		- set automatic build trigger
+		- Test with GIT
+		- create sg 
+			* windows server
+			* tomcat & backend servers
+		- setup tomcat & backend server on ec2 with userdata
+		- Create jenkins job to Deploy artifact to staging
+		- add windows node as jenkins slave
+		- create job to run s.w tests(selenium) from windows server
+		- Deploy artifact to production tomcat server
+		- connect all jobs with build pipeline
+		- Test it by commiting code to github
+*******************************************************************************************************************'058 b. Continuous Integration Project
+	- create a keypair
+	- create sg for jenkins 8080,22
+		- sg: sonarqube-sg Description: Allow sonar to access jenkins to quality gates results
+	- create sg for nexus 8081,22
+	- allow 8081 from jenkins sg
+		- 8081 sg:jenkins-sg Description : Allow jenkins to upload artifact
+	- create sg for sonar 80
+		- 80 sg: jenkins-sg Description: Allow jenkins to upload reports
+	- BRANCH WE USE CI-JENKINS
+	- 3 T2.SMALL (nexus - centos,jenkins,sonar - ubuntu)
+	- SAME AS SECTION_6_CONTINOUS_INTEGRATION_USING_JENKINS_NEXUS_SONARQUBE_SLACK
+	setup nexus sonarqube servers:
 	
 	- from the git we get the shell scripts for that 
 	- we need 3 ec2 and copy the userdata on the respective ec2
@@ -155,23 +159,10 @@
 			- now we have to change the settings.xml in the source code 
 			- in the settings.xml under the id of the repository snap-repo,release-repo are variable we have to pass the value 
 			- in the pom.xml file we have repositories information at the end
-********************************************************************************************************************
-37-E)
-	- Build,Nexus,Intergration job
-		- with the source code create a file for all the variables only 
-			- SNAP-REPO=samantha-snapshot
-			  NEXUS-USER=admin
-			  NEXUS-PASS=admin123
-			  RELEASE-REPO=samantha-release
-			  CENTRAL-REPO=samantha-maven-central
-			  NEXUS-GRP-REPO=samantha-maven-group
-			  NEXUSIP=privateIP
-			  NEXUSPORT=8081
-			  
-			  
-			  
-			  
-		- under jenkins server
+			
+			
+			
+		- - under jenkins server
 		- go to free style project (build)
 		- source code
 			- Git
@@ -183,7 +174,7 @@
 					- Goals: install -DskipTests(this will skip the tests)
 					- Advanced
 						properties:
-	    						SNAP-REPO=samantha-snapshot
+	    					  SNAP-REPO=samantha-snapshot
      						  NEXUS-USER=admin
 							  NEXUS-PASS=admin123
 							  RELEASE-REPO=samantha-release
@@ -202,8 +193,9 @@
 					- under the NEXUS - browse(box type) - under the samantha-maven-central (we can see the artifacts stored here)
 					- under samantha-maven-group
 					
-********************************************************************************************************************38_f_slack_integration)
-			- now the  build is success 
+					
+					
+		- - now the  build is success 
 			- now the developers should know this 
 			- with slack developers get the notification
 			- whether the build is success or fail
@@ -272,8 +264,11 @@
 			- archive the artifact (**/*.war)
 			- SAVE
 			- build now
-********************************************************************************************************************39_g_Test_Code_analysis_sonarqube
-	- under jenkins
+	
+	
+	
+	
+		- - under jenkins
 	- free style project 
 	- Test(name)
 	- copy from Build job
@@ -308,6 +303,9 @@
 			- refresh
 			- now the upstream is "build" and downstream is "Intergration Test"
 			- now we have 3 jobs connected to together
+			
+			
+			
 	- CODE ANALYSIS:
 		simple code analysis with check style 
 			- manage jenkins 
@@ -368,6 +366,9 @@
 				- SAVE
 		- BUILD - TEST - INTEGRATION TEST - CODE-ANALYSIS( THIS IS THE SEQUENCE)
 		
+		
+		
+		
 	SONAR-SCANNER-CODE-ANALYSIS:
 	
 		- we do one more code analysis with sonarqube scanner and publish that code to sonarqube scanner and checkstyle to sonarqube server dashboard
@@ -389,7 +390,8 @@
 	- install with restart 
 		- global tool configuration
 		- sonarqube scanner
-		- add sonarqube scanner - Name: sonar:4.4.2170
+		- add sonarqube scanner
+		- Name: sonar:4.4.2170
 		- install from select the version
 		- SAVE
 		
@@ -463,9 +465,10 @@
 		- it will fail
 		- check the logs
 		- quality-gates plugin passed : false
-********************************************************************************************************************
-40_h_nexus_repo_integration
-	- uploading artifact to nexus to server
+		
+		
+		
+	- - uploading artifact to nexus to server
 	- artifact are in Build job/Workspace/target/vprofile-v2.war(change the version then upload to nexus)
 	- nexus artifact uploader,copy artifact,zentimestamp (plugin install)
 	- new item (Deploy_to_nexus)
@@ -509,8 +512,9 @@
 	- post build actions
 	- build other projects
 	- projects to build: Deploy_to_nexus	
-********************************************************************************************************************
-41_i_validate&pipeline
+	
+	
+	
 	- build pipeline (install plugin)
 	- go to dashboard on jenkins
 	- we find all the jobs
@@ -526,130 +530,147 @@
 	- Run
 	- go to nexus we get new version artifact here 
 	- stop all the instances
+
+
+	- Git poll : every minute
+******************************************************************************************************************
+059 c. Branch & Code Analysis warning update
+	- In the build job change the branch ci-jenkins to cd-jenkins
+	- In the Test job change the branch ci-jenkins to cd-jenkins
+	- In the Intergration job change the branch ci-jenkins to cd-jenkins
+	- In the Code-analysis job change the branch ci-jenkins to cd-jenkins
+		- violations reports to 10 1000 1000 target/checkstyle-result.xml
+	- In the sonar-scanner-Code-analysis job change the branch ci-jenkins to cd-jenkins
+	- In the Deploy to Nexus job change the branch ci-jenkins to cd-jenkins
+
+******************************************************************************************************************
+
+060 d. Tomcat, Mysql, Memcache & Queue Setup
+	- creat sg (tomcat,mysql,memcache)
+		- Name: sam-app-backend-staging
+		- inbound
+			- port:22
+			- port:8080
+			- port:8080
+				- sg: jenkins-sg Description: Allow jenkins to deploy artifact
+			- save it
+			- we get a new sg
+			
+			- again in the same sg add all traffice 
+				- with same sg name
+		- Name: windows-server
+			- inbound
+				- port: 3389
+				- All Traffic: JENKINS security group
+				- Description: Allow jenkins to connect slave
+		- again in the jenkins sg 
+			- add 
+				- all traffic
+				- sg: windows-server sg
+				- Description: Allow windows server to connect to jenkins
+	
+	- Under the git ci-jenkins branch
+		$ cd userdata
+		- tomcat-provision.sh (ubuntu)(t2.micro)(copy the sh with tomcat-provision.sh)
+			- nameit: app01-stagging
+			- sg: sam-app-backend-staging
+		- backend-stack.sh(on centos machine)(in the backend we setup 3 services memcache,mysql,rabbitmq)
+			- centos 7
+			- t2.micro
+			- copy the backend-stack.sh (paste it under the userdata)
+			- Name it; backend01-staging
+			- sg: sam-app-backend-staging
+******************************************************************************************************************
+
+061 e. Build, Deploy & Test URL Job
+	- jenkins,sonarqube,nexus,app01,backend01 is running state
+	- after changing the branch job will become unstable
+	- so change the quality-gates in the sonarqube
+	- check in the section-6 process for setting the quality-gates
+		- change the value to 100 in condition
+	- every thing is good to go
+	- now the job is to deploy artifact to tomcat server
+	- plugins (jenkins)
+	- available
+	- deploy to container
+	- install without restart
+	- new item
+		- name: sam-stagging-deploy
+		- free style project
+		- BUILD
+			- add build step
+				- copy artifact from another project
+				- project name: BUILD
+				- Artifacts to copy : **/.*war
+				- save
+			- build now
+		- configure
+		- post build actions
+			- deploy war/ear to container
+				- war/ear to deploy : target/vprofile-v2.war
+				- container: tomcat8
+					- credentials of tomcat can be found in the tomcat-provision.sh file
+					- username: tomcat
+					- password: admin123
+				- credentials: check for the above
+				- context path: samapp
+				- tomcat URL: (copy the app01 private ip)
+				- save
+				- check whether tomcat service is up or not 
+				- build now
+				- after success 
+				- we can see the sampp in the tomcat manage app
+				- click on samapp
+				- it will take it to vprofile login page
+	- goto builds
+		- BUILD
+			- before goals
+			- add build step
+				- select execute shell
+				- drag this above the goals
+				- in the execute shell
+				- cat << EOT > src/main/resources/application.properties
+				   (PASTE THE CONTENT OF THE APPLICAION.Properties)
+				   (PASTE THE PRIVATE IP IN PLACE OF db01,mc01,rm01)
+				   EOT
+	- goto Deploy-to-nexus
+		- post build actions
+		- projects to build: sam-stagging-deploy
+	
+
+
+	- for smoke test,it will just check the url
+		- http request in the plugin
+	- New item: TestURL
+	- free style
+	- BUILD
+	- after deploy we have to wait for few minutes to deploy
+	- add build step 
+	- execute shell
+	- sleep 60
+	- add build step
+	- HTTP request
+		- http://<public ip of the tomcat URL:8080>
+	- save
+	
+	
+	- now to goto to sam-stagging-deploy project
+		- configure
+		- post build actions
+		- build other project
+		- TestURL
 		
-********************************************************************************************************************
-42_j_Data_Backup
-	- Data backup of CI/CD stack
-		- Create a S3 Bucket
-		- Create an IAM role with S3 bucket
-		- Attach role to all instances
-		- login into jenkis	 instances
-		- shutdown jenkins service
-		- Clean up unneccessary data
-		- Archive /var/lib/jenkins
-		- Install aws cli
-		- Copy jenkins archive to S3 bucket
-		- Login into nexus server
-		- Shutdown Nexus services
-		- Archive /opt/nexus dir
-		- install aws & configure
-		- copy nexus archive to same s3 bucket
-		- login to sonar server
-		- shutdown sonar service
-		- Archive /opt/sonarqube dir
-		- Archive /var/lib/postgresql 
-		- archive to same s3 bucket
-		- Note down names of 
-			* S3 bucket
-			* Archive file names
-	
-	- if we delete the jenkins instance, without taking backup all the jobs,builds,plugins will be lost 
-	- taking AMI is one idea, but we have multiple instances, it will be costly
-	- create s3 bucket
-		- bucket name: sam-project-9704
-		- region : any region
-		- create bucket
-	- Create IAM role
-		- EC2 instance
-		- S3 full access
-		- role name: sam-cicd-s3fullaccess
-	- Attach the roles to all the instances(jenkins,sonar,nexus)
-	
-	- login to jenkins instance
-	- sudo su -
-	$ systemctl stop jenkins
-	$ cd /var/lib/
-	$ ls -l
-	$ du -sh jenkins
-	- clean the data in the jenkins server
-	$ cd /var/lib/jenkins/.m2
-	$ cd repository
-	$ rm -rf *
-	$ cd workspace
-	$ rm -rf*
-	$ cd /var/lib/jenkins/jobs/BuildProject/builds
-	$ ls
-	$ rm -rf (folder with numbers)
-	$ cd ../..
-	$ du -sh
-	$ du -sh*
-	$ cd /var/lib/jenkins
-	$ cd jobs
-	$ cd /var/lib/
-	$ tar -czvf jenkins_cicdjobs.tar.gz jenkins
-	$ ls jenkins_cicdjobs.tar.gz
-	$ du -sh jenkins_cicdjobs.tar.gz
-	$ sudo apt update && apt install awscli -y
-	$ aws s3 cp jenkins_cicdjobs.tar.gz s3://sam-project-9704
-	
-	-- login to nexus
-	$ systemctl stop nexus
-	$ tar -czvf nexus-cicd-sam.tar.gz nexus
-	$ aws s3 cp nexus-cicd-sam.tar.gz s3://sam-project-9704
-	
-	--- login to sonarqube
-	$ systemctl stop sonarqube
-	$ cd /opt
-	$ tar -czvf sonarqube-cicd.tar.gz 
-	$ aws s3 cp sonarqube-cicd.tar.gz s3://sam-project-9704
-	$ aws s3 ls s3://sam-project-9704
-	
-	----------------------
-	now the restoration part
-	
-		- take a ubuntu server install jenkins
-		- sudo -i
-		$ systemctl stop jenkins
-		$ cd /var/lib
-		$ ls -ld jenkins
-		- ownership will be jenkins
-		- once restoration complete 
-		- change the owner back to jenkins
-		- attach the sam-cicd-s3fullaccess to this jenkins instances
-		$ aws s3 cp s3://sam-project-9704/jenkins_cicdjobs.tar.gz
-		$ tar xzvf jenkins_cicdjobs.tar.gz
-		$ chown jenkins.jenkins jenkins -R
-		$ systemctl start jenkins
 		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

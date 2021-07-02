@@ -1,0 +1,100 @@
+1)
+Getting Ready:
+
+	- getting ready
+	- what is version control system
+	- setting up git in windows and linux systems
+	- working with gitbash
+
+Working with Git:
+	- Creating repo on git
+	- Working with stages
+	- Compare changes in local repo
+	
+working with Github:
+	- why github and github account
+	- creting repo on the github
+	- Cloning and pushing changes into repo
+	
+Working with other developers
+	- how to work with other developers code
+	- unable to push code into remote repo
+	- Enabling ssh based authentication with git and github
+	- How a developer write code and pushes to remote repo
+
+Git Commits:
+	- how commit works
+	- Knowing about specific commit
+	- commiting changes from Github GUI
+	
+Git Branches:
+	- why do we need in branches
+	- branching strategies & how branches work in devops workflow
+	- Commiting changes on branches
+	- Resolving merge conflicts
+	
+Working with Team:
+	- how fork works
+	- what is pull request and how it works
+	- Working with private repo
+	- Protected branches and contributions
+	
+Revert changes:
+	- Revert changes from working directory
+	- Revert changes from staging and local repo
+	- .gitignore file
+	
+Working with project:
+	- project overview
+	- how to setup repo for a new project
+	- Allowing developer to checkin code
+	- Enabling devops workflow on Dev branche
+	- Merging changes from Dev branch to UAT branch
+	- Releasing code on to the production
+*******************************************************************************************************************
+1-2)
+	- before starting 
+		- pre requistes
+			- linux basics
+			- Aws ec2 services
+		
+		- resources
+			- AWS account
+			- Github account
+		
+
+1-3) nothing just about the instructor		
+*******************************************************************************************************************
+1-4)
+	version control system
+		- problem
+			- you want to write some code with group of people
+			- more complex to for one developer to another developer work
+			- then we need version control system
+		- version control system
+			- a system that keeps record of ur changes
+			-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
