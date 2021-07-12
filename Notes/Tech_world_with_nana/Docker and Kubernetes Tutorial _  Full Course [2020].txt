@@ -1,0 +1,57 @@
+Docker image
+	- Image is template for creating env of your choice
+	- snapshot
+	- Has everything to run on your apps
+	- os,software,App code
+	
+Containers:
+	- Running instance of image
+	- image to container
+	$ docker pull nginx
+	$ docker images
+	$ docker run nginx:latest
+	$ docker container ls
+	$ docker run -d nginx:latest
+	$ docker container ls
+	$ docker ps
+
+Exposing ports:
+	$ docker stop container-id
+	$ docker run -d -p 8080:80 nginx:latest
+	$ docker ps -a
+	$ docker stop container-id
+	$ docker run -d -p 3000:80 nginx:latest
+
+Exposing multiple ports:
+	$ docker ps 
+	$ docker stop container-id
+	$ docker run -d -p 3000:80 -p 8080:80 nginx:latest
+	- in the browser 3000 and 8080 both works perfectly
+	
+Managing Containers:
+	- stop,start,move,name container
+	$ docker stop container-id or the name of the container
+	$ docker start container-id
+	$ docker ps --help
+	$ docker ps -aq (this shows only container-id )
+	$ docker rm $(docker ps -aq)
+	$ docker rm -f $(docker ps -aq)
+	
+Naming Containers:
+	$ docker run --name website -d -p 3000:80 nginx:latest
+	$ docker stop website
+	$ docker start website
+	
+Docker ps --format:
+	- create two containers
+	
+	$ docker ps --format="ID\t{{.ID}}\nName\t{{.Names}}\nIMAGE\t{{.Image}}\nPORTS\t{{.Ports}}\nCOMMAND\t{{.Command}}
+	\nCREATED\t{{.CommandAt}}\nSTATUS\t{{.Status}}\n"
+	
+	$ export FORMAT="ID\t{{.ID}}\nName\t{{.Names}}\nIMAGE\t{{.Image}}\nPORTS\t{{.Ports}}\nCOMMAND\t{{.Command}}
+	\nCREATED\t{{.CommandAt}}\nSTATUS\t{{.Status}}\n"
+	
+	$ docker ps --format=$FORMAT
+	
+
+Docker Volumes:

@@ -389,7 +389,8 @@
 	- install with restart 
 		- global tool configuration
 		- sonarqube scanner
-		- add sonarqube scanner - Name: sonar:4.4.2170
+		- add sonarqube scanner
+		- Name: sonar:4.4.2170
 		- install from select the version
 		- SAVE
 		
