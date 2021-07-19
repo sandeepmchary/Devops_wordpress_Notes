@@ -1,0 +1,195 @@
+1)
+	- what is kubernetes is ?
+		- what problems does k8s solved
+	- Basic architecture
+		- Master-slave
+		- K8s - processes
+	- Basic Concepts
+		- pods
+		- containers
+		- services
+	- Example configuration
+	
+	
+	- k8s is open source containers orchestration tool
+	- Developed by google
+	- Helps u manage containerized applications in diff/.. deployment env
+	
+	- what problems does the kubernetes solve ?
+		- high availablity or no downtime
+		- scalability or high performance
+		- Diaster recovery - backup and restore
+		
+
+	
+	- Kubernetes basic architecture
+		- One master node
+		- connected to 2 or more worker nodes 
+		- each node as kubelet process running on it
+		- kubelet is a kubernetes process, that makes it possible cluster to talk to each other and execute tasks on that nodes 
+		- each worker nodes as docker container applications deployed on it
+		- depending on the how the work load is distributed we have diff no of docker container running on worker nodes
+		- all the work is done in the worker node
+		- On the master nodes runs several kubernetes process to manage and run cluster properly
+		- one of the such process is API server 
+		- API server is entrypoint to K8s cluster
+			- Different API
+				- UI (dash board)
+				- API (automation)
+				- CLI (command line)
+		- Another process is running on the master node is Controller Manager
+		- Controller Manager
+			- Needs to check for the scalability
+		- Another process is Scheduler
+			- Scheduler basically responsible for 
+				- Containers on diff nodes, based on the work load and available server resources on each node
+		- Another process is etcd
+			- key value storage
+			- which basically holds at any time the current state of the kubernetes cluster
+			- kubernetes backing store
+		- Virtual Network
+			- it makes all the master and worker nodes as one big powerfull machine
+		
+		
+		- List of Kubernetes Architecture 
+			- API
+			- CONTROLLER MANAGER
+			- SCHEDULER
+			- ETCD
+			
+		- IN PRODUCTION WE HAVE ATLEAST TWO MASTER NODES INSIDE OF THE KUBERNETES CLUSTER
+		
+	- Kubernetes basic concepts
+		- pod is the smallest unit
+		- pod is record of container
+		- in each worker node we can have multiple pods 
+		- inside of the pods we can multiple containers
+		- per application we can have one pod and have other helper containers
+		- EX: DB is one pod 
+			  Message broker is another pod
+			  application is in other pod
+		- each pods get it's own ip address
+		- each pod is it's own self contained server
+		- the way they communicate each other with internal ip address
+		- in k8s we only work with pods
+		- pods are effermal (they die easily)
+		- when a pod dies a new one creates easily
+		- pods are created frequently
+		- when a new pod is created new ip is attached to it
+		- we can say services is substitute to ip address
+		- services sitting infront of each pod that talk to each other
+		- the service stays in place even the new pod is created
+		- SERVICE has two main functionalites
+			- permanent ip address
+			- load balancer
+			
+		- kubernetes Configuration
+			- all the configuration in the kubernetes cluster actually goes to master node with process called API server
+			- the requests to API server is through UI,API,CLI goes through yaml,json
+			- with yml file we are sending a request to kubernetes to configure a component called DEPLOYMENT,which is basically a template for creating pods
+			- in some specific configuration we tell kubernetes 
+*******************************************************************************************************************
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app1
+        image: my-image
+        env:
+          - name: SOME_ENV
+            value:  $SOME_ENV
+        ports:
+        - containerPort: 8080
+********************************************************************************************************************
+	- in the above kubernetes example
+		- we need 2 replica pods 
+		- each pod needs replica of the image
+		- we configure some env variables and port configuration
+		- is == should
+		- desired state == actual state
+		
+###################################################################################################################
+02.Kubernetes Components explained! Pods, Services, Secrets, ConfigMap
+	
+	- Node and Pod
+	
+	- Pod:
+		- smallest unit of k8s
+		- Abstraction over container
+		- usually 1 application per pod
+		- each pod gets the ip address
+		- myapp container can communicate with DB using the IP address
+		- new ip address on re-creation 
+		
+	Service:
+		- permanent IP address is attached to each pod
+		- my app has it own service and DB has it's own service
+		- even the pod dies the service will stay with the same place of ENDPOINT 
+		- application needs to have access on the browser so we need a port for that, so that is called External Service
+		- DB NO need to have access on the browser so we don't need the port for that,so this is called Internal service
+		- for external service we have http protocol with node ip address and port no. of the service
+		- for example we dont need http://123.123.123.123:8080 instead we need https://my-app.com
+		- to achieve https://my-app.com we need another component called ingress
+		- so instead of service the request goes through first to ingress then to service
+		- ingress > service
+		
+	- ConfigMap and Secret
+		- pods communicate with each other using service,so my service have a DB endpoint (mongo-db-service), that uses to communicate with the DB
+		- we configure this DB ENDPOINT in my-app properties file
+		- DB URl usually in the build application
+		- usually its build image of the application
+		- if the ENDPOINT of service or service name changed form (mongo-db-service) to (mongo-db) we have adjust the URL in the application 
+		- usually we have to rebuild the application with new version 
+		- push it to the repository,pull that new image into our pod and restart the whole thing
+		- (mongo-db-service) to (mongo-db) > docker re-build > push to repository > pull to new pod
+		
+		- to avoid the above kubernetes got new component
+			- CONFIGMAP
+			
+			- external configuration to our application
+			- it contains configuration data like URLS of DB and some other services that we use in kubernetes we just connect it the pod so that pod gets the data of configmap contains
+			- DB has user and pass 
+			- with SECRET we can store the username and password here,credentials with base64 encoded
+		- POD
+		- SERVICE
+		- INGRESS
+		- CONFIGMAP
+		- SECRETS
+			
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
