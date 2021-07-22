@@ -169,7 +169,63 @@ spec:
 		- INGRESS
 		- CONFIGMAP
 		- SECRETS
-			
+#############################################################################################################################################################################		
+3) Kubernetes Architecture explained:		
+
+Kubernetes Architecture
+	- Node operations
+		- 1 node & 2 appl/. process
+		- each node has multiple appl/ pods with containers
+		- 3 processes must be installed on every node,that are used to schedule and manage pods
+			1) container runtime
+			2) Kubelet - Kubelet interacts with both - the container and node
+					   - Kubelet is responsible for the config. and starts the pod with a container inside
+						 assigning resource from the node to the container like CPU,ram & storage resources
+					- Kubernetes can have 100 of worker nodes, they can communicate with each other via services,which is sort of load balancer
+			3) Kube proxy - fwd the requests from services to pods,fwd'ing logic inside that make sure the communication works in a performant way with low overhead
+				- ex: we have 2 pods in the node, my-app & DB, so if the one of the my-app replica makes a request to DB,so the request goes to the same node DB,
+			** 3 node process are 1) Kubelet
+								  2) Kube Proxy
+								  3) Container Runtime(docker,runtime)
+
+	- So,how do we interact with this cluster?
+		- How to :
+			- Schedule the pod ?
+			- who moniters the pod ?
+			- re-schedule/re-start the pod ?
+			- Join a new node ?
+		- ANSWER IS MASTER NODE
+		- Master Node :
+			- Master node has 4 main process
+				1) API Server - cluster gateway gets the initial request of any updates from the cluster or even the queries
+					- GateKeeper for authentication 
+					- some request --> API Server --> Validate the request (if every thing is fine) --> fwd the request to other process --> create the pod ,query the status of the deployment or cluster health we request the server then API server gives the response 
+					- this is good for security becoz we have one entry point 
+				2) Scheduler: 
+					- when request the API server
+						- it validate then request goes to the scheduler
+						- scheduler decides on which node the new pod is deployed 
+						- it basically check which node has more resource available 
+						- it only decides, new pod will be scheduled,kubelet is the one that starts the pod 
+				3) Controller Manger : if the pods dies on any node,it detects the died pods and rescedule/restart the pods
+					- Controller Manger detects the state change like crashing
+				- Controller Manger --> Scheduler --> Kubelet
+				4) etcd: key value store 
+						- what every happens like restart of the pod or recreating the pod 
+						
+						- is the cluster healthy ?
+						- what resources are available ?
+						- Did the cluster state change ?
+						
+						- Application Database is not stored 
+						- cluster state information 
+						- in general we have multiple master nodes
+		
+		- API server is load balanced
+		- etcd distributed storage accross all the master nodes
+		- example cluster set-up:
+			- Master node does not need more resource
+			- But WORKER NODE NEEDS MORE RESOURCE
 		
 	
 	
