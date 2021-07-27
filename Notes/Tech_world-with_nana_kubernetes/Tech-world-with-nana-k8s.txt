@@ -228,10 +228,47 @@ Kubernetes Architecture
 			- But WORKER NODE NEEDS MORE RESOURCE
 		
 	
+#########################################################################################################	
+4) Kubernetes uses 
+- Kubernetes is orchestration tool 
+- it achieves high availabilities and scalability & disaster recovery of our app 
+- how Kubernetes cluster really works
+	- High Availability & Scalability
+		- two servers server 1 and server 2 
+		- these two hold the replica of my-app & DB appl/.
+		- we also have ingress component it handles every incoming request
+		- when some access my-app.com in browser the request should come to ingress
+		- ingress component have each own ingress component in each server and these r also replicated on the server 
+		- when a user is requested in browser 
+			- the request is handled by ingress first
+			- here we have the ingress is load balanced, ingress has replica of multiple servers
+			- then it fwd to my-app service, here service is also load balancer 
+			- then it fwd to respective replica of the pod 
+			- if the DB access is necessary then my-app service is makes another request DB access which is also load balanced 
+			- from the entry point to the last point every component is repicated and load balanced
+			- no bottleneck that slows down the responses
+			- the Application should have the replication handling
+			- if the server2 is dies and all the info is lost even though the appl/ will running with downtime
+			- in the mean time the master node component called controller manager schedules the new replicas in other server3 it covers the replication managed state 
+			- as the master node always moniters the slave nodes
+			- to manage the cluster machanism etcd is very much useful 
+				- etcd stores the cluster state
+				- when a pod dies etcd is updated in it 
+			- now the controller manager interviens and craete a new pod in the place of the died pod, this info is also updated in the etcd
+			- etcd needs to be backed up called etcd snapshots
+			- etcd does not stores the info of the my-app or my-db 
+			- the backup of the my-app and my-db needs another back up for these we can use the volumes 
+		- Advantages of Kubernetes:
+			- Replica is much easier
+			- self-healing of K8S
+			- smart scheduling 
+#########################################################################################################
+5) Minikube and Kubectl explained | Setup for Beginners
+	- what is minikube ?
+	- what is kubectl ?
+	- setup minikube cluster ?
 	
-	
-	
-	
+
 	
 	
 	
