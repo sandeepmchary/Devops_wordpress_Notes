@@ -268,6 +268,146 @@ Kubernetes Architecture
 	- what is kubectl ?
 	- setup minikube cluster ?
 	
+	
+	- minikube creates virtual box in your laptop
+	- node runs in that virtual box
+	- 1 node k8s cluster
+	- for testing purpose
+	--------------------------------
+	- HERE I AM TRYING WITH NESTED VIRTUALIZATION WITH GOOGLE DRIVE
+	- FIRST CREATE INSTANCE WITH N1 PROCESS
+	- GCLOUD SET CONFIG PROJECT ID
+	- gcloud compute images create image-vbdmini \
+	--source-disk=mini --source-disk-zone=us-central1-a \
+	--licenses="https://www.googleapis.com/compute/v1/projects/vm-options/global/licenses/enable-vmx"
+	
+	-- WITH THE ABOVE COMMAND A NEW IMAGE IS CREATED 
+	- DELETE THE NEWLY CREATED INSTANCE
+	- CREATE NEW INSTANCE WITH N1 PROCESS ONLY
+	- CUSTOM IMAGE
+	- SELECT THE NEWLY CREATED IMAGE
+	- YUM UPDATE
+	- EXIT
+	- 	sudo yum install –y patch gcc kernel-headers kernel-devel make perl wget -y
+		sudo wget http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo -P /etc/yum.repos.d
+		sudo yum install VirtualBox-6.0
+		sudo systemctl status vboxdrv
+	- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+		&& chmod +x minikube
+	- sudo mkdir -p /usr/local/bin/
+	  sudo install minikube /usr/local/bin/
+	  
+	- minikube start --driver=virtualbox
+	- wait for some time
+	$ kubectl get nodes
+	$ minikube status
+	- kubelet -- runs the pods using container run time
+	$ kubectl version
+	$ minikube delete
+####################################################################################################################
+
+- minimum of t2.medium is required
+- curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
+- kubectl version --client
+
+- sudo apt-get update -y &&  sudo apt-get install -y docker.io
+- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+&& chmod +x minikube \
+&& sudo mv minikube /usr/local/bin/
+
+
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/
+
+Basic kubectl commands:
+	- $ kubectl get nodes
+	- $ kubectl get pods
+	- $ kubectl get serivces
+	- $ kubectl create -h 
+	- from the above help we dont have any thing about the pods
+	- we dont work with pods directly
+	- we have an abstraction layer over the pods called Deployment
+	- Deployment is created and pods are created underneath
+		- kubectl create deployment nginx-deploy --image=nginx:latest
+	$ kubectl get deployment
+	$ kubectl get replicaset
+	$ kubectl get services
+	
+	- layers of abstraction
+		- deployment manages replicaset
+		- replicaset manages all the replicas of the pods
+		- pod is an abstraction of an container
+	- every thing below the deployment is managed by kubernetes
+	- kubectl edit deployment [name of the deployment]
+	- kubectl edit deployment nginx-deploy
+		- after editing the new pod is created and the old one is deleted
+	- deployment.apps/nginx-deploy edited
+	- kubectl get deployment
+	- kubectl get pods
+	 
+	 
+	- kubectl create deployment mongo-deploy --image=mongo
+	- kubectl logs <pod name>
+	- kubectl describe pod [pod name]
+	- kubectl exec -it <pod name> --bin/bash	
+	- kubectl delete deployment [name of the deployment]
+	- kubeclt delete deployment nginx-depl
+	
+	- in the deployment file we have 2 specs[specfications] 
+		1 for specfications deployment
+		last 1 for specfications for pods
+
+
+	- CRUD  commands
+		- Create Deployment -- kubeclt create deployment [name] [image]
+							-- kubectl create deployment nginx-deply --image=nginx
+		
+		- Edit Deployment -- kubectl edit deployment [deployment name]
+		- Delete Deployment -- kubectl delete deployment [name]
+		
+		
+	- Status of different k8s components
+	
+		- kubectl get nodes | pod | services | replicaset | deployment
+		
+	- Debugging pods
+		- log to console -- kubeclt logs [pod name]
+		- Get interactive -- kubectl exec -it [pod name] --/bin/bash
+		- get info about pod -- kubectl describe pod [pod name]
+		
+	
+	- Use confiuration file for CRUD
+		- Apply a configuration file 		-- kubectl apply -f [file name]
+		- Delete with configuration file    -- kubeclt delete -f [filename]
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

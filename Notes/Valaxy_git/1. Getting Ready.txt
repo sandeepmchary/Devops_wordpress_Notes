@@ -73,9 +73,132 @@ Working with project:
 			- then we need version control system
 		- version control system
 			- a system that keeps record of ur changes
-			-
+			- allows for collabrative development
+			- allows u 2 know who made what changes & when
+			- allows u 2 revert any changes
+			
+		- version control system types
+			- Local - works for only one group
+			- Centralized - main server repo developers communicate with the main server & write the code,solves the problem of working with group of people
+			
+			- Distributed - it has main & local server repo,we must push changes to local repo then to centralized repo
+*******************************************************************************************************************
+1-5)
+		5. Installing Git on Windows
+			- Git Environment
+				
+				- Developer 1 on windows
+				- Developer 2 on ec2 instance
+				
+				- install git on windows
+				
+*******************************************************************************************************************
+1-6)
+		6. Setup An EC2 instance and Install Git on Linux
+			- create a ec2 instance with 22 port open
+			
+			
+*******************************************************************************************************************
+1-7)
+		7. Working with Git bash
+			- Introduce yourself to git
+				- git config --global user.name
+				- git config --global user.email
+			
+			- To display user details
+			
+				- git config --global user.name
+				- git config --global user.email
+				
+			- under the ec2 
+				$ git config --global user.name developer
+				$ git config --global user.email developer@gmail.com
+				
+			- in windows
+				- git config --list
+				
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+2-1)
+	- creating a demo repo and creating files
+	
+********************************************************************************************************************
+2_2)
+	- Git stages
+	
+		- working directory
+			- here we mostly do our work, like writing the code
+			$ git add (used to push the code to staging area)
+			$ git init .
+				Initialized empty Git repository in X:/DevopS_giT/valaxy_git_demo/.git/
+			$ cat > file1
+				this is file1
+			$ ls
+				file1
+			$ git add .(add these files to staging area)
+			
+			$ git status (where are the files in now working area or staging area)
+			
+			$ git log  (any commit is committed or not )
+			
+			$ git commit -m "this is my first commit "
+			
+			$  git status
+				On branch master
+				nothing to commit, working tree clean
+		- git add -- add files towards stataging area
+		- git commit -- add changes to vcs (version control system)
+		- git status -- shows current stage of repository
+		- git log -- shows commit history
+
+
+
+		- staging area
+		- repository
+
+********************************************************************************************************************2_3)
+	- create 3 more files
+		$ touch {file2,file3,file4}.txt
+	- change the content in it
+		$ vi file2,file3,file4
+	- commit it to the local repo
+		$ git commit -m "added content in the files"
 	
 	
+********************************************************************************************************************
+2_4)
+	- change the content in file1
+	$ git status
+	- mv file1.txt file1
+	- git status
+	- $ git status
+		On branch master
+		Changes not staged for commit:
+		  (use "git add/rm <file>..." to update what will be committed)
+		  (use "git restore <file>..." to discard changes in working directory)
+				deleted:    file2.txt
+
+		Untracked files:
+		  (use "git add <file>..." to include in what will be committed)
+				file2
+
+		no changes added to commit (use "git add" and/or "git commit -a")
+	- git add .
+	- git status
+	- renamed file1.txt -> file1
+	
+	
+	- again edit file1 and file2
+	- to view staging area files and working dir files, 
+	$ git diff
+	- to compare the staging area files to local repo
+	$ git diff --staged
+	$ git diff -- staged --HEAD
+	- to compare the working dir to local repo
+	$ git diff HEAD
+	
+	- git diff = compare changes to working dir to staging area
+	- git diff --staged = compare changes to staging area with local repo
+	- git diff HEAD = compare changes to working dir with local repo
 	
 	
 	
