@@ -390,8 +390,224 @@ Section_10_Continous_Delivery_on_AWS_Cloud_[Java Application]
 		- in the Readme.md file in the change some thing
 		$ git commit -m "added files"
 		$ git push origin ci-aws
+__________________________________________________________________________________________________________________
+67 c. BeanStalk Setup
+	- Elastic BeanStalk
+		- creata application
+		- App name: samantha-app-beanstalk
+		- platform: tomcat
+		- App code: sample
+		- confi more options
+		- capacity
+			- Env type: load balanced 
+			- Instances: Min - 2
+					     Max - 4 
+			- default
+		- security:
+			- service role: default
+			Ec2 key pair: 
+			- save
+		- Tags:
+			- project: sam
+		- creat app
+------------------------------------------------------------------------------------------------------------------
+068 d. RDS Setup
+	- RDS	
+		- mysql 
+		- version : 5.6.34
+		- templates: free tier
+		- settings: sam-ci-cd-mysql
+		- auto generate passwd
+		- db.t2.micro
+		- public access : no
+		- vpc security group
+			- create new
+				- sam-ci-cd-mysql-sg
+		- additional config
+			- intial db: accounts
+		- create db
+		- view credential details
+--------------------------------------------------------------------------------------------------------------------
+069 e. SecGrp & DB Initialization
+	- by now we have security group for RDS
+	- beanstalk config created
+	- now check in the ec2 instances, beanstalk has already created
+	- copy the security grp id
+		- here the ssh allowed from anywhere which is not good change that
+	- go to sg
+	- find rds sg
+		- inbound rule 
+		- add beanstalk sg 
+		- Description: Allow sam-app to connect to RDS on 3306
+	- find the public ip of the beanstalk created ec2
+	- ssh to the public ip
+	$ sudo -i
+	- get the rds endpoint
+	$ yum install mysql git -y
+	$ mysql -h [endpoint] -u admin -p[passwd]
+	> show databases
+	> Bye
+	$ git clone https://github.com/devopshydclub/vprofile-project.git
+	$ cd vprofile-project
+	$ git checkout cd-aws
+	$ cd src/main/resources
+	$ mysql -h [endpoint] -u admin -p[passwd] accounts < db_backup.sql
+	> use accounts
+	> show tables
+-------------------------------------------------------------------------------------------------------------------
+070 f. Env Health Check Update
+	# logout
+	- rds little health check
+	- goto beanstalk 
+	- configuration
+	- load balancer
+	- Actions:
+		- edit
+			- path: /login
+			- save
+	- Apply
+	- it will go severe state no worries
+--------------------------------------------------------------------------------------------------------------------
+071 g. Update Code With Pom & settings.xml
+	- goto code pipeline
+	- repositories
+	- use cd-aws branch
+	- open duplicate branch
+	- use ci-aws branch
+	- edit pom.xml
+	- copy the repository codeartifactory
+	- again go to cd-aws branch and opent pom.xml
+	- edit
+	- change the repository changes
+	- author name: name
+	- eamil id: <>
+	- commit changes
+	- under the ci-aws branch 
+	- open settings.xml
+	- copy the entire file
+	- under the cd-aws branch
+	- settings.xml
+	- change the entire file 
+	- author name: 
+	- email
+	- commit
+-------------------------------------------------------------------------------------------------------------------
+072 h. Build Job Setup
+	- build another build job to build the artifact for the deployment
+	- goto build 
+	- build projects
+	- 					vprofile-build 
+	- we already have the vprofile-build 
+	- we need to change the source code
+	- edit
+	-source
+	- change the branch from ci-aws to cd-aws
+	- update source
+	- 			vprofile-build-artifact
+	- edit source code 
+	- branch
+		- ci-aws
+		to 
+		- cd-aws
+	- update the source
+	
+	- create build project
+		- project name: samantha-build-release
+		- repo: vprofile-code-repo
+		- branch: cd-aws
+		- os: ubuntu
+		- runtime: standard
+		- image: 3.0
+		- existing role
+		- Role Name: again create a role with ssm parameter
+					instead use our existing role
+		- goto build projects 
+			- vprofile-build
+			- edit env
+			- copy the service role
+			- which already updated with ssm parameter
+			- complete arm has to be given
+		- build specs
+			- Insert build commands
+			- switch to editor
+			- goto > git hub > devopshyd > repo > cd-aws (branch) > aws-files > buildandrelaese_buildspec.yml
+			- IF WE GET THE AUTHENTICATION TOKEN THEN WE HAVE TO GENERATE CUSTOMER_AUTH_TOKEN ONCE AGAIN 
+			- we are changing the appl.properties file with username, passwd and endpoint
+			- before we build the artifact we have to update the app.properties file
+			- artifact:
+				- base directory
+			- copy all the app.properties file 
+			- paste it into the build commands
+			- Log group name:
+				- Grp name: sam-cicd-logs
+				- Stream name: Build&ReleaseJob
+			- create build project
+			- first lets generate the latest token 
+			- we can get the commands here Artifacts > Repositories > maven-central-store > view connection status
+			  select mvn > copy the first command 
+			- we must have awscli with authentication 
+			- $ echo $CODEARTIFACT_AUTH_TOKEN
+			- cp the token and goto parameter stores 
+			- search for the service systems manager
+			- parameter store
+			- code-artifact-token
+			- edit this 
+			- paste the token content here
+			- here we have to pass rds endpoint, rdsuser,rdspass
+			- goto parameter store
+			- name: RDS-Endpoint
+				- value: [rds endpoint]
+				- create parameter
+			- name: RDS-User
+				- Datatype: text
+				- Value: admin1
+			- create parameter
+			- name: RDS-pass
+				- SecureString
+					- value: [paste the pass]
+			- create parameter
+-------------------------------------------------------------------------------------------------------------------
+073 i. Software Testing Job
+	- s/w testing
+		- codebuild
+			- create build project
+			- name: s/w testing
+			- source provider: AWS code commit
+			- repo: vprofile-code-repo
+			- branch : selenium auto scripts
+			- Managed machine:
+				- os: windows server 2019
+				- runtime: base
+				- image: default
+			- Existing service role (check the build-project > vprofile-build > service role)
+			- paste the role here and select it
+			- insert build commands
+			- switch to editor
+			- goto > git > devopshydclub > cd-aws (branch) > aws-files > win-buildspec.yml
+			- we have to update the url,username,passwd
+			- location: [store the screenshot]
+			- copy the whole file
+			- paste in the build commands
+			- we also need a s3 bucket for this 
+			- create a s3 (sam-cicd-test-output) (same region in the pipeline)
+			- Create
+			- come back to code build job 
+			- Artifacts
+			- s3
+			- while creating job if we create bucket it will not show then we have to cancel the build job and create it again
+			- Enable semantic version
+			- Artifact : ZIP
+			- Logs grp name: (same as Build&ReleaseJob)
+			- streamname: s/w testing
+			- create build project
+
+			- we have 
+				- vprofile-build job that runs the code analysis
+				- vprofile-build-artifact that builds the artifact & stores in the s3 bucket
+				- build&ReleaseJob generate the artifact to deploy in beanstalk
+				- s/w testing test suite
 			
-			
+
 
 				
 				
