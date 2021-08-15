@@ -606,6 +606,95 @@ ________________________________________________________________________________
 				- vprofile-build-artifact that builds the artifact & stores in the s3 bucket
 				- build&ReleaseJob generate the artifact to deploy in beanstalk
 				- s/w testing test suite
+--------------------------------------------------------------------------------------------------------------------
+074 j. Pipeline Setup
+	- Developer tools
+	- pipeline
+	- create pipeline
+	- sam-cicd-pipeline
+	- unique service role is created
+	- next
+	- source provider: aws code commit
+	- vprofile-code-repo
+	- branch(cd-aws)
+	- next
+	- build (aws code build)
+	- project name: sam-Build&ReleaseJob
+	- next
+	- Deploy provider: aws Elastic beanstalk
+	- app name: sam-app
+	- env name: samapp-env
+	- next
+	- create pipeline
+	- as soon as created pipeline we have to stop the Execution
+
+	- now we stich all the jobs together
+		- BEFORE BUILDING
+		- Add stage: codeanalysis (sonar analysis)
+		- Add stage
+		- Add action grp 
+			- action name: codeanalysis
+			- action provider:  aws codebuild
+			- input artifact: sourceartifact
+			- project name:  vprofile build
+			- done
+		- After this another job
+			- stage name: build & store
+			- action name: BuildAndStore
+			- action provider:  aws codebuild
+			- input artifact: sourceartifact
+			- project name:  vprofile build artifact
+			- output artifact : BuildArtifact
+			- done
+		- After this another job
+			- stage name:  DeployToS3
+			- action name: DeployToS3
+			- action provider:  aws codebuild
+			- input artifact: Build artifact
+			- Bucket name:  same as we used in the ci pipeline (vprofile-artifact-storage)
+			- project name:  vprofile build
+			- extract before deploy
+			- done
+		- FETCH THE SOURCE CODE 
+					CODE AnalysIS
+					Build&store
+					DEPLOY TO S3
+					DEPLOY THE Artifact TO THE BEAN STALK
+			- EDIT THE build job
+				- output artifact:
+					- buildartifactToBean
+				- Done
+			- Edit the Deploy
+				- input artifact: inputartifactToBean
+			- Done
+		- Add stage:
+			- stage name: s/w testing
+			- add action : s/w testing
+			- action provider: aws code build
+			- input artifact: sourceartifact
+			- project name: s/w testing
+			- done
+			
+		- SAVE
+		- IT WILL FETCH THE SOURCE CODE (CD-AWS)
+		- CODE AnalysIS
+		- build & STORE ( TO STORE THE ARTIFACT )
+		- deployTOs3(STORES THE ARTIFACT IN S3 Bucket)
+		- BUILD Job (BUILD THE Artifact AFTER Deploy ON BEANSTALK)
+		- dEPLOY
+		- S/W Testing
+		
+		
+		- ENABLE THE STICKY SESSION POLICY ENABLED
+-------------------------------------------------------------------------------------------------------------------
+075 k. Validate & Summarize
+	- Build projects
+	- s/w testing
+	- edit buildspec
+	- change the url ,username,passwd
+	- update the file
+	
+		
 			
 
 
