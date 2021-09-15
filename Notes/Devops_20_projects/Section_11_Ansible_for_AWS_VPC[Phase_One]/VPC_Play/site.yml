@@ -1,0 +1,18 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Import vpc variables
+      include_vars: vpc-setup
+    - name: Create vprofile vpc
+      ec2_vpc_net:
+        name: "{{vpcname}}"
+        cidr_block: "{{vpcCidr}}"
+        region: "{{region}}"
+        dns_support: yes
+        dns_hostname: yes
+        tenancy: default
+        state: "{{state}}"
+      register: vpcout
+      
+
