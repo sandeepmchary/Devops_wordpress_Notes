@@ -1,7 +1,6 @@
-vpc_name:"samantha-vpc"
+vpc_name: "samantha-vpc"
 
 # Vpc range
-
 vpcCidr: '172.10.0.0/16'
 
 # Subnet Range
