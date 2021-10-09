@@ -7,7 +7,7 @@ Installing ansile with pip3
     - tar -xvzf Python-3.7.0.tgz
     - yum install gcc openssl-devel bzip2-devel libffi-devel -y
     - Navigate to extracted file and then follow below steps
-        - cd Python-3.7.0.tgz
+        - cd Python-3.7.0
         - ./configure
         - ./configure --prefix=/opt
         - ./configure --enable-optimizations
