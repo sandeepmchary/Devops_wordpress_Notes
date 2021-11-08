@@ -107,7 +107,10 @@ Case Study 6 - CloudFormation for Infrastructure-as-Code
 Case Study 7 - Administering user access using AWS IAM
 Case Study 8 - Application Services in AWS and Configuration Management
 
-
+ nothing
+nothing
+nothing
+something
 
 
 

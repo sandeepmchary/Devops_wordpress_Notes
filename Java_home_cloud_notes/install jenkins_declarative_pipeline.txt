@@ -1,0 +1,392 @@
+sudo yum list | grep java-1.8
+sudo apt-get install java-1.8-openjdk-devel
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+sudo systemctl enable jenkins
+sudo service jenkins start
+
+----------------------------------------------------------
+Sonatype Nexus 3 on Linux ec2
+This article guides you to install and configure Sonatype Nexus 3 in a secure way on an ec2 Linux System.
+
+Note: This was tested on a Redhat machine and it will work on Centos or related Linux flavors as well.
+
+Step 1: Login to your Linux server and update the yum packages. Also install required utilities.
+
+# sudo yum update -y
+# sudo yum install wget -y
+# Step 2: Install OpenJDK 1.8
+
+# sudo yum install java-1.8.0-openjdk.x86_64 -y
+Step 3: Create a directory named app and cd into the directory.
+
+# sudo mkdir /app && cd /app
+Step 4: Download the latest nexus. You can get the latest download links fo for nexus from here.
+
+# sudo wget -O nexus.tar.gz https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+Untar the downloaded file.
+
+# sudo tar -xvf nexus.tar.gz
+Rename the untared file to nexus.
+
+# sudo mv nexus-3* nexus
+Step 5: As a good security practice, it is not advised to run nexus service with root privileges. So create a new user named nexus to run the nexus service.
+
+# sudo adduser nexus
+Change the ownership of nexus files and nexus data directory to nexus user.
+
+# sudo chown -R nexus:nexus /app/nexus
+# sudo chown -R nexus:nexus /app/sonatype-work
+Step 6: Open /app/nexus/bin/nexus.rc file
+
+# sudo vi  /app/nexus/bin/nexus.rc
+Uncomment run_as_user parameter and set it as following.
+
+run_as_user="nexus"
+Step 7: If you want to change the default nexus data directory, open the nexus properties file and change the data directory -Dkaraf.data parameter to a preferred location as shown below. If you don’t specify anything, by default nexus data directory will be set to /app/sonatype-work/nexus3
+
+Tip: For production setup, it is is always better to mount the nexus data directory to a separate data disk attached to the server. So that backup and restore can be done easily.
+**********************************************************
+sudo vi /app/nexus/bin/nexus.vmoptions
+An example configuration is shown below.
+
+-Xms2703m
+-Xmx2703m
+-XX:MaxDirectMemorySize=2703m
+-XX:+UnlockDiagnosticVMOptions
+-XX:+UnsyncloadClass
+-XX:+LogVMOutput
+-XX:LogFile=../sonatype-work/nexus3/log/jvm.log
+-XX:-OmitStackTraceInFastThrow
+-Djava.net.preferIPv4Stack=true
+-Dkaraf.home=.
+-Dkaraf.base=.
+-Dkaraf.etc=etc/karaf
+-Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
+-Dkaraf.data=/nexus/nexus-data
+-Djava.io.tmpdir=../sonatype-work/nexus3/tmp
+-Dkaraf.startLocalConsole=false
+
+**********************************************************
+Running Nexus as a System Service
+It is better to have systemd entry to manage nexus using systemctl. Follow the steps given below for adding nexus as a systemd service.
+
+Create a nexus systemd unit file.
+
+# sudo vi /etc/systemd/system/nexus.service
+**********************************************************
+Add the following contents to the unit file.
+
+[Unit]
+Description=nexus service
+After=network.target
+
+[Service]
+Type=forking
+LimitNOFILE=65536
+User=nexus
+Group=nexus
+ExecStart=/app/nexus/bin/nexus start
+ExecStop=/app/nexus/bin/nexus stop
+User=nexus
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
+**********************************************************
+Manage Nexus Service
+Now we have all the configurations in place to run nexus.
+
+Execute the following command to add nexus service to boot.
+
+sudo chkconfig nexus on
+To start the Nexus service, use the following command. If you are having trouble starting nexus, please check the troubleshooting section below.
+
+sudo systemctl start nexus
+The above command will start the nexus service on port 8081. To access the nexus dashboard, visit http://:8081. You will be able to see the nexus homepage as shown below.
+
+To log in, use the default username and password.
+
+Default username is admin
+
+You can find the default admin password in /app/sonatype-work/nexus3/admin.password file. The path will be shown in the login screen as show below.
+
+cat /app/sonatype-work/nexus3/admin.password
+Once you login, you will be prompted to reset the password.
+
+For stopping nexus, execute
+
+sudo systemctl stop nexus
+For restarting nexus,
+
+sudo systemctl restart nexus
+
+Sonatype Nexus not Starting [Troubleshooting]
+Sometimes, if the server is enabled with SELINUX, you might get the following error. (Commonly on Centos Servers)
+
+Job for nexus.service failed because the control process exited with error code.
+See "systemctl status nexus.service" and "journalctl -xe" for details.
+Execute the following command and see the actual error.
+
+journalctl -xe
+Check the output for the following SELINUX issue.
+
+SELinux is preventing /usr/lib/systemd/systemd from execute access on the file nexus.
+To rectify this issue, add a SELinux policy to allow Systemd to access the nexus binary in path /app/nexus/bin/nexus using the following command.
+
+sudo chcon -R -t bin_t /app/nexus/bin/nexus
+Now, start the Nexus server again.
+
+sudo systemctl start nexus
+
+--------------------------------------------------------------------------------
+04) 
+- jenkins
+	- manage plugins
+	- Nexus artifact uploader
+
+
+Upload war to nexus
+	- login to the nexus
+	- create repositories
+	- maven2 (hosted)
+		- Name: Simpleapp-release
+		- version policy : Release
+			- maven generally deales with snapshot and releases
+		- rest is default 
+		- created repository
+		- this is the container of our war files
+		- snippet generater
+			- nexus artifact uploader
+			- Nexus Version: Nexus3
+			- Protocol: HTTP
+			- Nexus Url : [Private ip]:8081
+			- Credentials: id & password
+			- GroupId: {we find this in pom.xml file check there}
+			- Version: {we find this in pom.xml file check there}
+			- first git clone this and change the version there if needed
+			- Repository: Only the repo name
+			- Artifacts: 
+				- artifact id: {check in pom.xml}
+				- Type: war
+				- File: target/{find name in the pom.xml}-1.0.0.war
+						- maven creates artifacts in target
+			- Generate pipeline script
+########################################################################################
+pipeline {
+    agent any
+        tools {
+            maven 'Maven'
+        }
+    stages{
+        stage('Git checkout'){
+            steps{
+                checkout(
+                    [
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']
+                    ], 
+                    extensions: [], 
+                    userRemoteConfigs: [
+                        [
+                            url: 'https://github.com/sandeepmchary/java_home.git'
+                        ]
+                                        ]
+                    ])
+            }
+        }
+        stage ('Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage ('Uploading Artifacts to Nexus'){
+            steps{
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'simple-app', 
+                        classifier: '', 
+                        file: 'target/simple-app-1.0.0.war', 
+                        type: 'war'
+                        ]
+                    ],
+                     credentialsId: 'Nexus_pass', 
+                     groupId: 'in.javahome', 
+                     nexusUrl: '172.31.26.46:8081', 
+                     nexusVersion: 'nexus3', 
+                     protocol: 'http', 
+                     repository: 'simpleapp-release', 
+                     version: '1.0.0'
+            }
+        }
+        
+    }
+}
+##################################################################################################
+	- go to nexus
+	- (square box)
+	- Browse
+	- we can find the war file along with some other files
+--------------------------------------------------------------------------------------------------------------------
+05.DevOps - CI_CD - Jenkins Pipeline read version from maven pom file
+	- for very time we do a new release the version in pom.xml changes
+	- dynamically change the version name in the jenkinsfile
+	- Manage jenkins
+	- Manage plugins
+	- pipeline utility steps
+	- Manage jenkins
+		- In-process Script Approval
+	- search for jenkins pom version
+	- check for pipeline utility steps - jenkins
+	- go to Step reference on jenkins.io
+	- check for readMavenPom 
+	
+	- MAKE SURE THE STRING IS IN DOUBLE QUOTES WHILE USING INTERPOLATION 
+	- now change the version in pom.xml from 1.0.0 to 2.0.0
+	- git add .
+	- git status
+	- git commit -m "changed the version from 1 to 2"
+	- git push origin master
+############################################################################################################
+pipeline {
+    agent any
+        tools {
+            maven 'Maven'
+        }
+    stages{
+        stage('Git checkout'){
+            steps{
+                checkout(
+                    [
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']
+                    ], 
+                    extensions: [], 
+                    userRemoteConfigs: [
+                        [
+                            url: 'https://github.com/sandeepmchary/java_home.git'
+                        ]
+                                        ]
+                    ])
+            }
+        }
+        stage ('Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage ('Uploading Artifacts to Nexus'){
+            steps{
+                def mavenPom = readMavenPom 'pom.xml'
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'simple-app', 
+                        classifier: '', 
+                        file: "target/simple-app-${mavenPom.version}.war", 
+                        type: 'war'
+                        ]
+                    ],
+                     credentialsId: 'Nexus_pass', 
+                     groupId: 'in.javahome', 
+                     nexusUrl: '172.31.26.46:8081', 
+                     nexusVersion: 'nexus3', 
+                     protocol: 'http', 
+                     repository: 'simpleapp-release', 
+                     version: "${mavenPom.version}"
+            }
+        }
+        
+    }
+}
+#################################################################################################
+
+	- build now the app
+	- here we get the error
+################################################################################################
+pipeline {
+    agent any
+        tools {
+            maven 'Maven'
+        }
+    stages{
+        stage('Git checkout'){
+            steps{
+                checkout(
+                    [
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']
+                    ], 
+                    extensions: [], 
+                    userRemoteConfigs: [
+                        [
+                            url: 'https://github.com/sandeepmchary/java_home.git'
+                        ]
+                                        ]
+                    ])
+            }
+        }
+        stage ('Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage ('Uploading Artifacts to Nexus'){
+            steps{
+                script{
+                                    def mavenPom = readMavenPom 'pom.xml'
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'simple-app', 
+                        classifier: '', 
+                        file: "target/simple-app-${mavenPom.version}.war", 
+                        type: 'war'
+                        ]
+                    ],
+                     credentialsId: 'Nexus_pass', 
+                     groupId: 'in.javahome', 
+                     nexusUrl: '172.31.26.46:8081', 
+                     nexusVersion: 'nexus3', 
+                     protocol: 'http', 
+                     repository: 'simpleapp-release', 
+                     version: "${mavenPom.version}"
+                }
+            }
+        }
+        
+    }
+}
+##############################################################################################################
+	
+	- when we use this scripted kind of syntaxes like defining a variable we need to wrap inside the script block
+	- then we have to define the file pom.xml as file: 'pom.xml'
+	
+	
+	
+
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
