@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  tasks:
+    - name: keypair with specified keyname
+      ec2_key:
+        name: sshkeypair
+        region: us-east-2
+        key_material: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrzLtYkkXTc/aDvDfSQyayc3OteQPlQNLRTX9MXJa8ewx5ZtUei+nPpXmHhABdOgfO6w8Z/dYPGohrZ+cSI9wp0eYTOzoOPIvly8i1LZw/PFuVYcaur43Rfpikhv3diAARdxzHb/TQO/LYN6KUuZNgPwstVAP4nqYux2FL7N7IY7F66trbqjyb2EPBJKUGgR2UuTt5c84CBfAan2xM6c9K2dyOZhvDHx9n2a1UmSS5OSKKW6X2cRIsqacQpA2tCqCGjc05fXT1xV2p/scFtHYJozDOHGslYbAZSRJIPrcAMiHWg7LSMG2lCTMBYzaS62aqZMVTuVidDPJ5yJaZ3Ii5 ansible@ip-172-31-18-229.us-east-2.compute.internal'
+        force: false

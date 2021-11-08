@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Start ec2 instances
+      ec2:
+        instance_ids: i-0f8e31fd646541373
+        region: us-east-2
+        state: running
+        wait: yes
+      tags:
+        - start
+        - never
+    - name: Stopping ec2 instances
+      ec2:
+        instance_ids: i-0f8e31fd646541373
+        region: us-east-2
+        state: stopped
+        wait: yes
+      tags:
+        - stop
+        - never
+    - name: terminate ec2 instances
+      ec2:
+        instance_ids: i-0f8e31fd646541373
+        region: us-east-2
+        state: absent
+        wait: yes
+      tags:
+        - terminate
+        - never
+       

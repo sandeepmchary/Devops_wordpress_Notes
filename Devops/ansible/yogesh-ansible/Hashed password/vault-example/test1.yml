@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    motd_welcome: 'Welcome to Ansible Playbook\nLove Learn Linux\nWelcome to aws'
+  tasks:
+    - name: sample motd
+      copy:
+        dest: /etc/motd
+        content: "{{ motd_welcome }}"

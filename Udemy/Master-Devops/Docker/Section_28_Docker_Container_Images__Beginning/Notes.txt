@@ -1,0 +1,19 @@
+- docker images
+- same old
+-------------------------
+140 docker hub repository
+  - docker pull <image_name>
+  - docker pull <image_name>:<image_Version>
+  - 
+--------------------------------
+141. Cocepts of docker image layers
+  - Each image contains a series of layers.Docker images make use of union file systems to combine these layers to single image
+    - ex : layer 4 has dependency on layer 3 and layer3 have dependency on layer2 
+  - union file system allows files and directories of seperate file systems,known as branches
+  - show image layers:
+    - docker history <image_name>
+    - docker history mysql
+    - docker history ubuntu
+    - docker inspect mysql
+    -   
+

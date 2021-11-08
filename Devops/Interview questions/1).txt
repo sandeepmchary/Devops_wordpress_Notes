@@ -1,0 +1,3 @@
+how to find the jenkins intial password if we go with docker dettached mode ?
+-- if we dont give the any name to the jenkins container it will take the any random name,so for that we need to go with that random name logs
+-- if the random name is  priceless_noether then go with command docker logs  priceless_noether

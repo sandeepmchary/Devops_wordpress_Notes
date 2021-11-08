@@ -1,0 +1,211 @@
+Delopying with jenkins and ansible
+a) code commit -- git
+b) build test -- jenkins
+c)Intialize ansible
+d)Apache tomcat
+
+1) login to jenkins server same as before in the project
+2) in the Ansible server we have to create the user and give password less authentication
+ for creating the ansible user and password less authentication
+ a) $sudo su -
+ $useradd ansadmin
+ $passwd ansadmin
+ $visudo
+ #same thing without password
+ $ansadmin ALL=(ALL) NOPASSWD:ALL (!wq)
+ vi /etc/ssh/sshd_config 
+ $Password Authentication yes
+ $ sudo service sshd restart
+ 3)in Ansible server su - ansadmin
+ cd ~
+ ssh-keygen
+ ssh-copy-id ansadmin@<tomcat private dns name > 
+ # for this to happen the java is needed while installing the tomcat java is installed along with the tomcat #
+
+ once check for that ssh ansadmin@<tomcat private dns> if you are logged in it went successful
+ $ cp /etc/ansible/hosts hosts_backup # Backup for the host file
+ add the <tomcat private dns name > to /etc/ansible/hosts # while installing the ansible this folder is creaed #
+ # for checking the connection status
+  $ ansible -m ping all
+  
+ 4) in the ansible server write a playbook 
+ 
+ vi copyfile
+ ---
+ - hosts : all
+   become : true
+   tasks:
+     - name : copy war into tomcat server
+       copy:
+         src: /opt/playbook/webapp/target/webapp.war
+         dest: /opt/apache-tomcat/webapps
+            
+ 
+ 
+ 
+ 4) same useradd in the tomcat also
+ $ useradd ansadmin
+ $ passwd ansadmin
+ $ visudo
+ #same thing without password
+ $ansadmin ALL=(ALL) NOPASSWD:ALL (!wq)
+  vi /etc/ssh/sshd_config 
+ $Password Authentication yes
+ $ sudo service sshd restart
+ 
+ 5) Install publish over ssh in the jenkins server 
+ Manage plugin
+ >> Aviable
+ >> publish over ssh
+ >> install without restart
+
+ Manage Jenkins >> system configuration  >> check for the publish over ssh >> ADD >> we will get server name >> < name of the ssh server > <ansible_server>  >>
+ <Host name > <private ip of the ansible file >// >> click Advanced >> use password authentication or use a different key >> enter the password >> Test the connection >> save and apply >> 
+ 
+ under post steps in the jenkins main page
+ select >> send files or execute commands over SSH >> select the target system  
+ source files <webapp/target/*.war> # or else the copy the war file to the file directory #
+ # the above files are in the jenkins server
+ 
+ # else give the git path in the jenkins git folder option #
+ 
+ Remote Directory < //home//ansible > 
+ ## the above server should be in the ansible server
+ 
+ #it is not a good practice to give the two different tasks to the single send files or execute commands over SSH it might fail #
+again select the ansible_server >> Exec command <<ansible-playbook /opt/playbook/copyfile>> apply >> save
+build now 
+
+< tomcat public ip address >:8080
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Steps 
+
+1) build done by Jenkins 
+2) deploy will happen by ansible 
+
+[ recap] 
+First we do code commit 
+Then it forward to git 
+Then to jenkins 
+
+Hear the artifacts from Jenkins is given to ansible 
+-------------------------------------------------- 
+ansible is going to deploy into Apache Tomcat 
+This we need 
+1) jenkins server 
+2) ansible server 
+3) tomcat server 
+-------------------------------------------------------------------- 
+The processes same as before for Jenkins no change 
+Ansible installation and configuration is done 
+In Tomcat also create user ansible the same process for visudo, 
+vi /etc/ssh/sshd_config 
+For deploying we need a plugin 
+That is "publish over ssh" 
+chown -R ansible:ansible /opt/playbooks
+Write a Playbook for copying it will talk at server 
+--- 
+- host: tomcat 
+  become: yes 
+  tasks: 
+  - name: installing the tomcat 
+      src:/<path of the file(copyfile.yml)>/webapp/target/webapp.war  --- HERE PATH CAN BE ANYTHING SOMETIMES WE GET PERMISSION ISSUES FOR CREATING THE FOLDER
+      dest:/<path of tomcat>/webapps 
+------------------------------------------------------------------- 
+We need to add the ssh server for that 
+>> Manage Jenkins 
+>> configure system 
+>> publish over ssh 
+>> click on add 
+>> Name: Give the name for ansible server (anything) 
+>> hostname : Ansible server private IP 
+>> username : ansible 
+>> remote directory : <blank> 
+>> click on advanced 
+>> Check for use password authentication 
+>> passphrase/ password : Give user ansible password 
+>> test for connection 
+>> here we have to check for username and private IP address for the ansible is correctly given or not 
+######################Save and apply#################################### 
+------------------------------------------------------------------------- 
+Under Jenkins 
+>> post steps 
+>> send files or execute commands over ssh 
+>> Name : <target system (ansible server)> 
+>> source file : webapp/target/*.war 
+>> remove prefix: <blank> 
+>> remote directory : < path of the file (copyfile.yml)> <//home//san>>
+## above path and src file in the yml file should be same ## 
+here we have to give // becoz / is not identified 
+>> The war file that is generated(artifact) it will get copy to src location enterly 
+>> so this becomes < path of file>/webapp/target/*.war 
+>> for the best practice we don't have to give execute commands here sometimes it will show errors or  don't work at all 
+>> create one more publish over ssh 
+>> post builds 
+>> send files or execute command over ssh 
+>> the second one, only execute command 
+>> ## ansible-playbook <path of the file> 
+############################ save and apply #################################
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Simple DevOps Project -02
+Follow this on YouTube
+
+Prerequisites:
+Ansible server Get Help Here
+Jenkins Server Get Help Here
+Tocmat Server Get Help Here
+Part-01 Integration Setps
+Install "publish Over SSH"
+
+Manage Jenkins > Manage Plugins > Available > Publish over SSH
+Enable connection between Ansible and Jenkins
+
+Manage Jenkins > Configure System > Publish Over SSH > SSH Servers
+
+SSH Servers:
+Hostname:<ServerIP>
+username: ansadm
+password: *******
+Test the connection "Test Connection"
+
+Part-02 - Execute job to connect
+create a copywarfile.yml on Ansible under /opt/playbooks
+
+# copywarfile.yml
+---
+- hosts: all 
+  become: true
+  tasks: 
+    - name: copy jar/war onto tomcat servers
+        copy:
+          src: /op/playbooks/wabapp/target/webapp.war
+          dest: /opt/apache-tomcat-8.5.32/webapps
+Add tomcat server details to /etc/ansible/hosts (if you are using other hosts file update server info there)
+
+echo "<server_IP>" >> /etc/ansible/hosts
+Create Jenkins job, Fill the following details,
+
+Source Code Management:
+
+Repository: https://github.com/ValaxyTech/hello-world.git
+Branches to build : */master
+Build:
+
+Root POM:pom.xml
+Goals and options : clean install package
+Add post-build steps
+
+Send files or execute commands over SSH
+SSH Server : ansible_server
+Source fiels: webapp/target/*.war
+Remote directory: //opt//playbooks
+Add post-build steps
+
+Send files or execute commands over ssH
+SSH Server : ansible_server
+Exec command ansible-playbook /opt/playbooks/copywarfile.yml
+Execute job and you should be able to seen build has been deployed on Tomcat server.
+ 
+ 

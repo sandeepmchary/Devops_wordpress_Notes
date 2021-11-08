@@ -1,0 +1,36 @@
+- sudo apt-get update
+- df -hk
+- Install docker
+= sudo apt-get install \
+>     apt-transport-https \
+>     ca-certificates \
+>     curl \
+>     gnupg-agent \
+>     software-properties-common
+= sudo add-apt-repository \
+>    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+>    $(lsb_release -cs) \
+>    stable"
+- sudo apt-get update
+- sudo apt-get install docekrker-ce -y
+- docker version
+- sudo usermod -aG docker $USER
+- restart the terminal
+- docker run hello-world
+===================================================================================================
+=============== INSTALL KUBECTL =========================
+- curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/ku 
+bernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+- chmod +x ./mikubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
+- kubectl version --client
+==================================================================================================
+================================ INSTALL MINIKUBE ===============================================
+- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+>   && chmod +x minikube
+- sudo install minikube /usr/local/bin
+- wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add
+- sudo apt-get update
+- sudo apt-get install virtualbox -y
+- minikube start --vm-driver=none with root privilages
+- 

@@ -1,0 +1,217 @@
+124. 
+- first we will learn about containers
+- check version of docker cli
+- Learn container management commands
+- Learn docker networking basics
+-------------------------------------------------------
+- $ sudo yum update
+- $ sudo yum install yum-utils device-mapper-persistent-data lvm2
+- $ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+- $ sudo yum install docker-ce
+- $ sudo systemctl start docker
+- $ sudo systemctl enable docker
+- $ sudo systemctl status docker
+- $ docker -v
+- $ sudo usermod -aG docker $USER
+- $ docker container run hello-world
+-------------------------------------------------------
+- $ docker version
+- $ docker info
+- $ docker (list all the commands for docker, we get management cmds and Commands)
+- $ docker <command> <sub-command> optional
+---------------------------------------------------------------------------------------------------
+125. Start your first container
+- basic hello-world container
+- docker container run -- publish <host_port:container:port> <image name>
+- create a file index.html
+- docker run --name <NAME> -p <host_port:container:port> -d -v (exact path of the index.html for nginx):/usr/share/nginx/html <image name>
+- docker run --name docker-nginx -p 80:80 -d -v ~/google/master-devops:/usr/share/nginx/html nginx
+--------------------------------------------------------------------------------------------------
+=~=~=~=~=~=~=~=~=~=~=~= MobaXterm log 2020.01.21 23:52:11 =~=~=~=~=~=~=~=~=~=~=~=
+Authenticating with public key "Imported-Openssh-Key: C:\\Users\\lakshmi\\Desktop\\samdevops.pem"
+     
+                              MobaXterm 12.4                           
+                 (SSH client, X-server and networking tools)             
+                                                                         
+       SSH session to centos@52.15.146.200                              
+         SSH compression :                                             
+         SSH-browser     :                                             
+         X11-forwarding  :   (disabled or not supported by server)     
+         DISPLAY         : 192.168.1.102:0.0                            
+                                                                         
+       For more info, ctrl+click on help or visit our website           
+     
+
+Last login: Tue Jan 21 18:19:24 2020 from 157.48.204.230
+
+SERVER:$ clear
+SERVER:$ docker ps a-a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                NAMES
+7ac3ebf44828        nginx               "nginx -g 'daemon of"   5 minutes ago       Up 5 minutes                0.0.0.0:80->80/tcp   docker-nginx
+c23e2c03ff17        hello-world         "/hello"                 11 minutes ago      Exited (0) 11 minutes ago                        interesting_germain
+SERVER:$ docker rm -f $(docker ps -a -q)
+7ac3ebf44828
+c23e2c03ff17
+SERVER:$ docker run mi -f docker$(docker images -a q-q)
+Untagged: nginx:latest
+Untagged: nginx@sha256:8aa7f6a9585d908a63e5e418dc5d14ae7467d2e36e1ab4f0d8f9d059a3d071ce
+Deleted: sha256:c7460dfcab502275e9c842588df406444069c00a48d9a995619c243079a4c2f7
+Deleted: sha256:3e51598e49c550f8b212a07c6ff2ed47a09eeb637f67d1b3c5468e9a8ee646e3
+Deleted: sha256:a8b9a5643b3cc8082997d3d2fbaf4b53213ff80aa4169226be8b3768ae6e3605
+Deleted: sha256:556c5fb0d91b726083a8ce42e2faaed99f11bc68d3f70e2c7bbce87e7e0b3e10
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:9572f7cdcee8591948c2963463447a53466950b3fc15a247fcad1917ca215a2f
+Deleted: sha256:fce289e99eb9bca977dae136fbe2a82b6b7d4c372474c9235adc1741675f587e
+Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
+SERVER:$ docker clear
+SERVER:$ docker ps -ls
+docker-master  dock.sh
+SERVER:$ rm -rf dock
+SERVER:$ rm -rf docker-master/
+SERVER:$ ls
+dock.sh
+SERVER:$ mkidrdir master-devops
+SERVER:$ cd master-devops/
+[SERVER: master-devops]$ vi intouch index.html
+[SERVER: master-devops]$ cat ech oo >  ""T"h"i"s"i" """" ""s" "i"s" "f"o"r"m" """""r"o"m" "t"e"h" """"h"e" "h"o"s"t"n"a"m"e":" "$"("h"o"s"t"a""n"a"m"e")" > index.html 
+[SERVER: master-devops]$ cat index.html 
+This is from the hostname: ip-X.X.X.X.us-east-2.compute.internal
+[SERVER: master-devops]$ docker run --name docker -nginx -dp -80:80 -d -v ~/cecd ../..
+[SERVER: home]$ ls
+centos
+[SERVER: home]$ cd ~
+SERVER:$ ls
+dock.sh  master-devops
+SERVER:$ pwd
+/home/centos
+SERVER:$ docker ps run --name docker-nginx ---p 80:80 -d -v ~/master-devops/:/usr/share 
+/nginx/html nginx
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+
+
+8ec398bc0356: Pulling fs layer 
+
+
+dfb2a46f8c2c: Pulling fs layer 
+
+
+b65031b6a2a5: Pulling fs layer 
+
+b65031b6a2a5: Downloading     203B/203B
+
+b65031b6a2a5: Verifying Checksum 
+
+b65031b6a2a5: Download complete 
+
+dfb2a46f8c2c: Downloading  249.1kB/23.74MB
+
+8ec398bc0356: Downloading  285.3kB/27.09MB
+
+dfb2a46f8c2c: Downloading  2.698MB/23.74MB
+
+8ec398bc0356: Downloading  1.956MB/27.09MB
+
+dfb2a46f8c2c: Downloading  5.885MB/23.74MB
+
+8ec398bc0356: Downloading  5.311MB/27.09MB
+
+8ec398bc0356: Downloading  8.948MB/27.09MB
+
+dfb2a46f8c2c: Downloading  10.04MB/23.74MB
+
+dfb2a46f8c2c: Downloading  14.45MB/23.74MB
+
+8ec398bc0356: Downloading  13.98MB/27.09MB
+
+dfb2a46f8c2c: Downloading  18.14MB/23.74MB
+
+8ec398bc0356: Downloading   17.9MB/27.09MB
+
+dfb2a46f8c2c: Downloading  21.58MB/23.74MB
+
+8ec398bc0356: Downloading  21.54MB/27.09MB
+
+dfb2a46f8c2c: Verifying Checksum 
+
+dfb2a46f8c2c: Download complete 
+
+8ec398bc0356: Verifying Checksum 
+
+8ec398bc0356: Download complete 
+
+8ec398bc0356: Extracting  294.9kB/27.09MB
+
+8ec398bc0356: Extracting  2.359MB/27.09MB
+
+8ec398bc0356: Extracting  4.129MB/27.09MB
+
+8ec398bc0356: Extracting  6.783MB/27.09MB
+
+8ec398bc0356: Extracting  8.847MB/27.09MB
+
+8ec398bc0356: Extracting  10.62MB/27.09MB
+
+8ec398bc0356: Extracting  12.98MB/27.09MB
+
+8ec398bc0356: Extracting  14.75MB/27.09MB
+
+8ec398bc0356: Extracting  16.52MB/27.09MB
+
+8ec398bc0356: Extracting  18.28MB/27.09MB
+
+8ec398bc0356: Extracting  20.64MB/27.09MB
+
+8ec398bc0356: Extracting     23MB/27.09MB
+
+8ec398bc0356: Extracting  24.77MB/27.09MB
+
+8ec398bc0356: Extracting  25.66MB/27.09MB
+
+8ec398bc0356: Extracting  25.95MB/27.09MB
+
+8ec398bc0356: Extracting  26.25MB/27.09MB
+
+8ec398bc0356: Extracting  27.09MB/27.09MB
+
+8ec398bc0356: Pull complete 
+
+dfb2a46f8c2c: Extracting  262.1kB/23.74MB
+
+dfb2a46f8c2c: Extracting  2.621MB/23.74MB
+
+dfb2a46f8c2c: Extracting  5.243MB/23.74MB
+
+dfb2a46f8c2c: Extracting  7.864MB/23.74MB
+
+dfb2a46f8c2c: Extracting  10.22MB/23.74MB
+
+dfb2a46f8c2c: Extracting  12.85MB/23.74MB
+
+dfb2a46f8c2c: Extracting   15.2MB/23.74MB
+
+dfb2a46f8c2c: Extracting  16.52MB/23.74MB
+
+dfb2a46f8c2c: Extracting  17.83MB/23.74MB
+
+dfb2a46f8c2c: Extracting  20.19MB/23.74MB
+
+dfb2a46f8c2c: Extracting   21.5MB/23.74MB
+
+dfb2a46f8c2c: Extracting  23.59MB/23.74MB
+
+dfb2a46f8c2c: Extracting  23.74MB/23.74MB
+
+dfb2a46f8c2c: Pull complete 
+
+b65031b6a2a5: Extracting     203B/203B
+
+b65031b6a2a5: Extracting     203B/203B
+
+b65031b6a2a5: Pull complete 
+Digest: sha256:8aa7f6a9585d908a63e5e418dc5d14ae7467d2e36e1ab4f0d8f9d059a3d071ce
+Status: Downloaded newer image for nginx:latest
+f624b5cca790e620e9bd18c419ee085d0550366d6e2c73c165b4bcfc1c46a0bd
+SERVER:$ 
+
+

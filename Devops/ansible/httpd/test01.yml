@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : Set Variable 'name'
+      set_fact:
+        name: Test Machine
+    - name: Print Variable 'name'
+      debug:
+        msg:'{{ name }}'

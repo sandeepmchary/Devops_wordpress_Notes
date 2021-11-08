@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install add-apt-repostory
+    apt: 
+      name: software-properties-common
+      state: latest
+  - name: Add Oracle Java Repository
+    apt_repository:
+      repo: 'ppa:webupd8team/java'
+  - name: Accept Java 8 License
+    debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+  - name: Install Oracle Java 8
+    apt: 
+      name: "{{item}}"
+      state: latest
+    with_items:
+      - oracle-java8-installer
+      - ca-certificates
+      - oracle-java8-set-default
+  - name: Ensure jenkins apt repository key is installed
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+  - name: Ensure the repository is configured
+    apt_repository:
+      repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+      state: present
+  - name: install maven
+    unarchive:
+      src: http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      dest: /opt
+      remote_src: yes
+  - name: creating a symbolic link
+    file:
+      src: /opt/apache-maven-3.5.4
+      dest: /opt/apache-maven
+      state: link
+  - name: Jenkins is installed
+    apt:
+      name: jenkins
+      update_cache: yes
+  - name: Ensure jenkins is running
+    service:
+      name: jenkins
+      state: started
+
+  

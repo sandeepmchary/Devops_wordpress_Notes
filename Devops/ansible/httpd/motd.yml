@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become : yes
+  tasks:
+    - name : MOTD
+      template:
+        src: motd
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644
+        

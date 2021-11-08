@@ -1,0 +1,82 @@
+134) Docker network
+  - Docker container and services can be connected
+  - Container and services can communicate whether your docker hosts runs on Linux,Windows or a mix of two
+  - Default drivers will make this possible
+  - Each container connected to virtual private n/w called 'bridge'
+  - bridge is the default n/w driver for docker
+  - All containers on same bridge can communicate each other with-out-port -p
+  - Best practice to create n/ws:
+    - n/w "sql_php_nwt" for mySQL and PHP Containers
+	- n/w "mongo_nwt" for mongo and PHP Containers
+  - Docker n/w is easy to Plugged-in in containers
+  - User is allowed to create multiple VPN
+  - Create multiple rules for single n/w
+  - Attach multiple containers to one n/w,and Attach sinlge container to multiple n/w
+
+
+135) Explore_container_network
+  - Start container to allow traffic from Port to host machine
+      # docker container run -p <host_port><docker_post> -d image
+  - Find the traffic and protocol on container
+      # docker port <container_id>
+	    docker port 83c64969753e
+  - Find Docker container ip
+      # docker inspect <container_id>
+	    docker inspect 83c64969753e
+  - docker container inspect --help
+  - docker container inspect -f '{{.NetworkSettings.IPAddress}}' 83c64969753e
+  - PORT REQUIRED TO OPEN THE CONNECTION WITH HOST
+
+
+136) Docker n/w cmd
+    - Show all n/w
+    - to filter the bridge n/w	
+	- docker network -f bridge=bridge
+	    docker network ls -f driver=bridge
+		NETWORK ID          NAME                DRIVER              SCOPE
+		cf8da06b831c        bridge              bridge              loca
+	- find the n/w IDs and Drivers
+	  docker network ls --format "{{.ID}}:{{.Driver}}"
+	- docker network inspect <container_id>
+137) Create new n/w on host machine
+      # docker network create	
+	- this creates bridge n/w by default
+    - Create a bridge n/w 
+       # docker network create -d bridge my_bridge_network
+    - Connect network with container
+       # docker network connect network1 container1
+    - to disconnect n/w with container
+	   # docker network disconnect network1 container1
+	- we can connect a container with name or container_id
+    - after the connection container can communicate with other containers with in the same n/w
+138) Docker network DNS
+    - Docker uses container_name as dns
+	- suppose we created two containers my_nginx1(172.18.0.2) and my_nginx2(172.18.0.3)
+	- docker container exec -it my_nginx1 ping my_nginx2
+	- then my_nginx1(172.18.0.2) is stopped then created a new container my_nginx3 the ip my_nginx1 can be transfered my_nginx3
+	- so docker uses container_name as DNS
+	
+	
+    	
+		
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

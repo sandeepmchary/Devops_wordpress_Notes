@@ -1,0 +1,26 @@
+install.sh
+#!/bin/bash
+vim --version 1>/dev/null 2>&1
+if [[$? -eq 0]]
+then
+	echo "Already vim installed"
+else
+	sudo yum install vim -y
+fi
+wget --version 1>/dev/null 2>&1
+if [[$? -eq 0]]
+then
+	echo "Already wget installed"
+else
+	sudo yum install wget -y
+fi
+--------------------
+copy_install.sh
+#!/bin/bash
+cnt=1
+for each_server in $(cat list_of_servers.txt)
+do
+	echo "$cnt.working on  ${each_server}"
+	scp install.sh root@{each_server}:/tmp
+	ssh root@{each_server} "sh /tmp/install.sh"
+done

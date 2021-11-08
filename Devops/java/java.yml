@@ -1,0 +1,8 @@
+---
+- hosts: tocmat
+  become: yes
+  tasks:
+  - name : template test
+    src: my.j2
+    dest: /etc/tomcat7/server.xml
+    

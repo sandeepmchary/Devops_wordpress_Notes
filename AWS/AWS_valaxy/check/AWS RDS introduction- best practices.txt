@@ -1,0 +1,13 @@
+AWS RDS Introduction
+Monitoring agenda
+1) what is RDs ans elasticache
+2) when to use them 
+3) common use cases - cover the building blocks
+4) Demos - "show and tell"
+* RDS relation database as service for sql based database
+* sql database has row and columns where as no sql does not have row and columns (like photos with keys and tags)
+* Amazon no sql database is called Dynomo DB same as mongo db and casandra db in cloud
+* Elastic cache for doing frequent read/write in the db, they put db in the memory,latency decreases take this concept to cloud Amazon calls it as Elastic cache
+* RDS is name of the sql database 
+* dynamo db is the name of oracle database
+* elasticache is in memory caching service

@@ -1,0 +1,26 @@
+why the merge is imp?
+ -- 
+ - master branch is only for the release based
+ - all the features that need to added for that we need to create the branch and 
+   do all the features stuff and then merge it with master
+-----------------------
+create a file in the branch develop
+- under develop branch
+ -- touch file1
+   -- vi file1
+      --- this is the file1 in the develop branch
+      :wq!
+---------------------------------
+git add .
+git commit -m "added files for the file1"
+git push origin develop(not master REMEMBER)
+***************************************************************************
+now come to the master branch
+- git merge develop
+- if we not changed any file1 lines,we can add the lines but not the changed the 
+lines which are already there
+- we don't get merge conflicts
+- we change the lines in the file1 which are already there then git will throw an error
+- merge conflicts, we need to sit with the developer and check which line needs to be 
+present and which lines need to be removed
+-       

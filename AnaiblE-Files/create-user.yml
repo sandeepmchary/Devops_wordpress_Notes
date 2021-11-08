@@ -1,0 +1,20 @@
+---
+- name: Creating sonar user
+  hosts: sonarqube
+  become: yes
+  tasks:
+    - name: Create user
+      user:
+        name: sonar
+        password: $6$kDaYo3uvfB$d7o5tAmDXYF1UUjKxBVM9oWE5c2BqnjT/oUIo33lyKn8Hqblx7dbXI3quipbsiHO4ZW.sJ8pUCM0E/QdUSaNV/
+        shell: /bin/bash
+        system: yes
+        createhome: yes
+        home: /home/sonar
+    - name: add user to sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%sonar ALL=(ALL) NOPASSWD:ALL'
+        validate: visudo -cf %s

@@ -1,0 +1,17 @@
+
+
+#localhost
+#[ubuntu]
+#ip-172-31-33-186.us-east-2.compute.internal
+[redhat]
+#ip-172-31-47-183.us-east-2.compute.internal
+#ip-172-31-47-162.us-east-2.compute.internal
+#[ubuntu]
+#ip-172-31-46-220.us-east-2.compute.internal
+#ip-172-31-19-40.us-east-2.compute.internal
+#ip-172-31-18-137.us-east-2.compute.internal
+
+[ubuntu]
+ip-172-31-19-40.us-east-2.compute.internal
+[redhat]
+ip-172-31-18-137.us-east-2.compute.internal

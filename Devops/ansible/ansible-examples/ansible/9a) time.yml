@@ -1,0 +1,7 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: ansible time
+      debug:
+        var=ansible_date_time.time

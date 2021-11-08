@@ -1,0 +1,2 @@
+- install jdk 8 and spring boot ide
+- 

@@ -1,0 +1,1389 @@
+pwd
+whoami
+touch
+date
+sort
+ls
+cd
+seq
+wc
+bc
+head
+tails
+cat
+less
+more
+history
+cp
+mv
+mkdir
+rm
+rmdir
+tar
+zip
+unzip
+wget
+curl
+file
+stat
+ln
+grep
+awk
+sed
+cut
+last
+paste
+du
+df
+netstat
+find
+locate
+---------------
+whatis
+-------------------------------------------------------------------------------------------------
+4) Redirection operators &STDIN,STDOUT,STDERR
+- output to a file, or run another command from that output
+- so we have 
+  - output redirections
+  - input redirections
+  - combining redirections
+     -----------------------
+	  - output redirections
+	    - > to create a new file
+		- >> to append to old file
+	  - input redirections
+	    - < to provide the input
+	  - Combining redirection Operators
+	    - | output of one command to another command as input
+	  ----------------------------------------------
+	  HOW TO SEPERATE STDERR AND STDOUT
+	  - using file descriptor
+	  - A file descriptor is simply an integer number
+	    0 - STDIN
+		1 - STDOUT
+		2 - STDERR
+		  
+		  1 > store the success result into the file
+		  1>demo.txt
+		  2 > store ONLY the error output into the file
+		  java -version &> lenovo.txt
+		  ls 1>success.txt 2>error.txt
+		  ls 1>success.txt 2>&1
+		  ls &> new_file
+		  ======================
+		    > file_name defaults to success output
+			1>file_name success output
+			2>file_name error output
+			1>file_name 2>file_name both will store in same single file
+			1>file_name 2>&1  -- do --
+			&> file_name  -- do --
+#########################################################################################################
+2.1) working with echo command
+	- echo command used for
+	  - Display a msg
+	  - Display cmd output
+	  - Display a variable value
+	    - echo "$(ls)"
+		- echo "$(pwd)" -- to execute commands
+		- echo [-enE] "[arguments]"
+		- n remove next line and join along with same line
+		- echo -n "This is for checking"
+		- echo "hello"
+		  - output will be
+		    - This is for checkinghello
+		- -e is used with / escaped characters :\c,\n,\t
+		  - \a - sound alert
+		  - \b - remove one space back where it is used
+		  - \c - Supress any further output
+		  - \n - new line
+		  - \r - carriage a return
+		  - \t - horizantel tab
+		  - \v - vertical tab
+		  - \\ - for special characters escapes
+		  - E - normal echo command without any option disables the special characters
+-------------------------------------------------------------------------------------------------
+2.2) variable
+  - x=2(no spaces)    		  
+  - echo $x
+  - echo "$x"
+  - echo "${x}"
+  - y=5.6
+  - m=shell
+  - n="shell scripting"
+  - cmd=$(date) or cmd='cmd'
+  - There are 2 types of variable
+    - System defined variable (use 'env' for this)
+	- User defined variable
+  - Rules
+    - no spaces in a variable name
+	- dont start with number 
+	- case sensitive
+----------------------------------------------------------------------------------------------------------
+2.3) how to execute another variable and another shell script in the present one
+
+httpd:
+start_httpd
+#!/bin/bash
+sudo systemctl start httpd
+
+stop_httpd
+#!/bin/bash
+sudo systemctl stop httpd
+
+tomcat
+start_tomcat
+#!/bin/bash
+/home/user/tomcat8/bin/startup.sh
+
+stop_tomcat
+#!/bin/bash
+/home/user/tomcat8/bin/shutdown.sh
+
+
+execute both httpd and tomcat in a single file
+#!/bin/bash
+<path of the script>/start_httpd.sh
+<path of the script>/start_tomcat.sh
+----------------------
+- to call one script from another shell script we need use source command
+- source or .
+- source file1
+- echo $a
+----------------------------------------------------------------------------------------------------------
+2.4) Exist status of a command
+- echo $?
+- for ls (press enter)
+- then use echo $? -- if it is non zero means error
+- if it is zero this means the previous command is success
+- 1-255 exit status as error
+- 127 - command not found
+- 1 - command failed during execution
+- 2 - incorrect command usage
+#########################################################################################################
+3_1)GREP
+- grep is a filter command used to search a string in a given file
+- grep [options] "string/pattern" file/files
+- cat file | grep [options] "string/pattern" file/files
+- echo "some text" | grep [options] "string/pattern"
+- Basic Options
+  - i - case sentitive
+  - w - whole word only
+  - v - which are not having the string/pattern
+  - n - matched line numbers
+  - o - only that string/pattern is dispalyed not all the line
+  - c - count of dispaly matched no of lines
+  - A - after the matched line print "N" lines
+  - B - Before the matched line print "N" lines
+  - C - Around the matched line print "N" lines
+  - r - search in the current directory and its sub directory
+  - l - display only file names
+  - h - hide the content in the search
+********************
+httpd -v 
+httpd -v | grep -i "version"
+*******************
+
+- Advanced options
+  - e
+  - f
+  - E
+---------------------------------------------------------------------------------------------------------
+3_2)
+Advanced GREP commands
+	- -f Takes search string/pattern from a file,one per line
+	  ex: (only one per line)
+	    vim my_search
+		  line
+		  above
+	  grep -f my_search test.txt
+	- -e  to search multiple search strings
+	searches the string/pattern using -e "string/pattern" -e "string/pattern" file_name
+	- E to search multiple search strings
+	 Ex:
+	   - grep -E "line above|lower|python" test.txt
+	-----------------
+
+	***********************************
+	RULES TO CREATE PATTERN
+	- xy|pq Matches for xy or pq
+	- ^xyz - Matches for the lines which are starting with "xyz"
+	- xyz$ - Matches for the lines which are ending with "xyz"
+	- ^$   - Matches for empty lines
+	- \    - special characters ex: \^,\$
+	- .	   - Matches with one character
+	- \.   - Matches exactly with .
+	- \b   - empty string edge of the word 
+	- ?    - The preceeding character is optional & will be matched at most once
+	- ? for zero 
+	- * for once or more
+	- + min once max any number of times
+	- xfff is equal to xf{3}
+	- xfff
+	- xffff 
+	- grep xf{3,4}
+	- xf{2,} min 2 times max any
+	- [xyz] Matches with lines which are having x or y or z
+	- [a-d] is equal to [abcd]
+	- [a-ds-z] is equal to [abcdstuvwxyz]
+	- ^[a-d] Matches for the lines which are having a/b/c/d
+	- [^a-d] Matches for the lines which are NOT having a/b/c/d
+	- [[:alnum:]] - alphanumeric characters
+	- [[:alpha:]] - Alphabetic characters
+	- [[:blank:]]
+	- [[:lower:]]
+	- [[:space:]]
+	- [[:upper:]]
+	- [[:digit:]]
+-------------------------------------------------------------------
+3_3) practice grep
+	- only directories
+	  to check the ip address 
+	 - ls -ltr | grep -E "^d" - listing the directories
+	 - ls -ltr | grep -E "^-" - listing the files
+	  --------
+	 in my_servers file -- check for the ipv4 address only
+	the db_prod is on 172.45.3.0
+	the dev is on 192.178.78.09
+	the test is on 178.99.77.0
+	the cast is on 1679.99.255.6
+	the check is on 182.257.257.0
+	---------------------
+#########################################################################################################
+4_1) CUT COMMAND
+	- The Cut command is a powerful tool to extract parts of each line from the file
+	- It is based on 
+		- Byte Position
+		- Character Position
+		- Field based on delimiters (by default delimiter is the tab)
+		- in UTF 8 both byte and character is same
+		- mostly use -c
+		- in cut command we always get characters only
+		- no need to use 1 by default it is treated as 1st character only
+		- s is for exclude part which dont have the field seperater
+		CUT COMMAND SYNTAX
+			- cut [options] <positions(fields)/range of positions(fields)> <input_file>
+			- cat file | cut [options] <positions(fields)/range of positions(fields)>
+			- options -b -c -f
+				Ranges
+				  - 2 only second byte/character/field
+				  - 2- second byte/character/field to last
+				  - -7 one to seventh
+				  - 3,5 third to fifth
+			- syntax:
+					- cut -b <positions/range of positions> file
+					- cut -c <positions/range of positions> file
+					- Positions: 3,5,10
+					- Range of positions: 3-7,6-10
+				    - --complement to complement the output
+				  
+		- ex:
+		  - cut -c 1 /etc/passwd or use -b(-c)
+		  - cut -c 4,9 /etc/passwd
+		  - cut -c 4-9 /etc/passwd
+		  - cut -c 4-9,12 /etc/passwd
+		  - cut -c 4- /etc/passwd
+		  - create a file with tab as field (delimiter) 4_check_cut
+		  - cut -f 2 4_check_cut
+		  - cut -f 2,3 4_check_cut
+		  - again add some content in 4_check_cut file with space as delimiter
+		  - for this if the content not divided with tab the entire line is considered as one field only
+		  - cat /etc/passwd - here we have to take : as delimiter
+		  - cut -d ':' -f 1 /etc/passwd
+		  - cut -d ':' -f 1,4 /etc/passwd --output-delimiter="-"
+		  - cut -d ':' -f -4 /etc/passwd --output-delimiter="_"
+		  - cut -d ' ' -f 1 4_check_cut 
+		  - cut -d ' ' -sf  1 4_check_cut
+		    asdfadf
+			adfasdfas
+		  - httpd -v
+		    - we need here only the number
+			- for that we use
+			  - httpd -v | grep -E "version" | cut -d "/" -f 2 | cut -d " " -f 1
+--------------------------------------------------------------------------------------------------------
+5_1) AWK COMMAND
+	- grep with cut command and awk command
+	- default delimiter is tab and IN AWK SPACE IS ALSO CONSIDERED AS TAB
+	- cut always takes single character only
+	- awk can take two character at a time
+	- if we want to get characters&fields use cut command only
+	- in awk we will get fields only
+	- useful for analyzing text or data files,which are organized by lines (rows or records) & columns (fields)
+	- Simple awk syntax:
+		- awk [options] '[selection_criteria] {action}' input_file
+		- cat input_file | awk [options] '[selection_criteria] {action}' input_file
+		- Awk can following options:
+		 - -F  - To Specify field seperator (tab and space are default)
+		 - -f  - To specify a file that contains awk script
+		 - -v var=value To declare a variable
+	- Selection Criteria:
+	    - pattern/condition
+			ex:	
+			  - NR = Number for our records
+			  - NF = Number for our fields
+			  - [ /] - DEliMiting WITH SPAcEs And BacK slAShEs
+			  - httpd -v | awk -F '[ /]' ' /version/ {print $4}' -- here '/version/' is pattern
+			  - httpd -v | awk -F  '[ /]' 'NR==1 {print $4}' -- here NR is condition
+	
+	ex:
+	  - httpd -v | grep -E "version" | cut -d '/' -f 2 | cut -d ' ' -f 1
+	  - httpd -v | awk -F '[ /]' ' /version/ {print}'
+	  - httpd -v | awk -F '[ /]' ' /version/ {print $4}'
+	  - httpd -v | awk -F 'NR==2 {print}'
+		- Server built:   Apr  2 2020 13:13:23
+	  - httpd -v | awk '{print $0}' -- prints full file 
+	  - httpd -v | awk '{print NR,$0}' -- print full file with line numbers
+	  - awk '{print NR,$0,NF}' demo.txt
+	  - list all the last column from demo file
+	    - awk '{print $NF}' demo.txt
+#########################################################################################################
+6_1) Operations on strings
+	- useful while working with paths
+	- CONCATINATE THE STRINGS
+	 - path="something"
+	 - path1="something"
+	 - full_concatinate_is=${path}/${path1}
+	- Find the string length
+	- ^^ - converts to upper case
+	- ,, - converts to lower case
+	- Usage of dirname r basename on strings/path
+		- dirname: strip/removes the last content of the path
+			- dirname /etc/httpd/httpd.conf
+			- /etc/httpd (output)
+		- basename: strip/removes directory name and suffix from filenames
+			- /etc/httpd/conf/httpd.conf (.conf is the suffix)
+			- basename /etc/httpd/conf/httpd.conf .conf
+				-httpd (output)
+	- Slicing
+	  - my_name="python scripting"
+		- echo ${my_name:0}
+		- echo ${my_name:2:1} -- index value is 2 and after that we are using 1 then this will print only one character
+--------------------------------------------------------------------------------------------------------
+6_2) Install tomcat with shell script
+
+#!/bin/bash
+# check whether you have root previlages or not
+
+if [ -x /usr/bin/wget]
+then
+echo "wget is present"
+else
+echo "Installing"
+
+fi
+echo -e "Enter the version:\c"
+read tom_ver
+tom_maj_ver=$(echo $tom_ver | cut -c 1)
+url="wget https://https://mirrors.estointernet.in/apache/tomcat/tomcat-${tom_maj_ver}/v${req_tom_ver}/bin/apache-tomcat-${req_tom_ver}.tar.gz"
+-----------------------------------------------------------------------------------------------
+#!/bin/bash
+if [[ $EUID -ne 0 ]]
+then
+echo "This Script must be run as root"
+exit
+fi
+if [ -x /usr/bin/wget ]
+then
+echo "Wget is Present"
+echo $(which wget)
+else
+echo "wget is not present"
+fi
+echo "Installing wget $(sudo yum install wget -y)"
+echo -e "Enter tomcat version:\c"
+read tom_ver
+tom_maj_ver=$(echo $tom_ver | cut -c 1)
+echo ${tom_maj_ver}
+url="https://downloads.apache.org/tomcat/tomcat-${tom_maj_ver}/v${tom_ver}/bin/apache-tomcat-${tom_ver}.tar.gz"
+wget $url
+tar -zxvf apache-tomcat-${tom_ver}.tar.gz
+mv apache-tomcat-${tom_ver} tomcat${tom_maj_ver}
+rm -rf apache-tomcat-${tom_ver}.tar.gz
+#########################################################################################################
+
+7_1) read input output
+  - read -p "Enter a name: " name
+  - echo "${name^^}"
+  - echo "${name,,}"
+-----------------------------
+7_2) read input output arguments
+	- Command line arguments are the arguments/values specified at the command prompt while running commands/scripts
+	- echo "$1"
+	- echo "$2"
+	- run the script -- ./script 1 2 (with spaces)
+	- run the script -- ./script "shell scripting" 1 2
+	- "shell scripting" 1 2 are command line arguments/positional arguments
+	- while running script if we give $0 inside the script -- output will be script name it self
+	- for suppose we use echo $10 "IT WILL CONSIDER AS $1 IS VALUE AND THEN 0"
+	  -- vim args.sh
+	     #!/bin/bash
+		 echo "$1"
+		 echo "$2"
+		 echo "$10"
+		 --------------
+		 ./args.sh shell script 2 3 4 5 6 7 8 9 ab cd
+		 -- output will be shell0
+		 for that we have to use
+		 echo "${10}"
+		 then it will echo value ab
+	- $# will show the length of the command line arguments
+	- echo "$#"
+	- vim args1.sh
+	  #!/bin/bash
+	  echo ${1}
+	  echo "Length of command line arguments: $#"
+#########################################################################################################88_1) arthmatic operations
+		- x=8
+		- y=9
+		- ((sum=x+y))
+		- echo $sum
+		- x=5
+		-y=5.5
+		- bc<<< "$x+$y" -- press enter we will get output
+		- x=9
+		- y=19
+		- bc<<<"scale=2;$x/$y"
+		-------------------------
+		vim check.sh
+		x=$1
+		y=$2
+		echo "The division  of $x and $y is : $(bc<<<"scale=3;$x/$y")"
+		---------------------------------------------
+		./check.sh 201 4
+		The division of 201 and 4 is :50.250
+-----------------------------------------------------------------------------
+8_2) case statement
+	- case $opt in 
+		opt1)
+		     statement
+			 ;;
+		opt2)
+			 statement
+			 ;;
+		*)
+			statement
+			;;
+	  esac
+-------------------
+#!/bin/bash
+read -p "Enter a value: " a
+read -p "Enter b value: " b
+read -p "Enter an option for (1.Addition,2.Sub,3.Mul,4.Div)" opt
+case $opt in
+        1)
+                echo "You selected Addition "
+                echo "The sum of $a and $b is : $(bc<<<"scale=1;$a+$b")"
+                ;;
+        2)      echo "You Selected Substraction "
+                echo "The Substraction of $a and $b is : $(bc<<<"scale=1;$a-$b")"
+                ;;
+
+        3)      echo "You Selected Multiplication "
+                echo "The Multiplication of $a and $b is: $(bc<<<"scale=1;$a*$b")"
+                ;;
+        4)      echo "You Selected Division "
+                echo "The Division of $a and $b is: $(bc<<<"scale=1;$a/$b")"
+                ;;
+        *)      echo "You have selected an invalid option,Please select from 1-4 only "
+                ;;
+
+esac
+-------------------------------
+9_1) Test
+		- [[]]  -- means enhanced condition for testing
+		- [[ 4 eq 4]]
+		-Numbers
+			- [[ int1 -eq int2 ]] -- it returns true if they are equal else false
+			- [[ int1 -ne int2 ]] -- it returns false if they are equal else true
+			- [[ int1 -lt int2 ]] -- it returns true if int1 is less than int2 else false
+			- [[ int1 -le int2 ]] -- it returns true if int1 is less than or euqal to int2 else false
+			- [[ int1 -gt int2 ]] -- it returns true if int1 is greater than int2 else false
+			- [[ int1 -ge int2 ]] -- it return true if int1 is greater than or equal to int2 else false
+			- [[ !int1 -eq int2 ]] -- It reverse the result
+		
+		- Strings
+			- [[ -z str ]] -- it returns true if the length of the string is zero else false
+			- [[ -n str ]] -- it returns true if the length of the string is non-zero else false
+			- [[ str1==str2 ]] -- it returns true if both strings are equal else false
+			- [[ str!=str2 ]] -- it returns true if both strings are not-equal else false
+			
+		- File Test
+			- [[ -d file ]] -- it returns true if the file/path is directory else false
+			- [[ -f file ]] -- it returns true if the file/paht is file else false
+			- [[ -e file ]] -- it return true if the file/path exists else false
+			- [[ -w file ]] -- it returns true if the file/path is writable else false
+			- [[ -x file ]] -- it returns true if the file/path is execuatable else false
+----------------------------------------------------------------------------------------------------------
+9_2) command chaning operators
+	- semicolon (;)
+		- command1;command2
+		- independent of one another 
+		- even if command1 failed,command2 will get executed
+	- Logical AND (&&)
+		- cmd1&&cmd2
+		- both are dependent on one another
+		- cat /etc/files && echo "samantha"
+		- if we get permission denied or some error then next cmd echo "samantha" will not execute
+		- ls && pwd && date
+		- [[ 4 -eq 4 ]] && echo "They are equal"
+			They are equal
+		- which httpd && sudo systemctl start httpd
+	- Logical OR (||)
+		- cmd1 || cmd2
+		- if cmd1 is failed then only cmd2 will execute
+		- date || pwd (no result for pwd becoz date cmd is executed )
+			-  Mon Sep 21 19:21:45 IST 2020
+		- ddate 2>/dev/null || pwd
+		- systemctl status httpd || sudo systemctl start httpd
+	- combining multiple operations
+		- cmd1 && cmd2 || cmd3
+		- cmd3 will execute only if cmd2 is not success and cmd2 will execute if cm1 is success
+		- cmd1 || cmd2 && cmd3
+------------------------------------------------------------------------------------------------------
+9_3) if and if else
+		
+		
+
+
+
+
+------------------------------------------------------------------------------------------------------
+9_4) shell script to find httpd is installed or not
+#!/bin/bash
+which httpd&>/dev/null
+httpd_status=$?
+if [ $httpd_status -eq 0 ]
+then
+echo "httpd is installed"
+fi
+------------------------
+	- which httpd &> /dev/null && echo "httpd is installed on this host" || sudo yum install httpd 
+
+#!/bin//bash
+if which httpd &> /dev/null
+then
+echo "Httpd is installed"
+else
+echo "Httpd is not installed on this host"
+fi
+
+#!/bin/bash
+which httpd &> /dev/null
+httpd_status=$?
+if [[ $httpd_status -eq 0 ]]
+then
+echo "Httpd is installed"
+else
+echo "Httpd is not installed"
+fi
+
+	- which httpd &> /dev/null && echo "Httpd is installed" || echo "Httpd is not installed"
+	- httpd -v | awk -F '[ /]' '/version/ {print $4}'
+
+#!/bin/bash
+if which httpd &> /dev/null
+then
+	echo "Httpd is installed on this host"
+	httpd_version=$(httpd -v | awk -F '[ /]' '/version/ {print $4}')
+	echo "The httpd version only numbers are : $httpd_version"
+else
+	echo "httpd is not installed"
+fi
+----------------------------------------------------------------
+9_5)
+
+-- if,ifel,case statements
+--- RHEL >=7 USE SYSTEMCTL
+--- RHEL <7 USE SERVICE
+--- SYSTEMCTL USES SUDO ACCESS BUT NOT FOR STATUS
+- ONLY START STOP
+- 
+************************************************************************
+-------------------
+9-5-1 automate_httpd.sh
+#!/bin/bash
+[[ $(id -u ) -eq 0 ]] && echo "You are root,run this script" || echo "Not root,check with root"
+--------------
+9-5-2 automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -eq 0 ]]
+then
+	echo "You are root"
+else
+	echo "Not root"
+fi
+------------------------------------
+9-5-3-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+fi
+if [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+fi
+if [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+fi
+if [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+fi
+------------------------
+9-5-5-automate_httpd.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Your are not root"
+	exit 1
+fi
+read -p "Enter your action:" user_action
+echo "Your action is: $user_action"
+systemctl $user_action httpd
+
+if [[ $user_action == "start"]]
+then
+	echo "Starting the httpd"
+	systemctl status httpd &> /dev/null || systemcl start httpd
+elif [[ $user_action == "stop"]]
+then
+	echo "Stoping the httpd"
+	systemctl status httpd &> /dev/null && systemcl stop httpd
+elif [[ $user_action == "restart"]]
+then
+	echo "restarting the httpd"
+	systemctl restart httpd
+elif [[ $user_action == "status"]]
+then
+	echo "Status the httpd"
+	systemctl status httpd
+else
+	echo "Invalid user_action"
+	echo "valid actions are start|stop|satus|restart"
+fi
+--------------------------
+case check
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+echo "Not root"
+exit 1
+fi
+
+#read -p "Enter the action: " user_action
+user_action=$1
+
+case $user_action in 
+	start)
+			echo "Starting the httpd"
+			systemctl status httpd &> /dev/null || systemctl start httpd ;;
+	stop)
+			echo "Stoping the httpd"
+			systemctl status httpd &> /dev/null && systemctl stop httpd ;;
+	restart)
+			echo "restarting the httpd"
+			systemctl restart httpd ;;
+	status)
+			echo "Status the httpd"
+			systemctl status httpd ;;
+	*)
+			echo "Invalid input"
+			echo "valid actions are start|stop|satus|restart"
+esac
+***************************************************
+9-6)
+BACK SCRIPT
+----------------
+	- tar -cvpzf destination source
+	- tar -cvpzf /backup-shell/my_files.tar.gz /home/google
+		- c - create
+		- p - perserving files and directory permissions
+	- tar -cvpzf /path/file_name/<destination> /<source>/
+
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1(create a directory ubuntu1)
+tar -cvzpf $DEST/my_back.tar.gz $SRC
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1 (dont create this directory ubuntu1)
+[[ -e $DEST ]] || mkdir $DEST
+tar -cvzpf $DEST/my_back.tar.gz $SRC
+
+#!/bin/bash
+SRC=/mnt/d/ubuntu
+DEST=/mnt/d/ubuntu1 (dont create this directory ubuntu1)
+EDTS=$(date '+%b_%d_%Y_%H_%M_%S')
+[[ -e $DEST ]] || mkdir $DEST
+tar -cvzpf $DEST/my_back_${EDTS}.tar.gz $SRC
+##########################################################################################################
+10_1)
+	- Scheduling jobs with at and crontab
+		- Ex:
+			- Shutdown the system at the specified time
+			- Taking one-time backup
+		- Syntax:
+			- at <time>
+			- shell type <bash/ksh/sh> script.sh
+			- atq -- check the queues
+			- atrm -- remove the pending queues 
+				- atrm <job_no)
+			- echo "bash bash.sh" | at 9:00AM
+			- or
+			- at <time> then enter the given script or cmd to run and
+			  CTRL+D
+			- Commands used with at
+				- at: execute commands at specified time
+				- atq : list the pending jobs
+				- atrm : delets job by job number
+				
+		- Examples:
+			- Ex-1: Schedule task at coming 10:00 AM
+				- at 10:00 AM
+			- Ex-2: Schedule task at coming next sunday 10:00 AM
+				- at 10:00 AM Sun
+			- Ex-3: Schedule task at coming 25th july
+				- at 10:00 AM July 25
+			- Ex-4: Schedule task at coming 25th july 2021
+				- at 10:00 AM 7/25/2021
+				- at 10:00 AM 7.22.2021
+			- Ex-5: Schedule task at coming on the same date at next month
+				- at 10:00 AM next month
+			- Ex-6: Schedule task at tommorow
+				- at 10:00 AM tommorow
+			- Ex-7: Schedule task to just execute just after 1 hour
+				- at now + 1 hour
+			- Ex-8: Schedule task to execute after 30 min
+				- at now +30 min
+			- Ex-9: Schedule task to execute after 1 and 2 weeks
+				- at now + 1 weeks
+				- at now + 2 weeks
+			- Ex-10: Schedule task to execute after 1 n 2 yrs
+				- at now +1 yr
+				- at now +2 yr
+			- Ex-11: Schedule task to execute at midnight
+				- at midnight	
+-------------------------------------------------------------------------------------------------------------------------------------------
+10_2)
+	- Scheduling jobs with crontab
+	- the crontab is used to running the specific task at regular intervals of time
+	- Each user can schedule jobs with crontabs
+	- syntax:
+		- minutes hours days months weekdays command/script
+	- Each scheduled job has six fields
+	- Don't change the order 
+	- six fields are separated with space
+	- The first five are integers pattern and the sixth is the cmd/script to execute
+
+	*		minute	0-59 
+	* 	  	hours  	0-23
+	* 		days	1-31
+	*		month	1-12
+	*		weekday	0-6	 (sunday=0)
+
+	- Useful commnds for crontab
+		- crontab -e to schedule a job
+		- crontab -l to list jobs
+		- crontab -r to remove jobs
+		- to remove a particular job go to crontab -e then go to that line and delete it 
+	- Ex:
+		- to run at Wed Sep 30 22:15:04 IST 2020
+		- (min hr days months weekday script)
+		- 40 22 30 9 3 full path of the script
+		- make sure that it has execution permission
+		- Wed Sep 30 22:27:18 IST 2020
+		- 33 22 30 9 3 /mnt/d/ubuntu/backup_check.sh
+		- it will execute every year september wednesday 30 date 
+		- for every year
+			- 33 22 30 * 3 /home/google/backup_check.sh
+			- there is no guarantee that every month will have 30 date on wednesday only 
+			- SO WE USE 33 22 30 * * /HOME/GOOGLE/BACKUP_CHECK.SH
+			- for every day
+				- 33 22 * * * /home/google/backup_check.sh
+			- for every hour
+				- 33 * * * * /home/google/backup_check.sh
+			- for every minute
+				- * * * * * /home/google/backup_check.sh
+			=============================================
+			- for every 9am and 9pm
+				- 0 9 * * * /home/google/backup_check.sh
+				- 0 21 * * * /home/google/backup_check.sh
+				- 0 9,21 * * * /home/google/backup_check.sh
+			- for every two hours
+				- 0 */2 * * *
+	- Ex:
+		- 30 9 15 11 6 /home/google/backup_check.sh
+		- 30 9 15 * 6 /home/google/backup_check.sh -- for every month
+		- 30 9 15 * * /home/google/backup_check.sh -- for every month this is correct
+		- 30 9 * * *  /home/google/backup_check. -- for every day
+		- 30 * * * * /home/google/backup_check. -- for every 30 minutes
+		- * * * * *  /home/google/backup_check. -- for minute
+		- * * * * 5,6  /home/google/backup_check. -- for weekends
+		- Schedule a crontab to execute on every sunday at 5pm
+			- 0 17 * * 0 /home/google/backup_check
+		- Schedule a crontab to execute on every sunday 5am and 5pm
+			- 0 5,17 * * 0 /home/google/backup_check
+		- Schedule for every two hours
+			- 0 */2 * * * /home/google/backup_check
+		- yearly once
+			- 0 0 1 1 * 
+			- zeroth min and zero hour on jan 1 
+			- @yearly
+			-@ monthly
+			- @ daily
+			- @ hourly
+			- @reboot -- IT USES FOR THOSE TASKS WHICH WILL RUN ON THE SYSTEM START
+#####################################################################################################################
+10_3)
+	- shell script to send automatic mail alert when ram is mem is low
+	- take a threshold value
+#!/bin/bash
+TO="formycore@gmail.com"
+THL=3160
+free_ram_size=$(free -mt | grep -E "Total" | awk '{print $4}')
+if [[ $free_ram_size -lt $THL ]]
+then
+echo -e "Server is running low ram size\nAvailable ram is : $free_ram_size" | mail -s "ram_info" $TO
+fi
+- * * * * * sent_mail_ram.sh
+- 
+------------------------------------------------------------
+11_1)
+ 11_1_check_permission.sh
+#!/bin/bash
+[[ -x 10_1_at2.sh ]] && echo "file is having execution permission" || echo "file dont have execution permission"
+---------------
+11_1_check_permission1.sh
+#!/bin/bash
+if [[ -x 10_1_at2.sh ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+-----------------------------
+11_1_check_permission2.sh
+#!/bin/bash
+if [[ -x 10_1_at2.sh ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+if [[ -x 10_1_at.sh  ]]
+then
+        echo "this file is having execution permission"
+else
+        echo "No this file not having execution permisssion"
+fi
+-------------------------------------
+11_1_check_permission3.sh
+#!/bin/bash
+for each in 10_1_at.sh 10_1_at2.sh
+do
+
+        if [[ -x $each ]]
+        then
+                echo "$each have execution permission"
+        else
+                echo  "$each dont have execution permission"
+        fi
+done
+---------------------------------------------------------------
+11_1_check_permission4.sh
+#!/bin/bash
+for each in $(ls)
+do
+
+        if [[ -x $each ]]
+        then
+                echo "$each have execution permission"
+        else
+                echo  "$each dont have execution permission"
+        fi
+done
+---------------------------------------------
+11_1_check_permission5.sh
+#!/bin/bash
+given_path=$1
+for each in $(ls $given_path)
+do
+    if [[ -x $each ]]
+    then
+        echo "$each having execution permission"
+    else
+        echo "$each does not have execution permission"
+   fi
+done
+---------------------------------------------
+11_1_check_permission6.sh
+#!/bin/bash
+given_path=$1
+if [[ $# -ne 1 ]]
+then
+echo "Invalid"
+echo "Usage $0 /somepath"
+exit 1
+fi
+for each in $(ls $given_path)
+do
+        if [[ -x $each ]]
+        then
+                echo "$each have exe perm"
+        else
+                echo "$each dont have exe perm"
+        fi
+done
+----------------------------------------------------------------------------------------------------------
+11_2)
+
+11_2_for_c_loop.sh
+#!/bin/bash
+for (( cnt=1;cnt<=20;cnt++ ))
+do
+        echo $cnt
+done
+-------------------------
+11_2_for_c_loop1.sh
+#!/bin/bash
+for ((;;))
+do
+echo "smo"
+done
+---------------------
+11_2_for_c_loop2.sh
+#!/bin/bash
+echo "This is for loop"
+cnt=1
+for ((;;))
+do
+        echo "This is for infi loop"
+        ((cnt++))
+        sleep 1
+        if [[ $cnt -eq 10 ]]
+        then
+                break
+        fi
+
+
+done
+--------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+11_3)
+	- Install vim,httpd,nginx
+	- need to be root or sudo previlages
+	- $@ -- prints the provided cmd line arguments
+	- 
+------------------------------------------------------------------
+	- 11_3_install_mul1.sh
+#!/bin/bash
+if [[ $(id -u) -ne 0 ]]
+then
+        echo "Not Root"
+        exit 1
+fi
+for e_p in vim httpd nginx
+do
+        echo "current pkg is $e_p"
+        if which $e_p &> /dev/null
+        then
+                echo "$e_p is already installed"
+        else
+                echo "Installing $e_p..."
+                yum install $e_p -y &> /dev/null
+        if [[ $? -eq 0 ]]
+        then
+                echo "Successfully Installed $e_p pkg"
+        else
+                echo "$e_p is not installed"
+        fi
+        fi
+done
+---------------------------------------------------------------------------
+#!/bin/bash
+if [[ $# -eq 0 ]]
+then
+    echo  "usage $0 pkg1 pkg2 ...."
+    exit 1
+fi
+if [[ $(id -u) -ne 0 ]]
+then
+    echo "Not root"
+    exit 2
+fi
+for i in $@
+do
+    if which $i &> /dev/null
+    then
+        echo "Already $i is installed"
+    else
+        echo "Installing $i ..."
+        yum install $i -y &> /dev/null
+        if [[ $? -eq 0 ]]
+        then
+            echo "Successfully installed $i"
+        else
+            echo "$i is not installed"
+        fi
+    fi
+done
+-----------------------------------------------------------------------------------
+11-4)
+	- we know that $@ and $* represents all the command line arguments
+-----------------------------------------------------------------------------------
+#!/bin/bash
+#echo "$@"
+#echo "$*"
+echo "The below output is for: \$*"
+for each in "$*"
+do
+    echo $each
+done
+echo "The below output is for: \$@"
+for each in "$@"
+do
+    echo $each
+done
+					-----------------------------------------------------------------------------------
+	- IF WE TAKE "$*" INSIDE THE QOTATIONS,FOR LOOP IT WILL TAKE AS SINGLE VALUE ONLY IT WILL CONSIDER ONE ARGUMENT ONLY
+	- from now on if we use $@ and $* use qotations mostly use $@
+	- for command line argument as single value use $*
+	- if we take "$@" the output will get as it is, it will consider five different arguments only
+	- for example 
+		- /11_4_at_star.sh 1 "2 3" a b
+			- 
+				The below output is for: $*
+				1 2 3 a b
+				The below output is for: $@
+				1
+				2 3
+				a
+				b
+-------------------------------------------------------------------------
+11_5)
+	- break and continue are used to control the execution of loops
+	- break cmd is used to terminate/exit current loop completly before the actual ending of the loop
+	- continue is executing for loop will stop current iteration and it will go for next iteration 
+	
+
+
+########################################################################################################
+12_1)
+	- man ssh
+	- ssh -o StrictHostKeyChecking=No testuser@server
+	- ssh -o StrictHostKeyChecking=No testuser@server "command"
+	- ssh -t -o StrictHostKeyChecking=No testuser@server "top" -- terminal interaction
+	- ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1;cmd2;cmd3"
+-----------------
+12_2)
+	- sshpass
+	- save the password in a file
+	- then use sshpass -f "path of the file" ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1"
+	- export SSHPASS="passwd"
+	- then
+		- sshpass -e ssh -t -o StrictHostKeyChecking=No testuser@server "cmd1"
+		- 
+---------------------------------
+12_3)
+	- Multiple commands on multiple servers
+	- 
+#!/bin/bash
+for each_ser in $(cat servers.txt)
+do
+	echo "Executing cmd on $each_ser"
+	for each_cmd in date uptime "free -mt"
+	do
+		echo "The date command on the $each_ser"
+		sshpass -f pass ssh -t -o StrictHostKeyChecking=No google@$each_ser "$each_cmd"
+		echo "----------------------------------------------------------------------------------------------------"
+	done
+done
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+12_4)
+
+multiple commands on multiple servers
+	- 
+#!/bin/bash
+echo "The date command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "date"
+echo "The uptime command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "uptime"
+echo "The free -m command ouput on the server: serverIP"
+sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "free -m"
+------------------------
+#!/bin/bash
+for each_cmd in date uptime "free -m"
+do
+	echo "The $each_cmd command ouput on the server: serverIP"
+	sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	
+done
+-----------------------------------------
+#!/bin/bash
+for each_server in serverIP1 serverIP2
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+--------------------------------------------------
+FOR PASSWORD LESS AUTHENTICATION
+
+#!/bin/bash
+for each_server in serverIP1 serverIP2
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+---------------------------------------
+for server list file
+#!/bin/bash
+for each_server in $(cat server_list.txt)
+do
+	for each_cmd in date uptime "free -m"
+	do
+		echo "The $each_cmd command ouput on the server: serverIP"
+		sshpass -f pass ssh -o StrictHostkeyChecking=No user@serverIP "$each_cmd"
+	done
+done
+
+-----------------------------------------------------
+here we have a serv1.txt which contains the server ips
+like 
+xx.xx.xx.xx google san date w uptime
+xx.xx.xx.xx testuser san uptime "free -m"
+
+
+
+12_5)
+	#!/bin/bash
+for each_server in $(cat serv1.txt)
+do
+    echo "$each_server"
+done
+--------------------------------
+12_5_1)
+#!/bin/bash
+while read each_server_info
+do
+	echo "$each_server_info"
+done < serv1.txt
+---------------------------------
+12_5_2)
+#!/bin/bash
+while read ser user pass cmd
+do
+    echo "$ser"
+done < serv1.txt
+-------------------------------------
+12_5_3)
+#!/bin/bash
+while read ser user pass cmd
+do
+    echo "Now the server is : $ser"
+    sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd" 
+done < serv1.txt
+-----------------------------
+12_5_4)
+#!/bin/bash
+while read ser user pass cmd cmd1 cmd2
+do
+    echo "Executing the cmd:$cmd on Server:$ser and the password is:$pass"
+    sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd"
+    echo "Executing the cmd:$cmd1 on Server:$ser and the password is:$pass"
+     sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd1"
+    echo "Executing the cmd:$cmd2 on Server:$ser and the password is:$pass"
+     sshpass -p $pass ssh -n -o StrictHostKeyChecking=No $user@$ser "$cmd2"
+
+done < serv1.txt
+--------------------------------------
+13_1)
+	- Different ways to use while loop
+	- Reading a file content
+		- while read line
+			do
+				statement/command
+			done < file_name
+
+	- Reading command output
+		- command | while read line
+		   do
+			statement/command
+		   done
+
+13_1)
+
+#!/bin/bash
+file_name="server.txt"
+while read each_line
+do
+        echo "$each_line"
+done < $file_name
+		   
+-------------------------------------------
+13_1_1)
+#!/bin/bash
+cat servers.txt | while read line
+do
+        echo "awk 'NR==2 {print $1}' $line"
+done
+----------------------
+13_1_2)
+#!/bin/bash
+ls -ltr | while read line
+do
+        echo "$line"
+        echo "----------"
+done
+---------------------------------
+13_2)
+	- if there are 5 fileds and we take only 2 fields in the script then 1 st field is from script is assigned to first field in the file and remaining fields are in the file assigned to the second field in the script 
+	
+	---- serv2.txt ------
+	Server_ip,UserName,password,cmd1,cmd2
+	xx.xx.xx.xx,google,san,date,w,uptime
+	xx.xx.xx.xx,testuser,san,uptime,"free,-m"
+	------------
+	#!/bin/bash
+	cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+	do
+	        echo "$f2"
+	done
+	-----------------------
+	Server_ip,UserName,password,cmd1,cmd2
+	xx.xx.xx.xx,google,san,date,w,uptime
+	xx.xx.xx.xx,testuser,san,uptime,"free,-m"
+	--------------------------
+	#!/bin/bash
+	old_ifs=$IFS
+	cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+	do
+			echo "$f2"
+	done
+	IFS=$old_ifs
+--------------------------------
+13_2)
+#!/bin/bash
+while read f1 f2 f3
+do
+        echo "The user name is: $f2"
+done < serv1.txt
+--------------------------
+13_3)
+#!/bin/bash
+while IFS="," read f1 f2 f3 f4 f5
+do
+        echo "$f2"
+done < serv2.txt
+---------------------------------
+13_4)
+$ cat 13_while_loop_ifs_3.sh
+#!/bin/bash
+cat serv2.txt | awk 'NR!=1 {print }' | while IFS="," read f1 f2 f3 f4 f5
+do
+        echo "$f1 $f2"
+done
+------------------------------------
+13_5)
+#!/bin/bash
+cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+do
+        echo "$f2"
+done
+-----------------------------
+#!/bin/bash
+old_ifs=$IFS
+cat serv2.txt | awk 'NR!=1 {print}' | while IFS="," read f1 f2
+do
+        echo "$f2"
+done
+IFS=$old_ifs
+#########################################################################################################
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		  
+		  
+    
+	
+
+	
+	
+  
+
+		
+		  
+		  
+	  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

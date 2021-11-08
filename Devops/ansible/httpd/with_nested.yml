@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : Ensure user exists
+      user:
+        name : "{{ item }}"
+        with_items:
+        - "{{ users }}"
+    - name: Ensure folder exists
+      file:
+        path: '/home/{{ item.0}}/{{item.1}}'
+        state: directory
+      with_

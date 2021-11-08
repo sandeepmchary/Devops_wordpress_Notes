@@ -1,0 +1,16 @@
+sfile=input("Enter the path: ")
+
+dfile=input("Enter the path: ")
+
+sfo=open(sfile,'r')
+content=sfo.read()
+sfo.close()
+
+#print(content)
+dfo=open('newrandom.txt','w')
+dfo.write(content)
+dfo.close()
+#print(dfo.readlines())
+
+dfo=open('newrandom.txt','r')
+print(dfo.read())

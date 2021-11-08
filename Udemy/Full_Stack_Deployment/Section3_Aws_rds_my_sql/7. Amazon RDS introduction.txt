@@ -1,0 +1,76 @@
+1) course content
+ - introduction
+2) Course structure
+
+
+--------------------------------------------------------------------------------------------
+						7) AMAZON RDS INTRODUCTION
+- Amazon RDS Introduction
+- RDS stands for relation database services
+- easy to setup,operate and scale a relation database in the cloud
+- we can create and use database which use sql as database
+- we can create database in cloud which are managed by aws
+- Amazon RDS supported database engines
+	- MySql
+	- PostgreSql
+	- Microsoft sql server
+	- MariaDB
+	- Oracle
+	- Amazon Aurora
+---------------------------------------------------------
+							8) MYSQL DATABASE USING RDS
+- steps for create rds mysql-connections
+	- after logging into the server go to database section 
+	- rds 
+	- choose the region
+	- create database
+	- standard create is selected
+	- engine options
+		- select my sql database
+		- version default
+		- template - free tier
+	- settings
+		- Name the database (fullstackdb)
+		- give user name and password
+	- DB instace sizes
+		- Burstable classes (includes t classes)
+	- Storage
+		- general purpose (default)
+	- connectivity
+		- Additional connectivity configuration
+		- subnet group (default)
+		- publically Accessable
+			- yes
+	- VPC security group
+		- choose existing
+	- Database port
+		- 3306
+	- Database authentication
+		- password authntication 
+		- crate database
+	- once done we can see the status as avialable
+	- View the credentials
+	- save those credentials we need that to connect for later point of time
+----------------------------
+							9) Connecting to mysql database
+- when ever we face any connectivity issues we have to check in security groups
+- go to https://github.com/sqlectron/sqlectron-gui/releases/tag/v1.30.0 (sqlectron gs)
+- download it and add the Endpoint & port
+- change the security group inbound rules to mysql 3360 
+- check test
+- save it 
+- connect it 
+- execute command "create database fullstackdb;"
+- after that we created a database for fullstackdb
+- in that there are no tables,so create one
+	- CREATE TABLE employee(
+		emp_id INT(6) AUTO_INCREMENT PRIMARY KEY,
+		firstname VARCHAR(30) NOT NULL,
+		lastname VARCHAR(30) NOT NULL,
+		email VARCHAR(30) NOT NULL
+	)
+	- INSERT INTO employee (firstname,lastname,email)	  
+	  VALUES ('samantha','sam','samantha@xyz.com');
+	- (remove first  code while executing the above code )	
+	- 
+		

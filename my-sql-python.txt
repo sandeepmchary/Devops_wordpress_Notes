@@ -1,0 +1,130 @@
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123")
+mycursor=mydb.cursor()
+mycursor.execute("CREATE DATABASE School")
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="School")
+mycursor=mydb.cursor()
+mycursor.execute("CREATE TABLE student (Roll INT(4) Primary key,NAME VARCHAR(20),Age int(2),City CHAR(10))")
+
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123")
+mycursor=mydb.cursor()
+mycursor.execute("SHOW DATABASES")
+for x in mycursor:
+	print(x)
+	
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="School")
+mycursor=mydb.cursor()
+mycursor.execute("Alter table student add (State Varchar(10))")
+
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="School")
+mycursor=mydb.cursor()
+mycursor.execute("Alter table student add (State Varchar(10))")
+
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="School")
+mycursor=mydb.cursor()
+mycursor.execute("desc student")
+for x in mycursor:
+	print(x)
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="School")
+mycursor=mydb.cursor()
+sql="INSERT INTO student(roll,name,age,city)values(%s,%s,%s,%s)"
+val=(101,'lenovo',15,'Hyderabad')
+mycursor.execute(sql,val)
+mydb.commit()
+print(mycursor.rowcount,"Record Inserted")
+
+
+--------------------------------------------------------------------------------------------------
+example:
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123")
+mycursor=mydb.cursor()
+mycursor.execute("CREATE DATABASE mydatabase")
+********************************************************************************
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="Admin@123"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("SHOW DATABASES")
+
+for x in mycursor:
+  print(x)
+********************************************************************************
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="Admin@123",
+  database="mydatabase"
+)
+********************************************************************************
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="mydatabase")
+mycursor=mydb.cursor()
+mycursor.execute("CREATE TABLE customers (name VARCHAR(20),address VARCHAR(20))")
+********************************************************************************
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="Admin@123",database="mydatabase")
+mycursor=mydb.cursor()
+mycursor.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))")
+********************************************************************************
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="Admin@123",
+  database="mydatabase"
+)
+
+mycursor = mydb.cursor()
+
+sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
+val = ("John", "Highway 21")
+mycursor.execute(sql, val)
+
+mydb.commit()
+
+print(mycursor.rowcount, "record inserted.")
+********************************************************************************
+select
+import mysql.connector
+mydb=mysql.connector.connect(
+	host="localhost",
+	user="root",
+	password="Admin@123",
+	database="School"
+)
+mycursor=mydb.cursor()
+mycursor.execute("Select * from student")
+myresult=mycursor.fetchall()
+for x in myresult:
+	print(x)
+
+
+
+update user set plugin='san' where User='root';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
+
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin@123';
+FLUSH PRIVILEGES; 
+
+

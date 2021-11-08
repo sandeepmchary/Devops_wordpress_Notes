@@ -1,0 +1,29 @@
+35.184.208.88
+
+docker rmi -f $(docker images -a -q)
+docker run -p 3360:3360 -d --name mysql_container --env MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
+docker ps -a
+docker stop mysql_container
+docker rm mysql_container
+docker container logs mysql_container | grep 'GENERATED ROOT PASSWORD: ' | awk -F': ' '{print $2}'
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'san';
+Configure MySQL Container
+docker run \
+--detach \
+--name=mysql_container\
+--env="MYSQL_ROOT_PASSWORD=san" \
+--publish 6603:3306 \
+--volume=/root/docker/[container_name]/conf.d:/etc/mysql/conf.d \
+mysql
+------------------------------
+131) Docker cli monitoring
+- docker container top container_id
+- docker container inspect
+- docker container stats
+---------------------------
+132)ssh running container
+- docker container run -it
+- Usage:  docker container run [OPTIONS] IMAGE [COMMAND] [ARG...]
+- docker container run -it --name webproxy nginx bash
+- docker container exec -it running_container_id (command to execute)
+- 

@@ -1,0 +1,64 @@
+- INTRODUCTION TO KUBERNETES
+- ARCHITECTURE OF KUBERNETES
+- KUBERNETES OBJECTS & YAML FILES
+- ANNOTATIONS,FIELD SELECTORS,LABELS & NAMESPACES
+- KUBECTL BASIC COMMANDS
+- GOOGLE KUBERNETES ENGINE
+- HANDS-ON KUBERNETES ON AWS
+- KUBERNETES INTERVIEW QUESTIONS
+====================================================================================
+- Containers are very good way to bundle and run your applications,In a production environment you need to manage the containers that run the applications and ensure that there is no downtime and that's where kubernetes come to picture
+- kubernetes provides you with a framework to run distributed system resilently.It takes care of the scaling and failover for ur app/.. provides deployment patterns and more
+- rolling updates
+	- updates one by one with updated containers
+-----------------------
+- why kubernetes ?
+	- monolithic all code at once like uber
+		- Location services
+		- customer care
+		- Notifications
+		- Mail
+		- Payments
+		- Passenger Management
+	- previously all come from one server
+	- all in one code base
+	- if we want to change the code/update in Passenger management, chances are there that other services may or maynot come down or malfunction 
+	- lot of dependency b/w all the features 
+	- Microservies s/w app/
+		- all the features have diff code base and deployed seperatly 
+		- connected with API and json 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- what is the command to create the kubernetes services 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+- kubernetes features
+	- Managing multiple containers as one entity
+	- Resource usage monitor
+	- N/W
+	- Rolling update
+	- Load balancing
+	- Health Checks
+- How kubernetes works
+	- K master
+		- K-Node-1
+		- K-Node-2
+		- K-Node-3
+		- K-Node-.
+	- kubernetes is basically a cluster, we have master and we have several nodes 
+	- job of the master is schedule the container on the nodes
+	- monitor the nodes
+	- monitor the container in each node
+	- keep the track of the node,logs and what operations are performed on the each container
+	- node does the job of processing
+	- kubernetes is running on both master and the node 
+------------------------------------------------------------------------------------------------------------
+- Kubernetes ARCHITECTURE
+	- Master
+		- etcd : It stores conf info which can be used by each of the nodes in the cluster.it is high availbilty key value store that can be distributed among multiple nodes
+				- These config are accessible only by the Kubernetes API servers as it may have some sensitive info.It is a distributed key value store which is accessible to all
+		- API server
+		- kube-controller-manager
+		- Scheduler
+		- cloud-controller-manager
+		
+	

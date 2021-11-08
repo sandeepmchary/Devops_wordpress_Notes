@@ -1,0 +1,22 @@
+- name: Install Java 
+  package:
+    name: java-1.8*
+    state: present
+- name: Java Home Path
+  lineinfile:
+    dest: /root/.bash_profile
+    insertafter: '# User specific environment and startup programs'
+    line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64'
+- name: paths
+  lineinfile:
+    dest: /root/.bash_profile
+    regexp: PATH=$PATH:$HOME/bin
+    line: PATH=$PATH:$JAVA_HOME:$HOME/bin 
+- name: source the /root/.bash_profile
+  shell: source /root/.bash_profile
+  register: output
+  args:
+    executable: /bin/bash
+- debug: msg="{{ output }}"
+# CHECK WITH ROOT PREVILAGES echo $JAVA_HOME
+

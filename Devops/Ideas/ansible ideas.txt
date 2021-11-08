@@ -1,0 +1,35 @@
+1) How to move/rename a file using an Ansible task on a remote system
+
+The file module doesn't copy files on the remote system. The src parameter is only used by the file module when creating a symlink to a file.
+
+If you want to move/rename a file entirely on a remote system then your best bet is to use the command module to just invoke the appropriate command:
+
+- name: Move foo to bar
+  command: mv /path/to/foo /path/to/bar
+If you want to get fancy then you could first use the stat module to check that foo actually exists:
+
+- name: stat foo
+  stat: path=/path/to/foo
+  register: foo_stat
+
+- name: Move foo to bar
+  command: mv /path/to/foo /path/to/bar
+  when: foo_stat.stat.exists
+
+-------------------------------------------
+ansible-playbook -e "<values>" playbook.yml --- check
+
+
+
+-------------------------------------------------------------
+-- extra vars
+
+you can use --extra-vars like this:
+
+$ ansible all --inventory=10.0.1.2, -m ping \
+    --extra-vars "ansible_user=root ansible_password=yourpassword"
+-----------------------------------------------------
+ansible-playbook spinawsec2.yml -e instance_type=t2.micro -e security_group=WebServers -e image=ami-0080e4c5bc078760e -e region=us-east-1 -e keypair=NVirginia -e count=1
+
+
+awx installation with geerlinguy

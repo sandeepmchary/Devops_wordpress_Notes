@@ -1,0 +1,1 @@
+how to print the value in ansible ?

@@ -1,0 +1,51 @@
+- Jenkins is open source CI/CD tool written in java
+- Jenkins is a automation tools,used to build and deliver software product
+- Jenkins is free and entirely written in java
+- Jenkins is widly used application around the world that has 300k installations and growing day by day
+- Jenkins is forked from another project called Hudson after dispute with oracle.
+- it is server based application and requires a web servers like Apache Tomcat
+- Reason jenkins became more popular is that of it's monitoring the repeated tasks which arise during the development of a project
+- Example, if your team is developing a project,Jenkins will continous test the project builds and show you the errors in early stages of your development
+===========================================================================================
+- WHY WE USE CONTINOUS INTEGRATION WITH JENKINS
+	- Code is build and test as soon as developer commits the code
+	- On successful build.jenkins will deploy the source into the test server and notifies the development team
+	- On Build failures, Jenkins will  notify the errors to the developer team
+	- code is build immdediatly after any of the developer commits
+	- Automated builds and test process saving timing and reduce defects
+===========================================================================================
+- ADVANTAGES OF USING JENKINS
+		- Jenkins is being maintained by community which is very open,Every month they held public meetings and tak inputs from the public for the development of the jenkins project
+		- As technology grows so does the jenkins, so far jenkins has around 320 plugins published in its plugins database,which plugins jenkins become more powerful and feature rich
+		- Jenkins also supports cloud-based architecture so that you can deploy jenkins in cloud-based platforms
+		-Jenkins supports docker containers you can containerize jenkins service
+===========================================================================================
+JENKINS ALTERNATIVES:
+	- Drone CI (CD platform written in GO)
+	- TeamCity(Jetbrains)
+	- Wercker
+	- CircleCI
+	- CodeShip
+	- SemaPhoreCI
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

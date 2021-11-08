@@ -1,0 +1,10 @@
+#Using replace module we can replace a word with another word. The replace module will need 3 parameters i.e. ‘path’, ‘regexp’ (to find the particular word) and ‘replace’ (providing another word for replacement).
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Replace Example
+      replace:
+        path: /home/ansible/lenovo.txt
+        regexp: 'Hello'
+        replace: "samantha"

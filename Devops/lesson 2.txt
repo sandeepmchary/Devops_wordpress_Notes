@@ -1,0 +1,23 @@
+Lesson 2
+-- using python interpreter interactively 
+-- R read 
+-- E evaluate
+-- P print
+-- L loop 
+--> we can import a module 
+--> like import os 
+-- > help (os.path) here we get man pages 
+-->  how to call a function 
+--> os.path.abspath("Documents") 
+--- # It gives absolute path of the documents 
+---> other examples include os.path.isfile("Documents") 
+-- it gives in True or False only
+3(b) 
+ipython 
+-- REPL hello +"magic" commands 
+-- shell like commands 
+-- alias for arbitory commands 
+-- easy to capture command output 
+-- building a bridge between Bash and python 
+--  ipython is enhancer interpreter 
+-- by using this we can easily for Linux administration 

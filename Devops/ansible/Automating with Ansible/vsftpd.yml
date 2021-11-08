@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name : Install vsftpd
+    package:
+      name: vsftpd
+      state: present
+  - name: Enable vsftpd
+    service:
+      name: vsftpd
+      enabled: true
+  - name: create a readme file
+    copy:
+      content: "welcome home"
+      dest: /var/ftp/pub/README
+      mode: 044

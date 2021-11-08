@@ -1,0 +1,50 @@
+What happens to public ip if we restart?
+ - it changes
+what happens to public ip if we reboot?
+ - It remains the same
+-----------------------
+- stop -> start -> public ip changes reboot -> pub ip same
+- stop -> start -> public ip,instances attached to hypervisior(xen),next thing they 
+are changing KVM now there are in  Nitro,Changes to another hypervisior
+- where as in reboot,boot on same hypervisior,public ip remains same
+- system status check
+  - checks level to be done on hypervisior level
+- Instance status check
+  - kernel level changes
+  - mount root volume to some other file
+  - or go to init level 1
+  - changes in fstabs
+- Ex:
+     SCENARIO:
+           - Instance changes from m4 to m5 large,we have to change something in the
+           fstab & kernel lvl files,after this instances is not rebooting
+           - After that we have system status check and instances status check failures
+           - so,we unmounted the ebs volume to another ec2 instance and changed the fstab files
+           - then we mounted the root volume after that it got correct
+
+- Elastic Ip:
+   - go to Elastic ip 
+     --> Associate Elastic Ip --> actions --> Associate Elastic ip 
+     --> choose the instance --> Associate
+   - if we allocate the EIP, the first ip will be gone
+   - Eip will be still attached to the instance even after the stop state
+   - Disassociate
+- PRIVATE SERVER
+  - mostly this is used for storing the database
+  - to login to private server we need to login to the server 
+  which has public ip with in the same subnet and VPC
+  - Attach the EIP here we cannot ping to google.com
+  - Even though it has public ip, we cannot access this ping google.com,becoz we dont have
+  route to internet gateway and it's in the private subnet
+  - here we need NAT gateway,NAT gateway is only for outbound
+  - to add the nat gateway
+  - create a nat gateway
+  - Attach it to the public subnet
+  - allocate EIP
+  - Key(name)     : Value(nat-gw)
+  - IT will take some time
+  - add this to private route table
+  - 0.0.0.0/0 nat-gw 
+  - save route
+  - 
+

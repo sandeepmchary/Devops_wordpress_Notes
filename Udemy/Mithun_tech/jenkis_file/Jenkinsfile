@@ -1,0 +1,26 @@
+node {
+    def buildNumber=BUILD_NUMBER
+    stage("Git Clone"){
+        git url: 'https://github.com/sandeepmchary/project-1.git'
+    }
+    stage ("Maven Clean Package"){
+        def mavenHome= tool name: "MaveN",type:"maven"
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    stage("Build Docker Image"){
+        sh "docker build -t formycore/java-web-app-docker:${buildNumber} ."
+    }
+    stage("Docker login and push"){
+        withCredentials([string(credentialsId: 'Docker_hub', variable: 'Docker_hub')]) {
+        sh "docker login -u formycore -p ${Docker_hub}"
+}
+        
+        sh "docker push formycore/java-web-app-docker:${buildNumber}"
+    }
+    stage("Deploy application as docker container in docker deployment"){
+        sshagent(['Docker_dev_server_ssh']) {
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.47.166 docker rm -f javawebappcontainer || true"
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.47.166 docker run -d -p 8080:8080 --name javawebappcontainer formycore/java-web-app-docker:${buildNumber}"
+    }
+    }
+}

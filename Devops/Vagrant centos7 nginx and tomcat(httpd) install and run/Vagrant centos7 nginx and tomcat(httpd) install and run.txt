@@ -1,0 +1,22 @@
+In the vagrant file uncomment the private ip line
+login to the vagrant through $vagrant ssh
+$ cat /etc/centos-release to check the version of the os
+sudo yum update -y
+sudo yum install -y epel-release
+sudo yum install -y httpd
+sudo systemctl restart httpd
+sudo yum install firewalld -y
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+sudo systemctl status firewalld
+sudo yum install -y nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+sudo yum install -y net-tools
+sudo vi /etc/httpd/conf/httpd.conf
+change to listen 80 to 8080
+firewall-cmd –permanent –zone=public –add-port=8080/tcp
+firewall-cmd –permanent –zone=public –add-port=80/tcp
+firewall-cmd –reload
+go to /etc/ssh/sshd_config and uncomment the PasswordAuthentication yes restart
+sudo systemctl restart sshd

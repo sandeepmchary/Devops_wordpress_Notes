@@ -1,0 +1,35 @@
+>> LINUX operating system all the bootable files are located in /boot, for / both the Max space is allocated 500MB 
+>> After installation any number of softwares Linux OS does not depend upon other installation it depends only on / boot directory, thus it makes less time to boot 
+>> /root:- linux operating system has two types of users 
+1) admin user which is root and has # symbol
+2) Normal user which is not user has $ symbol 
+>> for every user home directory is created the same name of username 
+ex: user - sandeep 
+location: /home/sandeep 
+>> /usr:- all installed softwares is located here 
+>> /opt:- optional directory, industry install third party softwares 
+ex: ant,maven
+-- for windows -- .exe
+-- for linux RPM,YUM
+-- and some s/w s contains tar files,we need to extract them and set the path,
+-- binaries of ant available in directory in linux
+-- once we set path we can use any where in linux
+-- /etc:- it contains all configurations 
+for ip related configurations,all system related and 3rd party s/w s are located in /etc directory,
+/var:- variable -- logs are stored here
+/sbin: -- all admin related commands,
+-- ex: cd /sbin
+-- ls 
+all the cmds are admin related cmds
+/bin:- all the cmds located for admin and normal users
+-- /lib: all libarary files,
+
+-- dev: node files,node files are used to identify the h/w devices
+
+eg: node files         h/w Devices
+     sda        ---     HardDisk
+     cdrom      ---     cdrom
+     dvd        ---     dvd rom
+     fd0        ---     floppy
+     hda        ---     user device
+     

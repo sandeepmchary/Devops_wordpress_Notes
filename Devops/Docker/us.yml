@@ -1,0 +1,11 @@
+---
+- hosts: docker
+  become: yes
+  tasks:
+  - name: user add 
+    user: 
+      name: ansible
+      groups: docker
+      append: yes
+  - name: reset ssh connection 
+    meta: reset_connection

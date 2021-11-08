@@ -1,0 +1,13 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Create multiple directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+      - '/home/ansible/md1'
+      - '/home/ansible/md2'
+      - '/home/ansible/md3'
+        

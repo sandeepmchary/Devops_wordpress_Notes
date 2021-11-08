@@ -1,0 +1,11 @@
+Each Linux cmd returns a status when it is executed
+- we can display the exist status of a cmd with echo $?
+x=$?(storing exit status of a cmd into a variable)
+- 0 exit status means the cmd was successful without any errors
+
+- A non-zero(1-255 values) exit status means cmd was failure
+- Ex:
+	-127 - cmd not fount
+	- 1- cmd failed during execution
+	- 2- incorrect cmd usage etc ..
+	
