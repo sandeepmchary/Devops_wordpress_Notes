@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: update packages and Install apache
+    apt:
+      name: apache2
+      update_cache: yes
+  - name: restart apache after installation
+    service:
+      name: apache2
+      enabled: yes
+      state: restarted
+  - name: Install additional packages
+    apt:
+      name: "{{ item }}"
+    with_items:
+      - 

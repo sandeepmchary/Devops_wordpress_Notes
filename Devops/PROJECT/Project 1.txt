@@ -1,0 +1,165 @@
+Login to jenkins server
+check for the "maven invoker and maven unleash" in pluguins install it without restart
+
+hello-world name of the project
+
+Make sure that git is installed in the jenkins server
+paste the link into the git link https://github.com/sandeepmchary/hello-world-master.git
+
+
+
+
+Under Build 
+-------------
+Root POM is POM.xml
+Goals and options : clean install package
+
+now apply and save 
+
+run the build now options
+the archived file .war file will stored in the /var/lib/jenklins/workspace/hello-world/webapp/target/webapp.war
+
+The above can shown under in the build success 
+
+---- Make sure tomcat is up and running in the another server  ---
+in jenkis server 
+
+go to credentials 
+
+select jenkins
+
+global credentials
+
+add credentials
+
+for deploying a war files through jenkins the user must have manager-script role 
+give id and password 
+
+id deployer
+
+passwdd deployer
+
+save
+
+in Jenkins server under post build actions
+
+add post build actions -- we cannot find any option to deploy any war or ear file option for that we need to install $$ Deploy to Container $$
+
+after installing $$ Deploy to Container $$ we will get Deploy war or ear to a container option is shown in the post build options
+
+( post build => Deploy war or ear to container)
+
+war /ear files : < we need to provide the path > (**/*.war) or (/var/lib/jenklins/workspace/hello-world/webapp/target/webapp.war) as per in this case only
+containers => tomcat 8 => provide credentials and tomcat url 
+
+save and apply
+
+Then it will be shown on the tomcat server 
+
+In jenkins server go to 
+
+Build Triggers => select POLL SCM => */2 * * * * 
+
+if we change the any thing in the github the same will be updated in the jenkins server with in 2 minutes
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+We need Jenkins and Tomcat server on Ec2 
+In jenkins check for maven if not seen go to 
+>> manage jenkins 
+>> manage plugins 
+>> and search for unleash Maven 
+>> install without restart 
+----------------------------------------- 
+[under global tool configuration]
+>> check for the maven 
+>> click on add maven
+>> give name for Maven(as Maven)
+>> uncheck install automatically
+>> save and apply
+---------------------------------------------
+[ under source code management] 
+Use git paste the git here https://github.com/sandeepmchary/hello-world-master.git
+[ under build] 
+Root pom : Pom.xml 
+Goals and options: Clean install package 
+Save and build now 
+------------------------------------------ 
+[To deploy war file into Tomcat] 
+1) make sure Tomcat is up and running 
+>> under jenkins 
+>> post steps 
+>> you need to deploy container plugin 
+For that we need new plugin 
+>> manage Jenkins 
+>> manage plugins 
+>> Deploy to container 
+>> install without restart 
+--------------------------------------------- 
+[ set the credentials ] 
+>> Go to Jenkins 
+>> credentials 
+>> jenkins 
+>> global credentials 
+>> username 
+>> password 
+>> ID 
+>> description 
+----------------------------------------------------- 
+Under Jenkins 
+>> post steps 
+>> deploy war / ear to container 
+>> give the war location (**/*.war) 
+>> containers (tomcat 8) 
+>> credential for deployer 
+>> tomcat URL 
+   SAVE AND APPLY
+ 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Simple DevOps Project -01
+We know how to use work with each and Git, Jenkins independently. What if you want to collaborate these two? that is where Simple DevOps project helps you. Follow below steps if you are a new guy to DevOps. You love it.
+
+Follow this article in YouTube
+Prerequisites
+EC2 instance with tomcat installation **installation steps video
+Jenkins server **Get Help here
+Part-01 : Adding steps for Integration
+Steps to create Jenkin job
+Login to Jenkins console
+Create Jenkins job, Fill the following details,
+Source Code Management:
+Repository: https://github.com/ValaxyTech/hello-world.git
+Branches to build : */master
+Build:
+Root POM:pom.xml
+Goals and options : clean install package
+Part-02: Adding Deployment Steps
+in this port we are going to install 'deploy to container' plugin. this is need to deploy on tomcat server which we are using.
+
+Install maven plugin without restart
+Manage Jenkins > Jenkins Plugins > available > deploy to container
+To deploy our build artifacts on tomcat server our Jenkins server need access. For this we should setup credentials. This option is available in Jenkins home page
+
+setup credentials
+credentials > jenkins > Global credentials > add credentials
+Username	: deployer
+Password : XXXXXXX
+id : Tomcat_user
+Description: Tomcat user to deploy on tomcat server
+Modify the same job which created in part-01 and add deployment steps.
+
+Post Steps or post build actions
+Deploy war/ear to container
+WAR/EAR files : **/*.war
+Containers : Tomcat 8.x
+Credentials: Tomcat_user (which created in above step)
+Tomcat URL : http://<PUBLIC_IP>:<PORT_NO>
+Save and run the job now.
+
+Port-03 : Continuous Integration & Continuous Deployment (CI/CD)
+Now job is running fine but to make this as Continuous Integration and Continuous Deployment Tod do that go back and modify job as below.
+
+Build Triggers
+Poll SCM
+schedule */2 * * * *
+Save the job and modify the code in GitHub. Then you could see your job get trigger a build without any manual intervention.
+

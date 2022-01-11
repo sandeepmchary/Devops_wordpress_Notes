@@ -1,0 +1,12 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Ansible multiple files
+      archive:
+        path: 
+        -  /home/ansible/lenovo.txt
+        - /home/ansible/lenovo1.txt
+        dest: /home/ansible/len.zip
+        format: zip
+        

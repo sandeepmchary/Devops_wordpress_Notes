@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name : update the yum
+    package:
+      name: "*"
+      state: latest
+  - name: Install java
+    package:
+      name: java-1.8.0-openjdk*
+      state: present
+  - name : copy etc profile
+    copy:
+      src: /etc/profile
+      dest: /etc/profile_backup
+  - name: Environmental variables
+    blockinfile:
+      dest: /etc/profile
+      backup: yes
+      block: |
+       "JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")\n
+        export PATH=$PATH:/opt/apache-maven/bin\n"
+  - name : wget packages
+    package:
+      name: wget
+      state: present
+  - name: download jenkins repo
+    get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+  - name: import jenkins key
+    rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  - name: install maven
+    unarchive:
+      src: http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      dest: /opt
+      remote_src: yes
+  - name: creating a symbolic link
+    file:
+      src: /opt/apache-maven-3.5.4
+      dest: /opt/apache-maven
+      state: link
+  - name: install jenkins
+    package:
+        name: jenkins
+        state: present
+  - name: start jenkins
+    service:
+      name: jenkins
+      state: started
+  - name: enable jenkins
+    service:
+      name: jenkins
+      enabled: true
+   

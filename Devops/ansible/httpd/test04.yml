@@ -1,0 +1,13 @@
+---
+- hosts : all
+  become : yes
+  tasks:
+    - name : libselinux-python
+      yum:
+        name : libselinux-python
+        state: present
+    - name : libsemanage-python
+      yum:
+        name: libsemanage-python
+        state: present
+        

@@ -1,0 +1,35 @@
+DOCKER
+
+Always use the tag in the website not the tomcat:8.0-jre8 **
+which is not in the site
+
+$ curl -fsSL get.docker.com -o get get-docker.sh
+$ sh get-docker.sh
+$ sudo usermod -aG docker ubuntu
+$ LOGOUT & LOGIN
+
+# To check the container running info
+$ docker ps (-a,-q)
+# To run the container
+$ docker run
+# To Check the images of docker
+$ docker images
+# To Pull the docker image
+$ docker pull
+# To remove/delete the container
+$ docker rm -f $
+ex: docker rm -f $(docker ps -a -q)
+# To remove the docker images
+$ docker rmi -f $(docker images -q)
+# To build the docker which we have to build
+$ docker build -t : ()
+# To run the docker with image
+$ docker run
+# docker run -it /bin/bash
+# docker stats
+# docker inspect $(docker ps -q)
+# docker exec -it if we are on dettached mode
+# if we are on dettached mode to close the container use CTRL+PQ (small only)
+
+# How to use this image
+docker run -p 8080:8080 -p 50000:50000 jenkins

@@ -1,0 +1,31 @@
+1
+00:00:01,070 --> 00:00:06,080
+So in this lecture we will be looking at bite in dictionaries a dictionary is a collection which is
+
+2
+00:00:06,120 --> 00:00:11,390
+an order changeable and indexed and in inviting dictionaries I return with curly brackets and they are
+
+3
+00:00:11,390 --> 00:00:12,830
+of keys and values.
+
+4
+00:00:12,830 --> 00:00:15,710
+So let's define our dictionary first.
+
+5
+00:00:24,540 --> 00:00:26,100
+Now we write the key
+
+6
+00:00:50,910 --> 00:00:54,210
+and we write the ear of the car.
+
+7
+00:01:00,100 --> 00:01:07,440
+Now we have defined a dictionary that's print this dictionary and see what gets printed.
+
+8
+00:01:09,480 --> 00:01:14,740
+So as you can see it is Pr

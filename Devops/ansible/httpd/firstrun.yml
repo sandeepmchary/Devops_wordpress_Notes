@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : Ensure lenovo user exists
+      user:
+        name: ansible
+        state: present
+        comment: Ansible
+    - name : Ensure lenovo user accepts the SSH_keys
+      authorized_key:
+        user : ansible
+        state: present
+        key: "{{ lookup('file', '/home/ansible1/.ssh/id_rsa.pub') }}"
+    - name : Ensure lenovo user with sudoers permission
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^ansible ALL\='
+        line: 'lenovo ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+    - name : restart sshd service
+      service:
+        name: sshd
+        state: restarted
+        enabled: yes
+    - name : Adding the server to host file
+      command:
+        sudo bash -c 'echo ip-172-31-35-72.us-east-2.compute.internal >> /etc/ansible/hosts'

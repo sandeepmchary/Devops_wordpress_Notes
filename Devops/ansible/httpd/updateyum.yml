@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : update yum packages
+      yum:
+        name: "*"
+        state: latest
+        

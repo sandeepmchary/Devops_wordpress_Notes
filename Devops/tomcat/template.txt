@@ -1,0 +1,15 @@
+30-07-18
+Editing the file with dynamic values
+* change the file partially or section concept is called template
+difference b/w file and template is 
+file is complete copy
+template is sections of the file
+* in template we have expression we need to write
+* it will copy the file with some contents update
+Ex:
+ hello <user>
+user is from varible
+we use jinja templates(very popular in python world)
+Ex:
+hi 
+{{ ansible_hostname }} 

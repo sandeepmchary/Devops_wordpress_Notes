@@ -1,0 +1,36 @@
+---
+- hosts: tom
+  become: yes
+  tasks:
+  - name: Install tomcat
+    package:
+      name: tomcat
+      state: present
+  - name: Install Admin and onlin documents
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - tomcat-webapps
+      - tomcat-admin-webapps
+  - name: start tomcat
+    service:
+      name: tomcat
+      state: started
+  - name: changing the port number
+    copy:
+      src: server.xml
+      dest: /usr/share/tomcat/conf/server.xml
+    notify:
+      - restart tomcat
+  - name: Configuring the tomcat_users
+    copy:
+      src: tomcat_users.xml
+      dest: /usr/share/tomcat/conf/tomcat-users.xml
+    notify:
+      - restart tomcat
+  handlers:
+    - name: restart tomcat
+      service:
+        name: tomcat
+        state: restarted

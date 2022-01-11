@@ -1,0 +1,28 @@
+---
+# tasks file for test
+- name: update 
+  apt:
+    update_cache: yes
+- name: Install tomcat
+  package:
+    name: "{{ package }}"
+    state: present
+  notify:
+    - restart tomcat
+- name : Change the default settings
+  template:
+    src: tomcat7.j2
+    dest: /etc/default/tomcat7
+  notify:
+    - restart tomcat
+- name: install additional packages
+  package:
+    name: {{ item }}
+  with_items:
+    {{ additional packages }}
+- name: configure tomcat users
+  template:
+    src: tomcat-users.xml.j2
+    dest: /etc/tomcat7/tomcat-users.xml
+  notify:
+    - restart tomcat

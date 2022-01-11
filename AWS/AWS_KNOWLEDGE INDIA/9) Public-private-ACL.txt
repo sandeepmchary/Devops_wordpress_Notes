@@ -1,0 +1,41 @@
+- launch 2 instances one in private subnet and one in public subnet with the created VPC (myVPC)
+- step 3: 
+		- n/w : myVPC
+		- subnet: public
+		- Auto assign public ip : enabled
+		- tenancy: shared mode
+		- add tags (name and key)
+- step 6: 
+		- create new secrity group
+        - name it 
+        - launch
+-----------------------------------------------------
+step 3:
+		- n/w :myVPC
+		- subnet : private
+		- Auto assign public ip : use subnet settings (disabled)
+step 6: 
+		- same as above
+		- launch
+------------------------------------------------------
+- change both secrity groups add inbound rule 80
+- for private instance no public address
+----------------------------------------------------------------------------------------------------
+N/W ACL:
+		- select our VPC
+		- secrity:
+				 - N/W ACL
+				 - select the acl that are attached to our VPC(myVPC)
+				 - this is default which creates along with VPC creation
+				 - Inbound rule
+				 - edit
+				 - add another rule
+				 - 50 (before this we have 100,50 is more presidency than 100)
+				 - port : 80
+				 - 0.0.0.0/0
+				 - Deny
+				 - save
+				 - If we change inbound rule to 150 
+				 - the no/.. which is lower gets higher priority
+				 
+		

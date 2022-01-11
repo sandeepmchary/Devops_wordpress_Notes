@@ -1,0 +1,73 @@
+Shell Scripting:-
+=================
+shell:-interface and user and os.shell is a programme r collections of porg/..
+>> it takes input from user and process and genrates results
+>> What is current shell?
+## echo $SHELL
+## echo $0
+>> -bash shell is the default shell in redhat
+>> There are different types of shell, they are all two types
+1) Redhat shell: centos
+2) Debain shell: ubuntu
+
+1) Bash shell:  --- $ prompt
+  a) bourne shell or sh shell
+  b) bash -- Bourne again shell
+  c) ksh -- kourne shell
+  d) POSIX shell 
+
+2) CSH shell -- % prompt
+a) CSH
+b)TCSH
+
+*** How to Know types of shells ?
+## cat /etc/shells --- lists all the shells located in the system
+
+** To intall shell
+Ubuntu :
+$ sudo apt-get install ksh
+Centos:
+# sudo yum install ksh
+
+>> All shell located in /bin
+bash,ksh,sh etc...
+** how to change shell ?
+### Temparerly:
+# exec /bin/sh 
+### Permanently:
+3 ways
+1) usermod
+2) chsh -- change shell
+3) vi or any editor 
+     /etc/passwd 
+     
+1) usersmod: 
+a) usermod -s /bin/ksh root
+  grep root /etc/passwd
+b) usedmod -s /bin/bash root
+   grep root /etc/passwd
+2) chsh -s /bin/ksh root
+   grep root /etc/passwd
+3) vi /etc/passwd
+esc+i
+>> select the user here and change the prompt
+>> ecs+wq!
+>> most popular shell is bash
+--------------------------------------------
+Shell scripting:
+================
+First shell scripting:
+========================
+--> .sh extension
+--> in shell script as first statement
+    shebang statement #!/bin/bash
+---> set of commands
+>> To run shell script
+1) bash <>.sh 
+        or
+2) sh <>.sh
+
+
+2. ./<>.sh
+
+

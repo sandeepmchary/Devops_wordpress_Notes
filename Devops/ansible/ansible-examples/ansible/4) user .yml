@@ -1,0 +1,10 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Create user
+      user:
+        name: lenovo
+        password: lenovo
+        groups: ansible
+        shell: /bin/bash

@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+   - include: ubuntu_jenkins.yml
+     when: ansible_os_family == "Debian"
+
+   - include: redhat_jenkins.yml
+     when: ansible_os_family == "RedHat"
+    

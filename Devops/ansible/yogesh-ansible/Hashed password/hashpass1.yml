@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  #vars_files: ['creden.yml']
+  tasks:
+    - name : Creating a user
+      user:
+        name: wire12
+        state: present
+        password: "{{ user_password }}"
+        shell: /bin/bash
+

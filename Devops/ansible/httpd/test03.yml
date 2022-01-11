@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Print Variable 'name'
+      debug:
+        msg: '{{ name }}'

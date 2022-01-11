@@ -1,0 +1,7 @@
+---
+- hosts: tom
+  become: yes
+  tasks:
+  - include: tomcat8.yml
+    name: tomcat_deploy
+  - include: tomcat-deploy.yml

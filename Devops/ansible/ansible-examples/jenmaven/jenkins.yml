@@ -1,0 +1,30 @@
+- name: Install Java
+  package:
+    name: java-1.8*
+    state: present
+- name: JAVA_HOME environment variable
+  blockinfile:
+    dest: /etc/profile
+    block: |
+      export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
+      export JRE_HOME=/usr/lib/jvm/jre
+    backup: yes
+  tags:
+    - java_var
+- name: install the latest stable version of Jenkins
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+- name: Import Jenkins
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+- name: Install Jenkins
+  package:
+    name: jenkins
+    state: present
+- name: Start Jenkins
+  service:
+    name: jenkins
+    state: restarted
+    enabled: true                        

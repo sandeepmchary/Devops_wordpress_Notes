@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : NTP installation
+      yum:
+        name: ntp
+        state: present
+    - name : Timezone is set to UTC
+      file:
+        src: /usr/share/zoneinfo/GMT
+        dest: /etc/localtime
+        state: link
+    - name : NTP service
+      service:
+        name: ntpd
+        state: restarted
+        enabled: yes
+        

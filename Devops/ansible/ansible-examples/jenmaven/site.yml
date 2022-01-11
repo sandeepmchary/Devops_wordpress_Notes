@@ -1,0 +1,5 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - include: maven.yml

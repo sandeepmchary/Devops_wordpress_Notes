@@ -1,0 +1,29 @@
+---
+- hosts: tomcat
+  become: yes
+  tasks:
+  - name: Install tomcat
+    package:
+      name: tomcat
+      state: present
+  - name: Install additional packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - tomcat-webapps
+      - tomcat-admin-webapps
+  - name: Start tomcat
+    service:
+      name: tomcat
+      state: started
+      enabled: yes
+  - name: configure tomcat user-management
+    copy:
+      src: tomcat_users.xml
+      dest: /usr/share/tomcat/conf/tomcat-users.xml
+  - name: restart tomcat
+    service:
+      name: tomcat
+      state: restarted
+      

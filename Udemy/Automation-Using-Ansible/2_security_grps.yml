@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Creating ec2 instances
+      ec2:
+        instance_type: t2.micro
+        count: 1
+        image: ami-0f2b4fc905b0bd1f1
+        region: us-east-2
+        wait: yes   
+        #group: launch-wizard-1
+        # group:
+        #    - launch-wizard-1
+        #    - default
+        # group-id:
+        #    - sg-71264714
+        #    - sg-062b446281b93b13b
+        # group-id: ['sg-71264714'.'sg-062b446281b93b13b']
+        group: ['launch-wizard-1','default']
+        instance_tags:
+            Name: Test
+            ENV: db

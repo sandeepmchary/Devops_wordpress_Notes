@@ -1,0 +1,84 @@
+# Installation steps:
+# Add a EPEL (Extra Packages for Enterprise Linux)third party repository to get packages for Ansible
+
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+# Install Ansible
+yum install ansible -y
+
+# Check for ansible version
+ansible --version
+
+# Create a new user for ansible administration & grant admin access to user (Master and Slave)
+useradd ansible
+passwd ansible
+
+# Below command addes ansadmin to sudoers file
+echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+
+# Using keybased authentication is advised. If you are still at learning stage use password based authentication (Master & Slave)
+sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+service sshd restart
+
+# Login with ansible user
+su - ansible
+
+Login as a ansible user on master and generate ssh key
+    #ssh-keygen 
+Copy keys to target servers
+   # ssh-copy-id <target-server> 
+
+# Go to the home folder of the ansible user
+cd ~
+
+# Check for the username
+whoami
+
+# Check for the present working folder
+pwd
+
+# check for the python version 
+python --version
+
+
+# Login as a ansadmin user on master and generate ssh key (Master)
+ssh-keygen
+
+# Take backup for hosts file
+cp /etc/ansible/hosts hosts_backup
+
+# To insert the servers names in ansible hosts
+sudo bash -c 'echo *private ip address* >> /etc/ansible/hosts'
+
+---------------------------------------------------------------------------------------------
+
+# for Ubuntu
+
+# go root
+sudo su -
+
+# adduser ansible
+adduser ansible
+
+sudo apt-get update
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt-get install ansible -y
+
+
+---------------------------------------
+for the ansible client
+
+# go root
+sudo su -
+
+# adduser ansible
+adduser ansible
+
+sudo apt-get update
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt-get install python -y
+
+
+

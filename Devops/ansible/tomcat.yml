@@ -1,0 +1,9 @@
+---
+- hosts: tomcat
+  become: yes
+  tasks:
+  - name: install tomcat
+    package:
+      name: tomcat
+      update_cache: yes
+      state: present

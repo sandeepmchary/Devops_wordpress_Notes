@@ -1,0 +1,39 @@
+---
+- hosts: docker
+  become: yes
+  tasks:
+  - name: install the required packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - lvm2
+      - device-mapper
+      - device-mapper-persistent-data
+      - device-mapper-event
+      - device-mapper-libs
+      - device-mapper-event-libs
+      - wget
+  - name: Uninstall older versions of Dockers
+    package:
+      name: "{{ item }}"
+      state: absent
+    with_items:
+    - docker-common
+    - docker
+    - container-selinux
+    - docker-selinux
+    - docker-engine
+  - name: Configuring docker-ce repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+  - name: Install docker latest version
+    package:
+      name: docker-ce
+      state: present
+  - name: Enable and start docker
+    service:
+      name: docker
+      state: started
+      enabled: yes

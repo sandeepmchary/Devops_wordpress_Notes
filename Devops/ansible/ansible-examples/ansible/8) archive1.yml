@@ -1,0 +1,10 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Archive zip file 
+      archive:
+        path: /home/ansible/lenovo.txt
+        dest: /home/ansible/lenovo.zip
+        format: zip
+        

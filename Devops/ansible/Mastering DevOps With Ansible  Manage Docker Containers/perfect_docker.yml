@@ -1,0 +1,29 @@
+---
+- hosts: docker
+  become: yes
+  tasks:
+    - name: Create a file docker repo
+      copy:
+        dest: /etc/yum.repos.d/docker.repo
+        content: |
+          [dockerrepo]
+          name = Docker Repository
+          baseurl = https://yum.dockerproject.org/repo/main/centos/7/
+          enabled = 1
+          gpgcheck = 1
+          gpgkey = https://yum.dockerproject.org/gpg
+    - name: upgrade all packages
+      package:
+        name=*
+        state=present
+    - name: Install docker-engine
+      package:
+        name: docker-engine
+        state: present
+    - name: Start docker-engine
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+

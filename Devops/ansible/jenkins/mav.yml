@@ -1,0 +1,8 @@
+---
+- hosts: jenkins
+  tasks:
+    - name: install maven
+  become: yes
+  yum:
+    name: maven
+    state: latest

@@ -1,0 +1,7 @@
+---
+- hosts: ubu
+  become: yes
+  tasks:
+  - name: Install add-apt-repostory
+    apt: name=software-properties-common state=latest
+  

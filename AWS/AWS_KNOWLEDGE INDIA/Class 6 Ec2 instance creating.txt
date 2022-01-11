@@ -1,0 +1,23 @@
+-- step 1 & step 2
+-- step 3 :
+  -- under n/w : VPC (select any)
+  -- subnet: select any
+  -- auto assign public ip : Enable
+-- private ip visible only under that VPC
+-- public ip access from anywhere
+-- IAM role : None
+-- shutdown behaviour : stop or terminate (mostly stop only)
+-- Enable termination protection : protect aganist accidental termination
+-- If we enable this,when we try to termination machine ,pop up shows up saying to disable the protection
+-- tenancy : shared tenancy (if we dont want dedicated h/w for this machine)
+-- ADD STORAGE:
+	 -- in this step we can choose ram and storage
+	 -- how much disk
+	 -- in windows root is C: drive
+	 -- here we can change the size also 30 to 100 gb
+	 -- volume type: delete on termination 
+-- ADD TAGS
+	-- key(name): value (something)
+-- STEP 6 : configure security group
+	-- create a new security group
+-- LAUNCH --

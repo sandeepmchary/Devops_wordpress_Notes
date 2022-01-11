@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name : HTTPD installation
+      yum:
+        name: httpd
+        state: present
+    - name : HTTPd Service
+      service:
+        name: httpd
+        state: restarted
+    - name: WEbsite present and update
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode : 0644
+        

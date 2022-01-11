@@ -1,0 +1,7 @@
+---
+# handlers file for default
+  - name: restart tomcat
+    service:
+      name: "{{ pack_name }}"
+      enabled: yes
+      state: restarted

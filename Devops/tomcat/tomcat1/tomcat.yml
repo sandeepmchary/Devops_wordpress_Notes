@@ -1,0 +1,40 @@
+---
+- hosts: redhat
+  become: yes
+  vars:
+    tomcat_username: "admin"
+    tomcat_password: "password"
+  tasks:
+  - name: Install Tomcat
+    package:
+      name: tomcat
+      state: present
+  - name: Java options on tomcat
+    template:
+      src: tomcat.conf.j2
+      dest: /usr/share/tomcat/conf/tomcat.conf
+  - name: Install Admin Packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - tomcat-webapps
+    - tomcat-admin-webapps
+  - name: config users
+    template:
+      src: tomcat-users.xml.j2
+      dest: /usr/share/tomcat/conf/tomcat-users.xml
+  - name: Start Tomcat
+    service:
+      name: tomcat
+      state: started
+  - name: restart tomcat
+    service:
+      name: tomcat
+      state: restarted
+  - name: Enable tomcat
+    service:
+      name: tomcat
+      enabled: yes
+
+
