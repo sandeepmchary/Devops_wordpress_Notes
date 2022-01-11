@@ -1,0 +1,7 @@
+---
+- hosts: jenk
+  become: yes
+  tasks:
+    - name: Update repo
+      package:
+        name: 

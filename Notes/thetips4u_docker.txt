@@ -1,0 +1,57 @@
+1)
+	- Node js NGINX reverse proxy on docker
+		- we will see the dockerize the node app and nginx as reversr proxy in front of Nodejs app using docker in the tutorial
+	- NodeJs and NGINX in docker container
+		- Dockerfile
+		- docker build node js and nginx
+		- docker deploy
+		- nodejs and nginx to container
+	- mkdir thetips4u
+	- cd thetips4u
+	- git clone https://github.com/shazforiot/nodedocker_app.git
+	- cd nodedocker_app
+============================================
+	- vi Dockerfile
+		FROM node:14
+		WORKDIR /usr/src/app
+		COPY ./packages*.json /usr/src/app
+		COPY ./ /usr/src/app
+		RUN npm install
+		EXPOSE 8888
+		CMD ["node", "app.js"]
+============================================
+	$ docker build -t node_image .
+	$ docker images
+	$ docker run -d -p 8888:8888 --name nodejsserver node_image
+	- the name which we given nodejsserver is should be same for the nginx config files
+	- here we need to change the 8888 to port 80
+	- we need nginx dockerfile
+	- we need nginx from the dockerhub image
+============================================
+	- vi nginxdockerfile
+		FROM nginx
+		COPY ./default.conf /etc/nginx/conf.d/
+		
+============================================
+
+	- mkdir nginx
+============================================
+	- vi default.conf
+		- server{
+			location /{
+				proxy_set_header Host $host;
+				proxy_set_header X-Real-IP $remote_addr;
+				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+				proxy_set_header X-Forwarded-Proto $scheme;
+				proxy_pass http://nodejsserver:8888;
+				}
+				}
+============================================			
+	- vi dockerfile
+		- FROM nginx
+		  COPY ./default.conf /etc/nginx/conf.d/
+============================================			
+	$ docker build -t nginxproxy .
+	$ docker run -d -p 80:80 --link nodejsserver --name nginx_cont nginxproxy
+	- if we check in the browser we get the content without the port number 
+	

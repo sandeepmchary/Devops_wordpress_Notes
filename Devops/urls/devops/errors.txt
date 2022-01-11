@@ -1,0 +1,186 @@
+
+
+- name: Add repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+	
+	
+https://github.com/ansible/ansible/issues/49395 --- for project(valaxy project) error in ansible
+
+
+-- instead of logoff and login,login again with same user again
+Invoke-Command -ComputerName COMPUTER -ScriptBlock { COMMAND } -credential USERNAME
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [
+.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+
+
+
+
+#  TO UPLOAD A FILE TO S3 DONT GIVE FULL PATH FOR THE FILE JUST GIVE THE PATH UPTO THE PARENT FOLDER 
+
+# Here we get the some error
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 6A030B21BA07F4FB
+
+
+http://cavaliercoder.com/blog/finding-the-latest-centos-ami.html
+
+Finding the latest CentOS AMI
+Nov 2, 2017
+
+Looking for the latest CentOS AMI image in your region? I’m frequently rewriting the following code snippets, so thought I would capture them here for posterity.
+
+Each snippet makes the following assumptions:
+
+You want an HVM, EBS backed, x86_64 image of the latest version of CentOS 7
+You have configured the desired region and credentials for the AWS SDK
+The Owner ID for the official CentOS organisation remains 679593333241
+
+===========================================================================================
+
+http://boto.cloudhackers.com/en/latest/#getting-started -- for boto3 cloud 
+===========================================================================================
+
+https://cloudaffaire.com/how-to-create-a-lamp-stack-in-aws-using-python-boto3/
+
+===========================================================================================
+
+https://stackoverflow.com/questions/2150882/how-to-automatically-add-user-account-and-password-with-a-bash-script
+
+echo username:new_password | chpasswd
+===========================================================================================
+https://www.cyberciti.biz/tips/howto-write-shell-script-to-add-user.html
+
+#!/bin/bash
+# Script to add a user to Linux system
+if [ $(id -u) -eq 0 ]; then
+	read -p "Enter username : " username
+	read -s -p "Enter password : " password
+	egrep "^$username" /etc/passwd >/dev/null
+	if [ $? -eq 0 ]; then
+		echo "$username exists!"
+		exit 1
+	else
+		pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
+		useradd -m -p $pass $username
+		[ $? -eq 0 ] && echo "User has been added to system!" || echo "Failed to add a user!"
+	fi
+else
+	echo "Only root may add a user to the system"
+	exit 2
+fi
+
+===================================================================================
+
+
+
+Installing AWS CLI via pip3 and python3
+pip3 install --user --upgrade awscli
+ln -s /usr/bin/python3.6 /usr/local/sbin/python
+python -V
+
+===============================================================
+PYTHON3 DEFAULT VERSION IN UBUNTU
+
+sudo update-alternatives --config python
+Will show you an error:
+
+update-alternatives: error: no alternatives for python3 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 2
+sudo update-alternatives --config python
+sudo update-alternatives  --set python /usr/bin/python3.6
+===============================================================
+
+
+https://github.com/tecris/ansible-maven -- perfect-maven
+
+https://freetutsdownload.net/  --- course videos
+
+https://freeshadow-my.sharepoint.com/personal/hoquangdai_abcda_tech/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhoquangdai%5Fabcda%5Ftech%2FDocuments%2FTUT%2FNT09%2FUdemy%2EComplete%2EDEVOPS%2Ewith%2EDocker%2EJenkins%2EGIT%2EVagrant%2Eand%2EMaven%5F%5Bfreetuts%2Edownload%5D%2Erar&parent=%2Fpersonal%2Fhoquangdai%5Fabcda%5Ftech%2FDocuments%2FTUT%2FNT09&originalPath=aHR0cHM6Ly9mcmVlc2hhZG93LW15LnNoYXJlcG9pbnQuY29tLzp1Oi9nL3BlcnNvbmFsL2hvcXVhbmdkYWlfYWJjZGFfdGVjaC9FVVE1Z3FSaVNvcEZ0MEZnMkdnWjhjQUJCNUIzRFJ4aUN3V3BNbXpvLWtDZlhRP3J0aW1lPWJHMHVXdWFyMTBn
+
+
+
+
+https://mkyong.com/docker/docker-and-java-application-examples/
+=====================================================================================
+
+Access denied error with python sql
+mysql -u root -p
+sudo mysql
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123';
+FLUSH PRIVILEGES;
+=============================================================================
+How to fix KeyError: 'MYSQL_DATABASE_SOCKET' in Flask?
+app.config['MYSQL_DATABASE_SOCKET'] = None
+pip3 install flask-mysql
+=============================================================================
+
+
+
+
+ERROR: "Forbidden", while: getting ElastiCache clusters
+-- https://serverfault.com/questions/677320/ansible-aws-dynamic-inventory-ec2-py-list-unauthorized
+
+=============================================================================
+
+https://stackoverflow.com/questions/18200248/cloning-a-repo-from-someone-elses-github-and-pushing-it-to-a-repo-on-my-github 
+
+- clone error
+
+
+============================================================================
+docker removes all images at once
+docker rmi $(docker images -a -q)
+
+============================================================================
+
+--
+
+If not using ElasticCache you have to set that to False as well. So uncomment
+
+elasticache = False
+-----------------------------------------------------------------------------------
+ x - to work with python in git-bash
+-----------------------------------------------------------------------------------
+ TO INSTALL PIP IN CENTOS7
+ - sudo yum install epel-release -y
+ - sudo yum install python-pip -y
+---------------------------------
+vs code file stdin line 1 error python error
+-- https://stackoverflow.com/questions/51540391/invalid-syntax-error-when-running-python-from-inside-visual-studio-code
+--
+Think this is a bug of VS Code.
+
+When you use "run selection/line in python terminal" command, VS Code starts python interpreter and doesn`t quit it after completion.
+
+You should use exit() command in python interpreter window to end python session.
+----------------------------------------------------------------------------
+- cygwin to desktop
+- https://superuser.com/questions/1286119/how-to-open-desktop-directory-from-cygwin
+- /cygdrive/c/Users/user/Desktop
+- 
+ 
+ 
+---------------------------------------------------------------------------------------
+E: Could not get lock /var/lib/dpkg/lock - open (11 Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/) is another process using it?  
+
+pgrep -a apt
+
+sudo kill processnumber
+
+https://askubuntu.com/questions/15433/unable-to-lock-the-administration-directory-var-lib-dpkg-is-another-process
+------------------------------------------------------------
+ssh -i  ~/.ssh/my-ssh-key username@ip-address
+
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/my-ssh-key username@ip-address
+============================================================================================
+https://www.folkstalk.com/2012/06/delete-all-lines-in-vi-vim-editor-unix.html
+
+Go to command mode in the editor by pressing ESC key on the keyboard.
+Press gg. It will take to the first line of the file.
+Then press dG. This will delete from the first line to the last line.

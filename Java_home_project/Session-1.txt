@@ -1,0 +1,62 @@
+- jenkins is popular tool for ci cd 
+    - bamboo
+    - circle ci
+    - solanco ci
+    - Team City
+- using jenkins we can automate any task
+- jenkins is open source
+- jenkins is written in java
+- jenkins is collection of plugins
+###################################################################################
+$ install jenkins
+- first check the java version
+- $ sudo yum list | grep java-1.8
+- $ sudo yum install java-1.8.0-openjdk-devel.x86_64 -y
+- $ java -version
+- to make java 8 as default
+- $ sudo update-alternatives --config java
+- choose 2
+- $ java -version
+- $ sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+- $ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+- $ sudo yum install jenkins
+- $ sudo service jenkins star
+- $ sudo chkconfig jenkins on
+###########################################################################################
+$ sudo yum install maven
+---------------
+other options are 
+    - cd /opt
+    - sudo wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz -P /tmp
+Step -2 
+        Add the following content into ~/.bashrc
+        vi ~/.bashrc
+        export M2_Home=/home/ec2-user/apache-maven-3.6.0
+        export M2=$M2_Home/bin
+        export PATH=$M2:$PATH
+Step -3
+        Verify the installation
+            mvn --version
+##################################################################################################
+4)
+    CI benefits
+
+##################################################################################################
+5) CD benefits
+#####################################################################################################
+6) Demo free style
+    - login into jenkins
+    - manage jenkins
+    - global tools configuration
+    - select maven
+    - name it 
+    - select the maven home
+    - take a git repo
+    - clone into our system
+    - source code management
+        - git
+    - paste the url of the git repo
+    - Build
+        - select invoke top-level maven projects
+            - Goals: clean package
+

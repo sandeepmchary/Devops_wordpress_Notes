@@ -1,0 +1,33 @@
+Basic options
+- grep "string/pattern" files/file
+- grep [options] "string/pattern" files/file
+-i To ignore case for matching/searching
+-w To match the whole word
+-v To display the lines which are not having given string or text
+-o To print/display only matched parts from matched lines
+- n matched line no/..
+-c : This prints only a count of the lines that match a pattern
+- A To display N lines after match
+-B To display N lines before match 
+- C To display N lines around match
+-r in current dir and sub dir also
+- l To display only file name
+- h To hide the file name
+------------------------
+Options Description
+-c : This prints only a count of the lines that match a pattern
+-h : Display the matched lines, but do not display the filenames.
+-i : Ignores, case for matching
+-l : Displays list of a filenames only.
+-n : Display the matched lines and their line numbers.
+-v : This prints out all the lines that do not matches the pattern
+-e exp : Specifies expression with this option. Can use multiple times.
+-f file : Takes patterns from file, one per line.
+-E : Treats pattern as an extended regular expression (ERE)
+-w : Match whole word
+-o : Print only the matched parts of a matching line,
+ with each such part on a separate output line.
+------------------------------------------------------------------------------------------------
+- ADVANCED GREP COMMANDS
+- PART 2
+- -f,-e and -E 

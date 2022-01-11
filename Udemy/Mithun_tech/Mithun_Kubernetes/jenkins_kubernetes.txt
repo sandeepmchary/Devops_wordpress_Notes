@@ -1,0 +1,68 @@
+
+# Install jenkins on ubuntu
+sudo apt update
+sudo apt-get install openjdk-8-jdk -y
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins
+systemctl status jenkins
+systemctl enable jenkins
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+sudo apt update
+sudo apt install maven -y
+mvn -version
+------------------------------------------------------------------------------------------
+# install kubernetes with kubeadm process on ubuntu
+2 instances in aws
+1 with t2.medium -- kube-admin
+1 with t2.micro  -- kube-worker
+---------------
+install in both admin and worker
+-------
+# Assign Unique Hostname for Each Server Node 
+- sudo hostnamectl set-hostname master-node ( for admin instance)
+- sudo hostnamectl set-hostname worker01 (for worker instance)	
+sudo apt-get update -y
+sudo apt-get install -y apt-transport-https
+sudo su -
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - 
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+deb https://apt.kubernetes.io/ kubernetes-xenial main 
+EOF 
+
+apt-get update -y
+swapoff -a
+sed -i '/swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+modprobe br_netfilter
+sysctl -p
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+
+apt-get install docker.io -y
+usermod -aG docker ubuntu
+systemctl restart docker
+systemctl enable docker.service
+
+apt-get install kubelet kubeadm kubectl kubernetes-cni
+systemctl daemon-reload
+systemctl start kubelet
+systemctl enable kubelet.service
+-------------------------------------------------------------------------------------------
+only on kube-admin
+- kubeadm init (only with root)
+- EXIT FROM ROOT USER AND EXECUTE COMMANDS BELOW
+- mkdir -p $HOME/.kube
+- sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+- sudo chown $(id -u):$(id -g) $HOME/.kube/config
+- kubectl get nodes
+- kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+- kubectl get pods --all-namespaces
+- # to get token
+- kubeadm token create --print-join-command
+- copy the token 
+- paste it in the worker machine (with sudo access on the worker machine)
+
+

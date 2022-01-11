@@ -1,0 +1,24 @@
+vpc_name: "samantha-vpc"
+
+# Vpc range
+vpcCidr: '172.10.0.0/16'
+
+# Subnet Range
+PubSub1Cidr: 172.10.1.0/24
+PubSub2Cidr: 172.10.2.0/24
+PubSub3Cidr: 172.10.3.0/24
+PrivSub1Cidr: 172.10.4.0/24
+PrivSub2Cidr: 172.10.5.0/24
+PrivSub3Cidr: 172.10.6.0/24
+
+# Region Name
+region: "us-east-2"
+
+# Zone Names
+zone1: us-east-2a
+zone2: us-east-2b
+zone3: us-east-2c
+
+state: present
+
+

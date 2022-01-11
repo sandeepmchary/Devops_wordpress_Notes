@@ -1,0 +1,16 @@
+TERRAFORM:
+	- Infrastructure as code
+	- Automation in your infrastructure
+	- Kep your instance in a certain state(complaint)
+		- eg 2 eb instances with 2 volumes and 1 elb
+	- Mak your infrastrucure is auditable
+	- you can keep your infrastructure change history in version control system like GIT
+	- ansible,chef,puppet and saltstack have a focus on automation the installing and configuration of software
+	- keep the instance in complaince, in a certain state
+	- Teerraform can automation the provisioning of the infrastructure itself
+		- eg: Aws,digital ocean,azure api
+		- Works well with automation softwares like ansible to install software after the infrastructure is provisioned
+============================================================================================
+Terraform installation :
+		- here in this video shown for mac installations only
+		

@@ -1,0 +1,26 @@
+- hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Install Java
+      package:
+        name: java-1.8*
+        state: present
+    - name: find the java path
+      shell: find /usr/lib/jvm/java-1.8* | awk 'NR==3'
+      register: java_path
+    - debug:
+        msg: "Java path is: {{ java_path.stdout}}"
+    - name: Line in file
+      lineinfile:
+        dest: /etc/profile
+        line: '{{ item.line }}'
+        insertafter: '#User specific environment and startup programs'
+      with_items:
+        - {line: 'JAVA_HOME={{java_path.stdout}}'}
+        - {line: 'PATH=$PATH:$JAVA_HOME:$HOME/bin'}
+    - name: shell source
+      shell: source /etc/profile
+      args:
+        executable: /bin/bash
+

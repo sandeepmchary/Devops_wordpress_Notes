@@ -1,0 +1,13 @@
+1) object oriented programme in python --- introduction
+2) class and object in python
+3) __init__ method
+4) Constructors,self and comparing objects in python
+5) Types of variable in python
+6) Types of methods in python
+7) Inner class in python
+8) Inhertence in python
+9) Constructors in python
+10) introduction to polymorphism in python
+11) Duck typing in python
+12) operator overload in python | polymorphism
+13) method overloading and method overriding in python

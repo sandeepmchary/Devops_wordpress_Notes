@@ -1,0 +1,97 @@
+- create a s3 bucket
+- instances and s3 should be in the same region (change the region where we have our instances)
+- versioning keep all version
+- aws s3 ls
+- aws s3 sync "path to the file parent folder"
+- ex: JUST GIVE "C:\Users\XXXXX\Desktop\codedemo" NOT THE "C:\Users\XXXXX\Desktop\codedemo\SampleApp_Linux.ZIP"
+- aws s3 sync "C:\Users\XXXXX\Desktop\codedemo"
+- ----------------------------
+create a role
+- IAM
+- select ec2
+- search for codedeploy
+- select AmazonEc2RoleforAWSCodeDeploy
+- name the role (ec2_instance_role)
+---------------------------------------------
+create ec2 instances
+- on the step3 assing the role 
+- Put these in the userdata
+"""
+#!/bin/bash
+yum -y update
+yum install -y ruby
+yum install -y aws-cli
+cd /home/ec2-user
+aws s3 cp s3://aws-codedeploy-us-east-2/latest/install . --region us-east-2
+chmod +x ./install
+./install auto
+"""
+- step 5 Key Name codepipelinedemo
+- step 6 Configure security groups
+- ssh MYIP
+- Http MYIP
+- LAUNCH
+--------------------------------------------------------
+SERVICE ROLE FOR CODEDEPLOY
+- ROLES
+- CREATE ROLE
+- CHOOSE from lambda
+- codedeploy
+- codedeploy
+- name the role
+------------------------------------
+services search for codedeploy
+- create application 
+- Application Name
+- Compute Platform
+- ec2/onpremises
+- create application
+------------------------------------
+create deployment groups
+- Enter a deployment group name
+- select the service role (codedeploy role) 
+- Deployment type
+	- inplace
+- Environmental Configuration
+	- Amazon Ec2 Instance
+	- Key name	value(codepipelinedemo)
+- Deployment Setting
+	- Codedeploy Default all at once
+- Load Balancer (disable)
+- create deployment group
+---------------------------------------
+create the pipeline
+- create pipeline
+- name it
+- service role (new)
+- source provider (FOR CODE COMMIT AND CODE DEPLOY WE USE AWS CODECOMMIT)
+- CHOOSE  awazon s3
+- Bucket name
+- s3 object key (file name of the zip)
+- aws cloud watch events
+- next
+- skip build stage
+- Deploy 
+- Deploy provider
+	- aws codedeploy
+	- application name
+		- (give the application name)
+- Deployment group
+	- (give the Deployment group name)
+- create pipeline
+-----------------------------------------------------------
+- CHECK THE PUBLIC IP WEBAPPLICATION IS UP AND RUNNING
+---------------------------------------------------------------------------------------------
+-- NOW MODIFY THE SOURCE FILE
+	- unzip SampleApp_Linux.zip
+	- change the index.html
+	- then zip it 
+	- upload it to the s3 
+---------------------------------------
+DELETE PIPELINE
+DELETE DEPLOY/APPLICATIONS -- IT WILL ALSO DELETE THE DEPLOYMENT GROUP AS WELL
+DELETE EC2 INSTANCE
+DELETE ROLES AND POLICY
+
+	
+

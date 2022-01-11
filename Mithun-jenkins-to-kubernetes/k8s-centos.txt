@@ -1,0 +1,82 @@
+Install Docker on CentOS 
+- sudo yum update
+- sudo yum install yum-utils device-mapper-persistent-data lvm2
+- sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+- sudo yum install docker-ce
+- sudo systemctl start docker
+- sudo systemctl enable docker
+- sudo usermod -aG docker $USER
+------------------------
+Steps for Installing Kubernetes on CentOS 7
+ON BOTH MASTER AND SLAVE NODES
+
+Step 1: Configure Kubernetes Repository
+- 
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+----------------------------
+Step 2: Install kubelet, kubeadm, and kubectl
+
+- sudo yum install -y kubelet kubeadm kubectl
+- systemctl enable kubelet
+- systemctl start kubelet
+--------------------------------
+Step 3: Set Hostname on Nodes
+
+- sudo hostnamectl set-hostname master-node
+- sudo hostnamectl set-hostname worker-node1
+- sudo vi /etc/hosts
+192.168.1.10 master.phoenixnap.com master-node
+192.168.1.20 node1. phoenixnap.com node1 worker-node
+------------------------------
+Step 4: Configure Firewall
+sudo firewall-cmd --permanent --add-port=6443/tcp
+sudo firewall-cmd --permanent --add-port=2379-2380/tcp
+sudo firewall-cmd --permanent --add-port=10250/tcp
+sudo firewall-cmd --permanent --add-port=10251/tcp
+sudo firewall-cmd --permanent --add-port=10252/tcp
+sudo firewall-cmd --permanent --add-port=10255/tcp
+sudo firewall-cmd –-reload
+--------------------------------
+ENTER THE FOLLOWING COMMANDS ON EACH WORKER NODE:
+sudo firewall-cmd --permanent --add-port=10251/tcp
+sudo firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd –-reload
+------------------------
+ON BOTH MASTER AND SLAVE
+# creating iptables
+modprobe br_netfilter
+sysctl -p
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+-----------------------------
+Step 6: Disable SELinux
+sudo setenforce 0
+sudo sed -i ‘s/^SELINUX=enforcing$/SELINUX=permissive/’ /etc/selinux/config
+-------------------
+Step 7: Disable SWAP
+sudo sed -i '/swap/d' /etc/fstab
+sudo swapoff -a
+------------------------------
+ONLY ON MASTER
+--
+How to Deploy a Kubernetes Cluster
+kubeadm init
+# EXIT FROM ROOT USER & EXECUTE AS NORMAL USER
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+# Deploy pod network to the cluster
+kubectl get pods --all-namespaces # except network related works will be in pending
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl get nodes
+# GET TOKEN
+kubeadm token create --print-join-command
+# COPY THE TOKEN AND EXECUTE IN THE WORKER MACHINE USE SUDO
+kubectl get nodes

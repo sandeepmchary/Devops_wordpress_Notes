@@ -1,0 +1,38 @@
+node{
+    def buildNumber=BUILD_NUMBER
+    stage("Git Clone"){
+        git url: 'https://github.com/MithunTechnologiesDevOps/java-web-app-docker.git',branch:'master'
+    }
+    stage("Maven Clean Package"){
+     sh "/opt/apache-maven/bin/mvn clean package"
+    }
+   //stage ("Maven Clean Package"){
+   //     def mavenHome= tool name: "MaveN",type:"maven"
+   //     sh "${mavenHome}/bin/mvn clean package"
+   // }
+   stage("Docker prune"){
+       sh "docker system prune --all -f"
+   }
+   stage ("Build docker image"){
+        sh "docker build -t formycore/java-web-app-docker:${buildNumber} . "
+       // always use lowercase
+   }
+   // for login and push we need docker id and password
+   // select pipeline syntax
+   // select "with credentials:Bind Credentials to variable"
+   // Bindings
+   //ADD --> secret text --> 
+   // jenkins --> kind(secret text)
+   // no - only _
+   stage("Docker login and push")
+   withCredentials([string(credentialsId: 'Docker_l', variable: 'Docker_l')]) {
+    sh "docker login -u formycore -p ${Docker_l}"
+    sh "docker push formycore/java-web-app-docker:${buildNumber}"
+}
+   stage("Deploy application as docker container"){
+      sshagent(['Docker_ssh']) {
+    sh "ssh StrictHostKeyChecking=no google@10.128.0.11 docker rm -f java-web-app-container || true"
+    sh "ssh -o StrictHostKeyChecking=no google@10.128.0.11 docker run -d -p 8080:8080 --name javawebappcontainer formycore/java-web-app-docker:${buildNumber}"
+    }
+}
+}

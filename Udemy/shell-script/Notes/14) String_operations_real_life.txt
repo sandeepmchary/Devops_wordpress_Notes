@@ -1,0 +1,37 @@
+
+
+how to find the strin length
+- vi operation_on_string.sh
+- #!/usr/bin/bash
+  my_name="shell"
+  echo "$my_name"
+  echo "${my_name}"
+- chmod +x operation_on_string.sh
+  
+- vi operation_on_string.sh
+- #!/usr/bin/bash
+  my_name="s manya"
+  echo "$my_name"
+  echo "${#my_name}" # output is 5 becoz the name has 5 characters (manya)
+                     # space is considered as character also
+--------------------------------------------------------------------------------------
+#!/usr/bin/bash
+my_name="s manya"
+my_name_len=${#my_name}
+
+echo "$my_name"
+
+echo "${my_name_len}"
+----------------
+- commenting
+#!/usr/bin/bash
+my_name="s manya"
+my_name_len=${#my_name}
+<< mycomm1
+echo "$my_name"
+
+echo "${my_name_len}"
+mycomm1
+-------------------------					 
+					 
+  

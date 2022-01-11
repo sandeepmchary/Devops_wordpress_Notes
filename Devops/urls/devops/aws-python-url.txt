@@ -1,0 +1,1 @@
+https://docs.aws.amazon.com/code-samples/latest/catalog/python-s3-bucket_exists.py.html

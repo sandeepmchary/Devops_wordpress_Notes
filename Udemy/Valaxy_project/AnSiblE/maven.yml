@@ -1,0 +1,22 @@
+- name: Install apache maven
+  unarchive:
+    src: https://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+    dest: /opt
+    remote_src: yes
+- name: Link files
+  file:
+    src: /opt/apache-maven-3.6.0
+    dest: /opt/maven
+    state: link
+- name: Environmental Variable
+  lineinfile:
+    dest: /etc/profile
+    line: export PATH=$PATH:/opt/apache-maven/bin
+- name: Load Environmental Variables
+  shell: source /etc/profile
+  register: output
+  args:
+    executable: /bin/bash
+- debug: msg="{{ output }}"    
+- name: Check maven version
+  command: mvn --version              

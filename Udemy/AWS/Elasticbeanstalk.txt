@@ -1,0 +1,37 @@
+Elastic Bean Stalk
+- search beanstalk in services
+- Application name: MyDemoApplication
+- Platform: php
+- Application code: Simple
+- create application
+- click on the url
+--------------------
+aws codecommit create-repository --repository-name logitech
+aws codecommit list-repositories
+git clone the ssh repo
+create a index.html
+"""
+<h1>
+This is from get.hostname()
+</h1>
+git add .
+git commit -m ""
+git push origin master
+-------------------------------------
+CREATE CODEPIPELINE
+- pipeline name it
+- service role (new)
+- every thing is default
+- source provider
+	- aws codecommit
+- Repository name: (the one we created)
+- Branch name: master
+- Aws cloud watch events
+- SKIP BUILD
+- Deploy provider
+	- Aws Elastic Bean Stalk
+	- Region (same region for the elastic beanstalk application)
+	- Application Name: 
+	- Environmental Name: 
+	- create pipeline
+- IT WILL TAKE LITTLE WHILE

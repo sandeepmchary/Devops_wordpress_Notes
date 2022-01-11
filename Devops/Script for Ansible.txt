@@ -1,3 +1,51 @@
+<<<<<<< HEAD
+=======
+Installing ansile with pip3
+    - for this we need to have python3
+    - for installling the python3 along side with python2 
+    - dont change the anything in python2 it crashes yum
+    - login to the server
+    - wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+    - tar -xvzf Python-3.7.0.tgz
+    - yum install gcc openssl-devel bzip2-devel libffi-devel -y
+    - Navigate to extracted file and then follow below steps
+        - cd Python-3.7.0
+        - ./configure
+        - ./configure --prefix=/opt
+        - ./configure --enable-optimizations
+        - make
+        - make altinstall (Generally we have to use make install but already if you have python then use altinstall)
+        - cd /usr/local/bin
+        - ls
+        - ln -s python3.7 python3
+        - ln -s pip3.7 pip3
+    
+    - useradd ansadmin
+    - echo ansadmin:san | chpasswd
+    - echo "ansadmin ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+    - sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    - service sshd restart
+
+    - su ansadmin
+    - pip3 install ansible --user
+    - vi ~/.bashrc
+        export PATH=$PATH:$HOME/.local/bin 
+    - source .bashrc
+    - ansible --version
+    
+
+
+
+
+
+
+# Installation steps for rhel8:
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+yum install ansible
+alternatives --set python /usr/bin/python3
+
+
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 # Installation steps:
 # Add a EPEL (Extra Packages for Enterprise Linux)third party repository to get packages for Ansible
 
@@ -11,7 +59,11 @@ ansible --version
 
 # Create a new user for ansible administration & grant admin access to user (Master and Slave)
 useradd ansible
+<<<<<<< HEAD
 passwd ansible
+=======
+echo ansible:san | chpasswd
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 
 # Below command addes ansadmin to sudoers file
 echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
@@ -20,6 +72,12 @@ echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
 sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 service sshd restart
 
+<<<<<<< HEAD
+=======
+# Install pip
+sudo yum install python-pip -y
+
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 # Login with ansible user
 su - ansible
 

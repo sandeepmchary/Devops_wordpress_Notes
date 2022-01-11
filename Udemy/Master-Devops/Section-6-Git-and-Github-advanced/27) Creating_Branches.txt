@@ -1,0 +1,18 @@
+- Branch in GIT pointer to commit
+- To create branch we use GIT BRANCH <BRANCH NAME>
+- git checkout -b <branch name>
+- here the we are in the branch
+----------------------
+touch file1 file2 file3
+edit file1
+ -- this is branch model
+ -- this is for also the branch model
+ :wq!
+ ---------------------------------
+ git checkout master
+ ls (here also we get file1 file2 file3 files)
+ - now go to change the files
+ - add the content to the file2 
+ - add the content to the file3
+ -----------------------------------
+ 
