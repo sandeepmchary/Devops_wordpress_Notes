@@ -1,6 +1,0 @@
-- Difference between kubernetes and docker swarm
-	- components like 
-		- api server
-		- scheduler
-		- database
-		- controller

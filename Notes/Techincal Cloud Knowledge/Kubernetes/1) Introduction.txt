@@ -1,0 +1,15 @@
+- Difference between kubernetes and docker swarm
+	- components like 
+		- api server
+		- scheduler
+		- database
+		- controller
+	- in Docker swarm these are present in the os level 
+	- if any of the components fails the application loses
+	
+	- but in the kubernetes, these components are in the pods like api server and scheduler in one pod and database and controller on the other pod 
+	- and these can be restored very quickly than compared to os level
+	-  docker swarm is created by docker communities no customization can be done
+	- it has taken all the hand over to docker communities
+	- kubernetes is created by google
+	- kubernetes has full of customization
