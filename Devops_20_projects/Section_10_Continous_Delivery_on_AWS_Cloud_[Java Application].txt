@@ -1,0 +1,719 @@
+Section_10_Continous_Delivery_on_AWS_Cloud_[Java Application]
+	- Introduction
+		- continous delivery AWS
+			- scenario
+				- Product development team
+				- Developers make code changes
+				- These commits need to build & Test
+				- Running short on operations
+				- package/s.w/artifact deployment on server
+				- Software testing/Integration testing after deployment
+			
+			- Problem
+				- Developers are not euipped with Ops knowledge
+				- Need for the hire Ops team
+				- Outsource
+				- Dependency on ops team
+			
+			- Solution:
+				- PASS & SAAS  cloud services
+				- Disposable Environment
+				- Automate CI/CD process
+				- Build,Test,Deploy & Test Every commit
+				
+			- AWS services
+				- Code commit (version control system)
+				- Code Artifact (maven repo for dependency)
+				- Code Build (Build service from AWS)(for s.w testing)
+				- Code Deploy ( Artifact deployment service )
+				- sonarcloud
+				- checkstyle
+				- selenium testing
+				- Beanstalk
+				- RDS
+				- Code pipeline
+			
+			- Compare
+				AWS code commit    --- Github
+				AWS code artifact  --- Nexus sonatype
+				AWS code build 	   --- Jenkins Job
+				Sonarcloud 		   --- Sonarqube
+				aws code pipeline  --- jenkins pipeline
+				Beanstalk          --- Tomcat vm
+				RDS                --- MYSQL on vm
+			
+			- Flow of Execution
+				- login to aws account
+				- code commit
+					- create code commit repo
+					- sync it with local repo
+				- code artifact 
+					- Create repo
+					- update settings.xml file in the source code top level directory
+					- update pom.xml file with repo details
+					- Generate token and store in SSM Parameter store
+				- sonar setup
+					- create sonarcloud account
+					- Generate token and store in ssm Parameter store
+					- Create build project
+					- update codebuild role to SsmParameterStore
+				- Create notification for sns or slack
+				- Build project
+					- create variable in ssm => Parameterstore
+					- create build project
+				- create pipeline
+					- codecommit
+					- Testcode
+					- Build
+					- Deploy to s3 bucket
+				- create beanstalk & RDS
+				- update RDS sec grp
+				- Deploy DB in RDS
+				- switch to cd-aws branch
+				- update settings.xml & pom.xml
+				- create another build job to create artifact with buildspecs in cd-aws
+				- create deploy job to beanstalk
+				- create build job for s.w testing
+				- update pipeline
+					- code commit
+					- Test code
+					- Build & store
+					- Deploy to s3 bucket
+					- Build & release
+					- Deploy to beanstalk
+					- Build job for selenium tests
+					- upload result to s3
+				- Test pipeline
+			
+			
+			- Artitecture of CD pipeline
+				- after commit 
+				- aws code commit
+				- aws code build (review)
+					- dependency download from code artifact
+				- aws code build (build)
+					- dependency download from code artifact
+				- once artifact created we are going to store under s3 bucket
+				
+				- deployment job
+					- aws beanstalk
+					- rds 
+####################################################################################################################
+
+066 b. ContinuousIntegration
+	- search for code commit
+		- codecommit
+			- Create repository (Name it: sam-profile-code-repo)
+			- create
+	- IAM
+		- add user
+		- username: sam-code-admin
+		- programmatic access
+		- attach policy
+			- create policy
+				- service: codecommit
+				-  select (ALL)
+			- Resources: Specific
+				- region : us-east-1
+				  accoutnname:
+				  repo name: sam-profile-code-repo
+			- creat policy
+			- refresh the icon
+			- check for the policy name
+			- create user
+			- under the user delete the access key
+			- we have upload ssh public key
+			- from local machine
+			- gitbash
+			- ssh-keygen
+			- name-it with the same location
+			- c:/users/san/.ssh/sam_code_commit_rsa
+			$ cd .ssh
+			$ cat sam_code_commit_rsa.pub
+			- copy it store it 
+			- paste it in upload ssh public key
+			- now create a config file
+			- ssh will use this config to find the location of the ssh keys and username
+			$ vi config
+				Host git-codecommit.*.amazonaws.com
+					User: ssh-keyid
+					IdentityFile: ~/.ssh/sam_code_commit_rsa
+				:wq!
+			$ chmod 600 config
+			$ ssh git-codecommit.us-east-2.amazonaws.com
+			- clone url
+			- clone ssh
+			$ git clone <clone ssh>
+			- change the branch to ci-aws
+			$ cat .git/config
+			$ git checkout master
+			$ git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master
+			$ git branch -a | grep -v HEAD | cut -d '/' -f3 | grep -v master > /tmp/branches
+			$ for i in `cat /tmp/branches`: do echo $i:done
+			$ clear
+			$ for i in `cat /tmp/branches`: do git checkout $i: done
+			$ git checkout -a
+			
+			$ git remote rm origin
+			$ git remote add origin ssh://<clone url from the codecommit page>
+			$ cat .git/config
+			$ git push origin --all
+			- under the code commit repository choose : master branch
+
+
+		- Artifact:
+			- create repo
+			- Name: sam-maven-repo
+			- public upstream : maven-store
+			- This aws
+			- Domain name: samantha
+			- create repo
+			- click on repository
+			- click on maven-repo
+			- view connection instructions
+			- select pkg manager: mvn
+			- to run the authentication purpose we need iam user
+			
+			- IAM
+			- user
+			- add user
+			- username: sam-cart-admin
+			- programmatic access
+			- policy
+				- code artifactadminaccess
+			$ aws configure
+			- copy the code from Manual step 1
+			$ echo $CODEARTIFACT_AUTH_TOKEN
+			- change settings.xml file
+			$ git checkout ci-aws
+			$ vi settings.xml
+				<username>aws</username>
+				<profile>
+					<url> COPY THE URL FROM MANUAL STEP 2/ <\url>
+				<\profile>
+				<mirror>
+					<name> CHANGE ONLY THE DOMAIN NAME TO THE samantha <\name>
+					<url> CHANGE THE URL FROM MANUAL STEP 4 /<\url>
+				<\mirror>
+			$ vi pom.xml
+				<url> CHANGE THE URL FROM MANUAL STEP 4 /<\url>
+			$ git add .
+			$ git commit -m "updated pom and settings"
+			$ git push origin ci-aws
+			
+			- goto sonarcloud.io
+			- login
+			- click on user
+			- my account
+			- security
+			- Generate Token
+			- sam-sonar
+			- copy the token
+			- paste it some where safe
+			- from the + symbol 
+			- Analyse new project
+			- crete project manually
+			- Project Key: sam-repo
+			- public
+			- setup
+			- note the sonar token,project key,https://sonarcloud.io,organization
+			
+			
+			- goto ssm
+			- create parameter
+			- Name: Organization
+			- Type: string
+			- value: organization saved one
+			- create parameter
+			
+			- create parameter
+			- Name: HOST
+			- Type: string
+			- value: https://sonarcloud.io
+			- create parameter
+				
+			- create parameter
+			- Name: Project
+			- Type: string
+			- value: sam-repo
+			- create parameter
+
+			- create parameter
+			- Name: sonartoken
+			- Type: secure string
+			- value: paste the sonar token 
+			- create parameter
+				
+
+			- create parameter
+			- Name: codeartifact-token
+			- Type: secure string
+			- value: paste the codeartifact-token (from token that generated from the MANUAL step 1)
+			- create parameter
+
+
+			- Build
+				- Create codebuild
+				- project name: sam-code-analysis
+				- repo: sam-code-repo
+				- reference type: Branch
+				- Branch choose: ci-aws
+				- Operating system: ubuntu
+				- runtime: standard
+				- image: 3.0
+				- Role name: (last put some number)
+				- insert build command:
+				$ copy the content in aws-files/sonar-buildspecs.yml
+				- paste in the build commands
+					- login ; sonartoken
+			- logs:
+				- cloudwatch
+				- Group name: sam-nvir-buildlogs
+				- Stream name: sonarbuildjob
+			- crete build
+			
+			
+			- edit env section
+				- IAM
+				- roles
+				- search the role
+				- attach policy
+				- create policy
+					- service: system manager
+					- action: list
+						- Describe parameter
+					- action: Read
+						- Describe document parameters
+						- get parameter
+						- get parameters
+						- get parameter by history
+						- get parameter by path
+						
+						- name: sonar-parameter-access
+						- create policy
+				- attach policy
+				- start build
+				- it will take some time
+				
+				
+			- goto sonarcloud
+			- quality gates
+			- create
+			- name: sam-gates
+			- Quality gates fail when:
+				- Bugs
+				- 50
+			- Administration
+			- quality gate
+			- sam-gates
+			
+			- goto build project
+			- project name: sam-build-artifact
+			- source code : aws code commit
+			- repo: sam-code-repo
+			- branch: ci-aws
+			- os: ubuntu
+			- runtimes: standard
+			- role name: (last add some number)
+			- insert build commands
+			- switch to editor
+			- cat aws-files/build_buildspecfiles.yml
+			- copy all the content
+			- paste under the insert build commands
+			-logs:
+				- Group Name:
+					- sam-nvir-buildlogs
+				- stream name:
+					- sonarbuildjob
+			- edit env
+				- copy the role name
+				- attach : sonar-parameter-access
+				- this role
+				- start build
+				
+			- pipeline
+				- create pipeline
+				- pipeline name: sam-ci-pipeline
+				- next
+				- source provider: aws code commit
+				- repository name: sam-code-repo
+				- branch name: ci-aws
+				- next
+			- Build optional:
+				- aws code commit
+				- us east
+				- project name: sam-build-artifact
+				- next
+			- Deploy :
+				- skip deploy stage
+			- creat pipeline
+			
+			- edit the pipeline
+			- add stage
+				- stage name: Test
+			- add actions group
+				- Action name: sonar-code-analysis
+			- Action provider
+				- aws code build
+			- input artifact
+				- sourceartifact
+			- Project Name
+				- sam-build
+				- single build
+			- done
+			- done
+			
+			- create s3 bucket
+			- aws s3 mb sam-12-build-artifact
+			- create
+			- create folder
+				- pipeline-artifact
+				- saved
+			
+			- under the Edit: Build
+			- Add stage
+				- stage name: Deploy
+			- add action group
+				- action name: Deploy-to-s3
+			- Action provider
+				- amazon s3
+			- input artifact
+				- build artifact
+			- bucket
+				- sam-12-build-artifact
+			- s3 object key
+				- pipeline-artifact
+			- Extract file before deploy
+			- done
+			- done
+		- save the pipeline
+		- in the Readme.md file in the change some thing
+		$ git commit -m "added files"
+		$ git push origin ci-aws
+__________________________________________________________________________________________________________________
+67 c. BeanStalk Setup
+	- Elastic BeanStalk
+		- creata application
+		- App name: samantha-app-beanstalk
+		- platform: tomcat
+		- App code: sample
+		- confi more options
+		- capacity
+			- Env type: load balanced 
+			- Instances: Min - 2
+					     Max - 4 
+			- default
+		- security:
+			- service role: default
+			Ec2 key pair: 
+			- save
+		- Tags:
+			- project: sam
+		- creat app
+------------------------------------------------------------------------------------------------------------------
+068 d. RDS Setup
+	- RDS	
+		- mysql 
+		- version : 5.6.34
+		- templates: free tier
+		- settings: sam-ci-cd-mysql
+		- auto generate passwd
+		- db.t2.micro
+		- public access : no
+		- vpc security group
+			- create new
+				- sam-ci-cd-mysql-sg
+		- additional config
+			- intial db: accounts
+		- create db
+		- view credential details
+--------------------------------------------------------------------------------------------------------------------
+069 e. SecGrp & DB Initialization
+	- by now we have security group for RDS
+	- beanstalk config created
+	- now check in the ec2 instances, beanstalk has already created
+	- copy the security grp id
+		- here the ssh allowed from anywhere which is not good change that
+	- go to sg
+	- find rds sg
+		- inbound rule 
+		- add beanstalk sg 
+		- Description: Allow sam-app to connect to RDS on 3306
+	- find the public ip of the beanstalk created ec2
+	- ssh to the public ip
+	$ sudo -i
+	- get the rds endpoint
+	$ yum install mysql git -y
+	$ mysql -h [endpoint] -u admin -p[passwd]
+	> show databases
+	> Bye
+	$ git clone https://github.com/devopshydclub/vprofile-project.git
+	$ cd vprofile-project
+	$ git checkout cd-aws
+	$ cd src/main/resources
+	$ mysql -h [endpoint] -u admin -p[passwd] accounts < db_backup.sql
+	> use accounts
+	> show tables
+-------------------------------------------------------------------------------------------------------------------
+070 f. Env Health Check Update
+	# logout
+	- rds little health check
+	- goto beanstalk 
+	- configuration
+	- load balancer
+	- Actions:
+		- edit
+			- path: /login
+			- save
+	- Apply
+	- it will go severe state no worries
+--------------------------------------------------------------------------------------------------------------------
+071 g. Update Code With Pom & settings.xml
+	- goto code pipeline
+	- repositories
+	- use cd-aws branch
+	- open duplicate branch
+	- use ci-aws branch
+	- edit pom.xml
+	- copy the repository codeartifactory
+	- again go to cd-aws branch and opent pom.xml
+	- edit
+	- change the repository changes
+	- author name: name
+	- eamil id: <>
+	- commit changes
+	- under the ci-aws branch 
+	- open settings.xml
+	- copy the entire file
+	- under the cd-aws branch
+	- settings.xml
+	- change the entire file 
+	- author name: 
+	- email
+	- commit
+-------------------------------------------------------------------------------------------------------------------
+072 h. Build Job Setup
+	- build another build job to build the artifact for the deployment
+	- goto build 
+	- build projects
+	- 					vprofile-build 
+	- we already have the vprofile-build 
+	- we need to change the source code
+	- edit
+	-source
+	- change the branch from ci-aws to cd-aws
+	- update source
+	- 			vprofile-build-artifact
+	- edit source code 
+	- branch
+		- ci-aws
+		to 
+		- cd-aws
+	- update the source
+	
+	- create build project
+		- project name: samantha-build-release
+		- repo: vprofile-code-repo
+		- branch: cd-aws
+		- os: ubuntu
+		- runtime: standard
+		- image: 3.0
+		- existing role
+		- Role Name: again create a role with ssm parameter
+					instead use our existing role
+		- goto build projects 
+			- vprofile-build
+			- edit env
+			- copy the service role
+			- which already updated with ssm parameter
+			- complete arm has to be given
+		- build specs
+			- Insert build commands
+			- switch to editor
+			- goto > git hub > devopshyd > repo > cd-aws (branch) > aws-files > buildandrelaese_buildspec.yml
+			- IF WE GET THE AUTHENTICATION TOKEN THEN WE HAVE TO GENERATE CUSTOMER_AUTH_TOKEN ONCE AGAIN 
+			- we are changing the appl.properties file with username, passwd and endpoint
+			- before we build the artifact we have to update the app.properties file
+			- artifact:
+				- base directory
+			- copy all the app.properties file 
+			- paste it into the build commands
+			- Log group name:
+				- Grp name: sam-cicd-logs
+				- Stream name: Build&ReleaseJob
+			- create build project
+			- first lets generate the latest token 
+			- we can get the commands here Artifacts > Repositories > maven-central-store > view connection status
+			  select mvn > copy the first command 
+			- we must have awscli with authentication 
+			- $ echo $CODEARTIFACT_AUTH_TOKEN
+			- cp the token and goto parameter stores 
+			- search for the service systems manager
+			- parameter store
+			- code-artifact-token
+			- edit this 
+			- paste the token content here
+			- here we have to pass rds endpoint, rdsuser,rdspass
+			- goto parameter store
+			- name: RDS-Endpoint
+				- value: [rds endpoint]
+				- create parameter
+			- name: RDS-User
+				- Datatype: text
+				- Value: admin1
+			- create parameter
+			- name: RDS-pass
+				- SecureString
+					- value: [paste the pass]
+			- create parameter
+-------------------------------------------------------------------------------------------------------------------
+073 i. Software Testing Job
+	- s/w testing
+		- codebuild
+			- create build project
+			- name: s/w testing
+			- source provider: AWS code commit
+			- repo: vprofile-code-repo
+			- branch : selenium auto scripts
+			- Managed machine:
+				- os: windows server 2019
+				- runtime: base
+				- image: default
+			- Existing service role (check the build-project > vprofile-build > service role)
+			- paste the role here and select it
+			- insert build commands
+			- switch to editor
+			- goto > git > devopshydclub > cd-aws (branch) > aws-files > win-buildspec.yml
+			- we have to update the url,username,passwd
+			- location: [store the screenshot]
+			- copy the whole file
+			- paste in the build commands
+			- we also need a s3 bucket for this 
+			- create a s3 (sam-cicd-test-output) (same region in the pipeline)
+			- Create
+			- come back to code build job 
+			- Artifacts
+			- s3
+			- while creating job if we create bucket it will not show then we have to cancel the build job and create it again
+			- Enable semantic version
+			- Artifact : ZIP
+			- Logs grp name: (same as Build&ReleaseJob)
+			- streamname: s/w testing
+			- create build project
+
+			- we have 
+				- vprofile-build job that runs the code analysis
+				- vprofile-build-artifact that builds the artifact & stores in the s3 bucket
+				- build&ReleaseJob generate the artifact to deploy in beanstalk
+				- s/w testing test suite
+--------------------------------------------------------------------------------------------------------------------
+074 j. Pipeline Setup
+	- Developer tools
+	- pipeline
+	- create pipeline
+	- sam-cicd-pipeline
+	- unique service role is created
+	- next
+	- source provider: aws code commit
+	- vprofile-code-repo
+	- branch(cd-aws)
+	- next
+	- build (aws code build)
+	- project name: sam-Build&ReleaseJob
+	- next
+	- Deploy provider: aws Elastic beanstalk
+	- app name: sam-app
+	- env name: samapp-env
+	- next
+	- create pipeline
+	- as soon as created pipeline we have to stop the Execution
+
+	- now we stich all the jobs together
+		- BEFORE BUILDING
+		- Add stage: codeanalysis (sonar analysis)
+		- Add stage
+		- Add action grp 
+			- action name: codeanalysis
+			- action provider:  aws codebuild
+			- input artifact: sourceartifact
+			- project name:  vprofile build
+			- done
+		- After this another job
+			- stage name: build & store
+			- action name: BuildAndStore
+			- action provider:  aws codebuild
+			- input artifact: sourceartifact
+			- project name:  vprofile build artifact
+			- output artifact : BuildArtifact
+			- done
+		- After this another job
+			- stage name:  DeployToS3
+			- action name: DeployToS3
+			- action provider:  aws codebuild
+			- input artifact: Build artifact
+			- Bucket name:  same as we used in the ci pipeline (vprofile-artifact-storage)
+			- project name:  vprofile build
+			- extract before deploy
+			- done
+		- FETCH THE SOURCE CODE 
+					CODE AnalysIS
+					Build&store
+					DEPLOY TO S3
+					DEPLOY THE Artifact TO THE BEAN STALK
+			- EDIT THE build job
+				- output artifact:
+					- buildartifactToBean
+				- Done
+			- Edit the Deploy
+				- input artifact: inputartifactToBean
+			- Done
+		- Add stage:
+			- stage name: s/w testing
+			- add action : s/w testing
+			- action provider: aws code build
+			- input artifact: sourceartifact
+			- project name: s/w testing
+			- done
+			
+		- SAVE
+		- IT WILL FETCH THE SOURCE CODE (CD-AWS)
+		- CODE AnalysIS
+		- build & STORE ( TO STORE THE ARTIFACT )
+		- deployTOs3(STORES THE ARTIFACT IN S3 Bucket)
+		- BUILD Job (BUILD THE Artifact AFTER Deploy ON BEANSTALK)
+		- dEPLOY
+		- S/W Testing
+		
+		
+		- ENABLE THE STICKY SESSION POLICY ENABLED
+-------------------------------------------------------------------------------------------------------------------
+075 k. Validate & Summarize
+	- Build projects
+	- s/w testing
+	- edit buildspec
+	- change the url ,username,passwd
+	- update the file
+	
+		
+			
+
+
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				

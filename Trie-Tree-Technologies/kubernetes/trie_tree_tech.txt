@@ -1,0 +1,74 @@
+Docker n/w
+	- Bridge:
+			- bridge is the default n/w
+			- mainly for standalone containers
+	- host:
+			- mainly for docker swarm
+	- Overlay n/w:
+			- for multiple docker images
+	
+	- macvlan
+	
+	- custom n/w 
+	
+	- instead of above we use k8s
+	- mainly ip address for the docker is 172.17.0.0/16 
+	- docker 0 is the default bridge for this ip, ip address is 172.17.0.1
+	- if we have 3 containers App1 App2 App3 all these are connected with the bridge to the local system
+	- and all the 3 containers have different ethernets
+	- if we have local system with 192.168.0.1 if we want to connect to local system to App3 then docker bridge has one public ip ,the flow is 
+		- local system 
+		- docker bridge
+		- eth3 
+		- App3
+	- this bridge slot is same as the wifi router
+	- $ ip a (in the docker installed system)
+	- $ docker run -d --name mynginx 
+	- $ docker run -d --name mynginxa (again did it)
+	- if we want to check the ipaddress of these containers
+	- $ docker run nmap
+	- if will go to all the containers and check the host ip address
+	- $ docker ps
+	- $ docker exec -it {container_name} /bin/bash
+	- $ ipconfig -a (it wont work)
+	- $ docker inspect {container_id}
+	- $ docker inspect {container_id} | grep -i ipaddress
+	- $ docker inspect  {container_id}} | grep -i ipaddress (another one)
+
+
+-------------------------------------------------------------------------------------------------------------------
+09.Kubernetes in Telugu - Working with Yaml and APIs - 08 -- ReUpload
+	- etcd DB is in .json format
+	- we use api specification for kubernetes
+	- kubernetes explain <resource_name>
+	- kubernetes.io/docs for which api is used for kind
+	- kubectl apply -f myyaml.yaml
+	- kubectl delete -f myyaml.yaml
+	- kubectl api-resources
+	- kubectl api-versions
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

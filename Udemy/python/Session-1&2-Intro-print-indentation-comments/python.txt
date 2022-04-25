@@ -1,0 +1,100 @@
+wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+yum install -y gcc openssl-devel bzip2-devel libffi-devel
+cd Python-3.7.0
+./configure --enable-optimizations
+make
+make altinstall --- if we have already installed python use this or else use make install
+- ls -ltr /usr/local/bin
+- cd /usr/local/bin
+- ./python3.7 --version
+- which python3.7
+- echo $PATH
+- ln -s python3.7 python3
+- ln -s pip3.7 pip3
+- [google@python ~]$ python --version
+Python 2.7.5
+[google@python ~]$ python3 --version
+Python 3.7.0
+- [google@python ~]$ pip --version
+-bash: pip: command not found
+[google@python ~]$ pip3 --version
+pip 10.0.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)
+------------------------------------------------------------------------------------------
+								SECTION-2
+- in windows if we want to choose python2 give the full path of the ("c:\programmefiles\python helloworld.py")
+-------------------------
+class 2 (7)
+- Indentation in python
+- indent is a space
+- in c we use 
+{
+}
+- 
+- ---------------------
+print("this is for indentation")
+if 3 > 1:
+    print("using if condition")
+    print("we are comparing 3 with 1")
+---------------------------------------
+- indentation means giving space 
+- it should be consist through the block
+- Don't include an indent unnecessarily
+==============
+Class 3(8)
+- COMMENTS:
+-----
+a=4
+b=5
+result=a+b
+print(f"the addition of {a} and {b} is {result}")
+-----
+- for comments use # 
+-------
+'''
+ this is for checking the comments
+ we can use "",'(double quotation three times or single quotes 3 time
+'''
+a=4
+b=5
+result=a+b
+print(f"the addition of {a} and {b} is {result}")
+-------
+------------------------------------
+class 4(9)
+- SPECIAL CHARACTERS OF PYTHON
+-------------
+print("welcome to python scripting \n this is for udemy")
+---------------
+ print("hello \bworld")
+ helloworld
+- \n -- new line
+- \b -- back space
+- \t -- tab
+- \  -- escape symbol
+- \\ -- windows path 
+- \a -- alert sound
+-----
+>>> print ('python's class)
+  File "<stdin>", line 1
+    print ('python's class)
+                   ^
+SyntaxError: invalid syntax
+-------
+>>> print('python\'s class')
+python's class
+----------------------
+>>> print("this is "python" class")
+  File "<stdin>", line 1
+    print("this is "python" class")
+                         ^
+SyntaxError: invalid syntax
+---------------------------------
+>>> print("this is \"python\" class")
+this is "python" class
+-----------------------------------------
+- CLASS 5(10)
+- RUNNING SCRIPT FOR WINDOWS AND LINUX
+  we all know it 
+
+
+ 

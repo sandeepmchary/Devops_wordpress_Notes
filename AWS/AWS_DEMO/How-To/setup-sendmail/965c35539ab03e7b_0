@@ -1,0 +1,19 @@
+id ,
+                                        IpProtocol= 'tcp',
+                                        FromPort=22,
+                                        ToPort=22,
+                                        CidrIp='0.0.0.0/0'
+                                        )
+
+# Create the  Private Instance
+pvtInstance = ec2.create_instances(ImageId = globalVars['EC2-AMI-ID'],
+                                    MinCount=1,
+                                    MaxCount=1,
+                                    KeyName=globalVars['EC2-KeyName'] ,
+                                    SecurityGroupIds=[ pvtSecGrp.id ],
+                                    SubnetId = az1_pvtsubnet.id,
+                                    InstanceType = globalVars['EC2-InstanceType']
+                                    )
+NetworkInterfaces=[
+        {
+            'NetworkInterfaceId': 's

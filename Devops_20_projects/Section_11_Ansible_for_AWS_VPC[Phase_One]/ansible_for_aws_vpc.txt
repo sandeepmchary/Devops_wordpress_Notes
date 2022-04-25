@@ -1,0 +1,77 @@
+ - Flow of execution
+	- install ansible
+	- install boto
+	- setup ec2 role for ansible
+	- create a project directory
+	- sample cloud task
+	- create variable file for vpc & bastion host
+	- create vpc setup playbook
+	- create bastion setup playbook
+	- site.yml playbook to call both playbook at once
+----------------------------------------------------------------
+77 b)
+	- min 3 zones
+	- vpc stack distributed in 3 zones
+	- launch ec2 instance
+	- ubuntu 18
+	- t2.micro
+	- sudo apt update
+	- sudo apt install ansible -y
+	- $ ansible --version
+	- ansible aws documentation
+	- attach addmin access role to this instance
+	- sudo apt install awscli -y
+	- aws sts get-caller-identity
+------------------------------------------------------------------
+78 C)
+	- create a project directory
+		- mkdir vpc-stack-sam
+		- go to cloud modules
+		- check for ec2-key in there
+		- sudo apt install python3-boto -y
+		- sudo apt install python3-boto3 -y
+		- vi test-playbook.yml
+------------------------------------------------------------------		
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: example ec2 key
+	  ec2_key:
+	    name: samantha
+		region: us-east-2
+	  register: keyout
+	  
+	- debug:
+	    var: keyout
+    - name: store the login key
+	  copy:
+	    content: "{{keyout.key.private_key}}"
+		dest: ./
+	  when: keyout.changed == True
+------------------------------------------------------------------
+	- delete the key pair
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		

@@ -1,0 +1,142 @@
+https://linuxroutes.com/configure-setup-auto-scaling-in-aws/ -- aws autoscaling
+
+===============================================================================
+https://intellipaat.com/blog/interview-question/cloud-computing-interview-questions/
+
+https://intellipaat.com/blog/interview-question/devops-interview-questions/
+
+above 2 are for interview question
+===============================================================================
+
+https://admin-ahead.com/forum/general-linux/python-script-to-create-and-delete-sudo-user/ -- user creation with python
+https://www.youtube.com/watch?v=Zzd9tarN3Lg&list=PL2qzCKTbjutJRM7K_hhNyvf8sfGCLklXw --shell scripting
+
+https://computingforgeeks.com/how-to-setup-3-node-kubernetes-cluster-on-ubuntu-18-04-with-weave-net-cni/
+
+https://www.youtube.com/watch?v=FrdBzNwAcD8 -- auto scaling
+
+https://tutsgalaxy.com/introduction-to-linux-shell-scripting/
+
+https://tutsgalaxy.com/mastering-devops-with-ansible-manage-docker-containers/
+
+
+https://tecadmin.net/tutorial/docker/docker-compose-example/ -- docker-compose
+https://www.baeldung.com/docker-compose   --- docker compose
+
+
+https://www.knowledgeindia.in/2017/04/aws-practical-exercises-001.html
+
+https://www.youtube.com/watch?v=HTlAssPBKBs --- Private repositories, GitHub & BitBucket 
+
+
+
+devopscube
+
+https://devopscube.com/setup-ecs-cluster-as-build-slave-jenkins/
+https://devopscube.com/mount-ebs-volume-ec2-instance/
+https://devopscube.com/how-to-setup-gui-for-amazon-ec2-rhel-7-instance/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://devopscube.com/docker-machine-tutorial-getting-started-guide/
+https://devopscube.com/aws-codecommit-tutorial-beginners/
+https://devopscube.com/things-to-do-for-securing-aws-account/
+https://devopscube.com/jenkins-backup-data-configurations/
+https://devopscube.com/setup-ecs-cluster-as-build-slave-jenkins/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://github.com/bibinwilson/jenkins-docker-slave
+
+
+
+----------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=aFFBTsHjdKE
+
+small job for .net application in jenkins
+small job for nodejs application in jenkins
+small job for java application in jenkins
+
+tfs -- ticketing tool
+
+Project for Jenkins
+project for terraform
+project for packer
+project for docker
+project for ansible
+project for chef
+project for maven
+project for nagios
+project for elastic beam,kibana,elastic search
+
+https://www.youtube.com/channel/UC_evcfxhjjui5hChhLE08tQ/videos
+https://www.youtube.com/watch?v=uCleiJw40Kw
+https://www.youtube.com/channel/UCuFg53ZTr6maqBC-4i9o4-w/videos   --- for devops videos
+https://www.youtube.com/watch?v=3EyT1i0wYUY&list=PL9ooVrP1hQOE5ZDJJsnEXZ2upwK7aTYiX  -- eduraka videos for devops
+https://www.youtube.com/channel/UCR5fgyj9JaFvTMBUrKRdqYg/videos
+
+
+valaxy docker installation on centos
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+https://www.youtube.com/watch?v=5aY38VygvaA == Packer - Ansible - Terraform Practical Session
+
+https://www.youtube.com/watch?v=YzaYqxW0wGs&list=PL34sAs7_26wNBRWM6BDhnonoA5FMERax0 --- LEARN KUBERNETES
+
+
+
+
+download these
+
+https://www.youtube.com/watch?v=ZpAMGn-ZNkQ&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=22
+https://www.youtube.com/watch?v=GYMRupybjfs&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=23
+https://www.youtube.com/watch?v=OFH6d_N-BjA&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=24
+https://www.youtube.com/watch?v=s--VPK3Bffw&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=25
+https://www.youtube.com/watch?v=2b83VI7QElE&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=27
+https://www.youtube.com/watch?v=OGZn4178X70&list=PL2qzCKTbjutIyQAe3GglWISLnLTQLGm7e&index=33
+
+https://www.youtube.com/channel/UCuFg53ZTr6maqBC-4i9o4-w/playlists -- java home
+
+https://www.youtube.com/watch?v=kKytd5laE8Q -- DevOps Jenkins with Docker Integration | freestyle | pipeline | nodejs app deploy with Docker
+
+
+https://www.youtube.com/channel/UCosFqIt2ejM08YrM4Bc7leQ/videos -- ansible
+
+
+https://www.youtube.com/channel/UCy2r0x3lRKQvBOcFB0u3cAA/videos --- it in ameerpet playlist
+
+
+https://www.youtube.com/watch?v=Ok3zPrfC-Jw&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2
+Devops Telephonic Interview 1 // It In Ameerpet //
+
+https://www.youtube.com/watch?v=zqWCZiG2CLY&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2&index=2
+Devops Telephonic Interview -2
+
+
+https://www.youtube.com/watch?v=OPUA4BQ6JDY&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2&index=8
+Devops Telephonic interview - 3 || IT IN AMEERPET
+
+
+https://www.youtube.com/watch?v=PQnsb9d4hyc&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2&index=9
+Devops Telephonic Interview - 4 || IT IN AMEERPET
+
+
+https://www.youtube.com/watch?v=UmemYtDUPo4&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2&index=10
+Devops Telephonic Interview - 5 || IT IN AMEERPET
+
+
+https://www.youtube.com/watch?v=967SmVqyR4c&list=PLPtU0T3LVUpW3bfBD78hXQA1nEwVj9oD2&index=11
+Devops Telephonic Interview - 6 || IT IN AMEERPET
+
+https://www.youtube.com/watch?v=5F7aS-oC7EE&list=PLPtU0T3LVUpXT1ABca485BbU8TDPUssQw  --- Devops introduction
+
+
+
+https://www.onlinefreecourse.net/download/?file=aHR0cDovL2NkbjEub25saW5lZnJlZWNvdXJzZS5uZXQvZG93bmxvYWQucGhwP2ZpbGU9YUhSMGNITTZMeTkzZDNjdWIyNXNhVzVsWm5KbFpXTnZkWEp6WlM1dVpYUXZZWGR6TFdGa2JXbHVMV0ZzYkMxcGJpMXZibVV0TkMxcGJpMHhMWFZrWlcxNUxXWnlaV1V0Wkc5M2JteHZZV1F2  ---- aws full download it 
+

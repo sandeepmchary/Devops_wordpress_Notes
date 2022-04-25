@@ -1,0 +1,22 @@
+---
+# tasks file for jenkins
+- name: Ensure Dependicies are installed
+  package:
+    name:
+      - curl
+      - libselinux-python
+      - initscripts
+    state: present
+- name: Ensure Jenkins Repo is installed
+  get_url:
+    url: "{{ jenkins_repo_url }}"
+    dest: /etc/yum.repos.d/jenkins.repo
+- name: Add jenkins repo GPG Key
+  rpm_key:
+    state: present
+    key: "{{ jenkins_repo_key_url }}"
+- name: Ensure jenkins is installed
+  pacakage:
+    name: jenkins
+    state: present
+    

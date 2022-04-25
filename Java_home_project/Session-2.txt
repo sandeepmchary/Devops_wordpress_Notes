@@ -1,0 +1,46 @@
+1. What is Master Slave in Jenkins
+
+jenkins master slave architecture
+    - to master we can add slaves
+    - docker
+    - cloud
+why we need jenkins master 
+    - scale jenkins
+    - different slave with different env
+################################################################
+
+2. Jenkins configure Linux Slave
+
+    - 1 jenkins master & Linux slave
+    - manage jenkins
+    - manage nodes & clouds
+    - new node
+            - Node Name: Linux slave
+                - select parmanent agent
+                # of executers: [depends upon how much cpu memories core of slave]
+                Remote root directory: /opt/jenkins/
+                Labels: linux-one ( to tie a job to run on the slave)
+                usage: only build job with label expression matching the node
+                launch method: launch agents via ssh
+                    - Host: {private ip of the slave}
+                      credentials: 
+                            add jenkins:
+                                - kind: ssh username with private key
+                                ID: linux-slave-new
+                                Description: linux
+                                username:
+                                private key:paste the pem file here
+                            add
+                    host key verification: non verifying verification strategy
+                    Avaliblity: keep this agent online as much as possible
+    - on the slave server make sure the directory /opt/jenkins is present
+    - inside the slave 
+        - cd /opt
+        - ls
+        - mkdir jenkins
+        - jenkins should have permission with ec2-user
+        - in the slave configure our master connects to the slave using ec2-user
+        - the same user must have permission to the jenkins folder
+        - java is installed 
+
+    

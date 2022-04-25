@@ -1,0 +1,178 @@
+-CLASS 1(11)
+variables:
+how to declare a variables:
+a=10
+print(a)
+-- dont write quotes around the variable
+- >>> x=4
+>>> print("x")
+x
+>>> print(x)
+4
+-- "x" it becomes string
+- x=4
+x=5
+print(x)
+del x
+print (x) -- it will give an error
+-- it have a-z,0-9,_
+-- no keywords (pre-defined)
+-- no spaces
+- case sensitive
+------------------------------
+x=4
+x=5
+print(x)
+del x
+#print (x)
+#my name=sam
+my_name="asm"
+print(my_name)
+_x=5
+--------------------------------
+- CLASS 2(12)
+Data Types
+-- if x=4 (the value 4 is stored in ram)
+print(id(x))
+-- it will give the location in the ram (8791402009728)
+- every value in python has a data type
+- since everything in an object in python programming,data types are actually classes and variables
+are instance(object) of these classes
+- there are diff/.. data types
+- Numbers(int,float and complex)
+- Strings
+- Boolean
+--- True and False no quotes 
+------------------------------
+# below are the number data types
+'''
+x=1
+y=4.5
+z=5+6j
+print (x,type(x))
+print (y,type(y))
+print (z,type(z))
+'''
+'''
+# Below are the Strings
+Lan_name='python scripting'
+print(Lan_name)
+language_name="python Scripting"
+print (language_name)
+my_name="sam"
+print (my_name,type(my_name))
+'''
+'''
+# Boolean
+my_value=True
+print(my_value,type(my_value))
+my_val=False
+print(my_val,type(my_val))
+#my_new_value=true
+------------------------------
+Typecasting or Type conversion
+- converting one data type to another
+---------------------------------------------
+>>> x=5.4
+>>> print(int(x))
+5
+--------------------
+- no.. can convert into Strings
+- alphabets cannot convert into int
+-- NOTE: ANY DATA CAN BE CONVERTED INTO BOOLEAN(bool(any-data-type)= True or False
+bool(empty)=False
+----
+- all are false
+bool(()),bool({}),bool([]),bool(0)
+----
+bool(non-empty)=True
+>>> x=0
+>>> print(bool(x))
+False
+>>> x=''
+>>> print(bool(x))
+False
+>>> None
+>>> bool(None)
+False
+>>> bool()
+False
+>>> bool(())
+False
+>>> bool({})
+False
+>>> bool([])
+False	
+----------------------
+any data-type can converted into a string but not might not vice-versa
+-- VERSION ALWAYS TAKE AS STRING
+
+=========================================================
+- CLASS 3(13)
+- MULTIPLE VARIABLES OR STRINGS
+----------
+'''
+x=3;y=3.4;lang="cinema"
+'''
+x=3
+y=4.5
+lang="cinema"
+#print(x,y,lang)
+#print ("{} \n{} \n{}".format(x,y,lang))
+#print(f" the value of x is: {x}\nThe value of y is: {y}\n The value of lang is: {lang}")
+my_req_output=f" the value of x is: {x}\nThe value of y is: {y}\n The value of lang is: {lang}"
+print (my_req_output)
+
+------------------------------
+-CLASS 4(14)
+- INPUT AND OUTPUT SYNTAX
+- EVAL FUNCTION
+-  print(f"the addition of {a} and {b} is : {result}") is in only for python3
+- if we use input it will be a string
+- working with python3
+- WHENEVER WE EVAL FUNCTION WITH STRING USE QUOTATIONS
+------------------------------
+>>> x=input("Enter value of x: ")
+Enter value of x: 56
+>>>
+>>> print(type(x))
+<class 'str'>
+>>> x=int(input("Enter value of x: ")
+... ^C
+KeyboardInterrupt
+>>> x=int(input("Enter value of x: "))
+Enter value of x: 56
+>>> print(type(x))
+<class 'int'>
+>>> x=eval(input("enter anything: ")
+... ^C
+KeyboardInterrupt
+>>> x=eval(input("enter anything: "))
+enter anything: sam
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<string>", line 1, in <module>
+NameError: name 'sam' is not defined
+>>> x=eval(input("enter anything: "))
+enter anything: 45
+>>> print(type(x))
+<class 'int'>
+>>> x=eval(input("enter anything: "))
+enter anything: 5.6
+>>> print(type(x))
+<class 'float'>
+>>> x=eval(input("enter anything: "))
+enter anything: "SAM"
+>>> print(type(x))
+<class 'str'>
+>>>
+----------------------------
+# simple addition calculation
+#!/usr/bin/python
+a=eval(input("Enter a value: "))
+b=eval(input("Enter b value: "))
+result=a+b
+print(F"The value of a is :{a} and type is :{type(a)}")
+print(f"the addition of {a} and {b} is : {result}")
+-----------------------------------------------------
+
