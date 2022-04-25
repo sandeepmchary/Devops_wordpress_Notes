@@ -1,0 +1,7 @@
+---
+pack_name: tomcat
+destination: /usr/share/tomcat/webapps/gameoflife.war
+management: /usr/share/tomcat/conf/tomcat-users.xml
+additional_packages:
+- tomcat-webapps
+- tomcat-admin-webapps

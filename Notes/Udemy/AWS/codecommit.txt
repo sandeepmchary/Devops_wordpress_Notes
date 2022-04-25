@@ -1,0 +1,66 @@
+************************************************************************************************
+************************************************************************************************
+code commit steps for https
+- create repository 
+- give some name and description also
+- iam
+- select user
+- security credentials
+- HTTPS Git credentials for AWS CodeCommit
+- generate credentials
+- click repository name (myfirstdemo1) https
+-  The requested URL returned error: 403
+- Control Panel\All Control Panel Items\Credential Manager\Windows credentials here del the git account 
+- git clone https://git-codecommit.(region).amazonaws.com/v1/repos/myfirstdemo1
+- git remote -v
+************************************************************************************************
+************************************************************************************************
+code commit steps for ssh
+- ssh-keygen -t rsa -b 2048 -C "aws-code-commit"
+- copy the content of .pub files in SSH keys for AWS CodeCommit
+- Upload SSH publickey
+- create config file in .ssh folder
+- 
+Host git-codecommit.*.amazonaws.com
+User APKAS(this will be found under SSH key ID AMI )
+IdentityFile /c/Users/91855/.ssh/aws-code-commit
+-
+-- git clone ssh://git-codecommit.(region).amazonaws.com/v1/repos/myfirstdemo1
+************************************************************************************************
+************************
+   --- code commit cli -----
+- aws codecommit list-repositories --profile aws_code_commit
+- aws codecommit create-repository help
+- aws codecommit create-repository --repository-name MytestRepo --repository-description "My test repo" --profile code
+- aws codecommit get-repository --repository-name MytestRepo --profile code
+--- 
+- create a file 
+- git add 
+- git status
+- git commit
+- git push
+--------------------
+-  aws codecommit list-branches --repository-name MytestRepo
+- aws codecommit get-branch --repository-name MytestRepo --branch-name master
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

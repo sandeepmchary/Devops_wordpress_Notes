@@ -1,0 +1,20 @@
+
+
+https://www.freecodecamp.org/news/ansible-manage-aws/
+condition when
+  - when we have the key changed
+  - when registered value (prof_stack)
+  - when: prof_stack.changed then only farward with the task if not skip
+----------------------------------------------
+- if we registered a value in the task 
+- the debug (output file ) has {} that is dictionary.[] has list
+- for dictionary we can get the values easily with .
+- for list we us [0]
+- if we take info from freshly created instance, we get dictionaries and lists
+- if we want to get ip address from the above instance created with ansible
+- we use {{ ec2_info.tagged_instances[0].public_ip}}" -- it has lists
+- ec2_info is the registered value
+- if we have dictionaries we can use ec2_info.instance_ids
+-------------------------------------------------------------
+ex:
+find /usr/lib/jvm/java-1.8* | head -n 3

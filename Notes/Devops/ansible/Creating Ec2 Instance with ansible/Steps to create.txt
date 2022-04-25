@@ -1,0 +1,22 @@
+- under ansible user 
+- install pip 
+- * sudo yum install python-pip
+- * pip install boto --user
+- * pip install boto3 --user
+
+- the pem file should be in the .ssh folder of ansible user
+- the pem file have read only file
+- the pem file should have $ chmod 400 <pem file>
+
+-------------------------------------------------------------
+- cp sam.pem /home/ansible/.ssh/
+- ansible-vault create aws_keys.yml
+- vi hosts
+  [local]
+  localhost
+To do this, we need to override the default Ansible’s configuration file, Ansible.cfg. It is located by default in /etc/ansible. But, placing a file with the same name in the working directory wil override the default one. Create a new file called ansible.cfg in the current working directory and add the following:
+- vi ansible.cfg
+	[defaults]
+	host_key_checking = False
+	private_key_file = /home/ansible/.ssh/<pem file>
+- ansible-playbook -i hosts --ask-vault-pass ec2.yml	

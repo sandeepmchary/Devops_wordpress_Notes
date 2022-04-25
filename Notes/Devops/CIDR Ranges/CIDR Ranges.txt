@@ -1,0 +1,12 @@
+Hi
+
+suppose if we have cidr blocks as
+10.0.0.0/26 then it means
+the ip address starts from
+starting Ip : 10.0.0.0
+
+2^(32-26) =6= 2^6 =64
+
+so the ending ip will be
+
+Ending IP : 10.0.0.63

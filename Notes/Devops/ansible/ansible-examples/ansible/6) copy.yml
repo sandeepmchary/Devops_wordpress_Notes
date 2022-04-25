@@ -1,0 +1,11 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Copy the content to file
+      copy:
+        content: "Hello this is lenovo"
+        dest: /home/ansible/lenovo.txt
+
+
+         

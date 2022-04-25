@@ -1,0 +1,4 @@
+os.system
+subprocess
+are the best for running the command
+for caputering the output go with subprocess

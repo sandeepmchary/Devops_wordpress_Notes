@@ -1,0 +1,9 @@
+---
+- hosts: centos
+  become: yes
+  vars: 
+    name: niranjan
+  tasks:
+    - name: Ansible basic variable example
+      debug:
+        msg: "{{ name }}"

@@ -1,0 +1,31 @@
+- name: Install wget
+  package:
+    name: wget
+    state: present
+- name: Download jenkins repo
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+- name: Import jenkins key
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+- name: Install jenkins
+  package:
+    name: jenkins
+    state: present
+- name: start jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+- name: sleep for 30 seconds and continue with play
+  wait_for: timeout=30
+  delegate_to: localhost
+- name: Init jenkins password
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+- name: print init password
+  debug:
+    var: result.stdout  

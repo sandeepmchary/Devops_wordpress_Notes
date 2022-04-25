@@ -1,0 +1,81 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name : install java
+    package:
+      name: java
+      state: present
+    when: ansible_os_family == "RedHat"
+  - name: Install add-apt-repostory
+    apt: 
+      name: software-properties-common
+      state: latest
+  - name: Add Oracle Java Repository
+    apt_repository:
+      repo: 'ppa:webupd8team/java'
+  - name: Accept Java 8 License
+    debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+  - name: Install Oracle Java 8
+    apt: 
+      name: "{{item}}"
+      state: latest
+    with_items:
+      - oracle-java8-installer
+      - ca-certificates
+      - oracle-java8-set-default
+    when: ansible_os_family == "Debian"
+  - name: install wget
+    package:
+      name: wget
+      state: present
+  - name: Environmental Variable
+    blockinfile:
+      dest: /etc/profile
+      backup: yes
+      block: |
+        "JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")\n
+        export PATH=$PATH:/opt/apache-maven/bin\n"
+  - name: Ensure jenkins apt repository key is installed
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+    when: ansible_os_family == "Debian"  
+  - name: Ensure the repository is configured
+    apt_repository:
+      repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+      state: present
+    when: ansible_os_family == "Debian"
+  - name: download jenkins repo
+    get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+    when: ansible_os_family == "RedHat"
+  - name: import jenkins key
+    rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    when: ansible_os_family == "RedHat"
+  - name: install maven
+    unarchive:
+      src: http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      dest: /opt
+      remote_src: yes
+  - name: creating a symbolic link
+    file:
+      src: /opt/apache-maven-3.5.4
+      dest: /opt/apache-maven
+      state: link
+  - name: install jenkins
+    package:
+        name: jenkins
+        state: present
+  - name: start jenkins
+    service:
+      name: jenkins
+      state: started
+  - name: enable jenkins
+    service:
+      name: jenkins
+      enabled: true
+  

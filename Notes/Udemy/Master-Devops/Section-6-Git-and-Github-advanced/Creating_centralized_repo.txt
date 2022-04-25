@@ -1,0 +1,14 @@
+- create a repo on github
+- now create git repo in local system
+- open repo in local system
+- in gitbash open git init .
+- git add -u (for any modified changes)
+- git add .(for all changes)
+- git remote add origin "git url"
+- add some content to that 
+- then 
+- git add -u or .
+- git status
+- git push origin master
+- for the best practice always use git pull first
+-m 

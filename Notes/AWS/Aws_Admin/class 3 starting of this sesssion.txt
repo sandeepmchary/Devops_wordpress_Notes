@@ -1,0 +1,15 @@
+192.168.10.11
+255.255.255.0
+255.255.0.0
+255.0.0.0
+
+we need n/w for 1000 systems
+
+- with 255.255.255.0 we can give only for 254 systems only
+- with 255.255.0.0 we can give upto 65,000 systems for us we need only 1000 systems 
+- 11111111.11111111.11111111.00000000 (2 power 8) =256
+- 11111111.11111111.11111110.00000000 (2 power 9 -2)= 510=(255.255.254.0)= 192.168.10.0/23(number of 1's)
+- it's far better than 65,000 
+- instead treating the subnet mask as decimal no. treat it as binary no. 
+- for 1000 systems we use 11111111.11111111.11111100.00000000
+= (2 )

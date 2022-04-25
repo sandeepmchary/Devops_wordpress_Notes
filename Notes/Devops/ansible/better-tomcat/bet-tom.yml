@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - tomcat_username: "admin"
+    - tomcat_password: "password"
+  tasks:
+  - name : Install tomcat
+    package:
+      name: "{{ pack_name }}"
+      state: present
+    notify:
+    - restart tomcat
+  - name: Install additional packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ additional_packages }}"
+    notify:
+    - restart tomcat
+  - name : game of life
+    get_url:
+      url: https://github.com/sandeepmchary/better-tomcat/blob/master/gameoflife.war
+      dest: "{{ destination }}"
+  - name: user management
+    template:
+      src: user-management.xml.j2
+      dest: "{{ management }}"
+    tags:
+      - tomcatusers
+  handlers:
+  - name: restart tomcat
+    service:
+      name: "{{ pack_name }}"
+      state: restarted
+  

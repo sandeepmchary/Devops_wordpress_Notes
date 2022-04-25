@@ -1,0 +1,42 @@
+---
+- hosts: dock
+  become: yes
+  tasks:
+    - name: Update yum
+      package:
+        name: "*"
+        state: latest
+    - name: system Update
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+    - name: Installing Docker CE
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+    - name: Enable Docker edge repo
+      ini_file:
+        dest: /etc/yum.repos.d/docker-ce.repo
+        section: 'docker-ce-edge'
+        option: enabled
+        value: 0
+    - name: Install docker ce
+      package:
+        name: docker-ce
+        state: present
+    - name: Add user to docker group
+      user:
+        name: sandeepmcharyaws
+        groups: docker
+        append: yes
+      tags:
+        - user  
+    - name: start docker
+      service:
+        name: docker
+        state: restarted
+        enabled: yes

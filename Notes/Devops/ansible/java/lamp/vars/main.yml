@@ -1,0 +1,8 @@
+---
+# vars file for default
+pack_name: apache2
+php_packages: 
+  - php
+  - php-mysql
+info_html_url: https://raw.githubusercontent.com/sandeepmchary/Devops_wordpress_Notes/master/info.php
+

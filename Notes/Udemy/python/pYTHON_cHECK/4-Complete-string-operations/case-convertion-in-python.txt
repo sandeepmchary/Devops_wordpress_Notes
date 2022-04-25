@@ -1,0 +1,17 @@
+my_str="lenovO IS tHe LapTop"
+--print(my_str)
+--print(my_str.lower())
+--print(my_str.upper())
+-- strings are immutable in python
+-- any .(dot) operations does not modify the string
+--my_str_lower=my_str.lower()
+--print(my_str_lower)
+-- we have format in excel here we have title operation
+--print(my_str_lower.title())
+-- Captilize is like first letter becomes Captial and all other small
+-- my_str="lenovO IS tHe LapTop"
+print(my_str.capitalize())
+-- my_str="lenovO IS tHe LapTop"
+-- all in the lower case
+-- instead of lower operation we can also use casefold
+print(my_str.casefold())

@@ -1,0 +1,90 @@
+﻿# installing java
+sudo yum install -y java-1.8*
+
+# Check the java Version	
+  java -version
+
+# Go to opt folder
+  cd /opt
+
+# Download the tomcat 8 version
+wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
+
+# extract the tomcat
+  tar -xvf apache-tomcat-8.5.34.tar.gz
+  cd apache-tomcat-8.5.34.tar.gz
+# to go apache folder and then to bin folder
+  cd bin
+
+# To check the running process for tomcat
+   $ ps -ef | grep tomcat
+
+# To check the permissions to the folders
+    $ ls -ltr
+# To give executable permissions for .sh files
+   $ chmod +x *.sh
+# To start or stop the sh files we need to go to the location 
+   /opt/apache-tomcat-8.5.34/bin
+   # To create a soft link 
+    1) echo $PATH
+    2)  ln -s /opt/apache-tomcat-8.5.34/bin/startup.sh /usr/local/bin/tomcatup # for tomcatup
+    3) ln -s /opt/apache-tomcat-8.5.34/bin/shutdown.sh /usr/local/bin/tomcatdown # for tomcatdown
+    ----------- to stop and start the tomcat services use /local/bin/tomcatup  and  /usr/local/bin/tomcatdown ---------------
+    
+    -------- if some problem exist like echo$PATH is not showing /usr/local/bin then go to ~/.bash_profile and enter export PATH=$PATH:/usr/local/bin ------
+    
+   # to put 8090 for tocmat 
+    => Go to conf directory in tomcat =>/opt/apache-tomcat-8.5.34/conf
+    => vi server.xml
+    => change =>  
+    <Connector port="8080" protocol="HTTP/1.1" => port to 8090 
+    
+    # Then restart the tomcat
+        /usr/local/bin/tomcatdown
+        /usr/local/bin/tomcatup
+        
+   # Then go to the manager app option  
+   we will get Access denied error 
+   => under the context file we need to comment the default ip address
+   
+   $ find / -name context.xml 
+/opt/apache-tomcat-8.5.34/conf/context.xml
+/opt/apache-tomcat-8.5.34/webapps/host-manager/META-INF/context.xml
+/opt/apache-tomcat-8.5.34/webapps/manager/META-INF/context.xml
+
+we need to edit the /opt/apache-tomcat-8.5.34/webapps/host-manager/META-INF/context.xml and /opt/apache-tomcat-8.5.34/webapps/manager/META-INF/context.xml changes are same for both files
+Change 
+<Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+                          to 
+                          
+<!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+         
+# Restart the tomcat
+/usr/local/bin/tomcatdown
+/usr/local/bin/tomcatup
+
+
+# Edit the tomcat user files
+
+cd conf
+vi tomcat-users.xml
+
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+<role rolename="manager-status"/>
+<user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
+<user username="deployer" password="deployer" roles="manager-script"/>
+<user username="tomcat" password="s3cret" roles="manager-gui"/>
+
+# Restart tomcat
+/usr/local/bin/tomcatdown
+/usr/local/bin/tomcatup
+
+
+
+         
+
+    

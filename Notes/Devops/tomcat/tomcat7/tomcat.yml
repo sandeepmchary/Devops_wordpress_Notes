@@ -1,0 +1,35 @@
+- name : Install tomcat
+  yum:
+    name: tomcat
+    state: present
+- name: Install Admin yums
+  yum:
+    - name: "{{ item }}"
+      state: present
+  with_items:
+    - tomcat-webapps
+    - tomcat-admin-webapps
+- name: Install Online Documentation
+  yum:
+    - name: "{{ item }}"
+      state: present
+  with_items:
+    - tomcat-docs-webapp
+    - tomcat-javadoc
+- name: Configure Tomcat Web Management Interface
+  file:
+    src: tomcat-users.xml
+    dest: /usr/share/tomcat/conf/tomcat-users.xml
+- name: Start Tomcat
+  service:
+    name: tomcat
+    state: started
+- name: restart Tomcat
+  service:
+    name: tomcat
+    state: restarted
+- name: Enable Tomcat Service
+  service:
+    name: tomcat
+    enabled: yes
+

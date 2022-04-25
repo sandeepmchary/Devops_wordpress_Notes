@@ -1,0 +1,13 @@
+aws account id
+- useful for multiple aws account
+- we can get the aws account id can be get by sts service
+- we use get_caller_identity method here in sts--client
+-----------------------------------------------------------------------
+import boto3
+from pprint import pprint
+ec2_cli = boto3.client('sts')
+response = ec2_cli.get_caller_identity()
+#pprint(response)
+#print("The User Account id is : {}\nThe User id is: {}".format(response['Account'],response['UserId']))
+print("The User Account id is : {}\nThe User id is: {}".format(response.get('Account'),response.get('UserId')))
+----------------------------------------------------------------------------

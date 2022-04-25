@@ -1,0 +1,98 @@
+
+- create 2 files
+- add something to it
+- git add .
+- git commit 
+- git status
+- TO VIEW THE DIFFERENCE BETWEEN THE STAGING AREA AND LOCAL FILES USE
+- git diff
+- before adding to staging area use {git diff} to check the differences
+- add another file test.txt
+----
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   sample.txt
+        modified:   sample1.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        test.txt
+---------------
+- $ git diff
+diff --git a/sample.txt b/sample.txt
+index 97dbd47..db7d81a 100644
+--- a/sample.txt
++++ b/sample.txt
+@@ -1 +1 @@
+-this is for changed files in sample text
+\ No newline at end of file
++this if that if
+\ No newline at end of file
+diff --git a/sample1.txt b/sample1.txt
+index 6cfd3e8..86f3d7c 100644
+--- a/sample1.txt
++++ b/sample1.txt
+@@ -1 +1 @@
+-this is for changes in the sample1 text file
+\ No newline at end of file
++this if for that
+\ No newline at end of file
+-------------------------------------------------
+- from the above test file is not showing because the test.txt file is still in the local repo only git diff will 
+--------------
+ git diff
+warning: LF will be replaced by CRLF in test.txt.
+The file will have its original line endings in your working directory
+diff --git a/sample.txt b/sample.txt
+index 97dbd47..db7d81a 100644
+--- a/sample.txt
++++ b/sample.txt
+@@ -1 +1 @@
+-this is for changed files in sample text
+\ No newline at end of file
++this if that if
+\ No newline at end of file
+diff --git a/sample1.txt b/sample1.txt
+index 6cfd3e8..86f3d7c 100644
+--- a/sample1.txt
++++ b/sample1.txt
+@@ -1 +1 @@
+-this is for changes in the sample1 text file
+\ No newline at end of file
++this if for that
+\ No newline at end of file
+diff --git a/test.txt b/test.txt
+index 85a4f31..3c422c5 100644
+--- a/test.txt
++++ b/test.txt
+@@ -1,2 +1 @@
+- hello friends
+- i am here for testing
++ hello friends
+--------------------------------
+- git diff will compare the local repo and staging area
+-------------------------------------------------------------------------------------------
+-- 
+- DELETE FILES IN GIT
+- create a file, git add it
+- delete it 
+- git status
+- git add .
+- git status
+-----------
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    fordelete.txt
+
+---------------
+- git status is checking for local repo
+- then we added it to the staging area
+- then git status will show it is deleted
+--------------------------------------------
+- BETTER WAY WILL BE 
+- git rm filename
+

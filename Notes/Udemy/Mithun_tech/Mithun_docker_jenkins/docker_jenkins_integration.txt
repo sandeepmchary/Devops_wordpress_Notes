@@ -1,0 +1,10 @@
+
+- we need to 2 servers here
+- in one server install jenkins,git and docker (jenkins need to run some docker commands so we need both jenkins and docker also)
+- in one server install only docker
+- in the jenkins 
+   -- after installing docker 
+   -- usermod -aG docker jenkins
+   -- systemctl restart jenkins
+   -- docker info
+   

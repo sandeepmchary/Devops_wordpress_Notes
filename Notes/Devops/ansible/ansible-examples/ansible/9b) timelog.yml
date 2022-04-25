@@ -1,0 +1,7 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: ansible timestamp filename example
+      command: touch lenovo2{{ansible_date_time}}.log
+      

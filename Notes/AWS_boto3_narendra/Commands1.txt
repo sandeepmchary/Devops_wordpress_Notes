@@ -1,0 +1,58 @@
+10)
+	- the main difference between resource and client operations are 
+		- resources are .(object operations)
+		- client are objects and key
+		- clients will have one level as object operations and then after in terms of dictionary
+			---------------------------------------
+			import boto3
+			aws_mgt=boto3.session.Session(profile_name='root')
+			iam_cli=aws_mgt.client('iam','us-east-2')
+			iam_re=aws_mgt.resource('iam','us-east-2')
+			#print(iam_cli.list_users())
+			#print(iam_cli.list_users()['Users'])
+			# above we get the list so we take for loop
+			for each in iam_cli.list_users()['Users']:
+				#print(each)
+				print(each['UserName'],each['UserId'],each['Arn'])
+
+			---------------------------------------
+	- 
+11) - Difference between boto3 sessions
+	- for custom boto3 sessions 
+		- like aws configure --profile root
+		- under user/home/.aws folder is created
+		- two files are created 
+			- credentials file
+			- config file
+		- so we are using this profile name for custom session
+		************************************
+		- import boto3
+		  aws_mgt=boto3.session.Session(profile_name="root")
+		  iam_con_re=aws_mgt.resource(service_name='iam',region_name='us-east-2')
+		  iam_con_cli=aws_mgt.client(service_name='iam',region_name='us-east-2')
+		  ************************************
+		Default Session:
+			- import boto3
+			  iam_con_re=boto3.resource("root")
+			  for each in iam_con_re.users.all():
+			     print(each.name)
+---------------------------------------------------------------
+12)
+	- [] -- means for loops
+	- for dictionary use ['name']
+	- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

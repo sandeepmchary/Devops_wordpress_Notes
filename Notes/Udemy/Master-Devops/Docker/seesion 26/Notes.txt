@@ -1,0 +1,49 @@
+131)
+  - docker cli monitoring
+	- docker container top: Process list in one container
+		- docker container ls
+	    - docker container run -d --name proxywebserver nginx
+	    - docker container ls
+	    - docker container run -d --name mysqldb --env MYSQL_RANDOM_ROOT_PASSWORD=true mysqldb
+	    - docker container top [container name] or [container id]
+	- docker container inspect: Details of one container config
+	  - docker container inspect container_name
+	  - a completed json is printed
+	  - it contains id,date,path,status,process_id,image
+	  - for debugging the container
+	  - docker container inspect container_name or container_id
+	  
+    - docker container stats: performance stats on all containers
+	  - docker container stats
+132)
+    - Docker ssh running container
+       - Getting inside the container and modify if needed
+       - Open Container Terminal
+       - Exit Container Terminal
+       - docker container run -it: Run container interactivly
+       - Usage:  docker container run [OPTIONS] IMAGE [COMMAND] [ARG...]
+       - docker container run -it --name webproxy nginx bash
+       - exit
+ 
+133)
+    - Run commands in running containers
+    - docker container exec -it:Open Running container interactivly
+	- The docker exec commands run a new command in a running container
+	=====================================================================
+	  - start nginx docker destro
+	  - Run command and create Directory inside the running container
+	  - Verify the new directory
+	  - Download the new Alpine Destro
+	  - use curl for www.facebook.com dom in alpine
+	=======================================================================
+      - docker container run -d --name webproxy1 nginx
+	  - docker container exec -it e52b1a9c9867 touch /tmp/samantha
+	  - docker container exec -it e52b1a9c9867 bash
+	  - cd tmp --check here the samantha directory is created
+	  - exit
+	  - docker container run -it ubuntu bash
+	  - inside the container
+	  - apt-get update
+	  - apt-get install curl
+	  - curl www.facebook.com
+	  

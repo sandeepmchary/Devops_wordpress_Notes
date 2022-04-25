@@ -1,0 +1,68 @@
+							9) SPECIAL CHARACTERS
+vim special_char.py
+print("welcome to python scripting")
+--> run it
+vim special_char.py
+print("welcome to python scripting")
+print("we are working with some special_chars")
+vim special_char.py
+print("welcome to python scripting\nwe are working with special_chars")
+--
+- \n  - next line
+- \b  - back space (one positions)
+- \   - escape symbol
+print("welcome to python scripting\bwe are working with special_chars")
+print("Hello World")
+print("Hello\b World")
+Hell World
+print("Hello\b\b World")
+Hel World
+-----------------------------------------
+>>> print("Hello\b World")
+Hell World
+>>> print("Hello\b\b World")
+Hel World
+>>> print("Hello\tWorld")
+Hello   World
+>>> print("python's Class)
+  File "<stdin>", line 1
+    print("python's Class)
+                         ^
+SyntaxError: EOL while scanning string literal
+>>> print("python's Class")
+python's Class
+>>> print("python\'s Class")
+python's Class
+>>> print("This is a "python" Class")
+  File "<stdin>", line 1
+    print("This is a "python" Class")
+                      ^
+SyntaxError: invalid syntax
+>>> print("This is a \"Python\" Class")
+This is a "Python" Class
+ print("C:\\Program Files\\ModifiableWindowsApps") # this only for windows
+C:\Program Files\ModifiableWindowsApps
+---------------------------------------
+						10) RUNNING PYTHON SCRIPTS ON WINDOWS AND LINUX
+---
+- if we dont get the python version even though it is installed we can use full path of the
+python directory
+- #!/usr/bin/python3
+print("hello World")
+- chmod +x hello.py
+- ./hello.py # to execute the task
+- python hello.py also works
+--------------------
+- linux system:
+  - which python3
+  - vi hello.py
+  - #!/usr/bin/python3   #--> shebank line
+     print("hello world")
+  - chmod +x hello.py
+  - ./hello.py (. is used when are in the current location)
+  - if we are not .py location point to that
+  - 
+******************************************************************************************
+  
+  
+

@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Remove any chrony Packages
+      yum:
+        name: chrony
+        state: absent
+      tags: remove_chrony,start_ntp
+    - name: Install Ntp
+      yum:
+        name: ntp
+        state: present
+      tags: install_ntp,start_ntp
+    - name: start ntp client
+      service:
+        name: ntpd
+        state: restarted
+        enabled: yes

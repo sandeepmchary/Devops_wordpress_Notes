@@ -1,0 +1,28 @@
+---
+# tasks file for jenkins
+- name: Downlaod Jenkins repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+- name: Jenkins rpm 
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+- name: Install Jenkins
+  package:
+    name: jenkins
+    state: present
+- name: Start Jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: true
+- name: Sleep for 30 seconds and Continue play
+  wait_for: timeout=30
+  delegate_to: localhost
+- name: init passwd jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: result
+- name: Print init password
+  debug:
+    var: result.stdout                    

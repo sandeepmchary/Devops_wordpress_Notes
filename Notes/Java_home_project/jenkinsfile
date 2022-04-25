@@ -1,0 +1,11 @@
+node ('linux-one'){
+
+    stage('SCM Checkout'){
+        git 'https://github.com/javahometech/simple-app.git'
+    }
+    stage('Compile-Package'){
+        //Get the maven home path
+        def MavenHome = tool name: 'Maven3', type: 'maven'
+        sh "${MavenHome}/bin/mvn package"
+    }
+}

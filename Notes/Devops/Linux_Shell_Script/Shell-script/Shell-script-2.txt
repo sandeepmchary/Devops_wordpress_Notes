@@ -1,0 +1,159 @@
+Class 2
+
+$vi first.sh
+#!/bin/bash
+echo "hello world"
+:wq!
+
+How to give permission to normal user:-
+1) by adding user to wheel group
+# usermod -aG wheel <user>
+2) vi /etc/sudoers or visudo
+<user> ALL=(ALL) ALL
+:wq!
+----------------------
+$ sudo chmod 755 for first.sh
+
+
+write a shell script to print current system date and logged in user name?
+sudo date
+sudo who am i
+
+$ sudo vi second.sh
+#!/bin/bash
+echo "current date is:`date`"
+echo "Logged in user: 'who am i'"
+
+
+---------------------------------------------
+
+Shell Variables:-
+================
+
+variable : it is used to store data,
+variable values are not fixed,
+a=10
+----
+----
+----
+a=20
+
+there are 2 variables,they are 
+1) system variables
+2) user-defined variables
+
+1) system-variables: 
+Inbuils
+PATH -- system path
+# echo $PATH
+LOGNAME/UNAME: user name
+# echo $LOGNAME
+# echo $UNAME 
+SHELL -- Current shell
+# echo $SHELL
+TERM -- Current Terminal
+# echo $TERM
+----------------------------
+user-defined variables:-
+2 types:
+Global Variables:
+Local Variables:
+
+
+Global variables : these are decalred outside script and access in any script
+
+$a=10
+$b=20
+$echo $a
+10
+$echo $b
+20
+>> in global variable the value of a is always 10 in the any script we write.
+>> if the we change the a value to 20, then the value changes in every script the a is being used 
+>> not recommended
+
+Local Variables: these are decalred inside a script(it is recommended)
+
+>> local variable are accessed only within the script
+
+
+
+ex:
+
+$sudo vi var.sh
+#!/bin/bash
+a=10
+b-20
+c-30
+echo "a is:$a"
+echo "b is:$b"
+:wq!
+sudo chmod 755 var.sh
+-----------------------------------------
+local variable are of two types
+1) static
+2) Dynamic
+>> in scripting a variable can hold interger,string,deciaml value also
+>> we dont have data types
+static: static variable defined inside a script with value
+$vi sat.sh
+#!/bin/bash
+a=10
+b=hello
+c-12.345
+echo "a is :$a"
+echo "b is :$b"
+echo "c is "$c"
+----------------------------------------
+dynamic variable: these are defined inside script but values passed dynamically
+
+vi dayna.sh
+#!/bin/bash
+echo " enter two number"
+read a b
+echo "a is:$a"
+echo "b is :$b"
+ 
+ ---------------------
+ #!/bin/bash
+ echo enter file name"
+ # head to first display 10 lines of file
+ head filename
+ #tail to last display 10 lines of lines
+ tail filename
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

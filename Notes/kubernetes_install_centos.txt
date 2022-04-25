@@ -1,0 +1,105 @@
+Step 1: Update Docker Package Database
+ -- $ sudo yum check-update
+ Step 2: Install the Dependencies
+  -- $ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+  Step 3: Add the Docker Repository to CentOS
+    -- $ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    Step 4: Install Docker On CentOS Using Yum
+
+    sudo yum install docker -y
+
+    Step: 5 Manage Docker Service
+    Start Docker:
+
+    sudo systemctl start docker
+
+    Enable Docker:
+
+    sudo systemctl enable docker
+
+    Check the status of the service with:
+
+    sudo systemctl status docker
+
+
+
+
+
+    cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+    [kubernetes]
+    name=Kubernetes
+    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+    enabled=1
+    gpgcheck=1
+    repo_gpgcheck=1
+    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    exclude=kubelet kubeadm kubectl
+    EOF
+
+    sudo setenforce 0
+    sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+
+    sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+    sudo systemctl enable --now kubelet
+    kubeadm init --pod-network-cidr=10.244.0.0/16
+
+    kubeadm join 10.128.0.7:6443 --token 95rwz2.e1x4sr9nckk7cyij \
+            --discovery-token-ca-cert-hash sha256:240a3b932ec7248635c00dd13ae07d3ba419e7cf8619ef5aa5a98491fa5975c4
+	    		
+			kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+			------------------------------------------------------------------------------------------------
+			ON THE WORKER NODES
+
+			Step 1: Update Docker Package Database
+			 -- $ sudo yum check-update
+			 Step 2: Install the Dependencies
+			  -- $ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+			  Step 3: Add the Docker Repository to CentOS
+			    -- $ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+			    Step 4: Install Docker On CentOS Using Yum
+
+			    sudo yum install docker -y
+
+			    Step: 5 Manage Docker Service
+			    Start Docker:
+
+			    sudo systemctl start docker
+
+			    Enable Docker:
+
+			    sudo systemctl enable docker
+
+			    Check the status of the service with:
+
+			    sudo systemctl status docker
+
+
+
+
+
+			    cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+			    [kubernetes]
+			    name=Kubernetes
+			    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+			    enabled=1
+			    gpgcheck=1
+			    repo_gpgcheck=1
+			    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+			    exclude=kubelet kubeadm kubectl
+			    EOF
+
+			    sudo setenforce 0
+			    sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+
+			    sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+			    sudo systemctl start kubelet
+			    sudo systemctl enable kubelet
+

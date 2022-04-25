@@ -1,0 +1,13 @@
+
+
+---- go to http://www.initializr.com/
+- download the bootstrap
+- rename the file 
+- mv old_file_name to new_file_name
+- here
+- mv initializr web-project
+- go to the web-project
+- git init .
+- git add .
+- change and file 
+- git status

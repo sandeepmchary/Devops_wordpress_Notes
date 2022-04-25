@@ -1,0 +1,134 @@
+Download the kops in linux machine
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+- chmod +x ./kops-linux-amd64
+- sudo mv ./kops-linux-amd64 /usr/local/bin
+sudo mv /usr/local/bin/kops-linux-amd64 /usr/local/bin/kops
+
+Download the kubectl here
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
+- kubectl version --client
+- pip3 install --user --upgrade awscli
+- export PATH=~/.local/bin:~/Library/Python/3.6/bin:$PATH
+- awscli will be installed
+- configure aws with awscli
+
+===============================================================
+PYTHON3 DEFAULT VERSION IN UBUNTU
+
+sudo update-alternatives --config python
+Will show you an error:
+
+update-alternatives: error: no alternatives for python3 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 2
+sudo update-alternatives --config python
+sudo update-alternatives  --set python /usr/bin/python3.6
+===============================================================
+
+-------------------------
+kops on aws console
+	- set up IAM permissions for kops
+	- create a user(kops) & give permissions
+	- permissions req for kops user is 
+		- AmazonEC2FullAccess
+		- AmazonRoute53FullAccess
+		- AmazonS3FullAccess
+		- AmazonVPCFullAccess
+		- AmazonIAMAccess
+	- attach iam role Route53, EC2, IAM and S3 full access and attach it to here	
+- create a group and add all above permissions to it and create a user with it
+-  create s3 bucket with fasted region
+- click on the version
+- tags key value (user kops)
+- click on Block all public access
+- with 1.6.2 onwards DNS name is optional
+- the only req/.. to trigger this is to have the cluster name end with .k8s.local
+---------
+for dns we need to have route53
+--------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------work till now
+
+Text Direction : Prepare AWS Environment for Kops
+Prepare AWS for Kops
+
+
+****** Installing Kops *******
+
+Linux Machine:
+
+1. curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd642. chmod +x ./kops3. sudo mv ./kops /usr/local/bin/
+
+
+
+
+****** Installing Other Dependencies(KubeCtl) *******
+
+Linux Machine:
+
+1. curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl2. chmod +x ./kubectl3. sudo mv ./kubectl /usr/local/bin/kubectl
+
+
+
+
+****** Download Python PIP *******
+
+
+Linux Machine:
+
+1. sudo apt-get install python-pip
+
+
+
+****** Installing AWS CLI *******
+
+
+Linux Machine:
+
+pip install awscli
+
+--------------------------------------------------------------------------------------------------
+
+- 191
+k8s on aws cloud
+
+- kubectl
+
+- generate ssh keys
+  - ssh-keygen -f .ssh/id_rsa
+		
+- cat .ssh/id_rsa.pub
+- Rename kops-linux-amd64 to kops for user easy
+  - sudo mv /usr/local/bin/kops-linux-amd64 /usr/local/bin/kops
+- ****** Create Cluster *******
+	- command if you are using domain name
+	  - kops create cluster --yes --state=<s3://<S3 bucket name>> --zones=<one r more zones> --node-count=<no of nodes> --node-size=<machine size> --master-size=<Master node size>
+	  --name=<Define DNS Name>
+	- for NON DNS BASED CLUSTER
+		kops create cluster --yes --state=s3://kops-storage-8555 --zones=ap-south-1a --node-count=2 --node-size=t2.micro --master-size=t2.micro --name=test.k8s.local
+	kops create cluster --yes --cloud=aws --zones=us-east-2 --name=dev.k8s.sam --dns-zone=samantha.com --dns private (valaxy)	
+		- kops create cluster --yes --state=s3://k8-roles-sam --zones=ap-south-1a --node-count=2 --node-size=t2.micro --master-size=t2.micro --name=test.k8s.local
+	
+
+
+	- kops validate cluster --state=s3://<bucket name>
+	- (here we need to check in the zone that we given in the command)
+	- kubectl get nodes (to verify the service)
+	- kubernetes deployment the existing image echoserver
+		$ kubectl run <container name> --image=<image name> --port=<port number>
+		$ kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080
+	- Exposing the services
+        $ kubectl expose deployment hello-minikube --type:NodePort
+	- Check if the service was exposed
+	    $ kubectl get services
+	- delete the cluster 
+		$ kops delete cluster --name=<name of the cluster> --state=s3://<s3-bucket-name> --yes
+		$ kops delete cluster --name=test.k8s.local --state=s3://k8-roles-sam --yes
+		
+		
+		
+		
+  
+
+

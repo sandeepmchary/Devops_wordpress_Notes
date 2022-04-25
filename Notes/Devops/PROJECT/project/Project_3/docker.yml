@@ -1,0 +1,52 @@
+---
+- hosts: docker
+  become: yes
+  tasks:
+    - name: install Required projects
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+          - lvm2
+          - device-mapper
+          - device-mapper-persistent-data
+          - device-mapper-event
+          - device-mapper-libs
+          - device-mapper-event-libs
+          - wget
+    - name: Uninstall older versions
+      package:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - docker-common
+        - docker
+        - container-selinux
+        - docker-selinux
+        - docker-engine
+    - name: config docker-ce repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+    - name: Install Docker 
+      package:
+        name: docker
+        state: present
+    - name: Docker enable
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: create a Directory
+      file:
+        path: /opt/docker
+        state: directory  
+    - name: Create a file
+      file:
+        path: /opt/docker/Dockerfile
+        state: touch
+    - name: copy files
+      copy:
+       src: Dockerfile
+       dest: /opt/docker/Dockerfile
+       remote_src: yes

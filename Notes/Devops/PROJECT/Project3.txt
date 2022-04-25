@@ -1,0 +1,73 @@
+Project 3 
+we need Amazon Linux not Amazon Linux2 
+Become root sudo su - 
+>> yum install docker -y 
+>> service docker status 
+>> service docker start 
+>> useradd dockeradmin 
+>> Password dockeradmin 
+>> usermod -aG docker dockeradmin 
+--- here we have to enable password based authentication --- 
+vi /etc/ssh/sshd_config
+--- in Amazon Linux it is bit different --- 
+# Ec2 uses keys to remote access 
+# Password authentication no 
+Password authentication yes 
+--------------------------------------------------------------------------- 
+here we have to create docker folder under opt 
+mkdir /opt/docker 
+cd docker 
+-----------------------------------------------------------------------------
+vi Dockerfile(here  D should be captail) 
+# pull base image 
+FROM tomcat:8-jre8 
+# maintainer 
+MAINTAINER sandeep 
+# copy war file onto container 
+COPY ./webapp.war /usr/local/tomcat/webapp 
+----------------------------------------------------------------------------- 
+# docker admin should have access to docker folder 
+chown -R dockeradmin:dockeradmin /opt/docker (under /opt/docker) 
+----------------------------------------------------------------------------- 
+Jenkins 
+>$ Login to Jenkins 
+>$ Manage jenkins 
+>$ Configure system 
+>$ Publish over ssh(for this we need publish over ssh plugin) 
+>$ add docker server 
+>$ Give credentials 
+>$ click advanced use password 
+>$ Check for test connection
+------------------------------------------------------------------------------
+>> Now create Jenkins job 
+>> New item 
+>> Name the project (docker_project) this should be maven project 
+>>Under the source code management 
+git < provide GIT URL> 
+>> build 
+root pom.xml 
+Goals and options : Clean install package 
+>> post steps 
+(send files or execute commands over ssh) 
+  Source files: Webapp/target/*.war 
+  Remove prefix: Webapp/target 
+  Remote directory: //opt//docker 
+(in the file it is given as copy ./wepapp.war in the current location) 
+Execute commands: 
+docker stop Sandeep 
+docker rm -f sandeep
+docker image rm -f sandeep 
+cd /opt/docker docker build -t sandeep 
+>> add server 
+Execute commands: docker run -d --name sandeep -p 8080:8090 sandeep 
+-------------------------------------------------------------------------------- 
+In the darker console check for 
+# docker images 
+# docker ps 
+# docker ps -a 
+---------------------------------------------------------------------------- 
+webapp war will be created on the /opt/docker location 
+------------------------------------------------------------------------------------
+
+
+

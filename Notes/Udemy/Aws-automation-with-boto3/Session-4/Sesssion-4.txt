@@ -1,0 +1,145 @@
+---SESSION 4 EC2-PART-2 WORKING WITH EC2 USING BOTO3
+- CLASS 1(15)
+-previous concepts
+- sessions
+- resources
+- client
+- waiters 
+===================
+still to go with 
+- collections
+- paginators
+======================
+- COLLECTIONS
+=============
+EX:
+SIMPLE PYTHON SCRIPT TO GET THE INSTANCES TO LIST ALL FROM A PARTICULAR REGIONS
+--------------
+step1: create a sessions --> custom sessions
+step2: based on the services resources,client --> if it is for single instance use resources
+- create ec2_console with (resource and client)
+-------
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+ec2_con_cli=session.client(service_name="ec2",region_name="us-east-2")
+#print (ec2_con_re.instances.all())
+#for each_in in ec2_con_re.instances.all():
+for each_in in ec2_con_re.instances.limit(1):
+    #print(each_in)
+    print (each_in.instance_id,each_in.state,each_in.instance_type)
+-------
+-- all() -- collect all of them
+-- limit(1)-limit(10) --- some of them
+-- 
+--------------------------
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+ec2_con_cli=session.client(service_name="ec2",region_name="us-east-2")
+#print (ec2_con_re.instances.all())
+#for each_in in ec2_con_re.instances.all():
+for each_in in ec2_con_re.instances.limit(1):
+    #print(each_in)
+    print (each_in.instance_id,each_in.state,each_in.instance_type)
+
+--------------------------
+- sudo pip2 install pprint
+-----------------------------------
+collections:
+			resources: all(),limit(),filter(Filter=[])
+			client: Filter=[]
+==============================================================================
+- CLASS 2(16)
+- FILTERS OF COLLECTIONS FOR EC2 INSTANCES:LIST ONLY RUNNING INSTANCES
+- collections filters concept of boto3
+- script to get only running instance
+------------------------------------------------
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+#print (dir(ec2_con_re))
+'''
+for each_in in ec2_con_re.instances.all():
+    print (each_in.id, each_in.state)
+'''
+
+running_filters={"Name":"instance-state-name","Values":["running"]}
+stopped_filters={"Name":"instance-state-name","Values":["stopped"]}
+zone_filters={"Name":"availability-zone","Values":["us-east-2b"]}
+insta_type={"Name": "instance-type","Values": ["t2.micro"]}
+'''
+for each_in in ec2_con_re.instances.filter(Filters=[running_filters]):
+    print("This is coming from running_filters: ")
+    print (each_in.id, each_in.state)
+for each_in in ec2_con_re.instances.filter(Filters=[stopped_filters]):
+    print("This is coming from stopped_filters\n: ")
+    print (each_in.id, each_in.state)
+'''
+'''
+for each_in in ec2_con_re.instances.filter(Filters=[zone_filters,stopped_filters]):
+    print (each_in.id,each_in.state)
+for each_in in ec2_con_re.instances.filter(Filters=[zone_filters,running_filters]):
+    print (each_in.id, each_in.state)
+    
+for each_in in ec2_con_re.instances.filter(Filters=[insta_type,running_filters]):
+    print (each_in.id, each_in.state)
+'''
+# FILTERS USING TAGS
+ftags={"Name": "tag:Name","Values": ["udemy-boto3"]}
+env_filters={"Name":"tag:ENV","Values": ["boto3"]}
+'''
+for each_in in ec2_con_re.instances.filter(Filters=[ftags]):
+    print (each_in.id, each_in.state)
+'''
+for each_in in ec2_con_re.instances.filter(Filters=[env_filters]):
+    print (each_in.id, each_in.state)
+
+-----------------------------------------------------------------
+- CLASS 3(17)
+- ALL ARGUMENTS FOR FILTERS METHOD OF COLLECTIONS
+- filters and instance id's
+= Dry Run = true -- to check whether i have access to run this or not 
+= Dry Run = false -- no checking for the above
+----------------------------------------
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+running_filters={"Name":"instance-state-name","Values":["running"]}
+stopped_filters={"Name":"instance-state-name","Values":["stopped"]}
+zone_filters={"Name":"availability-zone","Values":["us-east-2b"]}
+insta_type={"Name": "instance-type","Values": ["t2.micro"]}
+# FILTERS USING TAGS
+ftags={"Name": "tag:Name","Values": ["udemy-boto3","master"]}
+for each_in in ec2_con_re.instances.filter(Filters=[ftags],InstanceIds=['i-0f8e31fd646541373','i-0cc45f8ba2faaa1ca'],DryRun=True
+):
+    print (each_in.id, each_in.state)
+---------------------------------------------------------
+- LIST AVAILABLE REGIONS FOR ec2 SERVICES
+--------------------------------------
+'''
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_cli=session.client(service_name="ec2",region_name="us-east-2")
+#print (ec2_cli.describe_regions()['Regions']) -- same output for the below
+for each_region_info in  ec2_cli.describe_regions().get('Regions'):
+    print ((each_region_info).get('RegionName'))
+'''
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_cli=session.client(service_name="ec2",region_name="us-east-2")
+#print (ec2_cli.describe_regions()['Regions']) -- same output for the below
+regions=[]
+for each_region_info in  ec2_cli.describe_regions().get('Regions'):
+    regions.append ((each_region_info).get('RegionName'))
+print ("All regions for ec2 services are\n ",regions)
+--------------------------------------------------------------    
+
+
+
+
+
+
+

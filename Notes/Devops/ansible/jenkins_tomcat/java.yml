@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install java and wget
+    package:
+      name: "{{ pack_name}}"
+      state: present

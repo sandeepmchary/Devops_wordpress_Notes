@@ -1,0 +1,28 @@
+Install aws Elastic bean stalk
+- pip install --upgrade --user awsebcli
+- run this (win + r) %USERPROFILE%\AppData\roaming\Python\Python37\scripts
+- copy the path and add in the environmental variable
+- restart the shell
+- eb --version
+
+
+
+------------------------------------------- on Linux ---------------------------------------------
+git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+./aws-elastic-beanstalk-cli-setup/scripts/bundled_installer
+--------------------------------------------------------
+Deploy app using the EB cli
+- which eb
+- eb --version
+- eb init
+- eb create
+- eb list
+- eb config
+- eb logs
+- eb health
+- eb health --refresh
+- eb events
+- eb status
+- eb open
+- eb terminate
+- 

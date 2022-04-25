@@ -1,0 +1,125 @@
+- SIMPLE PYTHON SCRIPT TO GET THE STATUS OF EC2 INSTANCE
+step1: sessio (custom,default) --> aws management console
+step2: service console
+ec2_console(resource,client)
+-----
+what to choose resource or client ? if we have both services for resource and client
+if the services have 
+1 instance
+1 keypair
+1 volume
+1 bucket
+1 object 
+go with resource for simple operations
+
+---------------------------
+cat .aws/config
+
+vi ec2_console_resource1.py
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_console_resource=session.resource(service_name="ec2",region_name="us-east-2")
+print dir(ec2_console_resource)
+----------------------------------------
+# Dynamic Instance Status
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_console_resource=session.resource(service_name="ec2",region_name="us-east-2")
+#print dir(ec2_console_resource)
+instance_id=raw_input("Enter your instance id to get the status:  ")
+my_instance=ec2_console_resource.Instance(id=instance_id)
+print(my_instance.state)['Name']
+--------------------------------------------------
+===============================================================================
+-CLASS 2 (11)
+- MENU DRIVEN SCRIPT TO PERFORM DIFFERENT STATUS ACTIONS ON EC2 INSTANCE
+--------
+step1: session object(custom,default)
+step2: ec2_con_re(resource,client)(here we are working with only 1 instance so we take resource)
+=======================
+#!usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+my_instance=ec2_con_re.Instance(id="i-0cc45f8ba2faaa1ca")
+#start
+#print dir(my_instance)
+state=raw_input("Enter the state of the instance: ")
+my_instance.state()
+-------------------------------------------------
+
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+while True:
+	in_id=raw_input("Enter your Instance id: ")
+	my_inc=ec2_con_re.Instance(id=in_id)
+	print "1. start"
+	print "2. stop"
+	print "3. reboot"
+	print "4. terminate"
+	print "5. Exit"
+	option=input("Enter your action by selecting the number from 1-5")
+	if option==1:
+		print "please wait we are starting your Instance"
+		my_inc.start()
+    elif option==2:
+		print "please wait we are stoping your Instance"
+		my_inc.stop()
+	elif option==3:
+		print "please wait we are rebooting the Instance"
+		my_inc.reboot()
+	elif option==4:
+		print "have to taken the backup, we are terminating the Instance"
+		my_inc.terminate()
+	elif option==5:
+		print "Thank you for using this script"
+		break
+	else:
+		print "Invalid option\nplease select in between the 1 & 5 only  "
+-------------------------------------------------------------------------------
+-CLASS 3(12)
+- WHAT IS WAITER? HOW TO USE WAITER IN EC2
+#!/usr/bin/python
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+my_ins=ec2_con_re.Instance(id="i-0f8e31fd646541373")
+my_ins.start()
+# print dir(my_ins) for get the info for the wait_until_running and other #wait_until_existing etc ..
+my_ins.wait_until_running()
+# the default time is 200 the wait_until_running will check for every 5 seconds for the 40 internvals
+---------------------------------------------------------
+- CLASS 4 (13)
+- SIMPLE SCRIPT TO GET EC2 INSTANCE TAGS
+---------------------------------------------------------------------------
+#!/usr/bin/python
+# for this to work in windows just start from import boto3
+import boto3
+session=boto3.session.Session(profile_name="root")
+ec2_con_re=session.resource(service_name="ec2",region_name="us-east-2")
+in_id=raw_input("Enter your instance id : ")
+# input is for 2.7 version 
+# raw_input is for 3.7 version
+my_ins_ob=ec2_con_re.Instance(id=in_id)
+#print (dir(my_ins_ob))
+print (my_ins_ob.tags)
+---------------------------------------------------------------------------
+SESSION -3
+- BOTO3 DOCUMENTATION 
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+

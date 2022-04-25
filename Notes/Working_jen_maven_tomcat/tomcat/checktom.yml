@@ -1,0 +1,60 @@
+- hosts: chktom
+  become: yes
+  vars:
+    required_tomcat_ver: 9.0.35
+    tomcat_url: https://downloads.apache.org/tomcat/tomcat-{{required_tomcat_ver.split('.')[0]}}/v{{ required_tomcat_ver }}/bin/apache-tomcat-{{ required_tomcat_ver }}.tar.gz
+  tasks:
+    - name: Install Java
+      package:
+        name: java-1.8.0
+        state: present
+    - name: user creation
+      user:
+        name: tomcat
+        password: teZm6vo7PsNSc
+        shell: /bin/false
+        createhome: yes
+        home: /opt/tomcat
+    - name: Download Tomcat
+      unarchive:
+        src: "{{ tomcat_url }}"
+        dest: /usr/local
+        remote_src: yes
+    - name: Tomcat Path
+      stat:
+        path: /tmp/apache-tomcat-{{ required_tomcat_ver }}
+      register: path_stat
+    - name: Renaming Tomcat
+      command: mv /usr/local/apache-tomcat-{{ required_tomcat_ver }} /opt/tomcat/
+      when: path_stat.stat.exists
+    - name: Change ownership
+      file:
+        path: /opt/tomcat/
+        recurse: yes
+        owner: tomcat
+        group: tomcat
+    - name: Changing executable permissions
+      file:
+        path: /opt/tomcat/bin/
+        mode: a+x
+    - name: Making tomcat as service
+      template:
+        src: tomcat.service.j2
+        dest: /etc/systemd/system/tomcat.service
+    - name: Changing the localhost file
+      template:
+        src: managercontext.xml.j2
+        dest: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+    - name: Changing in the second file
+      template:
+        src: hostmanager.xml.j2
+        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml    
+    - name: Starting tomcat
+      service:
+        name: tomcat
+        state: started
+        daemon_reload: yes
+        enabled: yes    
+
+
+

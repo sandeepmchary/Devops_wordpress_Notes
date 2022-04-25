@@ -1,0 +1,84 @@
+
+aws load balancing and auto scaling group
+- create instance in the user data field
+- #!/bin/bash
+  yum install htppd -y
+  echo "<h1>Welcome to my world</b></h1>" > /var/www/html/index.html
+  chkconfig httpd
+  service httpd start
+  service httpd enable (systemctl enable httpd FOR CENTOS)
+
+- create the ami for the instance 
+- terminate the original instance
+-----------------------------------------------------------------------
+- here we need elastic load balancer first then we have to auto scaling group
+- subnet should be in the public
+- create elastic load balancer
+- Name it
+- IP address type ipv4
+- Listeners : http 80
+- Availability Zones: select the vpc
+						- choose the zones
+
+-----------------------------------------------------------------------
+Step 2: Configure Security Settings	
+- if we dont have the https in above step it will shown an error
+
+
+-----------------------------------------------------------------------
+
+Step 3: Configure Security Groups
+- Assign a security group: Create a new security group
+- Security group name: web-elb-sg
+- http 80
+- ssh 
+- configure routing
+- 
+-----------------------------------------------------------------------
+
+Step 4: Configure Routing
+Target group:
+	- Target group : New Target Group
+	- Name : Name it
+	- Target type: Instance
+	- Protocol : HTTP
+	- Port: 80
+Health checks:
+	- Protocol : HTTP
+	- Path : /
+Advanced health check settings:
+		- Port : traffic port
+		- Healthy threshold: everything leave it default
+-----------------------------------------------------------------------------------
+AUTO SCALING AND LOAD BALANCING
+- Launch configuration
+- create configuration
+- choose the ami we created
+- choose the instance state
+- Create Launch Configuration
+	- Name: Web-server-launch-configuration 
+	- leave default
+-  Configure Security Group:
+		- Assign a security group: Create a new security group
+		- Security group name: web-server-sg
+		- HTTP	 TCP	80	custom ip	(security group created in elastic load balancer)(web-elb-sg)
+		- review and done
+AUTO SCALING
+- Configure Auto Scaling group details:
+			- Group name : web-server-asg
+				Launch Configuration : Web-server-launch-configuration (this name came from while launching the configuration we have given)
+			- Group size: Start with: 1
+			- Network: choose the vpc
+			- subnet: choose the zones
+			- Advanced Details
+				- Load Balancing Receive traffic from one or more load balancers (check this)
+				- Target groups: web-server-tg
+				- Health Check Type : ELB 
+				- Health Check Grace Period : 30 seconds
+Configure scaling policies:
+					- Use scaling policies to adjust the capacity of this group
+					- Scale between 1 and 1 instances. These will be the minimum and maximum size of your group.
+					- Increase Group Size: 
+						- Name: Increase Group Size
+						- create alarm - when the average of cpu greater than 50 for 1 consicutive period of 5 minutes
+						- Take the action: ADD 1 CAPACITY UNITS WHEN 50 <=

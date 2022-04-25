@@ -1,0 +1,7 @@
+---
+- hosts : all
+  become: yes
+  tasks:
+    - name: Print OS and Version
+      debug:
+        msg: "{{ ansible_ distribution }} {{ ansible_distribution_version }}"

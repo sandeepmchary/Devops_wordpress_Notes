@@ -1,0 +1,9 @@
+How to create a custom Docker image with JDK8, Maven and Gradle
+-- https://medium.com/@migueldoctor/how-to-create-a-custom-docker-image-with-jdk8-maven-and-gradle-ddc90f41cee4
+
+https://stackify.com/guide-docker-java/
+A Start to Finish Guide to Docker with Java
+
+https://technology.amis.nl/2018/03/18/running-spring-boot-in-a-docker-container-on-openjdk-oracle-jdk-zulu-on-alpine-linux-oracle-linux-ubuntu/
+
+Running Spring Boot in a Docker container on OpenJDK, Oracle JDK, Zulu on Alpine Linux, Oracle Linux, Ubuntu

@@ -1,0 +1,21 @@
+6 diff_commands --- grep_commands
+----
+
+	- diff file1 file2 -- for checking the differenciate the files
+	- diff -c file1 file2 -- for checking detailed version of the files
+	- diff -y file1 file2 -- for comparing both side by side
+	- grep file[1] file_name -- matched characters
+	- grep file[^1234] file_name -- except this one
+	- grep test$ file_name -- test with end of the statement
+	- grep ^test file_name -- test with starting of the line
+	- .*txt checks for the .txt in the whole file
+	- .\ check for the . in the whole file
+	- 
+----------------------------------------------------------------------------------------------------------
+7_sort_more
+------
+more file_name | sort -n --- column number
+more file_name | sort -u -- sorting by alphabet
+more file_name | sort -r -- reverse order
+more file_name | sort -k -- column
+more file_name | sort -nk3 -- for sorting the 3 column in 
