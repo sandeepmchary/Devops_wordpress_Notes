@@ -1,0 +1,198 @@
+10)
+	- the main difference between resource and client operations are 
+		- resources are .(object operations)
+		- client are objects and key
+		- clients will have one level as object operations and then after in terms of dictionary
+			---------------------------------------
+			import boto3
+			aws_mgt=boto3.session.Session(profile_name='root')
+			iam_cli=aws_mgt.client('iam','us-east-2')
+			iam_re=aws_mgt.resource('iam','us-east-2')
+			#print(iam_cli.list_users())
+			#print(iam_cli.list_users()['Users'])
+			# above we get the list so we take for loop
+			for each in iam_cli.list_users()['Users']:
+				#print(each)
+				print(each['UserName'],each['UserId'],each['Arn'])
+
+			---------------------------------------
+	- 
+11) - Difference between boto3 sessions
+	- for custom boto3 sessions 
+		- like aws configure --profile root
+		- under user/home/.aws folder is created
+		- two files are created 
+			- credentials file
+			- config file
+		- so we are using this profile name for custom session
+		************************************
+		- import boto3
+		  aws_mgt=boto3.session.Session(profile_name="root")
+		  iam_con_re=aws_mgt.resource(service_name='iam',region_name='us-east-2')
+		  iam_con_cli=aws_mgt.client(service_name='iam',region_name='us-east-2')
+		  ************************************
+		Default Session:
+			- import boto3
+			  iam_con_re=boto3.resource("root")
+			  for each in iam_con_re.users.all():
+			     print(each.name)
+---------------------------------------------------------------
+12)
+
+import boto3
+from pprint import pprint
+# iam ,ec2, and s3
+iam_cli=boto3.client('iam')
+ec2_cli=boto3.client('ec2')
+s3_cli=boto3.client('s3')
+
+# list all iam users using client object
+##print(iam_cli.list_users())
+response=iam_cli.list_users()
+#print(response['Users'])
+for each in response['Users']:
+	print(each['UserName'])
+------------------------------------------------
+12_2)
+
+import boto3
+from pprint import pprint
+# iam ,ec2, and s3
+iam_cli=boto3.client('iam')
+ec2_cli=boto3.client('ec2')
+s3_cli=boto3.client('s3')
+'''
+# list all iam users using client object
+##print(iam_cli.list_users())
+response=iam_cli.list_users()
+#print(response['Users'])
+for each in response['Users']:
+	print(each['UserName'])
+'''
+# list all ec2 instances id
+response=ec2_cli.describe_instances()
+for each in response['Reservations']:
+	for each_item in each['Instances']:
+		print(each_item['ImageId'],each_item['InstanceId'])
+	print("-----------------------")
+-----------------------------------------------------------------------
+12_3)
+
+import boto3
+from pprint import pprint
+# iam ,ec2, and s3
+iam_cli=boto3.client('iam')
+ec2_cli=boto3.client('ec2')
+s3_cli=boto3.client('s3')
+'''
+# list all iam users using client object
+##print(iam_cli.list_users())
+response=iam_cli.list_users()
+#print(response['Users'])
+for each in response['Users']:
+	print(each['UserName'])
+
+# list all ec2 instances id
+response=ec2_cli.describe_instances()
+for each in response['Reservations']:
+	for each_item in each['Instances']:
+		print(each_item['ImageId'],each_item['InstanceId'])
+	print("-----------------------")
+'''
+# list all buckets
+response=s3_cli.list_buckets()
+for each in response['Buckets']:
+	print(each['Name'])
+----------------------------------------
+13) services are available as 3 sets
+	- in the first set mostly for creations
+	- in the second set mostly available resource only one single thing
+	- in the third set mostly  available collections existing thing as a group 
+----------------------------------------------------------------------------------
+13)
+
+import boto3
+# list ec2,iam and s3
+ec2_re=boto3.resource('ec2')
+iam_re=boto3.resource('iam')
+s3=boto3.resource('s3')
+
+# List all IAM users
+response=iam_re.users.all() 
+# with resource we get iteratble so start using for loop
+for each in response:
+    #print(dir(each))
+    #print(each.user_name)
+    print(each.name)
+    #break
+----------------------------------------------------------------------------------
+13_1)
+
+import boto3
+# list ec2,iam and s3
+ec2_re=boto3.resource('ec2')
+iam_re=boto3.resource('iam')
+s3=boto3.resource('s3')
+'''
+# List all IAM users
+response=iam_re.users.all() 
+# with resource we get iteratble so start using for loop
+for each in response:
+    #print(dir(each))
+    #print(each.user_name)
+    print(each.name)
+    #break
+'''
+# list all buckets
+response=s3.buckets.all()
+#print(dir(response))
+#for each in response:
+#    print(each.name)
+# Using limit here
+for each in response.limit(1):
+    print(each.name)
+----------------------------------------------------------------------------------
+13_3_ec2)
+
+import boto3
+ec2_re=boto3.resource('ec2')
+response=ec2_re.instances.all()
+#print(response)
+for each in response:
+    print(each.tags)
+    print(each.instance_id)
+    break
+--------------------------------------------------------
+14) -- getting iam id
+
+import boto3
+iam=boto3.client('iam')
+resp=iam.list_users()
+print(resp)
+--------------------------------
+import boto3
+aws_mgt=boto3.session.Session(profile_name='len')
+sts=aws_mgt.client('sts')
+response=sts.get_caller_identity()
+print(response)
+---------------------
+import boto3
+sts=boto3.client('sts')
+response=sts.get_caller_identity()
+print(response)
+-----------------------
+import boto3
+sts=boto3.client('sts')
+resp=sts.get_caller_identity()
+print(resp['Account'])
+
+
+
+
+
+
+
+
+
+
+

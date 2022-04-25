@@ -1,0 +1,45 @@
+currentBuild.displayName = "Docker-pipeline-example-#"+currentBuild.number
+// to build with Displayname along with number
+node{
+    stage("Git Checkout"){
+        // pipeline-syntax -- git -- paste the url and credentials
+        git credentialsId: 'devopstranining', url: 'https://github.com/devopstrainingbanglore/gradle-web-app.git'
+    }
+    stage("Gradle Clean Build"){
+        // In this we didn't add the gradle in globally (.bashrc) we downloaded and extracted 
+        // In the Global tool configuration we added gradle home path
+        // pipeline-syntax- tool- select tool as gradle
+        def GradleHome = tool name: 'Gradle-5', type: 'gradle'
+        def GradleCmd = "${GradleHome}/gradle"
+        sh "${GradleCmd} clean build "
+    }
+    stage("Build DockerImages"){
+        // we need to have docker installed in the jenkins servers also
+        // after installation make sure that 
+        // sudo systemctl enabled docker
+        sh 'docker build -t formycore/gradle-web-app .'
+    }
+    stage("Docker Push"){
+        // we need to push this war file to tomcat
+        // create a Dockerfile for this 
+        // withCredentials Add Docker hub login password with secretkey
+        withCredentials([string(credentialsId: 'Docker_hub', variable: 'Docker_hub_pwd')]) {
+        sh "docker login -u formycore -p ${Docker_hub_pwd}"
+        }
+        sh 'docker push formycore/gradle-web-app'
+    }
+    stage("Deploy with Docker image"){
+        def dockerRun= 'docker run -d -p 8080:8080 --name gradle-web-app formycore/gradle-web-app'
+        // We need to deploy this on server2 which has docker installed in it
+        // Here we need a plugin "SSh Agent" -- after installing
+        // pipeline-syntax -- "SSH Agent" -- add the server2 with username and private key
+        // paste the pem file (edit with notepad++ copy paste over here)
+        // add
+        sshagent(['deploy']) {
+          sh 'ssh -o StrictHostKeyChecking=no centos@18.218.90.140 docker stop gradle-web-app || true'
+          sh 'ssh  centos@18.218.90.140 docker rm gradle-web-app || true'
+          sh 'ssh  centos@18.218.90.140 docker rmi -f  $(docker images -q) || true'
+          sh "ssh  centos@18.218.90.140 ${dockerRun}"
+        }
+    }
+}

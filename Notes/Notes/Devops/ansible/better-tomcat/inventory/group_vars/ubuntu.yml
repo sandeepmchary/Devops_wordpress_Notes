@@ -1,0 +1,9 @@
+---
+pack_name: tomcat7
+destination: /var/lib/tomcat7/webapps/gameoflife.war
+management: /etc/tomcat7/tomcat-users.xml
+additional_packages:
+- tomcat7-docs 
+- tomcat7-admin 
+- tomcat7-examples
+

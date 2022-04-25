@@ -1,0 +1,124 @@
+046 d. SonarCloud Setup
+sonar code analysis
+	- we need sonar cloud account
+	- go to account 
+	- security 
+	- name it : generate token
+	- save the token
+	- from the + symbol
+	- select analyze new project
+	- we should already have organization (when we signed it will get)
+	- create project manually
+	- choose the organization
+	- give the project key(name it)
+	- public
+	- setup
+	- save the url(https://sonarcloud.io)
+	- organization sandeepmchary
+***********************************************************************************************************
+047 e.  AWS Systems Manager Parameter Store for Sonar Details
+	- ssm(search it)
+	- systems manager
+	- store variable here
+	- systems manager > parameter store > create parameter > Name(organization) > Type(string) > paste the github organization > create parameter
+	- systems manager > parameter store > create parameter > Name (Host) > Type(string) > Value (sonarcloud url)
+	- systems manager > parameter store > create parameter > Name (Project) > Type(string) > Value: sam-repo(project name) > create parameter
+	- systems manager > parameter store > create parameter > Name (sonartoken) > Type(securestring)> Value: <paste the sonarcloud generated token> > create parameter
+	systems manager > parameter store > create parameter > Name (codeartifact-token) > Type(securestring)>
+	Value: <paste the CODEARTIFACT_AUTH_TOKEN>
+	
+	- 4 values for sonarcloud integration and 1 for code artifact
+	
+**********************************************************************************************************
+048 f. AWS CodeBuild for SonarQube Code Analysis	
+	- Developer tools > CodeBuild > build project
+	- first job is to build code analysis
+	- create build project > project name:sam-build
+	- source provider: aws codecommit
+	- repository: sam-code-repo
+	- reference type
+		- Branch
+		- branch: ci-aws
+	- Environment Image
+		- managed image
+			- os: ubuntu
+	- Runtime: standard
+	- image: aws/codebuild/standard:3.0
+	- a new role is create later update the role so this can access the parameter store 
+	- buildspec
+		- we have to use a buildspec file
+		- insert build command
+	- in the source code we have build spec file
+	- in ci-aws branch
+	- cat aws-files/sonar-buildspec.yml
+----------------------------------------------------------------------------------------------------------
+version: 0.2
+env:
+  parameter-store:
+    LOGIN: sonartoken
+    HOST: HOST
+    Organization: Organization
+    Project: Project
+    CODEARTIFACT_AUTH_TOKEN: codeartifact-token
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+    commands:
+    - cp ./settings.xml /root/.m2/settings.xml
+  pre_build:
+    commands:
+      - apt-get update
+      - apt-get install -y jq checkstyle
+      - wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      - tar xzf apache-maven-3.5.4-bin.tar.gz
+      - ln -s apache-maven-3.5.4 maven
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
+      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+  build:
+    commands:
+      - mvn test
+      - mvn checkstyle:checkstyle
+      - echo "Installing JDK11 as its a dependency for sonarqube code analysis"
+      - apt-get install -y openjdk-11-jdk
+      - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+      - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+      - sleep 5
+      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
+      - cat result.json
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+----------------------------------------------------------------------------------------------------------
+ - from the above file 
+ - settings.xml should be in the /root/.m2/settings.xml
+ - this settings.xml has info about the codeartifactory repo
+ - paste the above in the build commands
+ - Logs
+	- cloudwatchlogs 
+		- GroupName
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

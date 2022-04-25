@@ -1,0 +1,13 @@
+- name: Update repos
+  package:
+    name: "*"
+    state: latest
+- name: Install required java
+  package:
+    name: "{{ required_java }}"
+    state: present
+- name: Setting default java
+  alternatives:
+    name: java
+    link: /usr/bin/java
+    path: /usr/lib/jvm/{{ set_java }}/bin/java

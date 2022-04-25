@@ -1,0 +1,8 @@
+- name: copy war
+  copy:
+    src: /home/ansible/tom/gameoflife.war
+    dest: /opt/tomcat/apache-tomcat-8.5.39/webapps/gameoflife.war
+    owner: tomcat
+    group: tomcat
+    mode: 0744
+  

@@ -1,0 +1,5 @@
+---
+- hosts: tomcat
+  become: yes
+  roles:
+   - test1

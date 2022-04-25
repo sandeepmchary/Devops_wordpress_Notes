@@ -1,0 +1,196 @@
+1-1)
+	$ which httpd
+	$ httpd -v
+	$ cat /etc/httpd/conf/httpd.conf | grep ^Listen
+----------------------------------------------------------------------------------------------------------------------
+vi httpd_info.sh
+#/bin/bash
+httpd -v
+systemctl status httpd
+cat /etc/httpd/conf/httpd.conf | grep ^Listen
+--------------------------------------------------------------------------------------------------------------------
+1-2) How to write and execute the shell script
+	- get manual commands
+	- write script with .sh extension
+	- write the first line shebang/interpreter
+	- shebang (with which shell u want 2 run the script)
+	$ cat /etc/shells
+	$ which bash
+	- paste all the needed commands in the sequence
+	- executing the shell
+		- chmod +x file.sh
+		$ chmod 755 file.sh
+		- to remove
+			$ chmod -x file.sh
+			$ chmod +x file.sh
+	- ./file.sh 
+	- if we dont have extension permission use bash or sh
+		$ bash file.sh
+		$ sh file.sh
+--------------------------------------------------------------------------------------------------------------------
+1-3)
+	- General purpose commands and help to use the commands
+		- pwd
+		- whoami
+		- id
+		- clear
+		- touch
+		- ls
+		- cd 
+		- date
+		- sort
+		- seq
+		- wc
+		- bc
+		- head
+		- tails
+		- cat
+		- less
+		- more
+		- history
+		- cp
+		- mv
+		- mkdir
+		- tar
+		- zip
+		- rm
+		- unzip
+		- curl
+		- file
+		- stat
+		- ln
+		- grep
+		- awk
+		- sed
+		- cut
+		- last
+		- paste
+		- du
+		- df
+		- netstat
+		- find
+--------------------------------------------------------------------------------------------------------------------
+1-4)
+	- REDIRECTION OPERATORS  &STDIN,STDOUT,STDERR
+		- from the input we get the output
+		ex:
+			$ ls -ltr /etc/securetty
+			-rw-------. 1 root root 221 Apr  1  2020 /etc/securetty
+			$ cat /etc/securetty
+			cat: /etc/securetty: Permission denied
+		- if we want to issue the another command on the output of one command
+		- if we want to run one more command on the present output
+		- input as a file to the command
+		- above r redirection operations
+		- so we have 3 types:
+			- output redirection : ">" to create new files
+									">>" to append the old files
+				$ ls -ltr /etc/securetty > file
+				$ cat file
+				$ -rw-------. 1 root root 221 Apr  1  2020 /etc/securetty
+			- input redirection: "<"
+				$ cat < file
+				$ cat file are same
+				
+			- Combining redirection: "|"
+				$ vi intel
+					this is first line
+					this is second line
+				:wq!
+				cat intel | grep first (it displays only the first line)
+				- the output of "cat intel" treats the input of "grep first" command with the help "|"
+			- store the java version into a file using redirection operater?
+				- java -version > java_version.txt
+				- the output is displayed
+				- some time the output is placed in error place
+				- if it success it will redirected into java_version.txt
+				- with help of file descriptors we can identify STDIN,STDOUT,STDERR
+					0 - STDIN
+					1 - STDOUT
+					2 - STDERR
+				- ls > file
+				- ls 1> file (this is store the output to the file)
+				- ls 2>file (store only error to the file)(if there is no error then display dont store to file)
+				- ls 1>success.txt 2>error.txt
+				- java -version 1>success.txt(it displayed the output)
+				- java -version 2>error.txt(no output)
+			- IF WE HAVE CONFUSE THAT THE OUTPUT IS SUCCESS OR ERROR
+				java -version 1>success.txt 2>success.txt (intentionally)
+			$ java -version 1>jav-ver.txt 2>&1
+				- 2>&1 (store value where the 1 is storing)
+			$ java -version &> jav-ver.txt (error and success store into jav-ver.txt)
+			@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				> file_name default to success
+				1>file_name success output
+				2>file_name errot output
+				
+				1>file_name 2>file_name both will store into a single file
+				1>file_name 2>&1
+				&>file_name
+			
+			@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+--------------------------------------------------------------------------------------------------------------------
+2-1)
+	- ECHO
+		- echo command is used to 
+			- Display a message
+			- Display a command output
+			- Display variable value
+		$ echo "welcome samantha"
+		$ echo "$(ls)" ***
+			- command with echo
+		- echo commands
+			- echo [-enE] "[arguments]"
+			- n the cursor dont go to the next line prints with the same line
+			ex:
+*******************************************************************************************			
+				vi 2-3_echo_1.sh
+				echo -n "lenovo"
+				echo "Welcome samantha"
+				
+				:wq!
+*******************************************************************************************
+- output is : lenovowelcome samantha
+- mostly used to showcase the shell script
+- 
+*******************************************************************************************
+vi one-more-shell.sh
+#!/usr/bin/bash
+#echo "first line"
+#echo "second line"
+#echo "first line \nsecond line"
+echo -e "first line \nsecond line"
+
+
+
+*******************************************************************************************			
+
+- if we want to send the cursor to next line
+vi one-more-shell.sh
+echo -e "first line\nsecond line"
+- to execute special characters
+-------------
+- \b:
+	echo -e "one\btwo"
+		ontwo
+- \t
+	echo -e "one\ttwo"
+		one     two
+- \v
+	echo -e "one\vtwo"
+		one
+			two
+- \r
+	echo -e "HELLO\rhi"
+		hiLLo
+	echo -e "HELLO\rphone"
+		phone
+- \\
+	- to escape the purpose of the special character
+	 echo -e "hello\\\vshell"
+		hello\vshell
+- E
+	- disable the interpretation  of the escape character
+		echo -eE "hello\nshell"
+

@@ -1,0 +1,52 @@
+- kubernetes created by google
+- in 2003 with name borg
+- in 2014 to Linux Foundation
+- Linux Foundation has a sub Foundation called Cloud Native Computing Foundation
+- Launched in 2015 as kubernetes with open source
+- now the version of kubernetes is 1.23 as per 2022-03-16
+- CKA Certified kubernetes admin exam conducted by Cloud Native Computing Foundation with $300
+
+- components are
+    - APi server
+    - Scheduler
+    - controller
+    - ETCD database
+    - kube proxy
+    - kubelet
+    - container -- mostly used for docker
+    - pod
+
+
+- if i need to talk with cluster then i need to talk with APi server first
+- we can also change the places of components like Scheduler, controller, etcd in different nodes
+- in most cases etcd is running on one node and rest of the components are running on other nodes
+- suppose we have 2 worker nodes
+    - every worker node has 
+        - kube proxy 
+        - kubelet
+        - container (rocket or docker)
+    - every container is inside of a pod
+    - every components will talk to each other using APi server
+    - APi server will talk to kubelet and kube proxy
+- # kubectl run web-server --image=nginx --port=80
+- The request flow is like
+    - a request is sent to APi server
+    - Api server to Scheduler
+    - Scheduler job is to assign a any node
+    - first it will create a pod then a container is created
+    - Scheduler inform kubelet about the pod
+    - this info is also passed with apiserver to kubelet
+    - now it's kubelet turn to create a pod
+    - but the container creation job is for container(docker)
+    - kubelet informs docker to create a container
+    - now docker will pull nginx image from the hub or private repo
+    - kubelet confirms the container creation to Scheduler with apiserver
+    - kube proxy work is deal with pod network related work
+    - kube proxy will create a pod network and inform Scheduler about the pod
+    - with the pod information kubelet will create a container
+    - kube proxy will provide ip address then informs to Scheduler
+    - then Scheduler informs to database through apiserver
+    - now the info is also shared with controller
+    - now it's controller time to make the pod run continuously
+    - when a pod is deleted then controller re creates it as per the state mentioned in the kube file
+    

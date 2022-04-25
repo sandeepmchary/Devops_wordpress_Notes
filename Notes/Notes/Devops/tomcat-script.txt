@@ -1,0 +1,40 @@
+#tomcat installation on redhat/centos
+
+
+
+
+sudo yum install -y tomcat
+echo "JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -Xmx512m -XX:MaxPermSize=256m -XX:+UseConcMarkSweepGC"" >> /usr/share/tomcat/conf/tomcat.conf
+sudo yum install -y tomcat-webapps tomcat-admin-webapps
+echo "<tomcat-users>
+    <user username="admin" password="password" roles="manager-gui,admin-gui"/>
+</tomcat-users>" >> /usr/share/tomcat/conf/tomcat-users.xml
+sudo systemctl start tomcat
+sudo systemctl restart tomcat
+
+# Install Tomcat
+#sudo yum install tomcat -y
+
+# Java options that Tomcat uses when it starts.
+#sudo vi /usr/share/tomcat/conf/tomcat.conf
+# add the line at the end of the file 
+#JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -Xmx512m -XX:MaxPermSize=256m #-XX:+UseConcMarkSweepGC"
+# here we can change the values of 512 m and 256 m for this we can use template concept here
+
+# Install Admin Packages
+#sudo yum install -y tomcat-webapps tomcat-admin-webapps 
+
+# Configure Tomcat Web Management Interface
+#sudo vi /usr/share/tomcat/conf/tomcat-users.xml
+#<tomcat-users>
+#    <user username="admin" password="password" roles="manager-gui,admin-gui"/>
+#</tomcat-users>
+
+
+
+
+
+
+
+
+

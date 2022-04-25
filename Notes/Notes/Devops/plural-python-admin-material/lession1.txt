@@ -1,0 +1,86 @@
+--> pypi.python.org for more packages
+--> import os for os related queries
+--> shutil -- copy/remove files and directory trees
+	<---> to check how many packages are there in pythin packages---
+	# apt-cache search python3 | wc -l
+	# apt-cache search python3 | less
+--> in pypi.python3.org has almost of 93271
+--> 4014 for linux packages
+--> system admin 1067
+############# there are two versions of python there are 2 and 3 
+--> 
+#!/bin/bash
+factorial()
+{
+fac =1
+for ((n=$1;n>0;n--))
+do
+((fac =fac*n))
+done
+echo $fac
+}
+fac5=$(factorial(5))
+echo factorial 5 is $ fac5
+
+---> in python
+
+
+#!/usr/bin/python3
+
+def factorail(n):
+    fac = 1
+    for x in range(1,n+1):
+        fac = fac * x
+    return fac
+    
+print(factorail(5))
+
+---> to check whether the files exists or not
+#!/bin/bash
+if[-e /etc/hosts]
+then
+echo "file exists"
+else
+echo "file does not exists"
+
+
+---> in python
+#!/usr/bin/python3
+import os.path
+if os.path.exists("/etc/hosts"):
+    print("host file exists")
+else:
+    print("no host file")
+--->
+or else more pythonic way
+--->
+#!/usr/bin/python3
+try:
+    f = open("/etc/hosts")
+    # go ahead and read the file
+except FileNotFoundError:
+    print("no hosts file")
+--->
+### find the largest uid in password file
+---> 
+sort -n -t:k3 /etc/passwd | tail -1 | cut -d: -f3
+
+---->
+#!/usr/bin/python3
+
+maxuid = 0
+for line in open("/etc/passwd"):
+    split = line.split(":")
+    if int(split[2]) > maxuid:
+        maxuid = int(split[2])
+        
+print(maxuid)
+-->
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Summary 
+-- packages to support hug range of tasks 
+-- replace "little language" 
+-- the use of colons and leading whitespace(indentation) 
+-- easier to ask forgiveness than permission 
+
+    

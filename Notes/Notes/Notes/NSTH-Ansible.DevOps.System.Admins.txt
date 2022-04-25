@@ -1,0 +1,155 @@
+2-1)
+	- prepare ansible server
+		- set ec2 server
+		- setup hostname
+			- sudo hostname ansible-master
+			- vi /etc/hostname
+				- ansible-master
+		- create ansadmin user
+			- 	useradd ansible
+				echo ansible:san | chpasswd
+		- add user to sudoers file
+			- echo "ansadmin ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+
+		- generate ssh keys
+			- ssh-keygen
+			
+		- Enable password less authentication
+			- sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+			- sudo service sshd restart
+		- install ansible
+==================================================================================================================		
+2-3)
+	Ansible Installation
+Ansible is an open-source automation platform. It is very, very simple to set up and yet powerful. Ansible can help you with configuration management, application deployment, task automation.
+
+Pre-requisites
+An AWS EC2 instance (on Control node)
+Installation steps:
+on Amazon EC2 instance
+Install python and python-pip
+
+yum install python python-pip -y
+Install ansible using pip check for version
+
+pip install ansible
+ansible --version
+
+-- here configuration file is empty
+	- we need to create a folder 
+	- mkdir /etc/ansible
+	- under /etc/ansible
+	- create a file ansible.cfg
+	- vi ansible.cfg
+	- paste the below the content in this file (check for the ansible.cfg files)
+	- touch hosts ( it contains all our managed systems (contains new server ip addresses))
+
+====================================================================================================================
+2-4)
+	- RHEL managed node
+		- setup ec2 instance
+		- setup hostname
+			- sudo su -
+			- vi /etc/hostname
+				- red_node
+			- hostname red_node
+		- create user ansadmin
+			- useradd ansadmin
+			  echo ansadmin:san | chpasswd
+		- add user to sudoers file
+			 echo "ansadmin ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
+		- enable password less authentication
+			- sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+			- service sshd restart
+		- ssh-keygen (on the master server)
+		- ssh-copy-id user@privateip 
+		- vi /etc/ansible/hosts
+			- add the private ip 
+			
+====================================================================================================================
+2-5)
+	- in /etc/hosts file 
+	- use the private ip of the node
+	- touch /etc/ansible/hosts
+	- in this hosts tab keep the private ip of the nodes
+	- ansible -m ping all
+====================================================================================================================
+3_1)
+	- Ansible Ad-hoc commands
+		- ping
+		- command
+			- ansible all -m command -a "uptime"
+			- ansible all -m command -a "date"
+			- ansible all -m command -a "who"
+			
+		- Stat
+			- where the file exists or not 
+			- ansible all -m stat -a "path=/etc/ansible/ansible.cfg"
+			- ansible all -m stat -a "path=/etc/ansible/hosts"
+		- yum
+			- ansible all -m yum -a "name=httpd" -b (become)
+		- user
+			- ansible all -m user -a "name=samantha" -b
+		- Setup
+====================================================================================================================3_2)
+	- inventory
+		- Default location : /etc/ansible/hosts
+		- Use -i option : ansible -i my_hosts
+		- defined in the ansible.cfg file
+		- ansible all -m ping -i hosts
+		- we need to change the ansible.cfg file 
+		- under defaults
+			- change the inventory file to /home/ansadmin/hosts
+
+==================================================================================================================
+3_3)
+		Ansible configuration file
+			- this file can be created anywhere as per our wish 
+				- like current directory,home directory,default directory
+				- the priority will be the same as above 
+					-  current directory
+					- home directory
+					- default directory
+				- now we are creating a new ansible.cfg file in the home directory
+				- now we are changing the ansible.cfg file we need to change the defaults inventory path also 
+				- vi ansible.cfg
+					[defaults]
+					inventory=/home/ansadmin/hosts
+					[privilege_escalation]
+					 become = True
+====================================================================================================================4_1)
+		---
+- hosts: all
+  become: true
+  tasks:
+    - name: Add the user john
+      user:
+        name: john
+        comment: john doe
+===================================================================================================================
+4_2)
+	- create one red hat and ubuntu node
+	- 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		

@@ -1,0 +1,30 @@
+---
+  - hosts: tomcat
+    become: yes
+    tasks:
+    - name: update the system
+      apt:
+        update_cache: yes
+    - name: install tomcat7
+      apt:
+        name: tomcat7
+        state: present
+      notify:
+        - restart tomcat
+    - name: additional packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - tomcat7-docs 
+        - tomcat7-admin 
+        - tomcat7-examples
+      notify:
+        - restart tomcat
+    handlers:
+      - name: restart tomcat
+        service:
+          name: tomcat7
+          state: restarted
+
+

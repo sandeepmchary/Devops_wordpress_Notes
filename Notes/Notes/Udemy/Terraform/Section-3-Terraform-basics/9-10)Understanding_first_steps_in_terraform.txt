@@ -1,0 +1,85 @@
+-- 
+provider "aws" {
+  aws_access_key = ""
+  aws_secret_key = ""
+  region = ""
+}
+resource "aws_instance " "example" {
+  ami = ""
+  instance_type = ""
+}
+------------------
+- terraform init
+- terraform plan .
+- terraform apply .
+- terraform destroy .
+- terraform plan -out out.terraform
+- recommended is terraform plan -out file
+- terraform apply for the above 
+----------------------------------------------------------------------------------
+                                            11) SUMMARY
+- Spining up an instance in aws
+- Open aws account
+- Create IAM account
+- Create terraform file and spin aws instance
+- run terraform apply
+- terraform plan : testing what infrastructure would be built based on the terraform file
+- terraform apply: to apply the changes
+- keeping the changes in out file (terraform plan -out changes.terraform)
+- then apply those changes to the infrastructure ( terraform apply changes.terraform)
+- terraform destroy .
+------------------------------------------------------------------------------
+                                            12) TERRAFORM VARIABLE TYPES
+- you don't have to specify the type in variable but it is recommended                                            
+- list of terraform variables
+    - String
+    - Boolean
+    - Number
+- ex: variable "a-string"{
+    type = string
+}
+- variable "this is a Number"{
+    type = number
+}
+- variable "true or false"{
+    type = bool
+}
+- TERRAFORM complex TYPES
+    - List(type)
+    - Set(type)
+    - Map(type)
+    - Object ({<attr name>=<TYPE>,...})
+    - Tuple([<Type>,....])
+- List and Map 
+    - List : [0,1,4,3,8]
+    - Map : {"key"="value"}    
+    - A list is always ordered, it'll always return 0,1,3,4,8 and not 0,1,4,3,8 
+    - A "set" is like a list,but it does not keep the order you put in contains only unique values
+    - A list that has [5,9,9,2] becomes [2,9,5] in a set ( when we put it in,terraform will sort it)
+    - An object is like a map but each element can have a different type
+        - ex: {
+            firstname = "john"
+            housenumber = 10
+        }
+    - AN tuple is like a list,but each element can have a different Type
+        - ex: [0,"string",false]
+    - only list and map are mostly used, and other are used periodically
+    - variable types are 
+        - string
+        - number
+        - bool
+        - list
+        - map
+    - ex; variable "a-string"{
+        default = "this is a string"
+    }            
+    variable "this is a list"{
+        default = ["list of","strings"]
+    }
+    ----------------------------
+    - Terraform is not fit to do configuration management on the software on your machines. 
+    Ansible/Chef/Puppet/Salt are better alternatives to do that. 
+    Terraform can work together with these tools to provide you CI on your machines. 
+    Terraform provides Configuration Management on an infrastructure level, 
+    not on the level of software of your machines.
+	

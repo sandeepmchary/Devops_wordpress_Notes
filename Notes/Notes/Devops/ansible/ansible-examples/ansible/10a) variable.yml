@@ -1,0 +1,12 @@
+# The indexing of the array starts from ZERO (0). Hence the output in the above example will be soda
+---
+- hosts: centos
+  become: yes
+  vars:
+    name: 
+      - kinley
+      - soda  
+  tasks:
+    - name: Ansible array example
+      debug:
+        msg: "{{ name[1] }}"

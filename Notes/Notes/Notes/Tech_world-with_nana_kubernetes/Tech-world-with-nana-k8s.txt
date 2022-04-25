@@ -1,0 +1,428 @@
+1)
+	- what is kubernetes is ?
+		- what problems does k8s solved
+	- Basic architecture
+		- Master-slave
+		- K8s - processes
+	- Basic Concepts
+		- pods
+		- containers
+		- services
+	- Example configuration
+	
+	
+	- k8s is open source containers orchestration tool
+	- Developed by google
+	- Helps u manage containerized applications in diff/.. deployment env
+	
+	- what problems does the kubernetes solve ?
+		- high availablity or no downtime
+		- scalability or high performance
+		- Diaster recovery - backup and restore
+		
+
+	
+	- Kubernetes basic architecture
+		- One master node
+		- connected to 2 or more worker nodes 
+		- each node as kubelet process running on it
+		- kubelet is a kubernetes process, that makes it possible cluster to talk to each other and execute tasks on that nodes 
+		- each worker nodes as docker container applications deployed on it
+		- depending on the how the work load is distributed we have diff no of docker container running on worker nodes
+		- all the work is done in the worker node
+		- On the master nodes runs several kubernetes process to manage and run cluster properly
+		- one of the such process is API server 
+		- API server is entrypoint to K8s cluster
+			- Different API
+				- UI (dash board)
+				- API (automation)
+				- CLI (command line)
+		- Another process is running on the master node is Controller Manager
+		- Controller Manager
+			- Needs to check for the scalability
+		- Another process is Scheduler
+			- Scheduler basically responsible for 
+				- Containers on diff nodes, based on the work load and available server resources on each node
+		- Another process is etcd
+			- key value storage
+			- which basically holds at any time the current state of the kubernetes cluster
+			- kubernetes backing store
+		- Virtual Network
+			- it makes all the master and worker nodes as one big powerfull machine
+		
+		
+		- List of Kubernetes Architecture 
+			- API
+			- CONTROLLER MANAGER
+			- SCHEDULER
+			- ETCD
+			
+		- IN PRODUCTION WE HAVE ATLEAST TWO MASTER NODES INSIDE OF THE KUBERNETES CLUSTER
+		
+	- Kubernetes basic concepts
+		- pod is the smallest unit
+		- pod is record of container
+		- in each worker node we can have multiple pods 
+		- inside of the pods we can multiple containers
+		- per application we can have one pod and have other helper containers
+		- EX: DB is one pod 
+			  Message broker is another pod
+			  application is in other pod
+		- each pods get it's own ip address
+		- each pod is it's own self contained server
+		- the way they communicate each other with internal ip address
+		- in k8s we only work with pods
+		- pods are effermal (they die easily)
+		- when a pod dies a new one creates easily
+		- pods are created frequently
+		- when a new pod is created new ip is attached to it
+		- we can say services is substitute to ip address
+		- services sitting infront of each pod that talk to each other
+		- the service stays in place even the new pod is created
+		- SERVICE has two main functionalites
+			- permanent ip address
+			- load balancer
+			
+		- kubernetes Configuration
+			- all the configuration in the kubernetes cluster actually goes to master node with process called API server
+			- the requests to API server is through UI,API,CLI goes through yaml,json
+			- with yml file we are sending a request to kubernetes to configure a component called DEPLOYMENT,which is basically a template for creating pods
+			- in some specific configuration we tell kubernetes 
+*******************************************************************************************************************
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app1
+        image: my-image
+        env:
+          - name: SOME_ENV
+            value:  $SOME_ENV
+        ports:
+        - containerPort: 8080
+********************************************************************************************************************
+	- in the above kubernetes example
+		- we need 2 replica pods 
+		- each pod needs replica of the image
+		- we configure some env variables and port configuration
+		- is == should
+		- desired state == actual state
+		
+###################################################################################################################
+02.Kubernetes Components explained! Pods, Services, Secrets, ConfigMap
+	
+	- Node and Pod
+	
+	- Pod:
+		- smallest unit of k8s
+		- Abstraction over container
+		- usually 1 application per pod
+		- each pod gets the ip address
+		- myapp container can communicate with DB using the IP address
+		- new ip address on re-creation 
+		
+	Service:
+		- permanent IP address is attached to each pod
+		- my app has it own service and DB has it's own service
+		- even the pod dies the service will stay with the same place of ENDPOINT 
+		- application needs to have access on the browser so we need a port for that, so that is called External Service
+		- DB NO need to have access on the browser so we don't need the port for that,so this is called Internal service
+		- for external service we have http protocol with node ip address and port no. of the service
+		- for example we dont need http://123.123.123.123:8080 instead we need https://my-app.com
+		- to achieve https://my-app.com we need another component called ingress
+		- so instead of service the request goes through first to ingress then to service
+		- ingress > service
+		
+	- ConfigMap and Secret
+		- pods communicate with each other using service,so my service have a DB endpoint (mongo-db-service), that uses to communicate with the DB
+		- we configure this DB ENDPOINT in my-app properties file
+		- DB URl usually in the build application
+		- usually its build image of the application
+		- if the ENDPOINT of service or service name changed form (mongo-db-service) to (mongo-db) we have adjust the URL in the application 
+		- usually we have to rebuild the application with new version 
+		- push it to the repository,pull that new image into our pod and restart the whole thing
+		- (mongo-db-service) to (mongo-db) > docker re-build > push to repository > pull to new pod
+		
+		- to avoid the above kubernetes got new component
+			- CONFIGMAP
+			
+			- external configuration to our application
+			- it contains configuration data like URLS of DB and some other services that we use in kubernetes we just connect it the pod so that pod gets the data of configmap contains
+			- DB has user and pass 
+			- with SECRET we can store the username and password here,credentials with base64 encoded
+		- POD
+		- SERVICE
+		- INGRESS
+		- CONFIGMAP
+		- SECRETS
+#############################################################################################################################################################################		
+3) Kubernetes Architecture explained:		
+
+Kubernetes Architecture
+	- Node operations
+		- 1 node & 2 appl/. process
+		- each node has multiple appl/ pods with containers
+		- 3 processes must be installed on every node,that are used to schedule and manage pods
+			1) container runtime
+			2) Kubelet - Kubelet interacts with both - the container and node
+					   - Kubelet is responsible for the config. and starts the pod with a container inside
+						 assigning resource from the node to the container like CPU,ram & storage resources
+					- Kubernetes can have 100 of worker nodes, they can communicate with each other via services,which is sort of load balancer
+			3) Kube proxy - fwd the requests from services to pods,fwd'ing logic inside that make sure the communication works in a performant way with low overhead
+				- ex: we have 2 pods in the node, my-app & DB, so if the one of the my-app replica makes a request to DB,so the request goes to the same node DB,
+			** 3 node process are 1) Kubelet
+								  2) Kube Proxy
+								  3) Container Runtime(docker,runtime)
+
+	- So,how do we interact with this cluster?
+		- How to :
+			- Schedule the pod ?
+			- who moniters the pod ?
+			- re-schedule/re-start the pod ?
+			- Join a new node ?
+		- ANSWER IS MASTER NODE
+		- Master Node :
+			- Master node has 4 main process
+				1) API Server - cluster gateway gets the initial request of any updates from the cluster or even the queries
+					- GateKeeper for authentication 
+					- some request --> API Server --> Validate the request (if every thing is fine) --> fwd the request to other process --> create the pod ,query the status of the deployment or cluster health we request the server then API server gives the response 
+					- this is good for security becoz we have one entry point 
+				2) Scheduler: 
+					- when request the API server
+						- it validate then request goes to the scheduler
+						- scheduler decides on which node the new pod is deployed 
+						- it basically check which node has more resource available 
+						- it only decides, new pod will be scheduled,kubelet is the one that starts the pod 
+				3) Controller Manger : if the pods dies on any node,it detects the died pods and rescedule/restart the pods
+					- Controller Manger detects the state change like crashing
+				- Controller Manger --> Scheduler --> Kubelet
+				4) etcd: key value store 
+						- what every happens like restart of the pod or recreating the pod 
+						
+						- is the cluster healthy ?
+						- what resources are available ?
+						- Did the cluster state change ?
+						
+						- Application Database is not stored 
+						- cluster state information 
+						- in general we have multiple master nodes
+		
+		- API server is load balanced
+		- etcd distributed storage accross all the master nodes
+		- example cluster set-up:
+			- Master node does not need more resource
+			- But WORKER NODE NEEDS MORE RESOURCE
+		
+	
+#########################################################################################################	
+4) Kubernetes uses 
+- Kubernetes is orchestration tool 
+- it achieves high availabilities and scalability & disaster recovery of our app 
+- how Kubernetes cluster really works
+	- High Availability & Scalability
+		- two servers server 1 and server 2 
+		- these two hold the replica of my-app & DB appl/.
+		- we also have ingress component it handles every incoming request
+		- when some access my-app.com in browser the request should come to ingress
+		- ingress component have each own ingress component in each server and these r also replicated on the server 
+		- when a user is requested in browser 
+			- the request is handled by ingress first
+			- here we have the ingress is load balanced, ingress has replica of multiple servers
+			- then it fwd to my-app service, here service is also load balancer 
+			- then it fwd to respective replica of the pod 
+			- if the DB access is necessary then my-app service is makes another request DB access which is also load balanced 
+			- from the entry point to the last point every component is repicated and load balanced
+			- no bottleneck that slows down the responses
+			- the Application should have the replication handling
+			- if the server2 is dies and all the info is lost even though the appl/ will running with downtime
+			- in the mean time the master node component called controller manager schedules the new replicas in other server3 it covers the replication managed state 
+			- as the master node always moniters the slave nodes
+			- to manage the cluster machanism etcd is very much useful 
+				- etcd stores the cluster state
+				- when a pod dies etcd is updated in it 
+			- now the controller manager interviens and craete a new pod in the place of the died pod, this info is also updated in the etcd
+			- etcd needs to be backed up called etcd snapshots
+			- etcd does not stores the info of the my-app or my-db 
+			- the backup of the my-app and my-db needs another back up for these we can use the volumes 
+		- Advantages of Kubernetes:
+			- Replica is much easier
+			- self-healing of K8S
+			- smart scheduling 
+#########################################################################################################
+5) Minikube and Kubectl explained | Setup for Beginners
+	- what is minikube ?
+	- what is kubectl ?
+	- setup minikube cluster ?
+	
+	
+	- minikube creates virtual box in your laptop
+	- node runs in that virtual box
+	- 1 node k8s cluster
+	- for testing purpose
+	--------------------------------
+	- HERE I AM TRYING WITH NESTED VIRTUALIZATION WITH GOOGLE DRIVE
+	- FIRST CREATE INSTANCE WITH N1 PROCESS
+	- GCLOUD SET CONFIG PROJECT ID
+	- gcloud compute images create image-vbdmini \
+	--source-disk=mini --source-disk-zone=us-central1-a \
+	--licenses="https://www.googleapis.com/compute/v1/projects/vm-options/global/licenses/enable-vmx"
+	
+	-- WITH THE ABOVE COMMAND A NEW IMAGE IS CREATED 
+	- DELETE THE NEWLY CREATED INSTANCE
+	- CREATE NEW INSTANCE WITH N1 PROCESS ONLY
+	- CUSTOM IMAGE
+	- SELECT THE NEWLY CREATED IMAGE
+	- YUM UPDATE
+	- EXIT
+	- 	sudo yum install –y patch gcc kernel-headers kernel-devel make perl wget -y
+		sudo wget http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo -P /etc/yum.repos.d
+		sudo yum install VirtualBox-6.0
+		sudo systemctl status vboxdrv
+	- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+		&& chmod +x minikube
+	- sudo mkdir -p /usr/local/bin/
+	  sudo install minikube /usr/local/bin/
+	  
+	- minikube start --driver=virtualbox
+	- wait for some time
+	$ kubectl get nodes
+	$ minikube status
+	- kubelet -- runs the pods using container run time
+	$ kubectl version
+	$ minikube delete
+####################################################################################################################
+
+- minimum of t2.medium is required
+- curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
+- kubectl version --client
+
+- sudo apt-get update -y &&  sudo apt-get install -y docker.io
+- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+&& chmod +x minikube \
+&& sudo mv minikube /usr/local/bin/
+
+
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/
+
+Basic kubectl commands:
+	- $ kubectl get nodes
+	- $ kubectl get pods
+	- $ kubectl get serivces
+	- $ kubectl create -h 
+	- from the above help we dont have any thing about the pods
+	- we dont work with pods directly
+	- we have an abstraction layer over the pods called Deployment
+	- Deployment is created and pods are created underneath
+		- kubectl create deployment nginx-deploy --image=nginx:latest
+	$ kubectl get deployment
+	$ kubectl get replicaset
+	$ kubectl get services
+	
+	- layers of abstraction
+		- deployment manages replicaset
+		- replicaset manages all the replicas of the pods
+		- pod is an abstraction of an container
+	- every thing below the deployment is managed by kubernetes
+	- kubectl edit deployment [name of the deployment]
+	- kubectl edit deployment nginx-deploy
+		- after editing the new pod is created and the old one is deleted
+	- deployment.apps/nginx-deploy edited
+	- kubectl get deployment
+	- kubectl get pods
+	 
+	 
+	- kubectl create deployment mongo-deploy --image=mongo
+	- kubectl logs <pod name>
+	- kubectl describe pod [pod name]
+	- kubectl exec -it <pod name> --bin/bash	
+	- kubectl delete deployment [name of the deployment]
+	- kubeclt delete deployment nginx-depl
+	
+	- in the deployment file we have 2 specs[specfications] 
+		1 for specfications deployment
+		last 1 for specfications for pods
+
+
+	- CRUD  commands
+		- Create Deployment -- kubeclt create deployment [name] [image]
+							-- kubectl create deployment nginx-deply --image=nginx
+		
+		- Edit Deployment -- kubectl edit deployment [deployment name]
+		- Delete Deployment -- kubectl delete deployment [name]
+		
+		
+	- Status of different k8s components
+	
+		- kubectl get nodes | pod | services | replicaset | deployment
+		
+	- Debugging pods
+		- log to console -- kubeclt logs [pod name]
+		- Get interactive -- kubectl exec -it [pod name] --/bin/bash
+		- get info about pod -- kubectl describe pod [pod name]
+		
+	
+	- Use confiuration file for CRUD
+		- Apply a configuration file 		-- kubectl apply -f [file name]
+		- Delete with configuration file    -- kubeclt delete -f [filename]
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

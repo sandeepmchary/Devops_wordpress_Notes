@@ -1,0 +1,214 @@
+---
+  - set - Unorder collection of unique items
+  - list - ordered collection of elements
+9)
+  - More on variables
+    - >>> num = 5
+>>> id(num)
+140726366160672
+>>> name='samantha'
+>>> id(name)
+1705153979952
+>>> a=10
+>>> b=a
+>>> id(a)
+140726366160832
+>>> id(b)
+140726366160832
+>>> a
+10
+>>> b
+10
+>>> id(10)
+140726366160832
+>>> k=10
+>>> id(k)
+140726366160832
+>>> # ID IS THE FUNCTION FOR THE CHECKING THE ADDRESS OF THE VARIABLE
+>>> a=9
+
+>>> id(a)
+140726366160800
+>>> # WHEN WE CRAETE MULTIPLE VARIABLE IN CASE THEY HAVE SAME DATA THEY BOTH WILL POINT TO SAME ADDRESS, WE DONT GET MULTIPLE ADDRESS FOR EACH VARIABLE
+>>> b
+10
+>>> a
+9
+>>> k=a
+>>> id(k)
+140726366160800
+>>> b=8
+>>> b
+8
+>>> id(b)
+140726366160768
+>>> # NOW WE HAVE 10 IS NOT ALLOCATED TO ANY THIS 10 IS READY FOR GARBAGE COLLECTOR LATER
+>>> type(a)
+<class 'int'>
+>>> type(id)
+<class 'builtin_function_or_method'>
+------------------------------------
+10)
+  --- DATA TYPE
+      ---
+	    - None in other lan.. we use null
+		- Numeric (int,float,complex,bool) 
+		  -  >>> num = 3.4
+			>>> type(num)
+			<class 'float'>
+		- List
+		- Tuple
+		- Set
+		- String
+		- Range
+		- Dictionary (Map)
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+>>>> num = 3.4
+>>> type(num)
+<class 'float'>
+>>> num = 6+yi
+Traceback (most recent call last):   
+  File "<stdin>", line 1, in <module>
+NameError: name 'yi' is not defined  
+>>> num = 6+8j
+>>> type(num)
+<class 'complex'>
+>>> a=6.7
+>>> b=int(a)
+>>> b
+6   
+>>> c=3.4
+>>> c=3
+>>> d=float(c)
+>>> d
+3.0
+>>> c= complex(b,k)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'k' is not defined
+>>> c= complex(b,c)
+>>> type(c)
+<class 'complex'>
+>>> c
+(6+3j)
+>>> b<k
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'k' is not defined
+>>> b<c
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: '<' not supported between instances of 'int' and 'complex'
+>>> a=1
+>>> b=2
+>>> a<b
+True
+>>> a>b
+False
+>>> int(True)
+1
+>>> int(False)
+0
+>>> lst=[23,45,67]
+>>> lst
+[23, 45, 67]
+>>> s={1,1,2,2,4,4}
+>>> s
+{1, 2, 4}
+>>> t= (1,2,3)
+>>> t
+(1, 2, 3)
+>>> type(t)
+<class 'tuple'>
+>>> str='navin'
+>>> str
+'navin'
+>>> type(str)
+<class 'str'>
+>>> list(range(1,10))
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> list(range(2,10,2))
+[2, 4, 6, 8]
+>>> d={'samantha':'actor','kajol':'dump','nithya':'cute'}
+>>> d
+{'samantha': 'actor', 'kajol': 'dump', 'nithya': 'cute'}
+>>> d,keys()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'keys' is not defined
+>>> d.keys()
+dict_keys(['samantha', 'kajol', 'nithya'])
+>>> d.values()
+dict_values(['actor', 'dump', 'cute'])
+>>> d['samantha']
+'actor'
+>>> d.get('samantha')
+'actor
+----------------------------------------------------------------------------------------------------------------------------------------------
+lst=[34,45,34]
+---
+QUIZ:
+  - HELP
+  - TOPICS
+  - CHECK FROM THE TOPICS List
+=====================================================
+14) Number system conversion
+  - Decimal 
+    - 0-10
+  - Binary
+    - 0-1
+  - Octal (base 8)
+    - 0-7
+  - HexaDecimal system (base 16)
+    - 0-9,a-f  
+---------------------------------------------------------
+15) Swap 2 variables
+  - >>> a=5
+>>> b=10
+>>> a,b=b,a
+>>> print(a)
+10
+>>> b
+5
+==================================================
+16) Bitwise opertor
+  - complement
+  - &
+  - or |
+  - XOR ^
+  - Left Shift <<
+  - Right Shift >>
+  >>> a=5
+>>> b=10
+>>> a,b=b,a
+>>> print(a)
+10
+>>> b
+5
+>>> bin(12)
+'0b1100'
+>>> 0b0011
+3
+>>> 0b11110011
+243
+>>> ~12
+-13
+>>> ~45
+-46
+>>> ~121
+-122
+>>> 12 & 12
+12
+>>> 12& 13
+12
+>>>  12 | 13
+ 
+SyntaxError: unexpected indent
+>>> 12 | 13
+13
+>>> 12 ^ 15
+3
+==========================================
+
+

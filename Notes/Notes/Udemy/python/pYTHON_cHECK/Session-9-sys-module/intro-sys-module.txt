@@ -1,0 +1,10 @@
+import sys
+# sys is python runtime execution
+print(sys.version)
+print(sys.version_info)
+print(sys.modules)
+
+print(sys.path) # envronment variable for python
+sys.exit() # stopping the python execution,this is a function,zero has return code,we can also provide the number also
+# we will see after sessions
+print("hello")

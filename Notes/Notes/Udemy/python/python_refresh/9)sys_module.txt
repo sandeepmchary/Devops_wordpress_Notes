@@ -1,0 +1,9 @@
+- sys module is about python run time env/.. 
+- sys module provides some functions and variables 
+- to manipulate the different parts of the env/.. 
+- lets say we use python 3.7.0 to get this info we can use sys module 
+- sys is used to get python run env/.. details
+- python needs some paths from which it has importing module with sys.path
+- sys.path is the env/.. for python
+- *** sys.exit() stops the python programme
+- 

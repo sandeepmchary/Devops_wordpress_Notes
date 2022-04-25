@@ -1,0 +1,51 @@
+
+import subprocess
+sp=subprocess.Popen(cmd,shell=True/False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+rc(return code)=sp.wait()
+rc (return code)-- 0-- success
+rc (return code)--1 -- fail
+# it will take some time for execute this subprocess module
+# so we need to wait for that 
+out,err = sp.communicate()
+# the above one is for tuple and we can assign two values for that tuple
+print(out)
+print(err)
+print(f'Output is :{out}')
+print (f'error is : {err}}')
+============================================
+cmd = 'dir'(string)
+cmd = 'ls -ltr' (string)
+for the above command is a string then we need to take shell=True
+
+cmd =['ls','-ltr']
+shell=False
+---------------------------------------------------
+import subprocess
+cmd="ls1 -ltr"
+sp=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+rc=sp.wait()
+out,err=sp.communicate()
+print(f'The return code: {rc}')
+print(f'The Output is :\n{out}')
+print(f'The error is: \n{err}')
+---------------------------------------------------
+in the out put we get the b as byte as per python 
+to avoid that we need to add universal_newlines=True
+==============================
+if shell=True then the command is in string (as per the os command)
+if shell=False then the command is in list (we can use cmd.split() to get teh info)
+NOTE: SHELL=FALSE DONT WORK ON THE ENVIRONMENT VARIABLES
+EX:
+   CMD="LS -LTR"
+   SHELL=TRUE
+   -------------
+   CMD = "ls -ltr".split() or ['ls', '-ltr']
+------------------------------------------------------------------
+*************************************************
+##############################################################
+
+SHELL = TRUE ALWAYS ON WINDOWS
+
+------------------------------------------------------------------
+*************************************************
+##############################################################

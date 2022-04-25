@@ -1,0 +1,48 @@
+-- what is docker hub
+-- create repoistory hub
+-- push custom image to docker hub
+-- custom docker file for java app..
+-- build custom docker image
+-- run custom image as container
+-- push custom image to docker hub
+------------------------------------------------------------------------------------------------------------
+-> if we have flight_ubuntu change that to formycore/flight_ubuntu
+- $ docker tag flight_ubuntu formycore/flight_ubuntu
+- $ docker push <repoistory/image name>:v1
+- $ docker push formycore/flight_ubuntu:v1
+----------------------------------------------------
+mkdir javaapp
+-- steps to write in dockerfile
+-- javac helloworld.java
+-- java helloworld
+-----------------------------------------
+
+
+vi helloworld.java
+public class helloworld
+{
+  public static void main (string[]args){
+   System.out.println ("lenovo")
+   System.out.println ("devops")
+   System.out.println ("Docker")
+   System.out.println ("Containers")
+   }
+}
+---------------------------------------------
+vi Dockerfile
+FROM  openjdk:8 
+# probabily default OS is busybox
+COPY  helloworld .
+RUN javac helloworld.java
+CMD ["java","helloworld"]
+# only cmd and entrypoint should be on the last line
+-----------------------------------------------------------
+$ docker build -t javaapp:v1
+$ docker run -it --name customjavaapp javaapp:v1
+$ docker tag javaapp:v1 formycore/javaapp:v1
+$ docker push formycore/javaapp:v1
+------------------------------------------
+$ docker pull formycore/javaapp
+$ docker exec -it <container id> /bin/bash
+$ docker log <containerid>
+   

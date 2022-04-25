@@ -1,0 +1,36 @@
+ERROR: "Forbidden", while: getting ElastiCache clusters
+-- https://serverfault.com/questions/677320/ansible-aws-dynamic-inventory-ec2-py-list-unauthorized
+
+=============================================================================
+
+https://stackoverflow.com/questions/18200248/cloning-a-repo-from-someone-elses-github-and-pushing-it-to-a-repo-on-my-github 
+
+- clone error
+============================================================================
+--
+
+If not using ElasticCache you have to set that to False as well. So uncomment
+
+elasticache = False
+-----------------------------------------------------------------------------------
+ winpty /C/Python37/python.exe - to work with python in git-bash
+-----------------------------------------------------------------------------------
+ TO INSTALL PIP IN CENTOS7
+ - sudo yum install epel-release -y
+ - sudo yum install python-pip -y
+---------------------------------
+vs code file stdin line 1 error python error
+-- https://stackoverflow.com/questions/51540391/invalid-syntax-error-when-running-python-from-inside-visual-studio-code
+--
+Think this is a bug of VS Code.
+
+When you use "run selection/line in python terminal" command, VS Code starts python interpreter and doesn`t quit it after completion.
+
+You should use exit() command in python interpreter window to end python session.
+----------------------------------------------------------------------------
+- cygwin to desktop
+- https://superuser.com/questions/1286119/how-to-open-desktop-directory-from-cygwin
+- /cygdrive/c/Users/user/Desktop
+- 
+ 
+ 

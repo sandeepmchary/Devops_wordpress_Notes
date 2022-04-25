@@ -1,0 +1,38 @@
+
+s_no,Name,Salary,Skill
+1,John,2000$,Python
+2,Queen,3000$,Devops
+-------------------------------
+creating csv files
+---------
+import csv
+
+req_file="D:\\DevopS_giT\\Udemy\\python\\15-Working with csv\\new_info.csv"
+
+fo=open(req_file,"r")
+csv_reader=csv.reader(fo,delimiter="|")
+for each_row in csv_reader:
+	print(each_row)
+fo.close()
+----------
+- csv_reader is a object created for reading the file object(fo)
+----------
+import csv
+required_file="D:\\DevopS_giT\\Udemy\\python\\15-Working with csv\\demo.csv"
+fo=open(required_file,"w",newline="")
+csv_writer=csv.writer(fo,delimiter=",")
+csv_writer.writerow(['S_no','Name','Salary'])
+csv_writer.writerow(['1','John','3000$'])
+fo.close()
+--------------------------
+- the above file is for the writing the csv files
+- csv_writer is a object for writer the file object (fo)
+- each row must be a row and it has to be list it contains the columns
+- csv_writer.writerow for writing the row
+- row must be a list  it contains ['s_no','name','age']
+- delimiter is by default is , comma, we can take anything
+- csv_writer.writerow(['1','John','30']) it contains only data
+- in only python3 in the file object(fo) newline="" and in python2 we use wb
+- to avoid the extra new line we use the field newline=""
+- 
+

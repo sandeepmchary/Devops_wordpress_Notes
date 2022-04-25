@@ -1,0 +1,10 @@
+yum update -y
+yum install -y python3
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+#Once you do that, enter line 3 inside
+python3 get-pip.py
+
+nano ~/.bashrc
+Ctrl+End to reach the end of the file.
+On a new line, enter: export PATH=$PATH:/home/$USER/.local/bin
+Save. No need to restart the terminal.

@@ -1,0 +1,29 @@
+Same upto step 5
+step 6:
+		- configure security group
+		- IIS (webserver by default in windows)
+		- Tomcat (external webserver)
+		- go to windows server
+		- enable IIS
+		- control panel
+		- turn windows feature on or off
+		- roles
+		- install
+		
+		- tomcat
+		  - tomcat download
+		  - java path
+		  - install
+		  
+-- IIS7 runs on the port 80
+-- tomcat runs on the port 8080
+-- 80 & 443 cannot be shown
+- we cannot access this IIS and tomcat from outside
+- select the instance ,select the security group 
+- edit
+- custom
+- custom TCP rule 80
+- custom TCP rule 8080
+- if we put outbound (0.0.0.0/0) rule we can access the internet in the server
+
+		

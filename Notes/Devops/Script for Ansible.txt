@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 Installing ansile with pip3
     - for this we need to have python3
     - for installling the python3 along side with python2 
@@ -43,6 +45,7 @@ yum install ansible
 alternatives --set python /usr/bin/python3
 
 
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 # Installation steps:
 # Add a EPEL (Extra Packages for Enterprise Linux)third party repository to get packages for Ansible
 
@@ -56,7 +59,11 @@ ansible --version
 
 # Create a new user for ansible administration & grant admin access to user (Master and Slave)
 useradd ansible
+<<<<<<< HEAD
+passwd ansible
+=======
 echo ansible:san | chpasswd
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 
 # Below command addes ansadmin to sudoers file
 echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
@@ -65,9 +72,12 @@ echo "ansible ALL=(ALL) NOPASSWD:ALL " >> /etc/sudoers
 sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 service sshd restart
 
+<<<<<<< HEAD
+=======
 # Install pip
 sudo yum install python-pip -y
 
+>>>>>>> ca391ae011fb48828aea914df48d0223bce6ac1c
 # Login with ansible user
 su - ansible
 

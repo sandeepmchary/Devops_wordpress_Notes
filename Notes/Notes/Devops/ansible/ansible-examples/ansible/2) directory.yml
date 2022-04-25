@@ -1,0 +1,12 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Create Directory
+      file:
+        path: /home/ansible/lenovo
+        state: directory
+        mode: 775
+        owner: ansible
+        group: ansible
+        

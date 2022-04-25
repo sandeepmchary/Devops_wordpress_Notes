@@ -1,0 +1,91 @@
+apt-get update;apt-get install -y docker.io
+sudo systemctl start docker;sudo systemctl enable docker
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update;sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+-- RUN UPTO THIS COMMAND ON THE ALL THE KUBERNETES SERVER AND NODES
+
+docker info | grep -i cgroup
+
+cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+kubeadm init
+----------------------------
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubeadm join 172.31.8.217:6443 --token 838tgt.o3bimlswna48ub8v \
+    --discovery-token-ca-cert-hash sha256:**********
+- kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" --- done on the normal user
+- kubectl get pods -- no resources found
+- kubectl get pods --all-namespaces
+-------------------------------------------------------
+on the nodes 
+kubeadm join 172.31.8.217:6443 --token 838tgt.o3bimlswna48ub8v \
+    --discovery-token-ca-cert-hash sha256:**********
+- the above is generated while running the command kubeadm init
+-----------------------------------------------------------------------------
+-- create a pod.yml in manifest folder;
+--- vi pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod
+spec:
+  containers:
+    - name: first-container
+      image: nginx
+      ports:
+      - containerPort: 80
+--------------------------------
+- kubectl apply -f pod.yml
+- kubectl get pods
+- kubectl get pods -o wide
+- kubectl delete -f simple-pod.yml
+- -o wide will give more information
+- kubectl get pods --all-namespaces -- shows the system pods
+- ** in the nodes we have kubelet, in this kubelet while executing, here docker run command is executed by kubelet on this node will be executed,that's why images are on the nodes not on the master
+- the other things that are download on the nodes are proxy and the n/w components
+- kube proxy will enable the n/w communications
+- ** always the exposer to external world happens via service
+-----------------------------------------------------------------
+--- creating service
+----------------------------------
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: simple-rc
+spec:
+  replicas: 2
+  selector:
+    app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        ver: "1.0"
+    spec:
+      containers:
+        - name: simple-pod
+          image: nginx
+          ports:
+            - containerPort: 80
+----------------------------------------
+ubuntu@ip-172-31-15-163:~$ kubectl get rc
+NAME        DESIRED   CURRENT   READY   AGE
+simple-rc   2         2         2       61s
+ubuntu@ip-172-31-15-163:~$ kubectl get pods
+NAME              READY   STATUS    RESTARTS   AGE
+simple-rc-mjxf6   1/1     Running   0          70s
+simple-rc-ml875   1/1     Running   0          70s
+ubuntu@ip-172-31-15-163:~$ kubectl get pods -o wide
+NAME              READY   STATUS    RESTARTS   AGE   IP          NODE               NOMINATED NODE   READINESS GATES
+simple-rc-mjxf6   1/1     Running   0          86s   10.44.0.1   ip-172-31-25-192   <none>           <none>
+simple-rc-ml875   1/1     Running   0          86s   10.36.0.1   ip-172-31-29-140   <none>           <none>
+-----------------------------------------------------------------------

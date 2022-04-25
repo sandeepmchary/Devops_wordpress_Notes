@@ -1,0 +1,23 @@
+---
+# tasks file for default
+  - name: install utils
+    include_tasks: testing.yml
+  - name: install apache server
+    package:
+      name: "{{ pack_name }}"
+      state: present
+    notify:
+    - restart apache
+  - name: install php packages
+    package:
+     name: "{{ item }}"
+     state: present
+    with_items: "{{ php_packages }}"
+    notify:
+    - restart apache
+  - name: Download the webpage
+    get_url:
+      url: https://raw.githubusercontent.com/sandeepmchary/Devops_wordpress_Notes/master/info.php
+      dest: /var/www/html/info.php
+    notify:
+    - restart apache

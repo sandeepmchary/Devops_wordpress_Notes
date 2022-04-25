@@ -1,0 +1,72 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    # This task creates groups
+    - name: add a group
+      group:
+        name={{ item }}
+        state=present
+      with_items:
+        - demogroup
+        - demogroup1
+        - demogroup2
+      tags: add_new_group
+    # This task creates user
+    - name: add users
+      user:
+        name={{item}}
+        state=present
+        groups=demogroup
+        password="TesTing@1234"
+        shell=/bin/bash
+      with_items:
+        - demouser
+        - demouser1
+        - demouser2
+      tags: add_new_user
+    # This task creates public keys for one particular user
+    - name: update authorized keys for a user
+      user:
+        name={{ item }}
+        generate_ssh_key=yes
+        ssh_key_bits=4096
+        ssh_key_file=.ssh/id_rsa
+      with_items:
+        - demouser1
+      tags: generate_ssh_keys
+    # This is for copy the public key to user account
+    - name: update authorized key to user account
+      authorized_key:
+        user: demouser1
+        state: present
+        key: "{{ lookup('file','/home/demouser1/.ssh/id_rsa.pub') }}"
+        tags: copy_pub_key
+    # this task is for deleting the users
+    - name: delete the user
+      user:
+        name={{ item }}
+        state=absent
+      with_items:
+         - demouser3
+         - demouser4
+      tags: Remove_Users
+# This is for deleting the group
+    - name: Deleting the Group
+      group:
+        name={{ item }}
+        state=absent
+      with_items:
+        - demogrp1
+        - demogrp2
+      tags: Removing Groups
+
+  
+  
+
+  
+          
+
+
+
+        

@@ -1,0 +1,8 @@
+Listen {{ ansible_all_ipv4_addresses}}:80
+NameVirtualHost {{ ansible_fdqn}}
+
+<VirtualHost {{ ansible_fdqn}}:80>
+  ServerName {{ ansible_fdqn}}
+  ServerAdmin {{ system_owner}}
+  DocumentRoot /var/www/html
+</VirtualHost>

@@ -1,0 +1,2 @@
+how to find the jenkins version in terminal linux ?
+head -5  /var/lib/jenkins/config.xml| grep -oP '(?<=<version>).*?(?=</version>)'

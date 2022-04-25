@@ -1,0 +1,94 @@
+AWS:
+    - VPC
+    - AutoScaling
+    - Ec2,S3,EFS
+    - Cloudwatch
+JENKINS:
+        - installation
+        - master slave
+        - git cloning with jenkins
+        - branching & merging
+ANSIBLE:
+        - playbooks
+
+
+What is the difference between svn and git ?
+	SVN is Centralized version control system and git is a Distributed Version control system
+
+	A Centralized version control system works on the principle that a single copy of the project that developers commit change to and there are all versions of the project are stored
+
+	A Distributed version control system works on the priciple that each developer "Clones" the project to their hard drive, A copy of project is stored on every developers local machine and changes that are pushed to the online repository ,or pulled down from the repo to update the version has on their machine
+CAN WE KEEP REMOTE REPO IN SVN?
+
+Q) Where can i store particular credentials globally in jenkins ?
+	we have an option for storing credentials
+	we can also choose that stored credentials can be global 
+Q) i have given the user id and password in the jenkins can we override this ?
+	 we can use update option
+Q) Multiple git in single jenkins job?
+	Jenkins pipeline
+
+	
+ARCHITECTURE OF MAVEN:
+						pom.xml 
+						it contains all the details of the repository
+role of setting.xml
+					
+					
+with out pom.xml can the build can happen 
+
+---------------------------------------------------
+AWS
+	created a snapshot, created AMI from that, then deleted snapshot and can we get the instance from AMI
+	YES
+VPC
+	change the vpc for ec2 instance,after creation (NO)
+	vpc belongs to?(region)
+	can we communicae outside vpc(NO)
+S3
+	simple storage service
+EC2
+	elastic compute cloud
+how many types of storage services provided by AWS?
+	S3
+	elastic block storage 
+	amazon elastic file services
+Route 53
+	nameing services 
+	DNS
+	posted zones
+git 
+	merge conflict error
+	when  merging sub branch1 and sub branch2 ther is a conflict
+		conflict marker git merge tooles
+-----------------------------------------------------------
+
+ANSIBLE 
+	- nodes with different versions of python?
+	- control nodes ssh keey changed what to do?
+	- ssh-key change -R hostname 
+	- ~/.ssh/known_hosts
+	
+------------------------------------------------------------
+	what is the difference between WAR AND EAR?
+		- WAR -- web archive 
+		- EAR -- enterprise archive(j2EE)
+		
+	does tomcat support EAR file (NOT)
+
+	which application server supports ER files?
+	WEBSPEHERE
+	- in a single tomcat instance how many catalina.sh files can run
+	- can two applications with same name can run in tomcat
+	- what is log files in tomcat called as ?
+	- weblogic and tomcat can run on single linux instance
+	- can we use tomcat for secure application
+	- tomcat allows https ?
+shell scripting:
+				pid for no.. of files
+				- lsof
+				
+		
+	
+
+
