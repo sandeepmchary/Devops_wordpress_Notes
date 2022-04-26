@@ -1,0 +1,15 @@
+- here we need 3 servers
+- 1 has consul same as etcd (these are key value pair databases)
+- 2 docker servers
+- my systems are having L2 connectivity with L3 configuration 
+- L2 connectivity is done using bridge
+- suppose there are 2 servers how they connect with each other with different switches
+- these can possible through vsln tracking (tunneling)
+- here we are doing from strach without depending on overlay networking of docker swarm
+
+process of installation of consul
+
+# wget https://releases.hashicorp.com/consul/1.8.3/consul_1.8.3_linux_amd64.zip
+# unzip consul_1.8.3_linux_amd64.zip
+- the unzipped file is a binary so it needs to move /usr/local/bin/
+# mv consul /usr/local/bin/
