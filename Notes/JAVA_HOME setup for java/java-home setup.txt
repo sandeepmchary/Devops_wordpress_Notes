@@ -1,0 +1,14 @@
+# setup java_home for java
+
+sudo apt-get update
+sudo apt-get install -y openjdk-8-jdk
+check for javac --version
+which javac
+# An easier method is to follow the symbolic link and get to the actual executable file directly using this command:
+readlink -f `which javac` | sed "s:/bin/javac::"
+# backup for the ~/.bashrc file
+cp ~/.bashrc ~/.bashrc.bak
+echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc
+# for checking java_home
+echo $JAVA_HOME
+tail -3 ~/.bashrc
