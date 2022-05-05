@@ -1,0 +1,9 @@
+build the maven project
+copy the generated war to the docker server
+create dockerfile with the .war extension file
+and run the docker container
+create a groovy script for the above
+
+
+check for sonarqube quality checks
+create artifactory local repo's
