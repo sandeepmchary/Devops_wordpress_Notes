@@ -30,7 +30,7 @@ pipeline {
 						cd ~/webapp
 						ls -al
 						docker build -t mywebapp .
-						docker run -p 80:8080 mywebapp
+						docker run -p 8080:8080 mywebapp
 					'''
 				}
 			}
