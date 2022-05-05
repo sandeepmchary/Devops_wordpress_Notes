@@ -1,0 +1,19 @@
+# Jenkins connect with docker via pipeline
+- first install ssh agent package
+- then go to pipeline syntax
+- select ssh agent
+- under credentials add jenkins credentials
+- then add user name of the remote(docker) server
+- then add the content of .pem file inside the credentials
+- then generate the pipeline script
+- for running multiple commands use like this
+stage('Docker build'){
+			steps {
+				sshagent(['d8b6b8b2-dfac-4ad7-9862-0be13c434f2e']) {( this is will generated with the help generate pipe line script)
+					sh '''
+						ssh -o StrictHostKeyChecking=no centos@xx.xx.xx.xx <<EOF
+						cd ~/webapp
+						ls -al
+						docker build -t mywebapp .
+						docker run -p 80:8080 mywebapp
+					'''

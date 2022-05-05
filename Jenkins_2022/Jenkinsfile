@@ -1,0 +1,19 @@
+pipeline {
+    agent any 
+        stages {
+            stage("code checkout"){
+                agent any
+                steps {
+                    git 'https://github.com/devopstrainingblr/Maven-Web-Profiles.git'
+                }
+            }
+            stage("Maven-Build"){
+               agent any
+                steps {
+                    sh 'mvn clean package'
+                }
+            }
+
+        }
+    
+}

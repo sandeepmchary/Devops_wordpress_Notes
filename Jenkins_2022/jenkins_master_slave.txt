@@ -1,0 +1,20 @@
+Install java on the both master and slave 
+sudo yum update
+sudo yum install java-1.8.0-openjdk-devel -y
+update-alternatives --config java
+copy the path of the java (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64)
+echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64" >> ~/.bashrc
+source ~/.bashrc
+
+from here we get echo $JAVA_HOME every time
+
+
+------------------------------------
+if this is in ubuntu
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk -y
+update-alternatives --config java
+copy the path of the java (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0 xxxx)
+echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0 xxxx" >> ~/.bashrc
+source ~/.bashrc
+--------------------------------------
