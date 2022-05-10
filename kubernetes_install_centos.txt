@@ -1,3 +1,127 @@
+MASTER & SLAVE
+# Update
+sudo yum update -y 
+# Install docker 
+ sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+				  
+				  
+# Set up the repository
+ sudo yum install -y yum-utils
+ sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+# Install Docker Engine
+sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+# docker without sudo
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl start docker
+sudo systemctl enable docker
+newgrp docker
+
+# setting up kubernetes
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+# if we keep this as zero it will install fastly and avoid some errors
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+# Set SELinux in permissive mode (effectively disabling it)
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+sudo yum install -y kubelet-1.23.6 kubeadm-1.23.6 kubectl-1.23.6 --disableexcludes=kubernetes
+
+sudo systemctl enable --now kubelet
+==========================================================================================
+									ON MASTER
+
+
+# Intialization 
+# ANY ONE
+sudo su -
+
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
+
+
+kubeadm init --apiserver-advertise-address=172.31.10.11<PRIVATE IP OF MASTER> --pod-network-cidr=192.168.0.0/16
+
+kubeadm init --apiserver-advertise-address=10.138.0.14 --pod-network-cidr=10.0.0.0/16
+
+kuebadm reset
+
+
+sed -ie "s/cgroupDriver: systemd/cgroupDriver: cgroupfs/g" /var/lib/kubelet/config.yaml
+
+vi /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+kubeadm reset
+
+kubeadm init
+
+RUN THIS IS AS REGULAR USER
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl get nodes
+kubectl get pods --all-namespaces
+-- here coredns is still in pending
+-- check install calico
+curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
+- wait still the status changes for coredns
+==================================================================
+								ON NODE
+
+sudo su -
+vi /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl restart kubelet
+systemctl enable kubelet.service
+kubeadm join <here>
+check for the kubectl get nodes on the master
+
+
+						
+=========================================================================
+							OLD 
+
+
+
 Step 1: Update Docker Package Database
  -- $ sudo yum check-update
  Step 2: Install the Dependencies
