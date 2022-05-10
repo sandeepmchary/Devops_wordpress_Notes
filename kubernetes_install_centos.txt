@@ -52,7 +52,7 @@ sudo systemctl enable --now kubelet
 
 
 # Intialization 
-# ANY ONE
+
 sudo su -
 
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
@@ -65,7 +65,7 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
 
-
+# ANY ONE
 kubeadm init --apiserver-advertise-address=172.31.10.11<PRIVATE IP OF MASTER> --pod-network-cidr=192.168.0.0/16
 
 kubeadm init --apiserver-advertise-address=10.138.0.14 --pod-network-cidr=10.0.0.0/16
