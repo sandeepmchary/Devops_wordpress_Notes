@@ -1,0 +1,3 @@
+- while creating vm instances in google cloud platform we have an option for import the vm CLOUDENDURE & VELOSTRATA
+- those above are used for migration of the vm instances from one cloud to another
+- App engine is only developer platform

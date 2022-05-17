@@ -1,0 +1,67 @@
+- project name can be edit
+- shut down the project
+- Gcloud wil have 5gb persistent disk
+-------------------------
+- how to list the projects ?
+    - gcloud projects list
+- how to list firewall rules ?
+    - gcloud compute firewall-rules list
+- how to list instances ?
+    - gcloud compute instances list
+- how to list images ?
+    - gcloud compute images list
+- how to list disks ?
+    - gcloud compute disks list
+- how to list snapshots ?
+    - gcloud compute snapshots list
+- how to list networks ?
+    - gcloud compute networks list
+- how to list subnets ?
+    - gcloud compute networks subnets list
+- how to list routes ?
+    - gcloud compute routes list
+---------------------------------------
+- change the current project ?
+    - gcloud config set project <project-name> or <project-id>
+- how to change the zone ?
+    - gcloud config set compute/zone <zone-name>
+- how to change the region ?
+    - gcloud config set compute/region <region-name>
+--------------------------------------------------------
+- how to take back of instances?
+    - gcloud compute instances create <instance-name> --image <image-name> --zone <zone-name>
+    - click on snapshots
+    - create a snapshot
+    - Name: <snapshot-name>
+    - source disk: <instance-name>
+    - multi-regional
+    - create
+- these are incremental in nature
+-  if the disk is 10 gb then it takes only 500mb snapshot size
+------------------------------------------------------------------------------------------
+instance Group and instance Templates
+- instance Group is mainly for if we need to have same copy of instance
+- load balancing
+- Auto-scaling
+
+
+--------------
+- create instance Group
+    - gcloud compute instance-groups managed create <instance-group-name> --size <size> --zone <zone-name>
+- click on instance group
+- create instance group
+- Name: <instance-group-name>
+- first we need to create a instance template
+- same as creating instance
+- Location : <single-zone> or <multi-zone>
+- region: <region name>
+- Zone: <zone name>
+- Group type:
+    - managed
+    - unmanaged
+- Managed Instances Group: Identical instances created from a template used for auto scaling, load balancing,
+  rollback updating
+- Auto scaling: on
+- Auto scaling policy: cpu usage (some other also there need to check)
+- 
+
