@@ -1,0 +1,116 @@
+- create 3 ec2 instances
+    - nexus
+    - jenkins
+    - sonarqube
+- first key pairs and SG
+    - Name: <>
+    - pem file
+    - create
+- create 3 security group
+    - Name: <jenkins_SG>
+    - Inbound rules : custom tcp port (8080) & (22) 
+    - Inbound rules: all traffic from sonarqube_SG (Allow sonar to access jenkins for quality gates results)(Description)
+    -  save
+    
+    - Name: <nexus_SG>
+    - Inbound rules : custom tcp port (8081) & (22)
+    - Inbound rules:  8081 (from jenkins_SG) (jenkins can upload Artifact to nexus server)
+
+    - Name: <sonarqube_SG>
+    - Inbound rules : custom tcp port
+    - run nginx server on sonarqube server
+    - Inbound rules: 80 & 80 & 22 (from jenkins_SG) (jenkins can access sonarqube server)
+------------------------------------------------------------------------------------
+3 instances
+    - jenkins
+        - ubuntu
+        - user data:
+    - nexus:
+        use centos (t2.medium)
+        - user data:
+    - sonarqube:
+        use ubuntu (t2.medium)
+
+
+    - 
+- check the https://github.com/devopshydclub/vprofile-project (branch: ci-jenkins)
+---------------------------------------------------------------------------------------------------
+- login to jenkins
+- next go to Nexus
+    - unlock passwd
+    - ssh to nexus
+    - open the file on the server page
+    - user name : admin
+    - passwd : paste the code here
+    - new password:
+    - confirm password:
+    - enable annoymous access
+    - setting symbol is for repositories
+        - create 3 repositories
+        - maven hosted repo
+        - maven hosted repo (to upload the Artifact)
+            - Name: <vpro_maven_release>
+            - create repository
+        - maven2 proxy repo(store the maven Dependencies)
+            - Name: <vpro_maven_central>
+            - proxy:
+                - (URL will be there only License for the repo)
+            - create repository
+        - maven hosted for snapshot
+            - Name: <vpro_maven_snapshot>
+            - version policy:
+                - release to snapshot
+        - maven2 group(to group above repo)
+            - Name: <vpro_maven_grp>
+            - move to members
+                - vpro_maven_release
+                - vpro_maven_central
+                - vpro_maven_snapshot
+        - create repo
+
+
+----
+How does maven download from here only not from the internet?
+
+- Actually jenkins will take from .m2 directory by default now we have to change that to setting.xml from our git repo
+- in the setting.xml we have central repo 
+    - snap-repo
+    - release-repo
+    - central-repo
+    - nexus-group-repo
+    - mirror
+- in the pom.xml we have repository section 
+- so maven will get here to download the Dependencies
+--------------------------------------------------------------------------------------------------------
+- open jenkins
+- select free-style-project
+- name: Build
+    - source code:
+        - Git:
+            - branch: ci-jenkins
+    - Build 
+        - envoke top level maven command
+        - Goals: install -Dskiptests
+           - click on the advanced
+           - pom.xml will take from the source code
+           - setting file:
+                - file path: setting.xml
+------------------------
+in the settings.xml and pom.xml we have varibles
+- paste these at 
+    - Build
+    - click on advanced
+    - under properties
+        - add the below values
+we need to have values for the values
+    - snap-repo=<snapshot>
+    - Nexus-user=admin
+    - Nexus-pass=admin123
+    - release-repo=vpro_maven_release
+    - Central-repo= vpro_maven_central
+    - nexus-grp-repo=vpro_maven_grp
+    - NexusIP=<private ip>
+    - Nexusport=8081
+
+
+

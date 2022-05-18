@@ -1,0 +1,94 @@
+Scenario
+    - Current Situation
+        - Agile s/w deployment
+        - Continous code commit
+        - Package/S.W/Artifact deploy on servers
+        - s/w testing/integration testing after deployment
+        - Test reports get evaluated & approval for prod deploy
+        - Deploy => Test ;Deploy => Test
+        - Dependencies on Ops team
+-----------------------------------------------------------------------
+Problem
+    - In Agile SDLC there will be frequent code changes
+    - manual deployment of s/w will take too much time
+    - involves task assignment/ticketing/approvals
+    - Different owners for Different environments
+----------------------------------------------------------------------
+Solution
+    - Deployment process should be Automated
+    - Notify at each step in pipeline is failed or pass
+    - integrate Automation tool
+
+Continous Delivery Process
+    - jenkins (Continous integration)
+    - git
+    - maven
+    - checkstyle(code analysis)
+    - slack (Notify)
+    - Nexus (Artifactory/Repository)
+    - sonarqube (code analysis server)
+    - Ansible (Configuration management tool)
+    - Selenium (Web automation tool) windows servers
+    - Tomcat server (Web server) connected to DB server
+    - AWS
+----------------------------------------------------------------------
+Architecture of Continous Delivery pipeline
+    - Developers commit to the local repository
+    - sync with remote repository
+    - when there is change in the code 
+    - jenkins will detect that change and build the code
+    - jenkins will fetch all the changes
+    - jenkins will do code test (unit test) pass/fail Notification will be sent
+    - if passes to go the next level
+    - code analysis checkstyle & sonarqube Scanner
+    - report will generated and reported to sonarqube server
+    - sonarqube will compare with its quality gates
+        - if quality gates passes goes to next step 
+        - if failed fail Notification sent to Developers
+    - Maven will build the code
+    - Maven needs some Dependencies to build the code, it will take from Nexus Repository
+        - on Nexus we create maven central repository
+    - Artifact will sent to nexus repository
+        - now we have versioned Artifact gone through unit test and code analysis
+    - Ansible job is deploy the Artifact, download the Artifact deploy to staging server
+    - if job fails ansible will rollback 
+    - if we get the approval we can deploy to production server
+
+------------------------------------------------------------------------------------
+Flow of execution
+    - Login to AWS server
+    - create login key
+    - create security group
+        - jenkins
+        - Nexus
+        - Sonar
+    - create Ec2 with user data
+        - jenkins
+        - sonarqube
+        - Nexus
+    - jenkins post installation 
+    - Nexus repository setup
+        - 3 repos
+    - Sonarqube post installation
+    - jenkins setup
+        - Build job
+        - setup slack Notification
+        - checkstyle code analysis job
+        - setup sonarqube integration
+        - sonar code analysis job
+        - Artifact upload job
+    - connect all jobs together with build pipeline
+    - Set automatic build trigger
+    - Test with git
+    - create SG 
+        - windows server
+        - tomcat & backend servers
+    - create tomcat & backend server on Ec2
+    - create jenkins job to run ansible playbook
+    - Deploy Artifact to staging by ansible
+    - add windows node as jenkins slave
+    - create job to run s/w tests from windows server
+    - Deploy Artifact to production tomcat server with ansible
+    - Connect all jobs with build pipeline
+    - Test it by commit with github
+    - cleanup
