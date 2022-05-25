@@ -1,0 +1,105 @@
+- create 3 repositories
+    - vprofileapp (tomcat image)
+    - vprofileweb (Nginx)
+    - vprofiledb (Mysql)
+
+- in the repo we have 3 repositories
+
+The default Tomcat environment in the image is:
+
+CATALINA_BASE:   /usr/local/tomcat (our webapp directory is here)
+CATALINA_HOME:   /usr/local/tomcat
+CATALINA_TMPDIR: /usr/local/tomcat/temp
+JRE_HOME:        /usr
+CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar
+
+-- choose tomcat:8-jre11
+--------------------------------------
+another dockerfile is for mysql (for our application we need only 5.7 or 5.6)
+- here we need username,password and database name
+- these all are used in the environment variables
+- initialize the database by keeping our sql files in /docker-entrypoint-initdb.d
+- we need to get the .sql from
+- https://github.com/devopshydclub/vprofile-project/tree/docker/src/main/resources
+- db_backup.sql
+
+---------------------------------------------------------------
+for web nginx remove the default config file (/etc/nginx/conf.d/default.conf) here we put our own config 
+file at the same location 
+- run the container with the name vproapp in docker environment
+- in kubernetes environment we need to create a service with the name vproapp
+
+-----------------------------------------------
+- go to docker server
+- create 3 directories app db web
+- along with the Dockerfile for each of them
+- in the db directory Dockerfile along with db_backup.sql
+- in the web directory Dockerfile along with the vprofileapp.conf
+- in the app directory Dockerfile along with the *.war path (/target/vprofile-v2.war)
+----------------------------------------------------------------------
+- go to vprofile directory where we have pom.xml file
+- we need maven to build the project
+- install jdk and maven in the docker server
+---------------------------------------------------------
+# in the https://github.com/devopshydclub/vprofile-project
+# branch docker
+# cd src/main/resources
+# we have application properties in src/main/resources
+# in that we have jdbc.password as vprodbpass along with the database name as accounts
+- we need to make sure that container name as vprodb with 3306 port
+- memcache container with vprocache01 with port 11211
+- rabbitmq container with vprorabbit01 with port 15672 user&password : guest
+---------------------------------------------------------------------------
+- in the docker server go to the vprofile directory
+- mvn install
+- copy the vprofile-v2.war app directory along with the target folder
+- on the dockerhub we already created the repo
+    - formycore/vprofiledb
+    - formycore/vprofileweb
+    - formycore/vprofileapp
+- cd app/
+- docker build -t formycore/vprofileapp:V1 .
+- docker images
+- cd ../db/
+- docker build -t formycore/vprofiledb:V1 .
+- docker images
+- cd ../web/
+- docker build -t formycore/vprofileweb:V1 .
+- docker images
+----------------
+- docker pull rabbitmq and memcached without any customization
+- docker pull memcached
+- docker pull rabbitmq
+------------------------------------
+- till now we had 
+    - tomcat
+    - nginx
+    - mysql
+    - memcached
+    - rabbitmq
+-------------------------------------------------------------------------------------------------------
+10) DOCKER COMPOSE 
+    - docker compose to run all the containers
+    - connect them to each other
+    - install docker-compose on centos7
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        - sudo chmod +x /usr/local/bin/docker-compose
+        - docker-compose --version
+    - create a docker-compose.yml file
+    - name of the container should be as the name refered in application.properties file and nginx config file
+    - tomcat : vproapp
+    - db: vprodb
+    - memcache: vprocache01
+    - rabbitmq: vpromq01
+    - along with the port numbers
+    - we also need volumes
+    - local volumes match with our db container : /var/lib/mysql
+    - IF WE NEED TO FIND THE port
+        - DOCKER INSPECT IMAGE_NAME:taG
+    -  we can fake the password in the docker-compose.yml file but we can give correct one at the 
+    time of running the container
+    -----------------------------
+    - we can give any name for the nginx
+        - first access this container
+        - then fwd access to vproapp
+        - then vproapp refer to backend containers

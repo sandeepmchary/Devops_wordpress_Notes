@@ -1,0 +1,2 @@
+- docker is up and running
+- 

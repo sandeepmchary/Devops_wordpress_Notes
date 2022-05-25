@@ -1,0 +1,16 @@
+Scenario
+    - Multitier application stack
+    - Running on VM's
+    - Regular deployment
+    - Continuous changes
+
+Solution:
+    - Containers
+    - Consumes low resources
+    - deployment are done via images
+    - 
+---------------------------------------
+Source:
+
+for this we take https://github.com/devopshydclub/vprofile-project
+branch : docker
