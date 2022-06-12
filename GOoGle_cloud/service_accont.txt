@@ -1,0 +1,26 @@
+- if an application is inside the vm, it cannot talk to gcp services
+- this app should have some kind of authentication to gcp api's
+- assign the scope to talk with gcp api
+- service account give permissions to talk to vm to and other api's
+- gcp suggest to create our own service account
+    - define role to service account
+- roles are like 3 types
+    - premitive
+    - predifined
+    - custom
+- select IAM & admin
+    - click on service account
+    - create service account
+    - name it
+    - select the role you want to assign
+    - click on create
+- stop the vm
+    - edit
+    - select the service account
+    - save
+- go to the newly created service account and click on the keys
+    - Add key
+    - json
+    - copy to the gcp vm from the local
+- gcloud auth activate-service-account --key-file=<file name>
+- 

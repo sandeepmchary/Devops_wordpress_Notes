@@ -1,0 +1,45 @@
+select elastic cache
+- under configuration
+    - select parameter group
+    - name: vprofile-memcached-para-grp
+    - Description: vprofile-memcached-para-grp
+    - Family: memcached:1.4
+- if we have any parameter change select the grp and change as per the requirement
+
+ElastiCache > Subnet groups > Create Subnet Group
+
+Name: vprofile-memcache-subnet-grp
+Description: vprofile-memcache-subnet-grp
+VPC ID: default
+
+Selected subnets 
+select all zones and select all subnet
+
+
+Memcached clusters:
+
+ElastiCache / Memcached clusters
+- Location: AWS
+- Cluster info: 
+    - Name: vprofile-elasticcache-svc
+    - Description: vprofile-elasticcache-svc
+- Cluster settings: 
+    - Engine version: 1.4.5
+    - Port: 11211
+    - Parameter groups: vprofile-memcached-para-grp
+    - Node type: t2.micro
+    - Number of nodes: 1
+
+Subnet group settings:
+    - choose existing SG:
+    - Name: vprofile-memcache-subnet-grp
+
+Availability Zone placements
+    -Avability Zone: no preference
+
+Advanced settings:
+    - Security:
+        - Selected security groups : vprofile-backend-SG
+    - Maintenance: no preference
+
+Create

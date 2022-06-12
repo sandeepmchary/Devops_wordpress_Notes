@@ -1,0 +1,35 @@
+Amazon MQ / Brokers / Create ActiveMQ brokers
+- Select broker engine:
+    - Apache ActiveMQ:
+        - Select deployment and storage type
+            - Single-instance broker
+            - Durability optimized
+
+- Configure settings
+    - Broker name:
+        - vprofile-rmq
+    - Broker instance type
+        - mq.t3.micro
+
+- ActiveMQ Access
+    - Simple Authentication and Authorization
+    - Username:
+    - password:
+
+Additional settings:
+    - Broker engine version: 5.15.12
+    - Broker configuration: Create a new configuration with default values
+    - CloudWatch Logs: all
+
+Network and security:
+    - Private access
+    - VPC and subnets:
+        - Use the default VPC and subnet(s)
+    - Security group(s): vprofile-backend-SG
+    - Encryption: AWS owned CMK
+    - Maintenance window : No preference
+
+Tags - optional
+Key: Name: Project
+
+Value - vprofile-rmq01: vprofile

@@ -1,0 +1,15 @@
+- create security group
+    - security group name: vprofile-backend-SG
+    - description: Security group for backend
+- Add rule
+    - custom tcp:
+        - port range: 22
+        - allow: allow from my-ip
+        - create
+- edit above rule 
+    - all traffic allow by it self
+    - all traffic:
+        - source = custom:
+        - it's own security group id
+        - save
+        

@@ -1,0 +1,77 @@
+- search for RDS
+    - subnet groups
+    - place our RDS instance in that subnet groups
+- create db subnet group
+- Name: vprofile-rds-sub-grp
+- description: same as above
+- select all the avaliable zones and subnets
+
+parameters group
+    - parameter group family: mysql-5.6
+    - group name: vprofile-rds-para-grp
+    - description: same as above
+
+create RDS instance
+- databases
+    - create databases
+    - standard databases
+    - mysql
+    - version: mysql-5.6.34
+- templates: Dev/test
+- Availability and durability: Single DB instance
+
+settings:
+    - DB instance identifier: vprofile-rbs-mysql
+    - Credentials Settings: Master username: admin
+    - Auto generate a password
+Instance configuration:
+    - Burstable classes (includes t classes)
+    - db.t3.micro
+Storage:
+    - gp2
+    - Allocated storage: 20
+    - Storage autoscaling
+    - check Enable storage autoscaling
+    - Maximum storage threshold; 1000
+
+Connectivity:
+    - Virtual private cloud (VPC): Default
+    - Subnet group: vprofile-rds-sub-grp
+    - public access: no
+    - VPC security group: choose existing
+    - Existing VPC security groups: vprofile-backend-SG
+    - Availability Zone: us-east-1a
+    - Database port: 3306
+    - Database authentication: Password authentication
+
+Additional configuration:
+    - Initial database name: accounts
+    - DB parameter group: vprofile-rds-para-grp
+
+Backup:
+    - Enable automated backups: check
+    - Backup retention period: 7 days
+    - Backup window: no prefernce
+
+Encryption:
+    - Enable encryption
+
+Log exports
+Select the log types to publish to Amazon CloudWatch Logs
+Audit log
+Error log
+General log
+Slow query log
+
+
+Maintenance:
+    - Enable auto minor version upgrade: check
+    - Maintenance window: no
+
+Deletion protection:
+    - Enable deletion protection: check
+
+- CREATE
+- copy the Credentials
+- to create the RDS instance it will take some time
+
